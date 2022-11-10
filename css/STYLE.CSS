@@ -1,0 +1,156 @@
+
+
+/*IMPORTED FONTS*/
+@import url('https://fonts.googlepis/css?family=Acme|Lobster|Patua+One|Rubik|Sniglet');
+
+body{
+
+    margin: 0;
+    padding: 0;
+    background-image: url('blurbg.png');
+    height: 100%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: fill;
+   
+ 
+}
+
+}
+
+*{
+    box-sizing: border-box;
+}
+
+header .nav-item:last-child{
+    padding-right: 10.5em;
+}
+
+header .nav-item{
+    padding:0.9em;
+}
+
+header .navbar-brand{
+    padding-left: 8rem;
+}
+
+header .nav-link:hover {
+    color:#04001E;}
+
+    
+
+.inner-containers {
+    margin-left: 250px;
+    display: grid;
+    grid-gap: 3rem;
+    padding: 0 3rem;
+    align-items: center;
+    padding-right: 10.5em
+}
+
+.index {
+    text-decoration: none;
+    color: white;
+
+}
+
+.index:hover{ 
+text-decoration: none;
+    color: white; }
+
+
+/* inner container 1 */
+
+.inner-container-1 {
+    margin-top: 100px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 2rem;
+}
+
+.card-1 {
+    position: relative;
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 1rem;
+    box-shadow: 0 4px 25px 0 rgba(0, 0, 0, .1);
+    cursor: pointer;
+    height: 100px;
+}
+
+.card-1:hover {
+    box-shadow: 0px 0px 20px black;
+    
+}
+
+.card-1-imgBx {
+    position: relative;
+    float: right;
+    height: 50px;
+    width: 50px;
+
+}
+
+.card-1 h2 {
+    position: absolute;
+    bottom: 2.5rem;
+    font-size: 2rem;
+    color: #949da7;
+}
+
+.card-1 h4 {
+    position: absolute;
+    bottom: 1rem;
+    left: 1rem;
+    color: #949da7;
+}
+
+
+
+
+
+.nav-link{
+    color: white;
+}
+
+.navbar{
+    background-color: goldenrod;
+    background-size: cover;
+    height: 120;
+}
+
+.sidebar {
+    position: fixed;
+    left: 0;
+    width: 70px;
+    height: 100vh;
+
+    
+
+    background-color: #194F90;
+    border-top-right-radius:10px ;
+    border-bottom-right-radius: 10px;
+
+    overflow: hidden;
+    white-space: nowrap;
+  
+    transition: .3s ease;
+
+}
+.sidebar:hover{
+    width: 270px;
+
+}
+
+.sidebar .sidebar-item{
+    padding: 20px;
+    color: white;
+}
+.sidebar .sidebar-item:hover{
+    background-color: #04001E;
+    cursor: pointer;
+    padding-left: 10px;
+}
+.sidebar .sidebar-item {
+    font-size: 25px;
+}
