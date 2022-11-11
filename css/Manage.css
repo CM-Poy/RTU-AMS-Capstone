@@ -30,3 +30,12 @@
     margin-left: -200;
     margin-top: 30;
 }
+#card{ 
+    margin-left: 770px;
+    margin-top: -270px;
+    padding-right: -500px;
+}
+.cardcolor{
+    background-color: blue;
+    size: 50px;
+}

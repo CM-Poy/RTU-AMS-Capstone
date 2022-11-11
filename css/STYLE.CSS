@@ -124,6 +124,7 @@ text-decoration: none;
     left: 0;
     width: 70px;
     height: 100vh;
+    z-index: 5;
 
     
 
@@ -153,4 +154,46 @@ text-decoration: none;
 }
 .sidebar .sidebar-item {
     font-size: 25px;
+}
+.card{ 
+    margin-left: 770px;
+    height: 500px;
+}
+.cardcolor{
+    background-color: blue;
+    size: 50px;
+}
+.tablebody{
+    margin-left: -100px ;
+}
+table.dataTable thead .sorting:after,
+table.dataTable thead .sorting:before,
+table.dataTable thead .sorting_asc:after,
+table.dataTable thead .sorting_asc:before,
+table.dataTable thead .sorting_asc_disabled:after,
+table.dataTable thead .sorting_asc_disabled:before,
+table.dataTable thead .sorting_desc:after,
+table.dataTable thead .sorting_desc:before,
+table.dataTable thead .sorting_desc_disabled:after,
+table.dataTable thead .sorting_desc_disabled:before {
+  bottom: .5em;
+}
+@media (max-width:575px) {
+    .display-4 {
+        font-size: 1.5rem;
+    }
+    .day h5 {
+        background-color: #f8f9fa;
+        padding: 3px 5px 5px;
+        margin: -8px -8px 8px -8px;
+    }
+    .date {
+        padding-left: 4px;
+    }
+}
+
+@media (min-width: 576px) {
+    .day {
+        height: 14.2857vw;
+    }
 }
