@@ -17,8 +17,6 @@
 	<body>
 
 		<header>  
-            
-
 			<div class="container-fluid p-0">
 				<nav class="navbar navbar-expand-lg">
   					<a class="navbar-brand" href="#">
