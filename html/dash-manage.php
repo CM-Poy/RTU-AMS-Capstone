@@ -11,6 +11,7 @@
   <!-- CSS only --> 
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">	
 	<link rel="stylesheet" href="../css/STYLE.css">
+	<link rel="stylesheet" href="../css/Add-class.css">
 
 </head>
 
@@ -39,7 +40,7 @@
 								</svg>
 								</a>
 								<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-									<a class="dropdown-item" href="login-index.html">LOG OUT</a>
+									<a class="dropdown-item" href="login-index.php">LOG OUT</a>
 							</li>
 						</ul>
 					</div>
@@ -102,11 +103,10 @@
 				
 
                 
-	<section>
+
     <div class="container-fluid">
     	<div class="col-md-12 text-center">
-    		<div class="whole">
-    			<div class="card text-white" style="height: 720px; margin-top: 50px; width: 1500px; margin-left: 90px;background-color: #194F90;z-index: 1;position: relative;">
+    			<div class="card text-white" style="height: 720px; margin-top: 50px; width: 1500px; margin-left: 90px;background-color: #194F90;position: relative;">
     				<div>
 						<table class="table text-white">
 							</tbody>
@@ -129,22 +129,20 @@
 									?>	
 							</tbody>	
 						</table>
+						<div>
+							<a href="Add-class.php"><button id="addclass" type="button" style="margin-left:1350px ; margin-top:500px;">ADD</button></a>
+						</div>
 
-        			</div>
-
-        				<div>
-        					<button type="button" class="btn btn-light" style="margin-top: 550px;margin-left: 1360px;">ADD</button>
-        				</div>
- 
-  					</div>
 				</div>
+
 			</div>
 		</div>
+
 	</section>
+	
 
-
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-
+      <script src="JS/Add-class.js"></script>
+		  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
     	crossorigin="anonymous">
     	</script>
