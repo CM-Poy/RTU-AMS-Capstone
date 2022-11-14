@@ -101,16 +101,16 @@
             <div class="spacing">
               <div class="form-outline form-white mb-4">
                 <label class="form-label" for="typeEmailX">EMAIL</label>
-                <input type="email" id="typeEmailX" class="form-control form-control-lg" />
+                <input type="email" name="email" id="typeEmailX" class="form-control form-control-lg" />
 
               </div>
 
               <div class="spacing2">
                 <label class="form-label" for="typePasswordX">PASSWORD</label>
-                <input type="password" id="typePasswordX" class="form-control form-control-lg" />
+                <input type="password" name="pwd" id="typePasswordX" class="form-control form-control-lg" />
               </div>
 
-              <center><button class="btn btn-outline-light btn-lg px-5" type="submit"><a href="code-index.html">Login</button></center></a>
+              <center><button class="btn btn-outline-light btn-lg px-5" type="submit" name="submitlog" ><a href="code-index.html">Login</button></center></a>
               <center><p><a class="forg" href="#!">Forgot password?</a></p></center>
 
             <div>

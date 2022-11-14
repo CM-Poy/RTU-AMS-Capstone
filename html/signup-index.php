@@ -111,66 +111,72 @@
            <img src="rtu_logo.png"> <p class="univ text-white">  Rizal Technological University</p></div>
             <p class="univ2 text-white"> Attendance Management System</p>
             <p class="twofa text-white">With Two-Factor Authentication</p>
-          
-  <div class="container py-5 h-20">
-    <div  class="">
-      <div id="card" class="col-12 col-md-8 col-lg-6 col-xl-5">
-        <div class="cardcolor text-white" style="border-radius: 1rem; height: 740px; padding-top: -100;">
-          <div class="card-body p-5">
-
-            <div class="inputspace1">
-              <div class="form-outline form-white mb-4">
-                <label class="form-label">FIRST NAME</label>
-                <input type="Username" id="typeEmailX" class="form-control form-control-lg" />
-
-                <div class="inputspace2">
-              <div class="form-outline form-white mb-4">
-                <label class="form-label">LAST NAME</label>
-                <input type="Username" id="typeEmailX" class="form-control form-control-lg" />
-                
-                <div class="inputspace3">
-              <div class="form-outline form-white mb-4">
-                <label class="form-label">SCHOOL ID</label>
-                <input type="number" id="typeEmailX" class="form-control form-control-lg" />
-
-              </div>
-              <div class="inputspace4">
-              <div class="form-outline form-white mb-4">
-                <label class="form-label" >CONTACT NO.</label>
-                <input type="number" id="typeEmailX" class="form-control form-control-lg" />
-
-              </div>
-              </div>
-              <div class="inputspace5">
-              <div class="form-outline form-white mb-4">
-                <label class="form-label" for="typeEmailX">EMAIL</label>
-                <input type="email" id="typeEmailX" class="form-control form-control-lg" />
 
 
-            <div class="inputspace6">
-              <div class="form-outline form-white mb-4">
-                <label class="form-label">PASSWORD</label>
-                <input type="password" id="typeEmailX" class="form-control form-control-lg" />
+  <form action= "php/includes/function.php" method= "post">      
 
-              </div>
 
-              <div class="inputspace7">
-              <div class="form-outline form-white mb-4">
-                <label class="form-label" for="typePasswordX">CONFIRM PASSWORD</label>
-                <input type="password" id="typePasswordX" class="form-control form-control-lg" />
-              </div>
+        <div class="container py-5 h-20">
+          <div  class="">
+            <div id="card" class="col-12 col-md-8 col-lg-6 col-xl-5">
+              <div class="cardcolor text-white" style="border-radius: 1rem; height: 740px; padding-top: -100;">
+                <div class="card-body p-5">
 
-              <center><button class="btn btn-outline-light btn-lg px-5" type="submit">REGISTER</button></center>
-             
-            
+                  <div class="inputspace1">
+                    <div class="form-outline form-white mb-4">
+                      <label class="form-label">FIRST NAME</label>
+                      <input type="Username" name="fname" id="typeEmailX" class="form-control form-control-lg" />
 
-            <div>
-              <center><p class="mb-0">Already have an account? <a href="login-index.html" class="reghere">Log In Here</a></center>
-              </p>
-            </div>
- </div>
-</div>
-</div>
+                      <div class="inputspace2">
+                    <div class="form-outline form-white mb-4">
+                      <label class="form-label">LAST NAME</label>
+                      <input type="Username" name="lname" id="typeEmailX" class="form-control form-control-lg" />
+                      
+                      <div class="inputspace3">
+                    <div class="form-outline form-white mb-4">
+                      <label class="form-label">SCHOOL ID</label>
+                      <input type="number" name="schoolid" id="typeEmailX" class="form-control form-control-lg" />
+
+                    </div>
+                    <div class="inputspace4">
+                    <div class="form-outline form-white mb-4">
+                      <label class="form-label" >CONTACT NO.</label>
+                      <input type="number" name="cnum" id="typeEmailX" class="form-control form-control-lg" />
+
+                    </div>
+                    </div>
+                    <div class="inputspace5">
+                    <div class="form-outline form-white mb-4">
+                      <label class="form-label" for="typeEmailX">EMAIL</label>
+                      <input type="email" name="email" id="typeEmailX" class="form-control form-control-lg" />
+
+
+                  <div class="inputspace6">
+                    <div class="form-outline form-white mb-4">
+                      <label class="form-label">PASSWORD</label>
+                      <input type="password" name="pwd" id="typeEmailX" class="form-control form-control-lg" />
+
+                    </div>
+
+                    <div class="inputspace7">
+                    <div class="form-outline form-white mb-4">
+                      <label class="form-label" for="typePasswordX">CONFIRM PASSWORD</label>
+                      <input type="password" name="pwdrepeat" id="typePasswordX" class="form-control form-control-lg" />
+                    </div>
+
+                    <center><button class="btn btn-outline-light btn-lg px-5" name="sumbitreg" type="submit">REGISTER</button></center>
+                  
+                  
+
+                  <div>
+                    <center><p class="mb-0">Already have an account? <a href="login-index.html" class="reghere">Log In Here</a></center>
+                    </p>
+                  </div>
+      </div>
+      </div>
+      </div>
+
+    </form>
 </section>
 
   </body>
