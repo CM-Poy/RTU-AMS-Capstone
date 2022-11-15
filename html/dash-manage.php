@@ -121,7 +121,7 @@
 
 							<tbody>
 									<?php
-										include '../php/view-classlist.php';
+										include 'php/view-classlist.php';
 										$view = new classTable();
 										$view->viewall();
 									?>	
