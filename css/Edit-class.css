@@ -107,7 +107,7 @@ margin-top: 105px;
 
 }
 .whole{
-	animation: transitionIn .5s ease;
+	animation: transitionIn .5s ease-in-out;
 }
 @keyframes 	transitionIn	{
 	from{
@@ -118,6 +118,3 @@ margin-top: 105px;
 		opacity:1;
 		
 }
-
-
-
