@@ -79,6 +79,9 @@
         margin-top: -20px;
         margin-bottom: 10px;
       }
+      .btn{
+        color: #fff;
+      }
 
 
   </style>
@@ -110,11 +113,11 @@
                 <input type="password" name="pwd" id="typePasswordX" class="form-control form-control-lg" />
               </div>
 
-              <center><button class="btn btn-outline-light btn-lg px-5" type="submit" name="submitlog" ><a href="code-index.html">Login</button></center></a>
+              <center><button class="btn text-white btn-outline-light btn-lg px-5"name="submitlog" type="submit"><a href="code-index.html">Login</button></center></a>
               <center><p><a class="forg" href="#!">Forgot password?</a></p></center>
 
             <div>
-              <center><p class="mb-0">Don't have an account Yet? <a href="signup-index.html" class="reghere">Register Here</a></center>
+              <center><p class="mb-0">Don't have an account Yet? <a href="signup-index.php" class="reghere">Register Here</a></center>
               </p>
             </div>
  </div>

@@ -158,25 +158,23 @@
 
                     </div>
 
-                    <div class="inputspace7">
-                    <div class="form-outline form-white mb-4">
-                      <label class="form-label" for="typePasswordX">CONFIRM PASSWORD</label>
-                      <input type="password" name="pwdrepeat" id="typePasswordX" class="form-control form-control-lg" />
-                    </div>
+              <div class="inputspace7">
+              <div class="form-outline form-white mb-4">
+                <label class="form-label" for="typePasswordX">CONFIRM PASSWORD</label>
+                <input type="password" name="pwdrepeat id="typePasswordX" class="form-control form-control-lg" />
+              </div>
 
-                    <center><button class="btn btn-outline-light btn-lg px-5" name="sumbitreg" type="submit">REGISTER</button></center>
-                  
-                  
+              <center><button class="btn btn-outline-light btn-lg px-5" name="submitreg type="submit">REGISTER</button></center>
+             
+            
 
-                  <div>
-                    <center><p class="mb-0">Already have an account? <a href="login-index.html" class="reghere">Log In Here</a></center>
-                    </p>
-                  </div>
-      </div>
-      </div>
-      </div>
-
-    </form>
+            <div>
+              <center><p class="mb-0">Already have an account? <a href="login-index.php" class="reghere">Log In Here</a></center>
+              </p>
+            </div>
+ </div>
+</div>
+</div>
 </section>
 
   </body>

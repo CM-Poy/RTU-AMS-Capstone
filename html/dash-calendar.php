@@ -40,7 +40,7 @@
 								</svg>
         						</a>
         						<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          							<a class="dropdown-item" href="login-index.html">LOG OUT</a>
+          							<a class="dropdown-item" href="login-index.php">LOG OUT</a>
         						</div>
       						</li>
     				</ul>
