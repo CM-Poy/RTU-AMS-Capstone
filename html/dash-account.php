@@ -4,48 +4,51 @@
 <head>
 
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta http-equiv="X-UA-Compatible" content="ie=edge" />
   <title>ACCOUNT</title>
 
   <!-- CSS only --> 
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">	
-	<link rel="stylesheet" href="../css/STYLE.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">  
+    <link rel="stylesheet" href="../css/STYLE.css">
+    <link rel="stylesheet" href="../css/profile.css">
+
 
 </head>
 
-	<body>
+    <body>
 
-		<header>
+        <header>
 
-			<div class="container-fluid p-0">
-				<nav class="navbar navbar-expand-lg">
-  					<a class="navbar-brand" href="#">
-  					 <img class="navbarpic" src="rtu-logo.png" width="50" height="50" alt="">
-  					RIZAL TECHNOLOGICAL UNIVERSITY</a>
-  						<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-   						 <span class="navbar-toggler-icon"></span>
-  						</button>
-  				<div class="collapse navbar-collapse" id="navbarNav">
-  					<div class="me-auto"></div>
-   					<ul class="navbar-nav">
-      					<li class="nav-item">
-       				 		<a class="nav-link" href="#">Notification<span class="sr-only"></span></a>
-      					</li>
-      						<li class="nav-item dropdown">
-        						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
-  								<path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"></path>
-  								<path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"></path>
-								</svg>
-        						</a>
-        						<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          							<a class="dropdown-item" href="login-index.html">LOG OUT</a>
-        						</div>
-      						</li>
-    				</ul>
-  				</div>
-			</nav>
-		</div>
+            <div class="container-fluid p-0">
+                <nav class="navbar navbar-expand-lg">
+                    <a class="navbar-brand" href="#">
+                     <img class="navbarpic" src="rtu-logo.png" width="50" height="50" alt="">
+                    RIZAL TECHNOLOGICAL UNIVERSITY</a>
+                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                         <span class="navbar-toggler-icon"></span>
+                        </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <div class="me-auto"></div>
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Notification<span class="sr-only"></span></a>
+                        </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+                                <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"></path>
+                                <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"></path>
+                                </svg>
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                    <a class="dropdown-item" href="login-index.html">LOG OUT</a>
+                                </div>
+                            </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
               <div>
                 <div class="sidebar">
                         <div class="sidebar-item" >
@@ -98,29 +101,94 @@
                 </div>
             </div>      
 
-		</header>
+            <div class="whole">
+                <div>
+                    <img class="avatar" src="default-avatar.png">
+                </div>  
 
-		<main>
-	
-		</main>
+                <div class="addphoto">
+                    <a href="#" class="button5">Add Photo</a>
+                </div>
 
-		<footer>
+             <div class="info">
 
-		</footer>
+                <div class="name">
+                    <h4>Username</h4>
+                    <input required name="fullname" placeholder="Ex. Juan Dela Cruz">
+                </div>
 
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/					popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-    	crossorigin="anonymous">
-    	</script>
-  		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-    	crossorigin="anonymous"></script>
+                    <div class="email">
+                        <h4>Email</h4>
+                        <input required name="email" placeholder="Ex. JDelaCruz@gmail.com">
+                    </div>
+
+                            <div class="pass">
+                                <h4>Password</h4>
+                                <input required name="password" placeholder="************">
+                            </div>
+
+                            <div class="birth">
+                                <h4>Date of Birth</h4>
+                                <input required name="birthday" placeholder="12/25/2001">
+                            </div>
+
+                        <div class="number">
+                            <h4>Contact No.</h4>
+                            <input required name="contact" placeholder="09xxxxxxxxx">
+                        </div>
+
+
+                    <div class="button1">
+                        <a href="#" class="button1">Edit</a>
+                    </div>
+                <div class="button2">
+                    <a href="#" class="button2">Edit</a>
+                </div>
+                <div class="button3">
+                    <a href="#" class="button3">Edit</a>
+                </div>
+                <div class="button4">
+                    <a href="#" class="button4">Edit</a>
+                </div>
+                <div class="button5">
+                    <a href="#" class="button5">Edit</a>
+                </div>
+                <div class="archive">
+                    <button>Archives</button>
+                </div>
+                <div class="save">
+                    <button>Save</button>
+                </div>
+
+             </div>
+
+                
+
+            </div>
+
+        </header>
+
+        <main>
+    
+        </main>
+
+        <footer>
+
+        </footer>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/                   popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous">
+        </script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
 
 
 
 
 
 
-	</body>
+    </body>
 
 
 

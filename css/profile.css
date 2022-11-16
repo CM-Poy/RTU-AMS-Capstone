@@ -1,0 +1,96 @@
+.whole{
+    margin-left: 200px;
+    margin-top:-270px ;
+}
+.avatar{
+     height: 200px;
+     width: 200px;
+     border-radius: 130px;
+     border: 2px solid grey;
+     margin-left: 450px;
+     margin-top: 300px ;
+}
+.addphoto{
+    margin-left: 70px;
+    margin-top: 20px ;
+}
+.info{
+    margin-left:-20px;
+    margin-top:-250px ;
+}
+.file{
+    margin-left: 130px;
+    margin-top:-10px ;
+    font-size: 20px;
+}
+.name{
+    margin-left: 200px;
+    margin-top:280px ;
+    color: white;
+}
+.email{
+    margin-left: 200px;
+    margin-top:30px ;
+    color: white;
+}
+.pass{
+    margin-left: 200px;
+    margin-top:30px ;
+    color: white;
+}
+.birth{
+    margin-left: 750px;
+    margin-top:-250px ;
+    color: white;
+}
+.number{
+    margin-left: 750px;
+    margin-top:30px ;
+    color: white;
+}
+.button1{
+    margin-left: 162px;
+    margin-top:-168px ;
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+}
+.button2{
+    margin-left: 135px;
+    margin-top:75px ;
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+}
+.button3{
+    margin-left: 155px;
+    margin-top:75px ;
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+}
+.button4{
+    margin-left: 450px;
+    margin-top:-205px ;
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+}
+.button5{
+    margin-left: 447px;
+    margin-top:75px ;
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+}
+.archive{
+    margin-left:803px;
+    margin-top:80px ;
+    
+}
+.save{
+    margin-left: 960px;
+    margin-top:80px ;
+    font-size: 20px;
+    
+}

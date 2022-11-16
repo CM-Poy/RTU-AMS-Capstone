@@ -3,13 +3,14 @@
   <head>
 
     <meta charset="utf-8">
-    <title>Pornhub</title>
+    <title>Rizal Technological University Attendance Management System</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   </head>
   <style type="text/css">
     #bg{
     background-image: url("loginregbg.png");
     height: 100%;
+    width: 100%;
     background-repeat: no-repeat;
     background-size: cover;
     }
@@ -49,11 +50,21 @@
       html{
         overflow-x: hidden;
       }
+      body{
+        margin: 0;
+        padding: 0;
+        background-image: url('blurbg.png');
+        height: 100%;
+        
+   
+   
+      }
       #logo{
         padding-top: 330px;
         display: flex;
         align-items: center;
         margin-left: 250px;
+        
 
 
       }
@@ -94,7 +105,7 @@
             <p class="univ2 text-white"> Attendance Management System</p>
             <p class="twofa text-white">With Two-Factor Authentication</p>
           
-  <div class="container py-5 h-70">
+  <div class="container lo-5 h-70">
     <div  class="">
       <div id="card" class="col-12 col-md-8 col-lg-6 col-xl-5">
         <div class="cardcolor text-white" style="border-radius: 1rem; height:330px; padding-top: -100px;">
