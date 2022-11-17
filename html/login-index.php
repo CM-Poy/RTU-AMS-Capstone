@@ -1,129 +1,99 @@
+<!DOCTYPE html>
 <html>
-<html lang="en">
-  <head>
-
+<head>
     <meta charset="utf-8">
-    <title>Pornhub</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-  </head>
-  <style type="text/css">
-    #bg{
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>RTU Attendance</title>
+    <style>
+
+body{
     background-image: url("loginregbg.png");
-    height: 100%;
-    background-repeat: no-repeat;
     background-size: cover;
-    }
+    background-repeat: no-repeat;
+}
 
-    #card{ 
-      margin-left: 770px;
-      margin-top: -270px;
-      padding-right: -500px;
 
-     
-    }
-    .univ{
-      text-shadow: 2px 2px black;
+.cardcolor{
+    background-image: linear-gradient(to right, #12608E, #218DCB);
+
+
+}
+.col-sm-6{
+      text-shadow: 2px 2px 5px black;
       font-family: Sans-serif;
-      font-size: 40px;
-      padding-left: 50px;
-      margin-top: -20px;
-      margin-left: -40px;
-     
-    }
-    .univ2{
-      text-shadow: 2px 2px black;
-      font-family: Sans-serif;
-      font-size: 40px;
-      padding-left: 430px;
-      margin-top:-95px;
-     
-    }
-     .twofa{
-      text-shadow: 2px 2px black;
-      font-family: Sans-serif;
-      font-size: 20px;
-      padding-left: 432px;
-      margin-top: -30px}
-      
+      font-size: 25px;
+      color: white;
 
-      html{
-        overflow-x: hidden;
-      }
-      #logo{
-        padding-top: 330px;
-        display: flex;
-        align-items: center;
-        margin-left: 250px;
+}
+#tite{
+    margin-top: 200px;
+    
+
+}
+{
+    font-size: 10px;
+}
+.twofa{
+    font-size: 12px;
+
+}
+.forg{
+    color: white;
+}
+.reghere{
+    color: yellow;
+}
 
 
-      }
-      .cardcolor{
-        background-color: #194F90;
-        size: 50px;
-      }
-      .reghere{
-        color: #DAA520;
-      }
-      .forg{
-        color: white;
-        padding-top: 20px;
 
-      }
-      .spacing{
-        margin-top: -30px;
-        margin-left: -30px;
-        margin-right: -30px;
-        margin-bottom: -20px;
-      }
-      .spacing2{
-        margin-top: -20px;
-        margin-bottom: 10px;
-      }
-      .btn{
-        color: #fff;
-      }
+    </style>
 
-
-  </style>
-
-  <body>
-
-        <section id="bg" class=" gradient-custom">
-          <div id="logo">
-           <img src="rtu_logo.png"> <p class="univ text-white">  Rizal Technological University</p></div>
-            <p class="univ2 text-white"> Attendance Management System</p>
-            <p class="twofa text-white">With Two-Factor Authentication</p>
-          
-  <div class="container py-5 h-70">
-    <div  class="">
-      <div id="card" class="col-12 col-md-8 col-lg-6 col-xl-5">
-        <div class="cardcolor text-white" style="border-radius: 1rem; height:330px; padding-top: -100px;">
+    <link rel="stylesheet" type="text/css" href="login.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<body>
+    <div id="tite" class="container h-100">
+  <div class="row ">
+    <div class="col-sm-2 my-auto">
+      <img class="rtu-Logo rounded mx-auto d-block " src="rtu_logo.png" >
+    </div>
+    <div class="col-sm-6 my-auto ">
+      RIZAL TECHNOLOGICAL UNIVERSITY<br>
+      ATTENDANCE MANAGEMENT SYSTEM<br>
+      <p class="twofa">WITH TWO-FACTOR AUTHENTICATION</p>
+    </div>
+    <div class="col-sm-4 my-auto">
+        <div class="cardcolor text-white" style="border-radius: 1rem; height:420px; width: 400px;">
           <div class="card-body p-5">
 
 
             <div class="spacing">
               <div class="form-outline form-white mb-4">
                 <label class="form-label" for="typeEmailX">EMAIL</label>
-                <input type="email" id="typeEmailX" class="form-control form-control-lg" />
+                <input  type="email" id="typeEmailX" class="form-control form-control-lg" placeholder="@gmail.com" required />
 
               </div>
 
               <div class="spacing2">
-                <label class="form-label" for="typePasswordX">PASSWORD</label>
-                <input type="password" id="typePasswordX" class="form-control form-control-lg" />
-              </div>
+                <label class="form-label" for="typePasswordX" >PASSWORD</label>
+                <input type="password" id="typePasswordX" class="form-control form-control-lg" required  />
+              </div><br>
 
-              <center><button class="btn text-white btn-outline-light btn-lg px-5"><a href="code-index.html">Login</button></center></a>
+              <center><a href="dash.php"><button class="btn color-white btn-outline-light btn-lg px-5">Login</button></center></a>
               <center><p><a class="forg" href="#!">Forgot password?</a></p></center>
 
             <div>
               <center><p class="mb-0">Don't have an account Yet? <a href="signup-index.php" class="reghere">Register Here</a></center>
               </p>
-            </div>
- </div>
-</div>
-</div>
-</section>
 
-  </body>
+</div>
+    </div>
+  </div>
+</div>
+    
+        
+    </div>
+
+
+</body>
 </html>

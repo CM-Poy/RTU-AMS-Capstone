@@ -153,7 +153,7 @@
 
 			
 			 	<div class="studlistbtn">
-			 		<button  name="create" type="button"> Student List </button>
+			 		<a href="studlist.php"><button  name="create" type="button"> Student List </button>
 			 </div>
 		</div>
 </form>
