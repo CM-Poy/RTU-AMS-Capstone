@@ -50,7 +50,7 @@
              <div>
                 <div class="sidebar">
                         <div class="sidebar-item" >
-                             <a class="index" href="index.html"><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-app-indicator" viewBox="0 0 16 16">
+                             <a class="index" href="dash.php"><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-app-indicator" viewBox="0 0 16 16">
                                     <path d="M5.5 2A3.5 3.5 0 0 0 2 5.5v5A3.5 3.5 0 0 0 5.5 14h5a3.5 3.5 0 0 0 3.5-3.5V8a.5.5 0 0 1 1 0v2.5a4.5 4.5 0 0 1-4.5 4.5h-5A4.5 4.5 0 0 1 1 10.5v-5A4.5 4.5 0 0 1 5.5 1H8a.5.5 0 0 1 0 1H5.5z"/>
                                     <path d="M16 3a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
                                    </svg> &nbsp;&nbsp;<span>TODAY</span> 
@@ -58,6 +58,7 @@
 
                               </div>
                                 <div class="sidebar-item">
+
                                     <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="       currentColor" class="bi bi-calendar-check" viewBox="0 0 16 16">
                                     <path d="M10.854 7.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 9.793l2.646-2.647a.5.5 0 0 1 .708 0z"/>
                                     <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 
@@ -68,7 +69,7 @@
                                     
                                 </div>
                                 <div class="sidebar-item">
-                                     <a class="index" href="submanage.html"><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="         currentColor" class="bi bi-clipboard2-data" viewBox="0 0 16 16">
+                                     <a class="index" href="dash-manage.php"><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="         currentColor" class="bi bi-clipboard2-data" viewBox="0 0 16 16">
                                      <path d="M9.5 0a.5.5 0 0 1 .5.5.5.5 0 0 0 .5.5.5.5 0 0 1 .5.5V2a.5.5 0 0 1-.5.5h-5A.5.5 0 0 1 5 2v-.5a.5.5 0 0 1 .5-.5.5.5 0 0 0 .5-.5.5.5 0 0 1 .5-.5h3Z"/>
                                     <path d="M3 2.5a.5.5 0 0 1 .5-.5H4a.5.5 0 0 0 0-1h-.5A1.5 1.5 0 0 0 2 2.5v12A1.5 1.5 0 0 0 3.5 16h9a1.5 1.5 0 0 0 1.5-1.5v-12A1.5 1.5 0 0 0 12.5 1H12a.5.5 0 0 0 0 1h.5a.5.5 0 0 1 .5.5v12a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5v-12Z"/>
                                     <path d="M10 7a1 1 0 1 1 2 0v5a1 1 0 1 1-2 0V7Zm-6 4a1 1 0 1 1 2 0v1a1 1 0 1 1-2 0v-1Zm4-3a1 1 0 0 0-1 1v3a1 1 0 1 0 2 0V9a1 1 0 0 0-1-1Z"/>
@@ -76,7 +77,7 @@
                                     </a> 
                                 </div>
                                 <div class="sidebar-item">
-                                     <a class="index" href="subaccount.html"><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="       currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
+                                     <a class="index" href="dash-account.php"><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="       currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
                                      <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
                                      </svg>&nbsp; &nbsp;<span>ACCOUNT</span>
                                      </a> 

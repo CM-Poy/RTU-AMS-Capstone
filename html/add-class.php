@@ -149,12 +149,7 @@
 			<div class="addbtn">
 			<button  type="submit"> Add </button>
 		</div>
-			
-
-			
-			 	<div class="studlistbtn">
-			 		<button  name="create" type="button"> Student List </button>
-			 </div>
+		
 		</div>
 </form>
 </section>

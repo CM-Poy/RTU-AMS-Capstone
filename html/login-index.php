@@ -25,7 +25,7 @@ body{
       color: white;
 
 }
-#tite{
+#whole{
     margin-top: 200px;
     
 
@@ -52,7 +52,7 @@ body{
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 </head>
 <body>
-    <div id="tite" class="container h-100">
+    <div id="whole" class="container h-100">
   <div class="row ">
     <div class="col-sm-2 my-auto">
       <img class="rtu-Logo rounded mx-auto d-block " src="rtu_logo.png" >
@@ -79,7 +79,7 @@ body{
                 <input type="password" id="typePasswordX" class="form-control form-control-lg" required  />
               </div><br>
 
-              <center><a href="dash.php"><button class="btn color-white btn-outline-light btn-lg px-5">Login</button></center></a>
+              <center><a href="auth-email.php"><button class="btn color-white btn-outline-light btn-lg px-5">Login</button></center></a>
               <center><p><a class="forg" href="#!">Forgot password?</a></p></center>
 
             <div>
