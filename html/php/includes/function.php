@@ -4,7 +4,7 @@ require_once 'action.php';
 
 
 function signup($fname,$lname,$schoolid,$cnum,$email,$pwd){
-    
+
     global $conn;
 
     $sql = "INSERT INTO users (fname, lname, schoolid, cnumber, email, pwd) VALUES (?, ?, ?, ?, ?, ?)";
@@ -45,24 +45,55 @@ function login($email,$pwd){
                 }else{
                     header("location: ../login-index.php?error=none");
                 }
-               
+
 
             }else{
                 header("location: ../login-index.php?error=loginfailed2");
-    
+
             }
 
         }else{
             header("location: ../login-index.php?error=loginfailed3");
         }
-        
-        
+
+
     }catch (PDOException $e){
         echo '<span style="color:red;text-align:center;">' .$sql. '</span>' .$e->getMessage();
     }
-
-    
-    
 }
-   
+
+
+function addClass($subname, $subcode, $sectcode, $day, $fromtime, $totime){
+  global $conn;
+  $sql = "INSERT INTO class (subname, subcode, sectcode, day, fromtime, totime) VALUES (?, ?, ?, ?, ?, ?)";
+
+  try {
+      $stmt = $conn->prepare($sql);
+      $stmt->execute([$subname, $subcode, $sectcode, $day, $fromtime, $totime]);
+      header("location: ../signup-index.php?signup=successful");
+  } catch (PDOException $e){
+      echo '<span style="color:red;text-align:center;">' .$sql. '</span>' .$e->getMessage();
+  }
+}
+
+
+
+function delClass(){
+    global $conn;
+  $sql= "DELETE FROM class WHERE idclass = :idclass";
+    try{
+        $stmt = $conn->prepare($sql);
+        $stmt->execute([':idclass'=>$idclass]);
+        header("location: ../signup-index.php?delelete=successful");
+    }catch (PDOException $e){
+        echo header("location: ../signup-index.php?delete=error");
+        $e->getMessage();
+    }
+  }
+
+
+
+
+
+
 ?>
