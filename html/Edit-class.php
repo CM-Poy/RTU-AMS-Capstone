@@ -11,7 +11,7 @@
   <!-- CSS only --> 
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">	
 	<link rel="stylesheet" href="../css/STYLE.css">
-	<link rel="stylesheet" href="../css/Edit-class.css">
+	<link rel="stylesheet" href="../css/class-edit.css">
 	<link rel="stylesheet" href="../css/bg.css">
 
 </head>
@@ -106,56 +106,65 @@
      <section id="swup" class="transition-fade">          
 		<form class="whole">
 	<div class="name">
-	<h2>Class Name</h2>
+	<h5>Class Name</h5>
 			<input required name="database" placeholder="Introduction to Programming">
 			</div>
 	<div class="code">
-	<h2>Class Code</h2>
+	<h5>Class Code</h5>
 			<input required name="database" placeholder="ITP201">
+			</div>
+			<div class="section">
+	<h5>Section Code</h5>
+			<input required name="database" placeholder="CEIT-37-702A">
 			</div>
 
 	<div class="day">
-	 <h2>Day</h2>
-		<input type="radio" id="child" name="age" value="child" checked>
+	 <h5>Day</h5>
+		<input type="radio" id="mon" name="age" value="child" checked>
 		<label for="child">Monday</label>
 		<br>
 			
-			<input type="radio" id="adult" name="age" value="adult">
+			<input type="radio" id="tue" name="age" value="adult">
 			<label for="adult">Tuesday</label>
 			<br>
 				
-				<input type="radio" id="senior" name="age" value="senior">
+				<input type="radio" id="wed" name="age" value="senior">
 				<label for="senior">Wednesday</label>
 				<br>
 					
-					<input type="radio" id="senior" name="age" value="senior">
+					<input type="radio" id="thur" name="age" value="senior">
 					<label for="senior">Thursday</label>
 					<br>
 						
-						<input type="radio" id="senior" name="age" value="senior">
+						<input type="radio" id="fri" name="age" value="senior">
 						<label for="senior">Friday</label>
 						<br>
 							
-							<input type="radio" id="senior" name="age" value="senior">
+							<input type="radio" id="sat" name="age" value="senior">
 							<label for="senior">Saturday</label>
 							</div><br>
 
 						 	<div class="time">
-						<h2>Time</h2>			
+						<h5>Time</h5>			
 			<input type="time"required name="database" placeholder="ITP201">
 			</div><br>
 
 		<div class="cancelbtn">
-			<a href="dash-manage.php"><button name="create" type="button"> Cancel </button></div></a>
-			<div class="addbtn">
-			<button  type="submit"> EDIT </button>
+			<a href="dash-manage.php"><button name="create" type="button"> Cancel </button>
+			</div></a>
+			
+			<div class="addbtn"><button  type="submit"> EDIT </button>
+			</div>
+		
+				<div class="studlistbtn">
+			 		<a href="studlist.php"><button  name="create" type="button"> Student List </button>
+			 </div>
+
 		</div>
 			
 
 			
-			 	<div class="studlistbtn">
-			 		<a href="studlist.php"><button  name="create" type="button"> Student List </button>
-			 </div>
+			 	
 		</div>
 </form>
 </section>
