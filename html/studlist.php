@@ -11,15 +11,8 @@
   <!-- CSS only --> 
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">	
 	<link rel="stylesheet" href="../css/STYLE.css">
-	<link rel="stylesheet" href="../css/Add-class.css">
-	<style >
-		.sidebar{
-			background-image: linear-gradient(to right, #12608E, #218DCB);
-		}
-		.card{
-			background-image: linear-gradient(to right, #12608E, #218DCB);
-		}
-	</style>
+	<link rel="stylesheet" href="../css/stud-list.css">
+	<link rel="stylesheet" href="../css/bg.css">
 
 </head>
 
@@ -110,62 +103,35 @@
 		</div>		
 				
 
-     <section id="swup" class="transition-fade">          
-		<form class="whole">
-	<div class="name">
-	<h2>Class Name</h2>
-			<input required name="database" placeholder="Introduction to Programming">
-			</div>
-	<div class="code">
-	<h2>Class Code</h2>
-			<input required name="database" placeholder="ITP201">
-			</div>
+               
+		  <div class="whole container align-content-center">
+		  	<div class="form-group row justify-content-center" id="row">
+		  		<div class="col-sm-3">
+		  		<input type="text" class="form-control form-control-sm" id="textb1" placeholder="Full Name">
+		  		</div>
+		  		
+		  		
+		  		<div class="col-sm-2">
+		  		<input type="text" class="form-control form-control-sm" id="textb2" placeholder="Section Code">
+		  		</div>
+		  		
+		  		
+		  		<div class="col-sm-2">
+		  		<input type="text" class="form-control form-control-sm" id="textb3" placeholder="Guardian #">
+		  		</div>
 
-	<div class="day">
-	 <h2>Day</h2>
-		<input type="radio" id="child" name="age" value="child" checked>
-		<label for="child">Monday</label>
-		<br>
-			
-			<input type="radio" id="adult" name="age" value="adult">
-			<label for="adult">Tuesday</label>
-			<br>
-				
-				<input type="radio" id="senior" name="age" value="senior">
-				<label for="senior">Wednesday</label>
-				<br>
-					
-					<input type="radio" id="senior" name="age" value="senior">
-					<label for="senior">Thursday</label>
-					<br>
-						
-						<input type="radio" id="senior" name="age" value="senior">
-						<label for="senior">Friday</label>
-						<br>
-							
-							<input type="radio" id="senior" name="age" value="senior">
-							<label for="senior">Saturday</label>
-							</div><br>
+		  		
+		  		<div class="col-sm-3">
+		  		<input type="text" class="form-control form-control-sm" id="textb4" placeholder="Guardian Name">
+		  		</div>
 
-						 	<div class="time">
-						<h2>Time</h2>			
-			<input type="time"required name="database" placeholder="ITP201">
-			</div><br>
-
-		<div class="cancelbtn">
-			<a href="dash-manage.php"><button name="create" type="button"> Cancel </button></div></a>
-			<div class="addbtn">
-			<button  type="submit"> Add </button>
-		</div>
-			
-
-			
-			 	<div class="studlistbtn">
-			 		<button  name="create" type="button"> Student List </button>
-			 </div>
-		</div>
-</form>
-</section>
+		  		<div class="col-sm-2">
+		  		<button id ="btn2" type="button" class="btn btn-success">ADD</button>
+		  		</div>
+		  		
+		  	
+</div>		
+</div>
 
     <div class="container-fluid">
     	<div class="col-md-12 text-center">

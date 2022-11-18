@@ -4,10 +4,10 @@
 	left: 50%;
 	opacity: 1;
 	transform: translate(-50%, -50%) scale(1.25);
-	width: 900px;
-	height: 320px;
-	padding: 20px 30px;
+	width: 1000px;
+	height: 500px;
 	background:#fff;
+	padding: 20px 30px;
 	box-shadow: 2px 2px 5px 5px rgba(0, 0, 0, 0.15);
 	border-radius: 10px;
 	z-index: 1;
@@ -104,6 +104,32 @@ margin-top: 105px;
 	cursor: pointer;
 }
 .btn{
+
+}
+#textb1{
+	margin-top: 10px;
+}
+#textb2{
+	margin-top: 10px;
+}
+#textb3{
+	margin-top: 10px;
+}
+#textb4{
+	margin-top: 10px;
+}
+#btn2{
+	margin-top: 5px;
+}
+#row {
+	margin-left: 60px;
+
+}
+#add{
+	margin-top: 10px;
+}
+::-webkit-input-placeholder{
+	font-size: 12px;
 
 }
 .whole{
