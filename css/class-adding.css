@@ -4,10 +4,10 @@
 	left: 50%;
 	opacity: 1;
 	transform: translate(-50%, -50%) scale(1.25);
-	width: 1000px;
-	height: 500px;
-	background:#fff;
+	width: 900px;
+	height: 320px;
 	padding: 20px 30px;
+	background:#fff;
 	box-shadow: 2px 2px 5px 5px rgba(0, 0, 0, 0.15);
 	border-radius: 10px;
 	z-index: 1;
@@ -63,32 +63,38 @@
 	margin-left: 1130px;
 	margin-top: -41px;
 }
-.cancelbtn{
-margin-left: 770px;
-margin-top: 105px;
-}
+
+
 .name{
-    margin-left: 20px;
+    margin-left: 10px;
     margin-top:30px ;
 }
 .code{
-    margin-left: 250px;
-    margin-top: -76px;
+    margin-left: 410px;
+    margin-top: -62px;
+}
+.section{
+	margin-left: 210px;
+    margin-top: -62px;
 }
 .day{
-    margin-left: 500px;
-    margin-top: -75px;
+    margin-left: 605px;
+    margin-top: -62px;
 }
 .time{
-    margin-left: 650px;
-    margin-top: -260px;
+    margin-left: 720px;
+    margin-top: -233px;
 
 }
-.addbtn{
+.addingbtn{
     margin-left: 700px;
+    margin-top: 120px;
+}
+.cancelingbtn{
+margin-left: 780px;
     margin-top: -30px;
 }
-.studlistbtn{
+.studlistbtn1{
     margin-left: 20px;
     margin-top: -34px;
 }
@@ -106,32 +112,6 @@ margin-top: 105px;
 .btn{
 
 }
-#textb1{
-	margin-top: 10px;
-}
-#textb2{
-	margin-top: 10px;
-}
-#textb3{
-	margin-top: 10px;
-}
-#textb4{
-	margin-top: 10px;
-}
-#btn2{
-	margin-top: 5px;
-}
-#row {
-	margin-left: 60px;
-
-}
-#add{
-	margin-top: 10px;
-}
-::-webkit-input-placeholder{
-	font-size: 12px;
-
-}
 .whole{
 	animation: transitionIn .5s ease;
 }
@@ -144,3 +124,6 @@ margin-top: 105px;
 		opacity:1;
 		
 }
+
+
+

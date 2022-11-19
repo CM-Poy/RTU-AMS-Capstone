@@ -10,12 +10,12 @@ require_once 'php/includes/config.php' ?>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-  <title>MANAGEMENT</title>
+  <title>EDIT CLASS</title>
 
   <!-- CSS only -->
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
 	<link rel="stylesheet" href="../css/STYLE.css">
-	<link rel="stylesheet" href="../css/class-edit.css">
+	<link rel="stylesheet" href="../css/class-editing.css">
 	<link rel="stylesheet" href="../css/bg.css">
 
 </head>
@@ -59,7 +59,7 @@ require_once 'php/includes/config.php' ?>
 		<div>
 			<div class="sidebar">
 				<div class="sidebar-item" >
-						<a class="index" href="index.html">
+						<a class="index" href="dash.php">
 						<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-app-indicator" viewBox="0 0 16 16"><path d="M5.5 2A3.5 3.5 0 0 0 2 5.5v5A3.5 3.5 0 0 0 5.5 14h5a3.5 3.5 0 0 0 3.5-3.5V8a.5.5 0 0 1 1 0v2.5a4.5 4.5 0 0 1-4.5 4.5h-5A4.5 4.5 0 0 1 1 10.5v-5A4.5 4.5 0 0 1 5.5 1H8a.5.5 0 0 1 0 1H5.5z"/>
 						<path d="M16 3a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/></svg>
 
@@ -68,7 +68,7 @@ require_once 'php/includes/config.php' ?>
 				</div>
 
 				<div class="sidebar-item">
-					<a class="index" href="subcalendar.html">
+					<a class="index" href="dash-calendar.php">
 					<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="       currentColor" class="bi bi-calendar-check" viewBox="0 0 16 16"><path d="M10.854 7.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 9.793l2.646-2.647a.5.5 0 0 1 .708 0z"/><path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1
 					1h12a1 1 0 0 0 1-1V4H1z"/></svg>
 
@@ -86,7 +86,7 @@ require_once 'php/includes/config.php' ?>
 
 
 				<div class="sidebar-item">
-					<a class="index" href="subaccount.html"><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="       currentColor" class="bi bi-person-fill" viewBox="0 0 16 16"><path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+					<a class="index" href="dash-account.php"><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="       currentColor" class="bi bi-person-fill" viewBox="0 0 16 16"><path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
 
 					&nbsp; &nbsp;<span>ACCOUNT</span></a>
 				</div>
@@ -123,35 +123,23 @@ require_once 'php/includes/config.php' ?>
 			</div>
 
 	<div class="day">
-	 <h5>Day</h5>
-		<input type="radio" id="mon" name="age" value="child" checked>
-		<label for="child">Monday</label>
-		<br>
+      	 <h5>Day</h5>
+         <select id = "day" name="day">
+           <option value="none" selected disabled hidden>Select a day</option> 
+           <option value="Monday">Monday</option>
+           <option value="Tuesday">Tuesday</option>
+           <option value="Wednesday">Wednesday</option>
+           <option value="Thursday">Thursday</option>
+           <option value="Friday">Friday</option>
+           <option value="Saturday">Saturday</option>
+         </select>
+        </div><br>
 
-			<input type="radio" id="tue" name="age" value="adult">
-			<label for="adult">Tuesday</label>
-			<br>
+			<div id ="time"class="time">
+        	<h5>Time</h5>
+        	<input type="time"name="time" min="00:00" max="12:00"><input type="time" name="time2" min="00:00" max="12:00">
 
-				<input type="radio" id="wed" name="age" value="senior">
-				<label for="senior">Wednesday</label>
-				<br>
-
-					<input type="radio" id="thur" name="age" value="senior">
-					<label for="senior">Thursday</label>
-					<br>
-
-						<input type="radio" id="fri" name="age" value="senior">
-						<label for="senior">Friday</label>
-						<br>
-
-							<input type="radio" id="sat" name="age" value="senior">
-							<label for="senior">Saturday</label>
-							</div><br>
-
-			<div class="time">
-				<h5>Time</h5>
-		    <input type="time"required name="database" placeholder="ITP201">
-			</div><br>
+      	</div><br>
 
 		<div class="cancelbtn">
 			<a href="dash-manage.php"><button name="create" type="button"> Cancel </button>
