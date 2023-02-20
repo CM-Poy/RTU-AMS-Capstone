@@ -104,8 +104,8 @@
                     <a class="nav-link" href="#">Notification </a>
                 </li>
 
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Logout</a>
+                <li onclick="clicked(event)"class="nav-item">
+                    <a class="nav-link" href="Login.html">Logout</a>
                 </li>
               </ul>
             </div>
@@ -174,9 +174,18 @@
       
       </div>
 		</div>
+        <script>
+function clicked(e)
+{
+    if(!confirm('Are you sure you want to logout?')) {
+        e.preventDefault();
+    }
+}
+</script>
     <script src="js/jquery.min.js"></script>
     <script src="js/popper.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/main.js"></script>
   </body>
+  
 </html>
