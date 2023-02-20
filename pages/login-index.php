@@ -86,8 +86,8 @@ body{
 
             <div class="spacing">
               <div class="form-outline form-white mb-4">
-                <label class="form-label" for="typeEmailX">EMAIL</label>
-                <input  type="text" id="typeEmailX" name="schoolid" class="form-control form-control-lg" placeholder="School ID" />
+                <label class="form-label" for="typeEmailX">SCHOOL ID</label>
+                <input  type="text" id="typeEmailX" name="schoolid" class="form-control form-control-lg" />
 
               </div>
 
