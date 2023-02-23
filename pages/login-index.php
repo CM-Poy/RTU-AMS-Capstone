@@ -98,6 +98,8 @@ body{
 
               <center><button class="btn color-white btn-outline-light btn-lg px-5" type="submit" value="login" name="submit">Login</button></center></a>
 
+
+							<button type="submit" name="singup">Signup</button>
     </div>
   </div>
 </div>
