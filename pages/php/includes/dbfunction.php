@@ -6,7 +6,7 @@ class dbfunction{
   function login($schoolid,$pwd){
       global $pdo;
 
-        	if(ISSET($_POST['submit'])){
+        	if(ISSET($_POST['login'])){
 
             if($_POST['schoolid'] != "" || $_POST['pwd'] != ""){
         			$schoolid = $_POST['schoolid'];
@@ -39,42 +39,30 @@ class dbfunction{
     }
 
 
-    function register($cshort,$cfull,$fname,$mname,$lname,$gender,$gname,$ocp,$income,$category,$ph,
-                      $nation,$mobno,$email,$country,$state,$city,$padd,$cadd,$board1,$board2,$roll1,$roll2,
-    				   $pyear1,$pyear2,$sub1,$sub2,$marks1,$marks2,$fmarks1,$fmarks2,$session){
+    function register($schoolid,$pwd){
+      global $pdo;
 
-     			        $db = Database::getInstance();
-    		           	$mysqli = $db->getConnection();
+        if(ISSET($_POST['register'])){
+          if($_POST['schoolid'] != "" || $_POST['pwd'] != ""){
+              $schoolid= $_POST['schoolid'];
+              $pwd = $_POST['pwd'];
+              // md5 encrypted
+              // $password = md5($_POST['password']);
 
-    		           //	echo $session;exit;
-       $query = "INSERT INTO `registration` (`course`, `subject`, `fname`, `mname`, `lname`, `gender`, `gname`, `ocp`,
-                         `income`, `category`, `pchal`, `nationality`, `mobno`, `emailid`, `country`, `state`, `dist`,
-    					 `padd`, `cadd`, `board`, `board1`,`roll`,`roll1`,`pyear`,`yop1`,`sub`,`sub1`,`marks`,`marks1`,
-    					 `fmarks`,`fmarks1`,`session`,regno)
-                       VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-    			        $reg=rand();
-    			        $stmt= $mysqli->prepare($query);
-    			        if(false===$stmt){
+              $sql = "INSERT INTO `users` VALUES ('','','','$schoolid','','', '$pwd')";
+              $pdo->exec($sql);
 
-    			     	trigger_error("Error in query: " . mysqli_connect_error(),E_USER_ERROR);
-    			    }
-
-    			    else{
-
-    			$stmt->bind_param('sssssssssssssssssssssssssssssssss',
-    		         	$cshort,$cfull,$fname,$mname,$lname,$gender,$gname,$ocp,$income,$category,$ph,$nation,$mobno,
-    					$email,$country,$state,$city,$padd,$cadd,$board1,$board2,$roll1,$roll2,$pyear1,$pyear2,
-    					$sub1,$sub2,$marks1,$marks2,$fmarks1,$fmarks2,$session,$reg);
-    			$stmt->execute();
-    		   	echo "<script>alert('Successfully Registered , your registration number is $reg')</script>";
-    		 	//header('location:login.php');
-
-    		  }
-
-
-
-           }
-
+            $_SESSION['message']=array("text"=>"User successfully created.","alert"=>"info");
+            $pdo = null;
+            header('location:login-index.php');
+          }else{
+            echo "
+              <script>alert('Please fill up the required field!')</script>
+              <script>window.location = 'draftreg.php'</script>
+            ";
+          }
+        }
+    }
   }
 
 

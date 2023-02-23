@@ -1,6 +1,8 @@
 <?php
 session_start();
-if(isset($_POST['submit'])){
+
+
+if(isset($_POST['login'])){
 
 	 include('../pages/php/includes/dbfunction.php');
 	 $obj=new dbfunction();
@@ -8,9 +10,8 @@ if(isset($_POST['submit'])){
 	 $obj->login($_POST['schoolid'],$_POST['pwd']);
 }
 
-if(!ISSET($_SESSION['user'])){
-  header('location:index.php');
-}
+
+
 ?>
 
 
@@ -96,10 +97,10 @@ body{
                 <input type="password" id="typePasswordX" name="pwd" class="form-control form-control-lg"/>
               </div><br>
 
-              <center><button class="btn color-white btn-outline-light btn-lg px-5" type="submit" value="login" name="submit">Login</button></center></a>
+              <center><button class="btn color-white btn-outline-light btn-lg px-5" type="submit" value="login" name="login">Login</button></center></a>
 
 
-							<button type="submit" name="singup">Signup</button>
+							<button><a href = "draftreg.php">Signup</button></a>
     </div>
   </div>
 </div>
