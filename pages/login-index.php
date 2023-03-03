@@ -1,18 +1,3 @@
-<?php
-session_start();
-
-
-if(isset($_POST['login'])){
-
-	 include('../pages/php/includes/dbfunction.php');
-	 $obj=new dbfunction();
-	 $_SESSION['login']=$_POST['schoolid'];
-	 $obj->login($_POST['schoolid'],$_POST['pwd']);
-}
-
-
-
-?>
 
 
 <!DOCTYPE html>
