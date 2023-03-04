@@ -1,4 +1,12 @@
+<?php
 
+if(isset($_POST['login'])){
+  include('../pages/php/includes/dbfunction.php');
+  $obj=new dbfunction();
+  $obj->login($_POST['schoolid'],$_POST['pwd']);
+}
+
+?>
 
 <!DOCTYPE html>
 <html>

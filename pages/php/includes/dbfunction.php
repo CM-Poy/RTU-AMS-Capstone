@@ -18,7 +18,7 @@ class dbfunction{
         $fetch = $query->fetch();
         if($row > 0) {
           $_SESSION['user'] = $fetch['idusers'];
-          header("location: home.php");
+          header("location: dash.php");
         } else{
           echo "
           <script>alert('Invalid username or password')</script>
