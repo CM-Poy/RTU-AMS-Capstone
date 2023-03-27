@@ -1,0 +1,7 @@
+{
+    "require": {
+        "chillerlan/php-qrcode": "^4.3",
+        "khanamiryan/qrcode-detector-decoder": "^2.0",
+        "phpmailer/phpmailer": "^6.8"
+    }
+}
