@@ -194,7 +194,7 @@
             <div class="modal-content">
               <form>
                 <div class="modal-header">						
-                  <h4 class="modal-title">Add Employee</h4>
+                  <h4 class="modal-title">Add Department</h4>
                   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 </div>
                 <div class="modal-body">					
@@ -221,7 +221,7 @@
             <div class="modal-content">
               <form>
                 <div class="modal-header">						
-                  <h4 class="modal-title">Edit Employee</h4>
+                  <h4 class="modal-title">Edit Department</h4>
                   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 </div>
                 <div class="modal-body">					
@@ -256,7 +256,7 @@
             <div class="modal-content">
               <form>
                 <div class="modal-header">						
-                  <h4 class="modal-title">Delete Employee</h4>
+                  <h4 class="modal-title">Delete Department</h4>
                   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 </div>
                 <div class="modal-body">					
@@ -281,5 +281,29 @@
     <script src="../../js/main.js"></script>
   </body>
 </html>
-
+<script>
+    $(document).ready(function(){
+      // Activate tooltip
+      $('[data-toggle="tooltip"]').tooltip();
+      
+      // Select/Deselect checkboxes
+      var checkbox = $('table tbody input[type="checkbox"]');
+      $("#selectAll").click(function(){
+        if(this.checked){
+          checkbox.each(function(){
+            this.checked = true;                        
+          });
+        } else{
+          checkbox.each(function(){
+            this.checked = false;                        
+          });
+        } 
+      });
+      checkbox.click(function(){
+        if(!this.checked){
+          $("#selectAll").prop("checked", false);
+        }
+      });
+    });
+</script>
 
