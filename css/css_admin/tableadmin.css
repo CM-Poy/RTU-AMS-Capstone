@@ -190,6 +190,12 @@ table.table .avatar {
 	background: #ddd;
 }
 /* Modal styles */
+.modalCenter{
+	
+}
+.modalCenterDel{
+	transform: translateY(100%) !important;
+}
 .modal .modal-dialog {
 	max-width: 400px;
 }
@@ -197,12 +203,12 @@ table.table .avatar {
 	padding: 20px 30px;
 }
 .modal .modal-content {
-	border-radius: 3px;
+	border-radius: 10px;
 	font-size: 14px;
 }
 .modal .modal-footer {
 	background: #ecf0f1;
-	border-radius: 0 0 3px 3px;
+	border-radius: 0 0 10px 10px;
 }
 .modal .modal-title {
 	display: inline-block;

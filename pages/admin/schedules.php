@@ -7,7 +7,8 @@
   
 
 <head>
-    <title>Schedules</title>
+    <link rel='icon' href='../../images/rtu-logo.png'/>
+    <title>Manage Schedules</title>
 </head>
 
   <body>
@@ -79,7 +80,7 @@
                     <h2>Manage <b>Schedules</b></h2>
                   </div>
                   <div class="col-sm-6">
-                    <a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add New Employee</span></a>
+                    <a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add New</span></a>
                     <a href="#deleteEmployeeModal" class="btn btn-danger" data-toggle="modal"><i class="material-icons">&#xE15C;</i> <span>Delete</span></a>						
                   </div>
                 </div>
@@ -93,10 +94,12 @@
                         <label for="selectAll"></label>
                       </span>
                     </th>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Address</th>
-                    <th>Phone</th>
+                    <th>Full Name</th>
+                    <th>Subject</th>
+                    <th>Section</th>
+                    <th>Day</th>
+                    <th>Start</th>
+                    <th>End</th>
                     <th>Actions</th>
                   </tr>
                 </thead>
@@ -111,7 +114,9 @@
                     <td>Thomas Hardy</td>
                     <td>thomashardy@mail.com</td>
                     <td>89 Chiaroscuro Rd, Portland, USA</td>
-                    <td>(171) 555-2222</td>
+                    <td>(313) 555-5735</td>
+                    <td>(313) 555-5735</td>
+                    <td>(313) 555-5735</td>
                     <td>
                       <a href="#editEmployeeModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
                       <a href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
@@ -128,6 +133,8 @@
                     <td>dominiqueperrier@mail.com</td>
                     <td>Obere Str. 57, Berlin, Germany</td>
                     <td>(313) 555-5735</td>
+                    <td>(313) 555-5735</td>
+                    <td>(313) 555-5735</td>
                     <td>
                       <a href="#editEmployeeModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
                       <a href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
@@ -143,7 +150,9 @@
                     <td>Maria Anders</td>
                     <td>mariaanders@mail.com</td>
                     <td>25, rue Lauriston, Paris, France</td>
-                    <td>(503) 555-9931</td>
+                    <td>(313) 555-5735</td>
+                    <td>(313) 555-5735</td>
+                    <td>(313) 555-5735</td>
                     <td>
                       <a href="#editEmployeeModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
                       <a href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
@@ -159,7 +168,9 @@
                     <td>Fran Wilson</td>
                     <td>franwilson@mail.com</td>
                     <td>C/ Araquil, 67, Madrid, Spain</td>
-                    <td>(204) 619-5731</td>
+                    <td>(313) 555-5735</td>
+                    <td>(313) 555-5735</td>
+                    <td>(313) 555-5735</td>
                     <td>
                       <a href="#editEmployeeModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
                       <a href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
@@ -175,7 +186,9 @@
                     <td>Martin Blank</td>
                     <td>martinblank@mail.com</td>
                     <td>Via Monte Bianco 34, Turin, Italy</td>
-                    <td>(480) 631-2097</td>
+                    <td>(313) 555-5735</td>
+                    <td>(313) 555-5735</td>
+                    <td>(313) 555-5735</td>
                     <td>
                       <a href="#editEmployeeModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
                       <a href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
@@ -200,30 +213,38 @@
         </div>
         <!-- Edit Modal HTML -->
         <div id="addEmployeeModal" class="modal fade">
-          <div class="modal-dialog">
+          <div class="modal-dialog modalCenter">
             <div class="modal-content">
               <form>
                 <div class="modal-header">						
-                  <h4 class="modal-title">Add Employee</h4>
+                  <h4 class="modal-title">Add Schedule</h4>
                   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 </div>
                 <div class="modal-body">					
                   <div class="form-group">
-                    <label>Name</label>
+                    <label>Full Name</label>
                     <input type="text" class="form-control" required>
                   </div>
                   <div class="form-group">
-                    <label>Email</label>
-                    <input type="email" class="form-control" required>
+                    <label>Subject</label>
+                    <input type="text" class="form-control" required>
                   </div>
                   <div class="form-group">
-                    <label>Address</label>
-                    <textarea class="form-control" required></textarea>
+                    <label>Section</label>
+                    <textarea type="text" class="form-control" required></textarea>
                   </div>
                   <div class="form-group">
-                    <label>Phone</label>
+                    <label>Day</label>
                     <input type="text" class="form-control" required>
                   </div>					
+                  <div class="form-group">
+                    <label>Start</label>
+                    <input type="text" class="form-control" required>
+                  </div>			
+                  <div class="form-group">
+                    <label>End</label>
+                    <input type="text" class="form-control" required>
+                  </div>			
                 </div>
                 <div class="modal-footer">
                   <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
@@ -235,30 +256,38 @@
         </div>
         <!-- Edit Modal HTML -->
         <div id="editEmployeeModal" class="modal fade">
-          <div class="modal-dialog">
+          <div class="modal-dialog ">
             <div class="modal-content">
               <form>
                 <div class="modal-header">						
-                  <h4 class="modal-title">Edit Employee</h4>
+                  <h4 class="modal-title">Edit Schedule</h4>
                   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 </div>
                 <div class="modal-body">					
-                  <div class="form-group">
-                    <label>Name</label>
+                <div class="form-group">
+                    <label>Full Name</label>
                     <input type="text" class="form-control" required>
                   </div>
                   <div class="form-group">
-                    <label>Email</label>
-                    <input type="email" class="form-control" required>
+                    <label>Subject</label>
+                    <input type="text" class="form-control" required>
                   </div>
                   <div class="form-group">
-                    <label>Address</label>
-                    <textarea class="form-control" required></textarea>
+                    <label>Section</label>
+                    <textarea type="text" class="form-control" required></textarea>
                   </div>
                   <div class="form-group">
-                    <label>Phone</label>
+                    <label>Day</label>
                     <input type="text" class="form-control" required>
                   </div>					
+                  <div class="form-group">
+                    <label>Start</label>
+                    <input type="text" class="form-control" required>
+                  </div>			
+                  <div class="form-group">
+                    <label>End</label>
+                    <input type="text" class="form-control" required>
+                  </div>			
                 </div>
                 <div class="modal-footer">
                   <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
@@ -274,7 +303,7 @@
             <div class="modal-content">
               <form>
                 <div class="modal-header">						
-                  <h4 class="modal-title">Delete Employee</h4>
+                  <h4 class="modal-title">Delete Schedule</h4>
                   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 </div>
                 <div class="modal-body">					
