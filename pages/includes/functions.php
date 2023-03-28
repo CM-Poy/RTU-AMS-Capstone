@@ -90,4 +90,48 @@ class dbfunction{
   		}
   	}
   }
+
+
+
+  function editSub(){
+   
+    if(isset($_POST["editSub"])){
+      
+        $idSubj=$_POST['idSubj'];
+        echo '<div id="editSubModal" class="modal fade">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <form>
+              <div class="modal-header">						
+                <h4 class="modal-title">Edit Employee</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+              </div>
+              <div class="modal-body">					
+                <div class="form-group">
+                '.$_POST["idSubj"].'
+                  <label>Code</label>
+                  <input type="text" class="form-control" required>
+                </div>
+                <div class="form-group">
+                  <label>Name</label>
+                  <input type="text" class="form-control" required>
+                </div>
+                <div class="form-group">
+                  <label>Units</label>
+                  <input type="text" class="form-control" required>
+                </div>		
+              </div>
+              <div class="modal-footer">
+                <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                <input type="submit" class="btn btn-info" value="Save">
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>';
+      }
+      
+    }
 }
+
+
