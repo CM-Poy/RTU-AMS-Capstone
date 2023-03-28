@@ -1,5 +1,28 @@
 <?php 
-require('../includes/config.php');?>
+require('../includes/config.php');
+
+session_start();
+require('../includes/config.php');
+
+require "../includes/authenticator.php";
+if ($_SERVER['REQUEST_METHOD'] != "POST") {
+    header("location: ../authenticate_client.php");
+    die();
+}
+$Authenticator = new Authenticator();
+
+
+
+
+$checkResult = $Authenticator->verifyCode($_SESSION['auth_secret'], $_POST['code'], 2);    // 2 = 2*30sec clock tolerance
+
+if (!$checkResult) {
+    $_SESSION['failed'] = true;
+    header("location: ../authenticate_client.php");
+    die();
+} 
+
+?>
 
 
 <!doctype html>
@@ -91,7 +114,7 @@ $(".close,.buttons").click(function() {
                 <a href="#" class="img logo rounded-circle mb-5" style="background-image: url(../../images/rtu-logo.png);"></a>
             <ul class="list-unstyled components mb-5">
               <li class="">
-                <a href="#">&nbsp;&nbsp;&nbsp;<i class="fa-sharp fa-solid fa-calendar-day fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>DASHBOARD</a>
+                <a href="index.php">&nbsp;&nbsp;&nbsp;<i class="fa-sharp fa-solid fa-calendar-day fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>DASHBOARD</a>
               </li>
               <li class="">
                <a href="calendar.php">&nbsp;&nbsp;&nbsp;<i class="fa-sharp fa-solid fa-calendar-days fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>CALENDAR</a>
