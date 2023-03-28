@@ -17,7 +17,7 @@ if(isset($_POST['btnLogin'])){
     <style>
 
 body{
-    background-image: url("loginregbg.png");
+    background-image: url("../images/blurbg.png");
     background-size: cover;
     background-repeat: no-repeat;
 }
@@ -58,7 +58,7 @@ body{
 
     </style>
 
-    <link rel="stylesheet" type="text/css" href="login.css">
+    <link rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 </head>
 <body>
@@ -93,7 +93,7 @@ body{
               <center><button class="btn color-white btn-outline-light btn-lg px-5" type="submit" value="login" name="btnLogin">Login</button></center></a>
 
 
-							<button><a href = "draftreg.php">Signup</button></a>
+							<button><a href = "#">Signup</button></a>
     </div>
   </div>
 </div>
