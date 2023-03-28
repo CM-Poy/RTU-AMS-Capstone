@@ -172,6 +172,9 @@ $(document).ready(function(){
       $(".add-new").removeAttr("disabled");
     }   
     });
+
+
+    
   // Edit row on edit button click
   $(document).on("click", ".edit", function(){    
         $(this).parents("tr").find("td:not(:last-child)").each(function(){
