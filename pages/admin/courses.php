@@ -1,9 +1,21 @@
+<?php 
+
+
+
+  include('header.php'); 
+  require('../includes/config.php');
+
+  
+
+ 
+  ?>
+
+
+
 <!doctype html>
 <html lang="en">
 
-  <?php include('header.php'); 
-  require('../includes/config.php');
-  ?>
+  
   
 <head>
     <title>Courses</title>
@@ -90,6 +102,10 @@
                       </thead>
                       <tbody>
                         <?php
+
+
+
+
                             global $conn;
                             $sql = "SELECT * from courses";
                             $result = $conn->prepare($sql);
@@ -101,23 +117,26 @@
                                 $name_dept=$row["name_dept_fk"];
             
                                 echo '
-
                                   <tr>
                                         <td>'.$code_crs.'</td>
                                         <td>'.$name_crs.'</td>
                                         <td>'.$name_dept.'</td>
-                                        <td><a class="add" name="addCrs" title="Add" data-toggle="tooltip"><i class="material-icons">&#xE03B;</i></a>
+                                        <td><button class="add" name="addCrs" title="Add" data-toggle="tooltip"><i class="material-icons">&#xE03B;</i></button>
                                         <a class="edit" name="editCrs" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
                                         <a class="delete" name="delCrs" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a></td>
                               </tr>';
                               }
                             }
+
+                            
                         ?>
                                   
                            
                       </tbody>
                   </table>
+                  
               </div>
+                    
           </div>
       </div>     
       
@@ -137,20 +156,49 @@
 $(document).ready(function(){
   $('[data-toggle="tooltip"]').tooltip();
   var actions = $("table td:last-child").html();
+
+
   // Append table with add row form on add new button click
     $(".add-new").click(function(){
     $(this).attr("disabled", "disabled");
     var index = $("table tbody tr:last-child").index();
-        var row = '<tr>' +
-            '<td><input type="text" class="form-control" name="codeCrs" ></td>' +
-            '<td><input type="text" class="form-control" name="nameCrs" ></td>' +
-            '<td><input type="text" class="form-control" name="nameDept" ></td>' +
-      '<td>' + actions + '</td>' +
-        '</tr>';
-      $("table").append(row);   
+      $("table").append('<tr>\
+                          <td>\
+                            <input type="text" class="form-control" name="crsName" id="crsName">\
+                          </td>\
+                          <td>\
+                            <input type="text" class="form-control" name="crsCode" id="crsName">\
+                          </td>\
+                          <td>\
+                                            <?php
+                                                        echo '<select name="deptName" style="max-width:100%;">\
+                                                        <option></option>';
+                                                        
+                                                        $sql = "SELECT * from departments";
+                                                        $result = $conn->prepare($sql);
+                                                        $result->execute();
+                                                    
+                                                        if($result->rowCount() > 0){
+                                                        while ($row = $result->fetch(PDO::FETCH_ASSOC)){
+                                                            $id_dept=$row["id_dept"];
+
+                                                            $name_dept=$row["name_dept"];
+                                                        
+                                                            echo '<option value= '.$id_dept.'>'.$name_dept.'</option>';
+                                                            }
+                                                        }
+                                                        echo '</select>';
+                                                ?>
+                                        </td>\
+                                        <td>' + actions +
+                                        '</td><tr>');   
+
+                                        
     $("table tbody tr").eq(index + 1).find(".add, .edit").toggle();
         $('[data-toggle="tooltip"]').tooltip();
     });
+
+
   // Add row on add button click
   $(document).on("click", ".add", function(){
     var empty = false;
@@ -170,11 +218,21 @@ $(document).ready(function(){
       });     
       $(this).parents("tr").find(".add, .edit").toggle();
       $(".add-new").removeAttr("disabled");
-    }   
-    });
+    }  
+
+  
+  $(this).append(
+  <?php if(isset($_POST['addCrs'])){
+    include('../includes/functions.php');
+    $obj=new dbfunction();
+    $obj->crtCrs($_POST['crsCode'],$_POST['crsName'],$_POST['deptName']);
+    }?>
+
+  );
+  
+  });
 
 
-    
   // Edit row on edit button click
   $(document).on("click", ".edit", function(){    
         $(this).parents("tr").find("td:not(:last-child)").each(function(){
@@ -188,5 +246,6 @@ $(document).ready(function(){
         $(this).parents("tr").remove();
     $(".add-new").removeAttr("disabled");
     });
+
 });
 </script>

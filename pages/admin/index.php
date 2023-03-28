@@ -1,6 +1,28 @@
+<?php
+  session_start();
+  include('header.php');
+  require('../includes/config.php');
+  require "../includes/authenticator.php";
+
+
+  if ($_SERVER['REQUEST_METHOD'] != "POST") {
+      header("location: ../authenticate_admin.php");
+      die();
+  }
+  $Authenticator = new Authenticator();
+
+  $checkResult = $Authenticator->verifyCode($_SESSION['auth_secret'], $_POST['code'], 2);    // 2 = 2*30sec clock tolerance
+
+  if (!$checkResult) {
+      $_SESSION['failed'] = true;
+      header("location: ../authenticate_admin.php");
+      die();
+  } 
+
+
+?>
 <!doctype html>
 <html lang="en">
-<?php include('header.php'); ?>
 
 
 <head>
@@ -11,7 +33,7 @@
 		<div class="wrapper d-flex align-items-stretch">
             <nav id="sidebar">
                 <div class="p-4 pt-5">
-                <a href="#" class="img logo rounded-circle mb-5" style="background-image: url(images/rtu-logo.png);"></a>
+                <a href="#" class="img logo rounded-circle mb-5" style="background-image: url(../../images/rtu-logo.png);"></a>
             <ul class="list-unstyled components mb-5">
               <li class="">
                 <a href="courses.php">&nbsp;&nbsp;&nbsp;<i class="fa fa-folder-open fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>COURSES</a>
@@ -57,7 +79,7 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
               <ul class="nav navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Logout</a>
+                    <a class="nav-link" href="../login.php">Logout</a>
                 </li>
               </ul>
             </div>
