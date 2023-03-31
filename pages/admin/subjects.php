@@ -96,7 +96,7 @@
                         <label for="selectAll"></label>
                       </span>
                     </th>
-                    <th>ID</th>
+                  
                     <th>Name</th>
                     <th>Code</th>
                     <th>Units</th>
@@ -126,30 +126,21 @@
                                       </span>
                                     </td>
                                     
-                                    <td><a name="idSubj">'.$id_subj.'</a></td>
+                                
                                     <td name="codeSubj">'.$code_subj.'</td>
                                     <td name="nameSubj">'.$name_subj.'</td>
                                     <td name="unitsSubj">'.$units_subj.'</td>
                                     <td>
                                       
-                                      <a href="#editSubModal" name="editSub" value class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                                      <a href="#deleteEmployeeModal" value = '.$id_subj.' class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                                      <a href="#editSubModal" value = '.$id_subj.' class="editBtn" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                                      <a href="#deleteEmployeeModal" value = '.$id_subj.' class="delBtn" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
                                      
                                     </td>
                             </tr>
-                            </form>
-                           
-                            
-                         
-                            
-                            ';
-                            
-                          
-                           
+                            </form>';
                           }
-
-                          
-                        
+                        }else{
+                          echo "No Record Found";
                         }
                     ?>
                   
@@ -170,6 +161,11 @@
             </div>
           </div>        
         </div>
+
+
+
+
+
         <!-- Add Modal HTML -->
         <div id="addSubModal" class="modal fade">
           <div class="modal-dialog">
@@ -203,28 +199,33 @@
             </div>
           </div>
         </div>
+
+
+
+
+
         <!-- Edit Modal HTML -->
-        <div id="editSubModal" class="modal fade">
+        <div id="editModal" class="modal fade">
         <div class="modal-dialog">
           <div class="modal-content">
             <form>
+              <input type="text" class="form-control" id = "idSubj" hidden>
               <div class="modal-header">						
                 <h4 class="modal-title">Edit Employee</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
               </div>
               <div class="modal-body">					
                 <div class="form-group">
-                <?php ECHO $_POST["idSubj"]; ?>
                   <label>Code</label>
-                  <input type="text" class="form-control" required>
+                  <input type="text" class="form-control" id = "codeSubj" required>
                 </div>
                 <div class="form-group">
                   <label>Name</label>
-                  <input type="text" class="form-control" required>
+                  <input type="text" class="form-control" id = "nameSubj" required>
                 </div>
                 <div class="form-group">
                   <label>Units</label>
-                  <input type="text" class="form-control" required>
+                  <input type="text" class="form-control" id = "unitsSubj" required>
                 </div>		
               </div>
               <div class="modal-footer">
@@ -235,6 +236,11 @@
           </div>
         </div>
       </div>
+
+
+
+
+
         <!-- Delete Modal HTML -->
         <div id="delSubModal" class="modal fade">
           <div class="modal-dialog">
@@ -260,13 +266,44 @@
       
       </div>
     </div>
+
+
+
     <script src="../../js/jquery.min.js"></script>
     <script src="../../js/popper.js"></script>
     <script src="../../js/bootstrap.min.js"></script>
     <script src="../../js/main.js"></script>
-
-
    
+   
+
+    <script>
+
+      //EDIT MODAL 
+        $(document).ready(function () {
+
+            $('.editBtn').on('click', function () {
+
+                $('#editModal').modal('show');
+
+                $tr = $(this).closest('tr');
+
+                var data = $tr.children("td").map(function () {
+                    return $(this).text();
+                }).get();
+
+                console.log(data);
+
+                $('#idSubj').val(data[0]);
+                $('#codeSubj').val(data[1]);
+                $('#nameSubj').val(data[2]);
+                $('#unitsSubj').val(data[3]);
+          
+            });
+        });
+    </script>
+
+
+
   </body>
 </html>
 

@@ -100,83 +100,54 @@
                     <th>Actions</th>
                   </tr>
                 </thead>
+
                 <tbody>
-                  <tr>
-                    <td>
-                      <span class="custom-checkbox">
-                        <input type="checkbox" id="checkbox1" name="options[]" value="1">
-                        <label for="checkbox1"></label>
-                      </span>
-                    </td>
-                    <td>Thomas Hardy</td>
-                    <td>thomashardy@mail.com</td>
-                    <td>89 Chiaroscuro Rd, Portland, USA</td>
-                    <td>
-                      <a href="#editEmployeeModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                      <a href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <span class="custom-checkbox">
-                        <input type="checkbox" id="checkbox2" name="options[]" value="1">
-                        <label for="checkbox2"></label>
-                      </span>
-                    </td>
-                    <td>Dominique Perrier</td>
-                    <td>dominiqueperrier@mail.com</td>
-                    <td>Obere Str. 57, Berlin, Germany</td>
-                    <td>
-                      <a href="#editEmployeeModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                      <a href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <span class="custom-checkbox">
-                        <input type="checkbox" id="checkbox3" name="options[]" value="1">
-                        <label for="checkbox3"></label>
-                      </span>
-                    </td>
-                    <td>Maria Anders</td>
-                    <td>mariaanders@mail.com</td>
-                    <td>25, rue Lauriston, Paris, France</td>
-                    <td>
-                      <a href="#editEmployeeModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                      <a href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <span class="custom-checkbox">
-                        <input type="checkbox" id="checkbox4" name="options[]" value="1">
-                        <label for="checkbox4"></label>
-                      </span>
-                    </td>
-                    <td>Fran Wilson</td>
-                    <td>franwilson@mail.com</td>
-                    <td>C/ Araquil, 67, Madrid, Spain</td>
-                    <td>
-                      <a href="#editEmployeeModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                      <a href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
-                    </td>
-                  </tr>					
-                  <tr>
-                    <td>
-                      <span class="custom-checkbox">
-                        <input type="checkbox" id="checkbox5" name="options[]" value="1">
-                        <label for="checkbox5"></label>
-                      </span>
-                    </td>
-                    <td>Martin Blank</td>
-                    <td>martinblank@mail.com</td>
-                    <td>Via Monte Bianco 34, Turin, Italy</td>
-                    <td>
-                      <a href="#editEmployeeModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                      <a href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
-                    </td>
-                  </tr> 
+
+                <?php
+                        $sql = "SELECT * from sections";
+                        $result = $conn->prepare($sql);
+                        $result->execute();
+                        $fetch = $result->fetch();
+                        if($result->rowCount() > 0){
+                          while ($row = $result->fetch(PDO::FETCH_ASSOC)){
+                            $id_sec=$row["id_sec"];
+                            $code_sec=$row["code_sec"];
+                            $id_crs_fk=$row["id_crs_fk"];
+                            $id_yr_fk=$row["id_yr_fk"];
+  
+                            echo '
+                            <form action="subjects.php" method="post">
+                              <tr>
+                                    <td>
+                                      <span class="custom-checkbox">
+                                        <input type="checkbox" id="checkbox5" name="options[]" value="1">
+                                        <label for="checkbox5"></label>
+                                      </span>
+                                    </td>
+                                    
+                                
+                                    
+                                    <td name="code_sec">'.$code_sec.'</td>
+                                    <td></td>
+                                    <td></td>
+                                    
+                                    <td>
+                                      
+                                      <a href="#editSubModal" value = '.$id_sec.' class="editBtn" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                                      <a href="#deleteEmployeeModal" value = '.$id_sec.' class="delBtn" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                                     
+                                    </td>
+                            </tr>
+                            </form>';
+                          }
+                        }else{
+                          echo "No Record Found";
+                        }
+
+                    ?>
+
                 </tbody>
+
               </table>
               <div class="clearfix">
                 <div class="hint-text">Showing <b>5</b> out of <b>25</b> entries</div>
@@ -193,8 +164,12 @@
             </div>
           </div>        
         </div>
-        <!-- Edit Modal HTML -->
-        <div id="addEmployeeModal" class="modal fade">
+
+
+
+
+        <!-- Add Modal HTML -->
+        <div id="addModal" class="modal fade">
           <div class="modal-dialog">
             <div class="modal-content">
               <form>
@@ -224,27 +199,75 @@
             </div>
           </div>
         </div>
+
+
+
+
         <!-- Edit Modal HTML -->
-        <div id="editEmployeeModal" class="modal fade">
+        <div id="editModal" class="modal fade">
           <div class="modal-dialog">
             <div class="modal-content">
               <form>
+
+              <input type="text" class="form-control" id = "id" hidden>
+
                 <div class="modal-header">						
-                  <h4 class="modal-title">Edit Employee</h4>
+                  <h4 class="modal-title">Edit Section</h4>
                   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 </div>
                 <div class="modal-body">					
                   <div class="form-group">
                     <label>Code</label>
-                    <input type="text" class="form-control" required>
+                    <input type="text" class="form-control" id="code" required>
                   </div>
                   <div class="form-group">
                     <label>Course</label>
-                    <textarea class="form-control" required></textarea>
+
+                    <?php
+                      echo '<select name="crsNameSect" id="crs" style="width: 340px">
+                      <option></option>';
+              
+                      $sql = "SELECT id_crs, name_crs, code_crs from courses";
+                      $result = $conn->prepare($sql);
+                      $result->execute();
+                  
+                      if($result->rowCount() > 0){
+                      while ($row = $result->fetch(PDO::FETCH_ASSOC)){
+                          $id_crs=$row["id_crs"];
+                          $name_crs=$row["name_crs"];
+                          $code_crs=$row["code_crs"];
+                      
+                          echo '<option value= '.$id_crs.'>'.$name_crs.'</option>';
+                          }
+                      }
+
+                      echo '</select>';
+
+                    ?>
                   </div>
                   <div class="form-group">
                     <label>Year Level</label>
-                    <input type="text" class="form-control" required></textarea>
+                    <?php
+
+                      echo '<select name="yrLvlStd" id="yrlvl" style="width: 340px">
+                      <option></option>';
+
+                      $sql = "SELECT id_yr, yearlvl_yr from year";
+                      $result = $conn->prepare($sql);
+                      $result->execute();
+
+                      if($result->rowCount() > 0){
+                      while ($row = $result->fetch(PDO::FETCH_ASSOC)){
+                          $id_yr=$row["id_yr"];
+                          $yearlvl_yr=$row["yearlvl_yr"];
+
+                          
+                          echo'<option value= '.$id_yr.' >'.$yearlvl_yr.'</option>';
+                          }
+                      }
+
+                      echo '</select>';
+                    ?>
                   </div>			
                 </div>
                 <div class="modal-footer">
@@ -255,8 +278,14 @@
             </div>
           </div>
         </div>
+
+
+
+
+
+
         <!-- Delete Modal HTML -->
-        <div id="deleteEmployeeModal" class="modal fade">
+        <div id="delModal" class="modal fade">
           <div class="modal-dialog">
             <div class="modal-content">
               <form>
@@ -285,6 +314,34 @@
     <script src="../../js/popper.js"></script>
     <script src="../../js/bootstrap.min.js"></script>
     <script src="../../js/main.js"></script>
+
+
+
+    <script>
+
+    //EDIT MODAL 
+      $(document).ready(function () {
+
+          $('.editBtn').on('click', function () {
+
+              $('#editModal').modal('show');
+
+              $tr = $(this).closest('tr');
+
+              var data = $tr.children("td").map(function () {
+                  return $(this).text();
+              }).get();
+
+              console.log(data);
+
+              $('#id').val(data[0]);
+              $('#code').val(data[1]);
+              $('#crs').val(data[2]);
+              $('#yr').val(data[3]);
+        
+          });
+      });
+</script>
   </body>
 </html>
 
