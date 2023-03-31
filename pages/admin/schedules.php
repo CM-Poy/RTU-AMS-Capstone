@@ -38,7 +38,7 @@
                <a href="departments.php">&nbsp;&nbsp;&nbsp;<i class="fa fa-building fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>DEPARTMENTS</a>  
               </li>
               <li>
-               <a href="#">&nbsp;&nbsp;&nbsp;<i class="fa fa-folder-open fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>COURSES</a>
+               <a href="courses.php">&nbsp;&nbsp;&nbsp;<i class="fa fa-folder-open fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>COURSES</a>
               </li>
               </li>
             </ul>
@@ -104,96 +104,56 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td>
-                      <span class="custom-checkbox">
-                        <input type="checkbox" id="checkbox1" name="options[]" value="1">
-                        <label for="checkbox1"></label>
-                      </span>
-                    </td>
-                    <td>Thomas Hardy</td>
-                    <td>thomashardy@mail.com</td>
-                    <td>89 Chiaroscuro Rd, Portland, USA</td>
-                    <td>(313) 555-5735</td>
-                    <td>(313) 555-5735</td>
-                    <td>(313) 555-5735</td>
-                    <td>
-                      <a href="#editEmployeeModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                      <a href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <span class="custom-checkbox">
-                        <input type="checkbox" id="checkbox2" name="options[]" value="1">
-                        <label for="checkbox2"></label>
-                      </span>
-                    </td>
-                    <td>Dominique Perrier</td>
-                    <td>dominiqueperrier@mail.com</td>
-                    <td>Obere Str. 57, Berlin, Germany</td>
-                    <td>(313) 555-5735</td>
-                    <td>(313) 555-5735</td>
-                    <td>(313) 555-5735</td>
-                    <td>
-                      <a href="#editEmployeeModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                      <a href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <span class="custom-checkbox">
-                        <input type="checkbox" id="checkbox3" name="options[]" value="1">
-                        <label for="checkbox3"></label>
-                      </span>
-                    </td>
-                    <td>Maria Anders</td>
-                    <td>mariaanders@mail.com</td>
-                    <td>25, rue Lauriston, Paris, France</td>
-                    <td>(313) 555-5735</td>
-                    <td>(313) 555-5735</td>
-                    <td>(313) 555-5735</td>
-                    <td>
-                      <a href="#editEmployeeModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                      <a href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <span class="custom-checkbox">
-                        <input type="checkbox" id="checkbox4" name="options[]" value="1">
-                        <label for="checkbox4"></label>
-                      </span>
-                    </td>
-                    <td>Fran Wilson</td>
-                    <td>franwilson@mail.com</td>
-                    <td>C/ Araquil, 67, Madrid, Spain</td>
-                    <td>(313) 555-5735</td>
-                    <td>(313) 555-5735</td>
-                    <td>(313) 555-5735</td>
-                    <td>
-                      <a href="#editEmployeeModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                      <a href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
-                    </td>
-                  </tr>					
-                  <tr>
-                    <td>
-                      <span class="custom-checkbox">
-                        <input type="checkbox" id="checkbox5" name="options[]" value="1">
-                        <label for="checkbox5"></label>
-                      </span>
-                    </td>
-                    <td>Martin Blank</td>
-                    <td>martinblank@mail.com</td>
-                    <td>Via Monte Bianco 34, Turin, Italy</td>
-                    <td>(313) 555-5735</td>
-                    <td>(313) 555-5735</td>
-                    <td>(313) 555-5735</td>
-                    <td>
-                      <a href="#editEmployeeModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                      <a href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
-                    </td>
-                  </tr> 
+                 
+                <?php
+                        $sql = "SELECT * from schedules";
+                        $result = $conn->prepare($sql);
+                        $result->execute();
+                        
+                        if($result->rowCount() > 0){
+                          while ($row = $result->fetch(PDO::FETCH_ASSOC)){
+                            $id_schd=$row["id_schd"];
+                            $flnameuser_schd=$row["flnameuser_schd"];
+                            $sub_schd=$row["sub_schd"];
+                            $sec_schd=$row["sec_schd"];
+                            $day_schd=$row["day_schd"];
+                            $strtime_schd=$row["strtime_schd"];
+                            $endtime_schd=$row["endtime_schd"];
+  
+                            echo '
+                            <form action="subjects.php" method="post">
+                              <tr>
+                                    <td>
+                                      <span class="custom-checkbox">
+                                        <input type="checkbox" id="checkbox5" name="options[]" value="1">
+                                        <label for="checkbox5"></label>
+                                      </span>
+                                    </td>
+                                    
+                                
+                                    
+                                    <td name="flnameuser_schd">'.$flnameuser_schd.'</td>
+                                    <td name="sub_schd">'.$sub_schd.'</td>
+                                    <td name="sec_schd">'.$sec_schd.'</td>
+                                    <td name="day_schd">'.$day_schd.'</td>
+                                    <td name="strtime_schd">'.$strtime_schd.'</td>
+                                    <td name="endtime_schd">'.$endtime_schd.'</td>
+                                    
+                                    <td>
+                                      
+                                      <a href="#editSubModal" value = '.$id_schd.' class="editBtn" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                                      <a href="#deleteEmployeeModal" value = '.$id_schd.' class="delBtn" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                                     
+                                    </td>
+                            </tr>
+                            </form>';
+                          }
+                        }else{
+                          echo "No Record Found";
+                        }
+
+                    ?>
+
                 </tbody>
               </table>
               <div class="clearfix">
@@ -211,54 +171,17 @@
             </div>
           </div>        
         </div>
-        <!-- Edit Modal HTML -->
-        <div id="addEmployeeModal" class="modal fade">
-          <div class="modal-dialog modalCenter">
-            <div class="modal-content">
-              <form>
-                <div class="modal-header">						
-                  <h4 class="modal-title">Add Schedule</h4>
-                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                </div>
-                <div class="modal-body">					
-                  <div class="form-group">
-                    <label>Full Name</label>
-                    <input type="text" class="form-control" required>
-                  </div>
-                  <div class="form-group">
-                    <label>Subject</label>
-                    <input type="text" class="form-control" required>
-                  </div>
-                  <div class="form-group">
-                    <label>Section</label>
-                    <textarea type="text" class="form-control" required></textarea>
-                  </div>
-                  <div class="form-group">
-                    <label>Day</label>
-                    <input type="text" class="form-control" required>
-                  </div>					
-                  <div class="form-group">
-                    <label>Start</label>
-                    <input type="text" class="form-control" required>
-                  </div>			
-                  <div class="form-group">
-                    <label>End</label>
-                    <input type="text" class="form-control" required>
-                  </div>			
-                </div>
-                <div class="modal-footer">
-                  <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                  <input type="submit" class="btn btn-success" value="Add">
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-        <!-- Edit Modal HTML -->
-        <div id="editEmployeeModal" class="modal fade">
+
+
+
+
+
+        <!-- add Modal HTML -->
+        <div id="addModal" class="modal fade">
           <div class="modal-dialog ">
             <div class="modal-content">
               <form>
+              <input type="text" class="form-control" id="id" hidden>
                 <div class="modal-header">						
                   <h4 class="modal-title">Edit Schedule</h4>
                   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -266,27 +189,213 @@
                 <div class="modal-body">					
                 <div class="form-group">
                     <label>Full Name</label>
-                    <input type="text" class="form-control" required>
+
+                        <?php
+                          echo '<select name="usrNameSchd" id="user" style="width: 340px">
+                          <option></option>';
+                          global $conn;
+                          $sql = "SELECT * from users";
+                          $result = $conn->prepare($sql);
+                          $result->execute();
+                      
+                          if($result->rowCount() > 0){
+                          while ($row = $result->fetch(PDO::FETCH_ASSOC)){
+                              $id_users=$row["id_users"];
+                              $flname_users=$row["flname_users"];
+                              
+                          
+                              echo '<option value= '.$id_users.' >'.$flname_users.'</option>';
+                              }
+                          }
+
+                          echo '</select>';
+                        ?>
+
                   </div>
                   <div class="form-group">
                     <label>Subject</label>
-                    <input type="text" class="form-control" required>
+                    
+                    <?php
+                        echo '<select name="subNameSchd" id="sub" style="width: 340px">
+                        <option></option>';
+                        
+                        $sql = "SELECT * from subjects";
+                        $result = $conn->prepare($sql);
+                        $result->execute();
+                    
+                        if($result->rowCount() > 0){
+                        while ($row = $result->fetch(PDO::FETCH_ASSOC)){
+                            $id_subj=$row["id_subj"];
+                        
+                            $name_subj=$row["name_subj"];
+                        
+                            echo '<option value= '.$name_subj.'>'.$name_subj.'</option>';
+                            }
+                        }
+
+                        echo '</select>';
+                    ?>
+
+
                   </div>
                   <div class="form-group">
                     <label>Section</label>
-                    <textarea type="text" class="form-control" required></textarea>
+                    
+                    <?php
+                        echo '<select name="sectNameSchd" id="sec" style="width: 340px">
+                        <option></option>';
+                        
+                        $sql = "SELECT * from sections";
+                        $result = $conn->prepare($sql);
+                        $result->execute();
+                    
+                        if($result->rowCount() > 0){
+                        while ($row = $result->fetch(PDO::FETCH_ASSOC)){
+                            $id_sect=$row["id_sec"];
+                        
+                            $code_sect=$row["code_sec"];
+                        
+                            echo '<option value= '.$id_sec.'>'.$code_sec.'</option>';
+                            }
+                        }
+
+                        echo '</select>';
+                    ?>
+
+                  </div>
+                  <div class="form-group">
+                    <label>Room</label>
+
+                    <?php
+                      echo '<select name="roomSchd" id="room" style="width: 340px">
+                      <option></option>';
+                      
+                      $sql = "SELECT * from room";
+                      $result = $conn->prepare($sql);
+                      $result->execute();
+                  
+                      if($result->rowCount() > 0){
+                      while ($row = $result->fetch(PDO::FETCH_ASSOC)){
+                          $id_room=$row["id_room"];
+                      
+                          $code_room=$row["code_room"];
+                      
+                          echo '<option value= '.$id_room.' >'.$code_room.'</option>';
+                          }
+                      }
+
+                      echo '</select>';
+                    ?>
+
                   </div>
                   <div class="form-group">
                     <label>Day</label>
-                    <input type="text" class="form-control" required>
+                    
+                    <?php
+                        echo '<select name="daySchd" id="day" style="width: 340px">
+                        <option></option>';
+                        
+                        function myday($dy) {
+
+                            $daynum = date('w', $dy);
+                            return '<option name="day">' . date("l", $dy). '</option>';
+                        }
+
+                        $dayid = strtotime("sunday");
+                        while ($dayid < strtotime("+7 days")) {
+
+                            echo myday($dayid);
+                            $dayid += 86400; // number of seconds in a day, to get to next day
+                        }
+                        
+                        echo '</select>';
+                        
+                    ?>
+
                   </div>					
                   <div class="form-group">
                     <label>Start</label>
-                    <input type="text" class="form-control" required>
+                    
+                    <?php
+                        echo '<select name=frmTimeSchd id="strtime" style="width: 340px">
+                        <option></option>';
+                        
+                        for ($hours=0; $hours<24; $hours++) { // the interval for hours is '1'
+                            
+                            for($mins=0; $mins<60; $mins+=30) {
+                                // the interval for mins is '30'
+                                $thehour = str_pad($hours,2,'0',STR_PAD_LEFT);
+                                if ($thehour == "00") {
+
+                                    $thehour = "12";
+                                }
+                                if ($thehour > "12") {
+
+                                    $thehour = $thehour - 12;
+                                    if ($thehour < 10) {
+                                    $thehour = "0" . $thehour;  
+                                    }
+                                }
+
+                                $theminutes = str_pad($mins,2,'0',STR_PAD_LEFT);
+                                $mytime = $thehour.":".$theminutes;
+                                if ($hours < 12) {
+
+                                    $mytime = $mytime . " AM";    
+                                }
+                                else {
+
+                                    $mytime = $mytime . " PM";
+                                }
+                                echo '<option>'.$mytime.'</option>';
+                            } 
+                        }
+                        
+                        echo '</select>';
+                    ?>
+
                   </div>			
                   <div class="form-group">
                     <label>End</label>
-                    <input type="text" class="form-control" required>
+                    
+                    <?php
+                        echo '<select name=frmTimeSchd id="endtime" style="width: 340px">
+                        <option></option>';
+                        
+                        for ($hours=0; $hours<24; $hours++) { // the interval for hours is '1'
+                            
+                            for($mins=0; $mins<60; $mins+=30) {
+                                // the interval for mins is '30'
+                                $thehour = str_pad($hours,2,'0',STR_PAD_LEFT);
+                                if ($thehour == "00") {
+
+                                    $thehour = "12";
+                                }
+                                if ($thehour > "12") {
+
+                                    $thehour = $thehour - 12;
+                                    if ($thehour < 10) {
+                                    $thehour = "0" . $thehour;  
+                                    }
+                                }
+
+                                $theminutes = str_pad($mins,2,'0',STR_PAD_LEFT);
+                                $mytime = $thehour.":".$theminutes;
+                                if ($hours < 12) {
+
+                                    $mytime = $mytime . " AM";    
+                                }
+                                else {
+
+                                    $mytime = $mytime . " PM";
+                                }
+                                echo '<option>'.$mytime.'</option>';
+                            } 
+                        }
+                        
+                        echo '</select>';
+                    ?>
+
                   </div>			
                 </div>
                 <div class="modal-footer">
@@ -297,8 +406,248 @@
             </div>
           </div>
         </div>
+
+
+
+
+
+        <!-- Edit Modal HTML -->
+        <div id="editModal" class="modal fade">
+          <div class="modal-dialog ">
+            <div class="modal-content">
+              <form>
+              <input type="text" class="form-control" id="id" hidden>
+                <div class="modal-header">						
+                  <h4 class="modal-title">Edit Schedule</h4>
+                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+                <div class="modal-body">					
+                <div class="form-group">
+                    <label>Full Name</label>
+
+                        <?php
+                          echo '<select name="usrNameSchd" id="user" style="width: 340px">
+                          <option></option>';
+                          global $conn;
+                          $sql = "SELECT * from users";
+                          $result = $conn->prepare($sql);
+                          $result->execute();
+                      
+                          if($result->rowCount() > 0){
+                          while ($row = $result->fetch(PDO::FETCH_ASSOC)){
+                              $id_users=$row["id_users"];
+                              $flname_users=$row["flname_users"];
+                              
+                          
+                              echo '<option value= '.$id_users.' >'.$flname_users.'</option>';
+                              }
+                          }
+
+                          echo '</select>';
+                        ?>
+
+                  </div>
+                  <div class="form-group">
+                    <label>Subject</label>
+                    
+                    <?php
+                        echo '<select name="subNameSchd" id="sub" style="width: 340px">
+                        <option></option>';
+                        
+                        $sql = "SELECT * from subjects";
+                        $result = $conn->prepare($sql);
+                        $result->execute();
+                    
+                        if($result->rowCount() > 0){
+                        while ($row = $result->fetch(PDO::FETCH_ASSOC)){
+                            $id_subj=$row["id_subj"];
+                        
+                            $name_subj=$row["name_subj"];
+                        
+                            echo '<option value= '.$name_subj.'>'.$name_subj.'</option>';
+                            }
+                        }
+
+                        echo '</select>';
+                    ?>
+
+
+                  </div>
+                  <div class="form-group">
+                    <label>Section</label>
+                    
+                    <?php
+                        echo '<select name="sectNameSchd" id="sec" style="width: 340px">
+                        <option></option>';
+                        
+                        $sql = "SELECT * from sections";
+                        $result = $conn->prepare($sql);
+                        $result->execute();
+                    
+                        if($result->rowCount() > 0){
+                        while ($row = $result->fetch(PDO::FETCH_ASSOC)){
+                            $id_sect=$row["id_sec"];
+                        
+                            $code_sect=$row["code_sec"];
+                        
+                            echo '<option value= '.$id_sec.'>'.$code_sec.'</option>';
+                            }
+                        }
+
+                        echo '</select>';
+                    ?>
+
+                  </div>
+                  <div class="form-group">
+                    <label>Room</label>
+
+                    <?php
+                      echo '<select name="roomSchd" id="room" style="width: 340px">
+                      <option></option>';
+                      
+                      $sql = "SELECT * from room";
+                      $result = $conn->prepare($sql);
+                      $result->execute();
+                  
+                      if($result->rowCount() > 0){
+                      while ($row = $result->fetch(PDO::FETCH_ASSOC)){
+                          $id_room=$row["id_room"];
+                      
+                          $code_room=$row["code_room"];
+                      
+                          echo '<option value= '.$id_room.' >'.$code_room.'</option>';
+                          }
+                      }
+
+                      echo '</select>';
+                    ?>
+
+                  </div>
+                  <div class="form-group">
+                    <label>Day</label>
+                    
+                    <?php
+                        echo '<select name="daySchd" id="day" style="width: 340px">
+                        <option></option>';
+                        
+                        function myDate($dy) {
+
+                            $daynum = date('w', $dy);
+                            return '<option name="day">' . date("l", $dy). '</option>';
+                        }
+
+                        $dayid = strtotime("sunday");
+                        while ($dayid < strtotime("+7 days")) {
+
+                            echo myDate($dayid);
+                            $dayid += 86400; // number of seconds in a day, to get to next day
+                        }
+                        
+                        echo '</select>';
+                        
+                    ?>
+
+                  </div>					
+                  <div class="form-group">
+                    <label>Start</label>
+                    
+                    <?php
+                        echo '<select name=frmTimeSchd id="strtime" style="width: 340px">
+                        <option></option>';
+                        
+                        for ($hours=0; $hours<24; $hours++) { // the interval for hours is '1'
+                            
+                            for($mins=0; $mins<60; $mins+=30) {
+                                // the interval for mins is '30'
+                                $thehour = str_pad($hours,2,'0',STR_PAD_LEFT);
+                                if ($thehour == "00") {
+
+                                    $thehour = "12";
+                                }
+                                if ($thehour > "12") {
+
+                                    $thehour = $thehour - 12;
+                                    if ($thehour < 10) {
+                                    $thehour = "0" . $thehour;  
+                                    }
+                                }
+
+                                $theminutes = str_pad($mins,2,'0',STR_PAD_LEFT);
+                                $mytime = $thehour.":".$theminutes;
+                                if ($hours < 12) {
+
+                                    $mytime = $mytime . " AM";    
+                                }
+                                else {
+
+                                    $mytime = $mytime . " PM";
+                                }
+                                echo '<option>'.$mytime.'</option>';
+                            } 
+                        }
+                        
+                        echo '</select>';
+                    ?>
+
+                  </div>			
+                  <div class="form-group">
+                    <label>End</label>
+                    
+                    <?php
+                        echo '<select name=frmTimeSchd id="endtime" style="width: 340px">
+                        <option></option>';
+                        
+                        for ($hours=0; $hours<24; $hours++) { // the interval for hours is '1'
+                            
+                            for($mins=0; $mins<60; $mins+=30) {
+                                // the interval for mins is '30'
+                                $thehour = str_pad($hours,2,'0',STR_PAD_LEFT);
+                                if ($thehour == "00") {
+
+                                    $thehour = "12";
+                                }
+                                if ($thehour > "12") {
+
+                                    $thehour = $thehour - 12;
+                                    if ($thehour < 10) {
+                                    $thehour = "0" . $thehour;  
+                                    }
+                                }
+
+                                $theminutes = str_pad($mins,2,'0',STR_PAD_LEFT);
+                                $mytime = $thehour.":".$theminutes;
+                                if ($hours < 12) {
+
+                                    $mytime = $mytime . " AM";    
+                                }
+                                else {
+
+                                    $mytime = $mytime . " PM";
+                                }
+                                echo '<option>'.$mytime.'</option>';
+                            } 
+                        }
+                        
+                        echo '</select>';
+                    ?>
+
+                  </div>			
+                </div>
+                <div class="modal-footer">
+                  <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                  <input type="submit" class="btn btn-info" value="Save">
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+
+
+
+
         <!-- Delete Modal HTML -->
-        <div id="deleteEmployeeModal" class="modal fade">
+        <div id="delModal" class="modal fade">
           <div class="modal-dialog">
             <div class="modal-content">
               <form>
@@ -325,6 +674,40 @@
     <script src="../../js/popper.js"></script>
     <script src="../../js/bootstrap.min.js"></script>
     <script src="../../js/main.js"></script>
+
+
+    <script>
+
+//EDIT MODAL 
+  $(document).ready(function () {
+
+      $('.editBtn').on('click', function () {
+
+          $('#editModal').modal('show');
+
+          $tr = $(this).closest('tr');
+
+          var data = $tr.children("td").map(function () {
+              return $(this).text();
+          }).get();
+
+          console.log(data);
+
+          $('#id').val(data[0]);
+          $('#user').val(data[1]);
+          $('#sub').val(data[2]);
+          $('#sec').val(data[3]);
+          $('#room').val(data[4]);
+          $('#strtime').val(data[5]);
+          $('#endtime').val(data[6]);
+    
+      });
+  });
+</script>
+
+
+
+
   </body>
 </html>
 

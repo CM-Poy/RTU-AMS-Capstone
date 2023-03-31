@@ -40,9 +40,7 @@ body{
 
 
 }
-{
-    font-size: 10px;
-}
+
 .twofa{
     font-size: 12px;
 

@@ -95,82 +95,55 @@
                         <label for="selectAll"></label>
                       </span>
                     </th>
-                    <th>Code</th>
                     <th>Name</th>
+                    <th>Code</th>
                     <th>Actions</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td>
-                      <span class="custom-checkbox">
-                        <input type="checkbox" id="checkbox1" name="options[]" value="1">
-                        <label for="checkbox1"></label>
-                      </span>
-                    </td>
-                    <td>Thomas Hardy</td>
-                    <td>thomashardy@mail.com</td>
-                    <td>
-                      <a href="#editEmployeeModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                      <a href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <span class="custom-checkbox">
-                        <input type="checkbox" id="checkbox2" name="options[]" value="1">
-                        <label for="checkbox2"></label>
-                      </span>
-                    </td>
-                    <td>Dominique Perrier</td>
-                    <td>dominiqueperrier@mail.com</td>
-                    <td>
-                      <a href="#editEmployeeModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                      <a href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <span class="custom-checkbox">
-                        <input type="checkbox" id="checkbox3" name="options[]" value="1">
-                        <label for="checkbox3"></label>
-                      </span>
-                    </td>
-                    <td>Maria Anders</td>
-                    <td>mariaanders@mail.com</td>
-                    <td>
-                      <a href="#editEmployeeModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                      <a href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <span class="custom-checkbox">
-                        <input type="checkbox" id="checkbox4" name="options[]" value="1">
-                        <label for="checkbox4"></label>
-                      </span>
-                    </td>
-                    <td>Fran Wilson</td>
-                    <td>franwilson@mail.com</td>
-                    <td>
-                      <a href="#editEmployeeModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                      <a href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
-                    </td>
-                  </tr>					
-                  <tr>
-                    <td>
-                      <span class="custom-checkbox">
-                        <input type="checkbox" id="checkbox5" name="options[]" value="1">
-                        <label for="checkbox5"></label>
-                      </span>
-                    </td>
-                    <td>Martin Blank</td>
-                    <td>martinblank@mail.com</td>
-                    <td>
-                      <a href="#editEmployeeModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                      <a href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
-                    </td>
-                  </tr> 
+                 
+                <?php
+                        $sql = "SELECT * from departments";
+                        $result = $conn->prepare($sql);
+                        $result->execute();
+                        
+                        if($result->rowCount() > 0){
+                          while ($row = $result->fetch(PDO::FETCH_ASSOC)){
+                            $id_schd=$row["id_dept"];
+                            $name_dept=$row["name_dept"];
+                            $code_dept=$row["code_dept"];
+                            
+  
+                            echo '
+                            <form action="subjects.php" method="post">
+                              <tr>
+                                    <td>
+                                      <span class="custom-checkbox">
+                                        <input type="checkbox" id="checkbox5" name="options[]" value="1">
+                                        <label for="checkbox5"></label>
+                                      </span>
+                                    </td>
+                                    
+                                
+                                    
+                                    <td name="name_dept">'.$name_dept.'</td>
+                                    <td name="code_dept">'.$code_dept.'</td>
+                                    
+                                    <td>
+                                      
+                                      <a href="#editSubModal" value = '.$id_schd.' class="editBtn" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                                      <a href="#deleteEmployeeModal" value = '.$id_schd.' class="delBtn" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                                     
+                                    </td>
+                            </tr>
+                            </form>';
+                          }
+                        }else{
+                          echo "No Record Found";
+                        }
+
+                    ?>
+
                 </tbody>
               </table>
               <div class="clearfix">
@@ -188,7 +161,12 @@
             </div>
           </div>        
         </div>
-        <!-- Edit Modal HTML -->
+
+
+
+
+
+        <!-- Add Modal HTML -->
         <div id="addEmployeeModal" class="modal fade">
           <div class="modal-dialog">
             <div class="modal-content">
@@ -215,32 +193,29 @@
             </div>
           </div>
         </div>
+
+
+
+
+
         <!-- Edit Modal HTML -->
-        <div id="editEmployeeModal" class="modal fade">
+        <div id="editModal" class="modal fade">
           <div class="modal-dialog">
             <div class="modal-content">
               <form>
+              <input type="text" class="form-control" id="id" hidden>
                 <div class="modal-header">						
-                  <h4 class="modal-title">Edit Employee</h4>
+                  <h4 class="modal-title">Edit Department</h4>
                   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 </div>
                 <div class="modal-body">					
                   <div class="form-group">
                     <label>Name</label>
-                    <input type="text" class="form-control" required>
+                    <input type="text" class="form-control" id="name" required>
                   </div>
                   <div class="form-group">
-                    <label>Email</label>
-                    <input type="email" class="form-control" required>
-                  </div>
-                  <div class="form-group">
-                    <label>Address</label>
-                    <textarea class="form-control" required></textarea>
-                  </div>
-                  <div class="form-group">
-                    <label>Phone</label>
-                    <input type="text" class="form-control" required>
-                  </div>					
+                    <label>Code</label>
+                    <input type="text" class="form-control" id="code" required>					
                 </div>
                 <div class="modal-footer">
                   <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
@@ -250,6 +225,10 @@
             </div>
           </div>
         </div>
+
+        
+
+
         <!-- Delete Modal HTML -->
         <div id="deleteEmployeeModal" class="modal fade">
           <div class="modal-dialog">
@@ -279,6 +258,33 @@
     <script src="../../js/popper.js"></script>
     <script src="../../js/bootstrap.min.js"></script>
     <script src="../../js/main.js"></script>
+
+
+    <script>
+
+      //EDIT MODAL 
+        $(document).ready(function () {
+
+            $('.editBtn').on('click', function () {
+
+                $('#editModal').modal('show');
+
+                $tr = $(this).closest('tr');
+
+                var data = $tr.children("td").map(function () {
+                    return $(this).text();
+                }).get();
+
+                console.log(data);
+
+                $('#id').val(data[0]);
+                $('#name').val(data[1]);
+                $('#code').val(data[2]);
+               
+          
+            });
+        });
+    </script>      
   </body>
 </html>
 

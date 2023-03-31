@@ -10,7 +10,7 @@ if (!isset($_SESSION['auth_secret'])) {
 }
 
 
-$qrCodeUrl = $Authenticator->getQR('myPHPnotes', $_SESSION['auth_secret']);
+$qrCodeUrl = $Authenticator->getQR('RTU-AMS', $_SESSION['auth_secret']);
 
 
 if (!isset($_SESSION['failed'])) {

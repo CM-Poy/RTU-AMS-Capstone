@@ -22,8 +22,7 @@ class Authenticator
         $random = false;
         if (function_exists('random_bytes')) {
             $random = random_bytes($secretLength);
-        } elseif (function_exists('mcrypt_create_iv')) {
-            $random = mcrypt_create_iv($secretLength, MCRYPT_DEV_URANDOM);
+        
         } elseif (function_exists('openssl_random_pseudo_bytes')) {
             $random = openssl_random_pseudo_bytes($secretLength, $cryptoStrong);
             if (!$cryptoStrong) {

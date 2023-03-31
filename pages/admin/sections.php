@@ -38,7 +38,7 @@
                <a href="departments.php">&nbsp;&nbsp;&nbsp;<i class="fa fa-building fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>DEPARTMENTS</a>  
               </li>
               <li>
-               <a href="#">&nbsp;&nbsp;&nbsp;<i class="fa fa-folder-open fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>COURSES</a>
+               <a href="courses.php">&nbsp;&nbsp;&nbsp;<i class="fa fa-folder-open fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>COURSES</a>
               </li>
               </li>
             </ul>
@@ -107,7 +107,7 @@
                         $sql = "SELECT * from sections";
                         $result = $conn->prepare($sql);
                         $result->execute();
-                        $fetch = $result->fetch();
+                        
                         if($result->rowCount() > 0){
                           while ($row = $result->fetch(PDO::FETCH_ASSOC)){
                             $id_sec=$row["id_sec"];

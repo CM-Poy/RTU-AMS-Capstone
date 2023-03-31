@@ -108,7 +108,7 @@
                         $sql = "SELECT * from subjects";
                         $result = $conn->prepare($sql);
                         $result->execute();
-                        $fetch = $result->fetch();
+                       
                         if($result->rowCount() > 0){
                           while ($row = $result->fetch(PDO::FETCH_ASSOC)){
                             $id_subj=$row["id_subj"];
