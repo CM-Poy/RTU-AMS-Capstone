@@ -81,7 +81,7 @@ class dbfunction{
     if(ISSET($_POST['addUserBtn'])){
       if($_POST['addhnr'] != "" || $_POST['addname'] != "" || $_POST['addemail'] != "" || $_POST['addempnum'] != "" || $_POST['addpwd'] != "" || $_POST['addusertype'] != ""){  
 
-        $id_users=$_POST["addid"];
+        
         $hnr_users=$_POST["addhnr"];
         $flname_users=$_POST["addname"];
         $instemail_users=$_POST["addemail"];
