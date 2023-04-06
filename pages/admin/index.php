@@ -11,7 +11,7 @@
 		<div class="wrapper d-flex align-items-stretch">
             <nav id="sidebar">
                 <div class="p-4 pt-5">
-                <a href="#" class="img logo rounded-circle mb-5" style="background-image: url(images/rtu-logo.png);"></a>
+                <a href="#" class="img logo rounded-circle mb-5" style="background-image: url(../../images/rtu-logo.png);"></a>
             <ul class="list-unstyled components mb-5">
               <li class="">
                 <a href="courses.php">&nbsp;&nbsp;&nbsp;<i class="fa fa-folder-open fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>COURSES</a>

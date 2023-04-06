@@ -1,14 +1,26 @@
 <!doctype html>
 <html lang="en">
 
-  <?php include('header.php'); 
+<?php 
+  include('header.php'); 
   require('../includes/config.php');
-  ?>
+  
+ 
+
+  if(isset($_POST['addUserBtn'])){
+    include('../includes/functions.php');
+    $obj=new dbfunction();
+    $obj->addUser($_POST["addhnr"],$_POST["addname"],$_POST["addemail"],$_POST["empnum"],$_POST["addpwd"],$_POST["addusertype"]);
+  }
+
+  
+
+?>
   
 
 <head>
     <link rel='icon' href='../../images/rtu-logo.png'/>
-    <title>Manage Teachers</title>
+    <title>ADMIN:Manage Teachers</title>
 </head>
   <body>
 
@@ -37,7 +49,7 @@
                <a href="departments.php">&nbsp;&nbsp;&nbsp;<i class="fa fa-building fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>DEPARTMENTS</a>  
               </li>
               <li>
-               <a href="#">&nbsp;&nbsp;&nbsp;<i class="fa fa-folder-open fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>COURSES</a>
+               <a href="courses.php">&nbsp;&nbsp;&nbsp;<i class="fa fa-folder-open fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>COURSES</a>
               </li>
               </li>
             </ul>
@@ -72,7 +84,7 @@
         </nav>
   
 
-</head>
+
         <div class="container-xl">
           <div class="table-responsive">
             <div class="table-wrapper">
@@ -82,8 +94,8 @@
                     <h2>Manage <b>Teachers</b></h2>
                   </div>
                   <div class="col-sm-6">
-                    <a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add New</span></a>
-                    <a href="#deleteEmployeeModal" class="btn btn-danger" data-toggle="modal"><i class="material-icons">&#xE15C;</i> <span>Delete</span></a>						
+                    <a href="#addModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add New</span></a>
+                    <a href="#delModal" class="btn btn-danger" data-toggle="modal"><i class="material-icons">&#xE15C;</i> <span>Delete</span></a>						
                   </div>
                 </div>
               </div>
@@ -101,112 +113,59 @@
                     <th>Institutional Email</th>
                     <th>Employee Number</th>
                     <th>Password</th>
+                    <th>Usertype</th>
                     <th>Actions</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td>
-                      <span class="custom-checkbox">
-                        <input type="checkbox" id="checkbox1" name="options[]" value="1">
-                        <label for="checkbox1"></label>
-                      </span>
-                    </td>
-                    <td>Thomas Hardy</td>
-                    <td>thomashardy@mail.com</td>
-                    <td>89 Chiaroscuro Rd, Portland, USA</td>
-                    <td>(171) 555-2222</td>
-                    <td>(171) 555-2222</td>
-                    <td>
-                      <a href="#editEmployeeModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                      <a href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <span class="custom-checkbox">
-                        <input type="checkbox" id="checkbox1" name="options[]" value="1">
-                        <label for="checkbox1"></label>
-                      </span>
-                    </td>
-                    <td>Thomas Hardy</td>
-                    <td>thomashardy@mail.com</td>
-                    <td>89 Chiaroscuro Rd, Portland, USA</td>
-                    <td>(171) 555-2222</td>
-                    <td>(171) 555-2222</td>
-                    <td>
-                      <a href="#editEmployeeModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                      <a href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <span class="custom-checkbox">
-                        <input type="checkbox" id="checkbox2" name="options[]" value="1">
-                        <label for="checkbox2"></label>
-                      </span>
-                    </td>
-                    <td>Dominique Perrier</td>
-                    <td>dominiqueperrier@mail.com</td>
-                    <td>Obere Str. 57, Berlin, Germany</td>
-                    <td>(313) 555-5735</td>
-                    <td>(171) 555-2222</td>
-                    <td>
-                      <a href="#editEmployeeModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                      <a href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <span class="custom-checkbox">
-                        <input type="checkbox" id="checkbox3" name="options[]" value="1">
-                        <label for="checkbox3"></label>
-                      </span>
-                    </td>
-                    <td>Maria Anders</td>
-                    <td>mariaanders@mail.com</td>
-                    <td>25, rue Lauriston, Paris, France</td>
-                    <td>(503) 555-9931</td>
-                    <td>(171) 555-2222</td>
-                    <td>
-                      <a href="#editEmployeeModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                      <a href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <span class="custom-checkbox">
-                        <input type="checkbox" id="checkbox4" name="options[]" value="1">
-                        <label for="checkbox4"></label>
-                      </span>
-                    </td>
-                    <td>Fran Wilson</td>
-                    <td>franwilson@mail.com</td>
-                    <td>C/ Araquil, 67, Madrid, Spain</td>
-                    <td>(204) 619-5731</td>
-                    <td>(171) 555-2222</td>
-                    <td>
-                      <a href="#editEmployeeModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                      <a href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
-                    </td>
-                  </tr>					
-                  <tr>
-                    <td>
-                      <span class="custom-checkbox">
-                        <input type="checkbox" id="checkbox5" name="options[]" value="1">
-                        <label for="checkbox5"></label>
-                      </span>
-                    </td>
-                    <td>Martin Blank</td>
-                    <td>martinblank@mail.com</td>
-                    <td>Via Monte Bianco 34, Turin, Italy</td>
-                    <td>(480) 631-2097</td>
-                    <td>(171) 555-2222</td>
-                    <td>
-                      <a href="#editEmployeeModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                      <a href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
-                    </td>
-                  </tr> 
+                  
+                <?php
+                        $sql = "SELECT users.id_users, users.hnr_users, users.flname_users, users.instemail_users, users.empnum_users, usertype.usertype, users.usertype_users, users.pwd_users FROM users LEFT JOIN usertype ON users.usertype_users = usertype.id_usertype;
+                        ";
+                        $result = $conn->prepare($sql);
+                        $result->execute();
+                       
+                        if($result->rowCount() > 0){
+                          while ($row = $result->fetch(PDO::FETCH_ASSOC)){
+                            $id_users=$row["id_users"];
+                            $hnr_users=$row["hnr_users"];
+                            $flname_users=$row["flname_users"];
+                            $instemail_users=$row["instemail_users"];
+                            $empnum_users=$row["empnum_users"];
+                            $pwd_users=$row["pwd_users"];
+                            $usertype_users=$row["usertype"];
+  
+                            echo '
+                            <form action="subjects.php" method="post">
+                              <tr>
+                                    <td>
+                                      <span class="custom-checkbox">
+                                        <input type="checkbox" id="checkbox5" name="options[]" value='.$id_users.'>
+                                        <label for="checkbox5"></label>
+                                      </span>
+                                    </td>
+                                    
+                                
+                                    <td>'.$flname_users.'</td>
+                                    <td>'.$hnr_users.'</td>
+                                    <td>'.$instemail_users.'</td>
+                                    <td>'.$empnum_users.'</td>
+                                    <td>'.$pwd_users.'</td>
+                                    <td>'.$usertype_users.'</td>
+                                    <td>
+                                      
+                                      <a href="#editModal" value = '.$id_users.' class="editBtn" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                                      <a href="#delModal" value = '.$id_users.' class="delBtn" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                                     
+                                    </td>
+                            </tr>
+                            </form>';
+                          }
+                        }else{
+                          echo "No Record Found";
+                        }
+                    ?>
+
                 </tbody>
               </table>
               <div class="clearfix">
@@ -224,11 +183,15 @@
             </div>
           </div>        
         </div>
-        <!-- Edit Modal HTML -->
-        <div id="addEmployeeModal" class="modal fade">
+
+
+
+        <!-- Add Modal HTML -->
+        <div id="addModal" class="modal fade">
           <div class="modal-dialog ">
             <div class="modal-content">
               <form>
+              <input type="text" class="form-control" name="addid" hidden>
                 <div class="modal-header">						
                   <h4 class="modal-title">Add Teacher</h4>
                   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -236,38 +199,68 @@
                 <div class="modal-body">					
                   <div class="form-group">
                     <label>Full Name</label>
-                    <input type="text" class="form-control" required>
+                    <input type="text" class="form-control"name="addname" required>
                   </div>
                   <div class="form-group">
                     <label>Honoriffic</label>
-                    <input type="text" class="form-control" required>
+                    <input type="text" class="form-control"name="addhnr" required>
                   </div>
                   <div class="form-group">
                     <label>Institutional Email</label>
-                    <input type="email" class="form-control" required>
+                    <input type="email" class="form-control"name="addemail" required>
                   </div>
                   <div class="form-group">
                     <label>Employee Number</label>
-                    <input type="text" class="form-control" required>
+                    <input type="text" class="form-control"name="addempnum"  required>
                   </div>	
                   <div class="form-group">
                     <label>Password</label>
-                    <input type="text" class="form-control" required>
+                    <input type="text" class="form-control" name="addpwd"required>
+                  </div>
+                  <div class="form-group">
+                    <label>Usertype</label>
+                    <?php
+                        echo '<select name="usertype" name="addusertype" style="width: 340px">
+                        <option></option>';
+                        
+                        $sql = "SELECT * from usertype";
+                        $result = $conn->prepare($sql);
+                        $result->execute();
+                    
+                        if($result->rowCount() > 0){
+                        while ($row = $result->fetch(PDO::FETCH_ASSOC)){
+                            $id_usertype=$row["id_usertype"];
+                        
+                            $usertype=$row["usertype"];
+                        
+                            echo '<option value= '.$usertype.'>'.$usertype.'</option>';
+                            }
+                        }
+
+                        echo '</select>';
+                    ?>
+                  
+
                   </div>					
                 </div>
                 <div class="modal-footer">
                   <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                  <input type="submit" class="btn btn-success" value="Add">
+                  <input type="submit" class="btn btn-success" name="addUserBtn" value="Add">
                 </div>
               </form>
             </div>
           </div>
         </div>
+
+
+
+
         <!-- Edit Modal HTML -->
-        <div id="editEmployeeModal" class="modal fade">
+        <div id="editModal" class="modal fade">
           <div class="modal-dialog ">
             <div class="modal-content">
-              <form>
+            <form method= "post">
+              <input type="text" class="form-control" name="id" id="id"hidden>
                 <div class="modal-header">						
                   <h4 class="modal-title">Edit Teacher</h4>
                   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -275,35 +268,64 @@
                 <div class="modal-body">					
                   <div class="form-group">
                     <label>Full Name</label>
-                    <input type="text" class="form-control" required>
+                    <input type="text" class="form-control" name="name" id="name"required>
                   </div>
                   <div class="form-group">
                     <label>Honoriffic</label>
-                    <input type="text" class="form-control" required>
+                    <input type="text" class="form-control" name="hnr" id="hnr"required>
                   </div>
                   <div class="form-group">
                     <label>Institutional Email</label>
-                    <input type="email" class="form-control" required>
+                    <input type="email" class="form-control" name="email" id="email"required>
                   </div>
                   <div class="form-group">
                     <label>Employee Number</label>
-                    <input type="text" class="form-control" required>
+                    <input type="text" class="form-control" name="empnum" id="empnum" required>
                   </div>	
                   <div class="form-group">
                     <label>Password</label>
-                    <input type="text" class="form-control" required>
+                    <input type="text" class="form-control" name="pwd" id="pwd" required>
+                  </div>
+                  <div class="form-group">
+                    <label>Usertype</label>
+
+                      <?php
+                        echo '<select name="usertype" id="usertype" style="width: 340px">
+                        ';
+                        
+                        $sql = "SELECT * from usertype";
+                        $result = $conn->prepare($sql);
+                        $result->execute();
+                    
+                        if($result->rowCount() > 0){
+                        while ($row = $result->fetch(PDO::FETCH_ASSOC)){
+                            $id_usertype=$row["id_usertype"];
+                        
+                            $usertype=$row["usertype"];
+                        
+                            echo '<option value= '.$usertype.'>'.$usertype.'</option>';
+                            }
+                        }
+
+                        echo '</select>';
+                    ?>
+
                   </div>					
                 </div>
                 <div class="modal-footer">
                   <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                  <input type="submit" class="btn btn-info" value="Save">
+                  <input type="submit" class="btn btn-success" name="updBtn" value="Update">
                 </div>
-              </form>
+            </form>
             </div>
           </div>
         </div>
+
+
+
+
         <!-- Delete Modal HTML -->
-        <div id="deleteEmployeeModal" class="modal fade">
+        <div id="delModal" class="modal fade">
           <div class="modal-dialog ">
             <div class="modal-content">
               <form>
@@ -323,16 +345,50 @@
             </div>
           </div>
         </div>
+        
 
       </div>
     </div>
+</form>
+</body>
     <script src="../../js/jquery.min.js"></script>
     <script src="../../js/popper.js"></script>
     <script src="../../js/bootstrap.min.js"></script>
     <script src="../../js/main.js"></script>
 </html>
 <script>
-    $(document).ready(function(){
+
+      //EDIT MODAL 
+        $(document).ready(function () {
+
+            $('.editBtn').on('click', function () {
+
+                $('#editModal').modal('show');
+
+                $tr = $(this).closest('tr');
+
+                var data = $tr.children("td").map(function () {
+                    return $(this).text();
+                }).get();
+
+                console.log(data);
+
+                $('#id').val(data[0]);
+                $('#name').val(data[1]);
+                $('#hnr').val(data[2]);
+                $('#email').val(data[3]);
+                $('#empnum').val(data[4]);
+                $('#pwd').val(data[5]);
+                $('#usertype').val(data[6]);
+
+
+          
+            });
+        });
+
+
+
+        $(document).ready(function(){
       // Activate tooltip
       $('[data-toggle="tooltip"]').tooltip();
       
@@ -355,4 +411,5 @@
         }
       });
     });
-</script>
+
+    </script>

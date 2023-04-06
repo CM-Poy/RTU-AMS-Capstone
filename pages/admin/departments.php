@@ -5,18 +5,18 @@
   require('../includes/config.php');
   ?>
   
-<head>
+
   
 
 <head>
     <link rel='icon' href='../../images/rtu-logo.png'/>
-    <title>Manage Departments</title>
+    <title>ADMIN:Manage Departments</title>
 </head>
   <body>
 
   <!--sidebar-->
 
-  <div class="wrapper d-flex align-items-stretch">
+    <div class="wrapper d-flex align-items-stretch">
             <nav id="sidebar">
                 <div class="p-4 pt-5">
                 <a href="#" class="img logo rounded-circle mb-5" style="background-image: url(../../images/rtu-logo.png);"></a>
@@ -81,8 +81,8 @@
                     <h2>Manage <b>Departments</b></h2>
                   </div>
                   <div class="col-sm-6">
-                    <a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add New</span></a>
-                    <a href="#deleteEmployeeModal" class="btn btn-danger" data-toggle="modal"><i class="material-icons">&#xE15C;</i> <span>Delete</span></a>						
+                    <a href="#addModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add New</span></a>
+                    <a href="#delModal" class="btn btn-danger" data-toggle="modal"><i class="material-icons">&#xE15C;</i> <span>Delete</span></a>						
                   </div>
                 </div>
               </div>
@@ -115,7 +115,7 @@
                             
   
                             echo '
-                            <form action="subjects.php" method="post">
+                            <form method="post">
                               <tr>
                                     <td>
                                       <span class="custom-checkbox">
@@ -131,8 +131,8 @@
                                     
                                     <td>
                                       
-                                      <a href="#editSubModal" value = '.$id_schd.' class="editBtn" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                                      <a href="#deleteEmployeeModal" value = '.$id_schd.' class="delBtn" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                                      <a href="#editModal" value = '.$id_schd.' class="editBtn" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                                      <a href="#delModal" value = '.$id_schd.' class="delBtn" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
                                      
                                     </td>
                             </tr>
@@ -167,7 +167,7 @@
 
 
         <!-- Add Modal HTML -->
-        <div id="addEmployeeModal" class="modal fade">
+        <div id="addModal" class="modal fade">
           <div class="modal-dialog">
             <div class="modal-content">
               <form>
@@ -211,7 +211,7 @@
                 <div class="modal-body">					
                   <div class="form-group">
                     <label>Name</label>
-                    <input type="text" class="form-control" id="name" required>
+                    <textarea type="text" class="form-control" id="name" required></textarea> 
                   </div>
                   <div class="form-group">
                     <label>Code</label>
@@ -230,7 +230,7 @@
 
 
         <!-- Delete Modal HTML -->
-        <div id="deleteEmployeeModal" class="modal fade">
+        <div id="delModal" class="modal fade">
           <div class="modal-dialog">
             <div class="modal-content">
               <form>
@@ -254,6 +254,10 @@
       
       </div>
     </div>
+        
+  </body>
+</html>
+
     <script src="../../js/jquery.min.js"></script>
     <script src="../../js/popper.js"></script>
     <script src="../../js/bootstrap.min.js"></script>
@@ -284,8 +288,31 @@
           
             });
         });
-    </script>      
-  </body>
-</html>
+
+
+        $(document).ready(function(){
+      // Activate tooltip
+      $('[data-toggle="tooltip"]').tooltip();
+      
+      // Select/Deselect checkboxes
+      var checkbox = $('table tbody input[type="checkbox"]');
+      $("#selectAll").click(function(){
+        if(this.checked){
+          checkbox.each(function(){
+            this.checked = true;                        
+          });
+        } else{
+          checkbox.each(function(){
+            this.checked = false;                        
+          });
+        } 
+      });
+      checkbox.click(function(){
+        if(!this.checked){
+          $("#selectAll").prop("checked", false);
+        }
+      });
+    });
+    </script> 
 
 

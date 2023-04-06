@@ -8,7 +8,7 @@
 
 <head>
     <link rel='icon' href='../../images/rtu-logo.png'/>
-    <title>Manage Sections</title>
+    <title>ADMIN:Manage Sections</title>
 </head>
 
   <body>
@@ -80,8 +80,8 @@
                     <h2>Manage <b>Sections</b></h2>
                   </div>
                   <div class="col-sm-6">
-                    <a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add New</span></a>
-                    <a href="#deleteEmployeeModal" class="btn btn-danger" data-toggle="modal"><i class="material-icons">&#xE15C;</i> <span>Delete</span></a>						
+                    <a href="#addModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add New</span></a>
+                    <a href="#delModal" class="btn btn-danger" data-toggle="modal"><i class="material-icons">&#xE15C;</i> <span>Delete</span></a>						
                   </div>
                 </div>
               </div>
@@ -128,13 +128,13 @@
                                 
                                     
                                     <td name="code_sec">'.$code_sec.'</td>
-                                    <td></td>
-                                    <td></td>
+                                    <td name="id_crs_fk">'.$id_crs_fk.'</td>
+                                    <td name="id_yr_fk">'.$id_yr_fk.'</td>
                                     
                                     <td>
                                       
-                                      <a href="#editSubModal" value = '.$id_sec.' class="editBtn" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                                      <a href="#deleteEmployeeModal" value = '.$id_sec.' class="delBtn" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                                      <a href="#editModal" value = '.$id_sec.' class="editBtn" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                                      <a href="#delModal" value = '.$id_sec.' class="delBtn" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
                                      
                                     </td>
                             </tr>
@@ -341,6 +341,31 @@
         
           });
       });
+
+
+      $(document).ready(function(){
+      // Activate tooltip
+      $('[data-toggle="tooltip"]').tooltip();
+      
+      // Select/Deselect checkboxes
+      var checkbox = $('table tbody input[type="checkbox"]');
+      $("#selectAll").click(function(){
+        if(this.checked){
+          checkbox.each(function(){
+            this.checked = true;                        
+          });
+        } else{
+          checkbox.each(function(){
+            this.checked = false;                        
+          });
+        } 
+      });
+      checkbox.click(function(){
+        if(!this.checked){
+          $("#selectAll").prop("checked", false);
+        }
+      });
+    });
 </script>
   </body>
 </html>

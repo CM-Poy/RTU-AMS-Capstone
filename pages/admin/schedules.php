@@ -8,7 +8,7 @@
 
 <head>
     <link rel='icon' href='../../images/rtu-logo.png'/>
-    <title>Manage Schedules</title>
+    <title>ADMIN:Manage Schedules</title>
 </head>
 
   <body>
@@ -80,8 +80,8 @@
                     <h2>Manage <b>Schedules</b></h2>
                   </div>
                   <div class="col-sm-6">
-                    <a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add New</span></a>
-                    <a href="#deleteEmployeeModal" class="btn btn-danger" data-toggle="modal"><i class="material-icons">&#xE15C;</i> <span>Delete</span></a>						
+                    <a href="#addModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add New</span></a>
+                    <a href="#delModal" class="btn btn-danger" data-toggle="modal"><i class="material-icons">&#xE15C;</i> <span>Delete</span></a>						
                   </div>
                 </div>
               </div>
@@ -100,6 +100,7 @@
                     <th>Day</th>
                     <th>Start</th>
                     <th>End</th>
+                    <th>Room</th>
                     <th>Actions</th>
                   </tr>
                 </thead>
@@ -119,6 +120,7 @@
                             $day_schd=$row["day_schd"];
                             $strtime_schd=$row["strtime_schd"];
                             $endtime_schd=$row["endtime_schd"];
+                            $room_schd=$row["room_schd"];
   
                             echo '
                             <form action="subjects.php" method="post">
@@ -138,11 +140,13 @@
                                     <td name="day_schd">'.$day_schd.'</td>
                                     <td name="strtime_schd">'.$strtime_schd.'</td>
                                     <td name="endtime_schd">'.$endtime_schd.'</td>
+                                    <td name="room_schd">'.$room_schd.'</td>
+
                                     
                                     <td>
                                       
-                                      <a href="#editSubModal" value = '.$id_schd.' class="editBtn" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                                      <a href="#deleteEmployeeModal" value = '.$id_schd.' class="delBtn" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                                      <a href="#editModal" value = '.$id_schd.' class="editBtn" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                                      <a href="#delModal" value = '.$id_schd.' class="delBtn" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
                                      
                                     </td>
                             </tr>
@@ -190,213 +194,44 @@
                 <div class="form-group">
                     <label>Full Name</label>
 
-                        <?php
-                          echo '<select name="usrNameSchd" id="user" style="width: 340px">
-                          <option></option>';
-                          global $conn;
-                          $sql = "SELECT * from users";
-                          $result = $conn->prepare($sql);
-                          $result->execute();
                       
-                          if($result->rowCount() > 0){
-                          while ($row = $result->fetch(PDO::FETCH_ASSOC)){
-                              $id_users=$row["id_users"];
-                              $flname_users=$row["flname_users"];
-                              
-                          
-                              echo '<option value= '.$id_users.' >'.$flname_users.'</option>';
-                              }
-                          }
-
-                          echo '</select>';
-                        ?>
 
                   </div>
                   <div class="form-group">
                     <label>Subject</label>
                     
-                    <?php
-                        echo '<select name="subNameSchd" id="sub" style="width: 340px">
-                        <option></option>';
-                        
-                        $sql = "SELECT * from subjects";
-                        $result = $conn->prepare($sql);
-                        $result->execute();
-                    
-                        if($result->rowCount() > 0){
-                        while ($row = $result->fetch(PDO::FETCH_ASSOC)){
-                            $id_subj=$row["id_subj"];
-                        
-                            $name_subj=$row["name_subj"];
-                        
-                            echo '<option value= '.$name_subj.'>'.$name_subj.'</option>';
-                            }
-                        }
-
-                        echo '</select>';
-                    ?>
+                   
 
 
                   </div>
                   <div class="form-group">
                     <label>Section</label>
                     
-                    <?php
-                        echo '<select name="sectNameSchd" id="sec" style="width: 340px">
-                        <option></option>';
-                        
-                        $sql = "SELECT * from sections";
-                        $result = $conn->prepare($sql);
-                        $result->execute();
-                    
-                        if($result->rowCount() > 0){
-                        while ($row = $result->fetch(PDO::FETCH_ASSOC)){
-                            $id_sect=$row["id_sec"];
-                        
-                            $code_sect=$row["code_sec"];
-                        
-                            echo '<option value= '.$id_sec.'>'.$code_sec.'</option>';
-                            }
-                        }
-
-                        echo '</select>';
-                    ?>
-
-                  </div>
-                  <div class="form-group">
-                    <label>Room</label>
-
-                    <?php
-                      echo '<select name="roomSchd" id="room" style="width: 340px">
-                      <option></option>';
-                      
-                      $sql = "SELECT * from room";
-                      $result = $conn->prepare($sql);
-                      $result->execute();
                   
-                      if($result->rowCount() > 0){
-                      while ($row = $result->fetch(PDO::FETCH_ASSOC)){
-                          $id_room=$row["id_room"];
-                      
-                          $code_room=$row["code_room"];
-                      
-                          echo '<option value= '.$id_room.' >'.$code_room.'</option>';
-                          }
-                      }
-
-                      echo '</select>';
-                    ?>
 
                   </div>
+                  
                   <div class="form-group">
                     <label>Day</label>
                     
-                    <?php
-                        echo '<select name="daySchd" id="day" style="width: 340px">
-                        <option></option>';
-                        
-                        function myday($dy) {
-
-                            $daynum = date('w', $dy);
-                            return '<option name="day">' . date("l", $dy). '</option>';
-                        }
-
-                        $dayid = strtotime("sunday");
-                        while ($dayid < strtotime("+7 days")) {
-
-                            echo myday($dayid);
-                            $dayid += 86400; // number of seconds in a day, to get to next day
-                        }
-                        
-                        echo '</select>';
-                        
-                    ?>
+                 
 
                   </div>					
                   <div class="form-group">
                     <label>Start</label>
                     
-                    <?php
-                        echo '<select name=frmTimeSchd id="strtime" style="width: 340px">
-                        <option></option>';
-                        
-                        for ($hours=0; $hours<24; $hours++) { // the interval for hours is '1'
-                            
-                            for($mins=0; $mins<60; $mins+=30) {
-                                // the interval for mins is '30'
-                                $thehour = str_pad($hours,2,'0',STR_PAD_LEFT);
-                                if ($thehour == "00") {
-
-                                    $thehour = "12";
-                                }
-                                if ($thehour > "12") {
-
-                                    $thehour = $thehour - 12;
-                                    if ($thehour < 10) {
-                                    $thehour = "0" . $thehour;  
-                                    }
-                                }
-
-                                $theminutes = str_pad($mins,2,'0',STR_PAD_LEFT);
-                                $mytime = $thehour.":".$theminutes;
-                                if ($hours < 12) {
-
-                                    $mytime = $mytime . " AM";    
-                                }
-                                else {
-
-                                    $mytime = $mytime . " PM";
-                                }
-                                echo '<option>'.$mytime.'</option>';
-                            } 
-                        }
-                        
-                        echo '</select>';
-                    ?>
-
+                    
                   </div>			
                   <div class="form-group">
                     <label>End</label>
                     
-                    <?php
-                        echo '<select name=frmTimeSchd id="endtime" style="width: 340px">
-                        <option></option>';
-                        
-                        for ($hours=0; $hours<24; $hours++) { // the interval for hours is '1'
-                            
-                            for($mins=0; $mins<60; $mins+=30) {
-                                // the interval for mins is '30'
-                                $thehour = str_pad($hours,2,'0',STR_PAD_LEFT);
-                                if ($thehour == "00") {
+                   
 
-                                    $thehour = "12";
-                                }
-                                if ($thehour > "12") {
+                  </div>	
+                  <div class="form-group">
+                    <label>Room</label>
 
-                                    $thehour = $thehour - 12;
-                                    if ($thehour < 10) {
-                                    $thehour = "0" . $thehour;  
-                                    }
-                                }
-
-                                $theminutes = str_pad($mins,2,'0',STR_PAD_LEFT);
-                                $mytime = $thehour.":".$theminutes;
-                                if ($hours < 12) {
-
-                                    $mytime = $mytime . " AM";    
-                                }
-                                else {
-
-                                    $mytime = $mytime . " PM";
-                                }
-                                echo '<option>'.$mytime.'</option>';
-                            } 
-                        }
-                        
-                        echo '</select>';
-                    ?>
-
-                  </div>			
+                  </div>		
                 </div>
                 <div class="modal-footer">
                   <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
@@ -439,7 +274,7 @@
                               $flname_users=$row["flname_users"];
                               
                           
-                              echo '<option value= '.$id_users.' >'.$flname_users.'</option>';
+                              echo '<option >'.$flname_users.'</option>';
                               }
                           }
 
@@ -464,7 +299,7 @@
                         
                             $name_subj=$row["name_subj"];
                         
-                            echo '<option value= '.$name_subj.'>'.$name_subj.'</option>';
+                            echo '<option value= '.$id_subj.'>'.$name_subj.'</option>';
                             }
                         }
 
@@ -498,31 +333,7 @@
                     ?>
 
                   </div>
-                  <div class="form-group">
-                    <label>Room</label>
-
-                    <?php
-                      echo '<select name="roomSchd" id="room" style="width: 340px">
-                      <option></option>';
-                      
-                      $sql = "SELECT * from room";
-                      $result = $conn->prepare($sql);
-                      $result->execute();
                   
-                      if($result->rowCount() > 0){
-                      while ($row = $result->fetch(PDO::FETCH_ASSOC)){
-                          $id_room=$row["id_room"];
-                      
-                          $code_room=$row["code_room"];
-                      
-                          echo '<option value= '.$id_room.' >'.$code_room.'</option>';
-                          }
-                      }
-
-                      echo '</select>';
-                    ?>
-
-                  </div>
                   <div class="form-group">
                     <label>Day</label>
                     
@@ -631,6 +442,31 @@
                         echo '</select>';
                     ?>
 
+                  </div>
+                  <div class="form-group">
+                    <label>Room</label>
+
+                    <?php
+                      echo '<select name="roomSchd" id="room" style="width: 340px">
+                      <option></option>';
+                      
+                      $sql = "SELECT * from room";
+                      $result = $conn->prepare($sql);
+                      $result->execute();
+                  
+                      if($result->rowCount() > 0){
+                      while ($row = $result->fetch(PDO::FETCH_ASSOC)){
+                          $id_room=$row["id_room"];
+                      
+                          $code_room=$row["code_room"];
+                      
+                          echo '<option value= '.$id_room.' >'.$code_room.'</option>';
+                          }
+                      }
+
+                      echo '</select>';
+                    ?>
+
                   </div>			
                 </div>
                 <div class="modal-footer">
@@ -697,12 +533,38 @@
           $('#user').val(data[1]);
           $('#sub').val(data[2]);
           $('#sec').val(data[3]);
-          $('#room').val(data[4]);
+          $('#day').val(data[4]);
           $('#strtime').val(data[5]);
           $('#endtime').val(data[6]);
+          $('#room').val(data[7]);
     
       });
   });
+
+
+  $(document).ready(function(){
+      // Activate tooltip
+      $('[data-toggle="tooltip"]').tooltip();
+      
+      // Select/Deselect checkboxes
+      var checkbox = $('table tbody input[type="checkbox"]');
+      $("#selectAll").click(function(){
+        if(this.checked){
+          checkbox.each(function(){
+            this.checked = true;                        
+          });
+        } else{
+          checkbox.each(function(){
+            this.checked = false;                        
+          });
+        } 
+      });
+      checkbox.click(function(){
+        if(!this.checked){
+          $("#selectAll").prop("checked", false);
+        }
+      });
+    });
 </script>
 
 

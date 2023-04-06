@@ -3,11 +3,17 @@
 
   <?php include('header.php'); 
   require('../includes/config.php');
+
+  if(isset($_POST['updCrsBtn'])){
+    include('../includes/functions.php');
+    $obj=new dbfunction();
+    $obj->updCrs($_POST["name"],$_POST["code"],$_POST["email"],$_POST["dept"]);
+  }
   ?>
   
 <head>
     <link rel='icon' href='../../images/rtu-logo.png'/>
-    <title>Manage Courses</title>
+    <title>ADMIN:Manage Courses</title>
 </head>
 
   <body>
@@ -77,8 +83,8 @@
                     <h2>Manage <b>Courses</b></h2>
                   </div>
                   <div class="col-sm-6">
-                    <a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add New</span></a>
-                    <a href="#deleteEmployeeModal" class="btn btn-danger" data-toggle="modal"><i class="material-icons">&#xE15C;</i> <span>Delete</span></a>						
+                    <a href="#addModal" class="btn btn-success addNew" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add New</span></a>
+                    <a href="#delModal" class="btn btn-danger del" data-toggle="modal"><i class="material-icons">&#xE15C;</i> <span>Delete</span></a>						
                   </div>
                 </div>
               </div>
@@ -91,8 +97,8 @@
                         <label for="selectAll"></label>
                       </span>
                     </th>
-                    <th>Code</th>
                     <th>Name</th>
+                    <th>Code</th>
                     <th>Department</th>
                     <th>Actions</th>
                   </tr>
@@ -126,13 +132,13 @@
                                     
                                     <td name="name_crs">'.$name_crs.'</td>
                                     <td name="code_crs">'.$code_crs.'</td>
-                                    <td></td>
+                                    <td name="id_dept_fk">'.$id_dept_fk.'</td>
                                     
                                     
                                     <td>
                                       
-                                      <a href="#editSubModal" value = '.$id_crs.' class="editBtn" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                                      <a href="#deleteEmployeeModal" value = '.$id_crs.' class="delBtn" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                                      <a href="#editModal"  class="editBtn" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                                      <a href="#delModal" class="delBtn" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
                                      
                                     </td>
                             </tr>
@@ -161,8 +167,12 @@
             </div>
           </div>        
         </div>
-        <!-- Edit Modal HTML -->
-        <div id="addEmployeeModal" class="modal fade">
+
+
+
+
+        <!-- add Modal HTML -->
+        <div id="addModal" class="modal fade">
           <div class="modal-dialog">
             <div class="modal-content">
               <form>
@@ -192,39 +202,69 @@
             </div>
           </div>
         </div>
+
+
+
+
         <!-- Edit Modal HTML -->
-        <div id="editEmployeeModal" class="modal fade">
+        <div id="editModal" class="modal fade">
           <div class="modal-dialog">
             <div class="modal-content">
               <form>
+              <input type="text" class="form-control" name="id" id="id">
                 <div class="modal-header">						
-                  <h4 class="modal-title">Edit Employee</h4>
+                  <h4 class="modal-title">Edit Course</h4>
                   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 </div>
                 <div class="modal-body">					
                   <div class="form-group">
-                    <label>Code</label>
-                    <input type="text" class="form-control" required>
+                    <label>Name</label>
+                    <textarea class="form-control" id="name" name="name" required></textarea>
                   </div>
                   <div class="form-group">
-                    <label>Name</label>
-                    <input type="email" class="form-control" required>
+                    <label>Code</label>
+                    <input type="text" class="form-control" id="code" name="code" required>
                   </div>
                   <div class="form-group">
                     <label>Department</label>
-                    <textarea class="form-control" required></textarea>
+
+                    <?php
+                      echo '<select id="dept" name="dept" style="width: 340px">
+                      <option></option>';
+              
+                      $sql = "SELECT * from departments";
+                      $result = $conn->prepare($sql);
+                      $result->execute();
+                  
+                      if($result->rowCount() > 0){
+                      while ($row = $result->fetch(PDO::FETCH_ASSOC)){
+                          $id_dept=$row["id_dept"];
+                          $name_dept=$row["name_dept"];
+                          $code_dept=$row["code_dept"];
+                      
+                          echo '<option value= '.$id_dept.'>'.$name_dept.'</option>';
+                          }
+                      }
+
+                      echo '</select>';
+                    ?>
+
                   </div>
                 </div>
                 <div class="modal-footer">
                   <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                  <input type="submit" class="btn btn-info" value="Save">
+                  <input type="submit" class="btn btn-info" name="updCrsBtn" value="Save">
                 </div>
               </form>
             </div>
           </div>
         </div>
+
+
+
+
         <!-- Delete Modal HTML -->
-        <div id="deleteEmployeeModal" class="modal fade">
+        <div id="delModal" class="modal fade">
           <div class="modal-dialog">
             <div class="modal-content">
               <form>
@@ -252,6 +292,61 @@
     <script src="../../js/popper.js"></script>
     <script src="../../js/bootstrap.min.js"></script>
     <script src="../../js/main.js"></script>
+
+
+    <script>
+
+        //EDIT MODAL
+      $(document).ready(function () {
+
+        $('.editBtn').on('click', function () {
+
+            $('#editModal').modal('show');
+
+            $tr = $(this).closest('tr');
+
+            var data = $tr.children("td").map(function () {
+                return $(this).text();
+            }).get();
+
+            console.log(data);
+
+            $('#id').val(data[0]);
+            $('#name').val(data[1]);
+            $('#code').val(data[2]);
+            $('#dept').val(data[3]);
+            
+          
+
+        });
+      });
+
+
+      $(document).ready(function(){
+      // Activate tooltip
+      $('[data-toggle="tooltip"]').tooltip();
+      
+      // Select/Deselect checkboxes
+      var checkbox = $('table tbody input[type="checkbox"]');
+      $("#selectAll").click(function(){
+        if(this.checked){
+          checkbox.each(function(){
+            this.checked = true;                        
+          });
+        } else{
+          checkbox.each(function(){
+            this.checked = false;                        
+          });
+        } 
+      });
+      checkbox.click(function(){
+        if(!this.checked){
+          $("#selectAll").prop("checked", false);
+        }
+      });
+    });
+    </script>   
+
   </body>
 </html>
 
