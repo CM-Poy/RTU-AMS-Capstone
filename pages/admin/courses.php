@@ -37,6 +37,11 @@
               <li>
                <a href="#">&nbsp;&nbsp;&nbsp;<i class="fa fa-folder-open fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>COURSES</a>
               </li>
+              <li>
+               <a href="buildings.php">&nbsp;&nbsp;&nbsp;<i class="fa fas fa-archway fa-2x"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>BUILDINGS</a>
+              </li>
+              <li>
+               <a href="rooms.php">&nbsp;&nbsp;&nbsp;<i class="fa fa-archive fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>ROOMS</a>
               </li>
             </ul>
 

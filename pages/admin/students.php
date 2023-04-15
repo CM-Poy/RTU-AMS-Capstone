@@ -10,6 +10,7 @@
     <link rel='icon' href='../../images/rtu-logo.png'/>
     <title>Manage Students</title>
 </head>
+
   <body>
 
   <!--sidebar-->
@@ -18,14 +19,14 @@
             <nav id="sidebar">
                 <div class="p-4 pt-5">
                 <a href="#" class="img logo rounded-circle mb-5" style="background-image: url(../../images/rtu-logo.png);"></a>
-            <ul class="list-unstyled components mb-5">
+                <ul class="list-unstyled components mb-5">
               <li class="">
                 <a href="teachers.php" >&nbsp;&nbsp;&nbsp;<i class="fa-solid fa-user fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>TEACHERS</a>
               <li class="">
                 <a href="schedules.php" >&nbsp;&nbsp;&nbsp;<i class="fa fa-file-text fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>SCHEDULES</a>
               </li>
               <li>
-              <a href="students.php" >&nbsp;&nbsp;<i class="fa fa-users fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;</i>STUDENTS</a>
+              <a href="#" >&nbsp;&nbsp;<i class="fa fa-users fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;</i>STUDENTS</a>
               </li>
               <li>
               <a href="sections.php" >&nbsp;&nbsp;&nbsp;<i class="fa-solid fa-th-large fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>SECTIONS</a>
@@ -37,8 +38,13 @@
                <a href="departments.php">&nbsp;&nbsp;&nbsp;<i class="fa fa-building fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>DEPARTMENTS</a>  
               </li>
               <li>
-               <a href="#">&nbsp;&nbsp;&nbsp;<i class="fa fa-folder-open fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>COURSES</a>
+               <a href="courses.php">&nbsp;&nbsp;&nbsp;<i class="fa fa-folder-open fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>COURSES</a>
               </li>
+              <li>
+               <a href="buildings.php">&nbsp;&nbsp;&nbsp;<i class="fa fas fa-archway fa-2x"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>BUILDINGS</a>
+              </li>
+              <li>
+               <a href="rooms.php">&nbsp;&nbsp;&nbsp;<i class="fa fa-archive fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>ROOMS</a>
               </li>
             </ul>
 
@@ -97,7 +103,7 @@
                     <th>Institutional Email</th>
                     <th>Student Number</th>
                     <th>Guardian Full Name</th>
-                    <th>Guardian Email</th>
+                    <th>Guardian EMail</th>
                     <th>Course</th>
                     <th>Year Level</th>
                     <th>Section</th>
@@ -115,7 +121,7 @@
                     <td>Thomas Hardy</td>
                     <td>thomashardy@mail.com</td>
                     <td>89 Chiaroscuro Rd, Portland, USA</td>
-                    <td>(171) 555-2222</td>
+                    <td></td>
                     <td></td>
                     <td></td>
                     <td></td>
@@ -135,7 +141,7 @@
                     <td>Dominique Perrier</td>
                     <td>dominiqueperrier@mail.com</td>
                     <td>Obere Str. 57, Berlin, Germany</td>
-                    <td>(313) 555-5735</td>
+                    <td></td>
                     <td></td>
                     <td></td>
                     <td></td>
@@ -155,7 +161,7 @@
                     <td>Maria Anders</td>
                     <td>mariaanders@mail.com</td>
                     <td>25, rue Lauriston, Paris, France</td>
-                    <td>(503) 555-9931</td>
+                    <td></td>
                     <td></td>
                     <td></td>
                     <td></td>
@@ -175,7 +181,7 @@
                     <td>Fran Wilson</td>
                     <td>franwilson@mail.com</td>
                     <td>C/ Araquil, 67, Madrid, Spain</td>
-                    <td>(204) 619-5731</td>
+                    <td></td>
                     <td></td>
                     <td></td>
                     <td></td>
@@ -195,7 +201,7 @@
                     <td>Martin Blank</td>
                     <td>martinblank@mail.com</td>
                     <td>Via Monte Bianco 34, Turin, Italy</td>
-                    <td>(480) 631-2097</td>
+                    <td></td>
                     <td></td>
                     <td></td>
                     <td></td>
@@ -224,7 +230,7 @@
         </div>
         <!-- Edit Modal HTML -->
         <div id="addEmployeeModal" class="modal fade">
-          <div class="modal-dialog modalCenter">
+          <div class="modal-dialog">
             <div class="modal-content">
               <form>
                 <div class="modal-header">						
@@ -237,33 +243,33 @@
                     <input type="text" class="form-control" required>
                   </div>
                   <div class="form-group">
-                    <label>Institutional Email</label>
-                    <input type="email" class="form-control" required>
+                    <label>|Institutional Email</label>
+                    <input type="text" class="form-control" required>
                   </div>
                   <div class="form-group">
                     <label>Student Number</label>
-                    <input class="form-control" required></textarea>
-                  </div>
-                  <div class="form-group">
-                    <label>Guardian Full Name</label>
-                    <input type="text" class="form-control" required>
+                    <input type="text" class="form-control" required></textarea>
                   </div>			
                   <div class="form-group">
-                    <label>Guardian Email</label>
+                    <label>Guardian Full Name</label>
+                    <input type="text" class="form-control" required></textarea>
+                  </div>	
+                  <div class="form-group">
+                  <label>Guardian Email</label>
                     <input type="email" class="form-control" required>
                   </div>	
                   <div class="form-group">
                     <label>Course</label>
-                    <textarea class="form-control" required></textarea>
-                  </div>			
+                    <input type="text" class="form-control" required></textarea>
+                  </div>	
                   <div class="form-group">
                     <label>Year Level</label>
-                    <input type="text" class="form-control" required>
-                  </div>			
+                    <input type="text" class="form-control" required></textarea>
+                  </div>	
                   <div class="form-group">
-                    <label>Section</label>
-                    <textarea class="form-control" required></textarea>
-                  </div>			
+                    <label>Section</Section></label>
+                    <input type="text" class="form-control" required></textarea>
+                  </div>	
                 </div>
                 <div class="modal-footer">
                   <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
@@ -275,50 +281,50 @@
         </div>
         <!-- Edit Modal HTML -->
         <div id="editEmployeeModal" class="modal fade">
-          <div class="modal-dialog modalCenter">
+          <div class="modal-dialog">
             <div class="modal-content">
-              <form>
+            <form>
                 <div class="modal-header">						
-                  <h4 class="modal-title">Edit Student</h4>
+                  <h4 class="modal-title">Add Student</h4>
                   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 </div>
                 <div class="modal-body">					
-                <div class="form-group">
+                  <div class="form-group">
                     <label>Full Name</label>
                     <input type="text" class="form-control" required>
                   </div>
                   <div class="form-group">
-                    <label>Institutional Email</label>
-                    <input type="email" class="form-control" required>
+                    <label>|Institutional Email</label>
+                    <input type="text" class="form-control" required>
                   </div>
                   <div class="form-group">
                     <label>Student Number</label>
-                    <input class="form-control" required></textarea>
-                  </div>
-                  <div class="form-group">
-                    <label>Guardian Full Name</label>
-                    <input type="text" class="form-control" required>
+                    <input type="text" class="form-control" required></textarea>
                   </div>			
                   <div class="form-group">
-                    <label>Guardian Email</label>
+                    <label>Guardian Full Name</label>
+                    <input type="text" class="form-control" required></textarea>
+                  </div>	
+                  <div class="form-group">
+                  <label>Guardian Email</label>
                     <input type="email" class="form-control" required>
                   </div>	
                   <div class="form-group">
                     <label>Course</label>
-                    <input type="text" class="form-control" required>
-                  </div>			
+                    <input type="text" class="form-control" required></textarea>
+                  </div>	
                   <div class="form-group">
                     <label>Year Level</label>
-                    <input type="text" class="form-control" required>
-                  </div>			
+                    <input type="text" class="form-control" required></textarea>
+                  </div>	
                   <div class="form-group">
-                    <label>Section</label>
-                    <input type="text" class="form-control" required>
-                  </div>			
+                    <label>Section</Section></label>
+                    <input type="text" class="form-control" required></textarea>
+                  </div>	
                 </div>
                 <div class="modal-footer">
                   <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                  <input type="submit" class="btn btn-info" value="Save">
+                  <input type="submit" class="btn btn-success" value="Add">
                 </div>
               </form>
             </div>
@@ -345,6 +351,7 @@
             </div>
           </div>
         </div>
+           
       
       
       </div>

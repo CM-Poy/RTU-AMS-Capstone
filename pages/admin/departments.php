@@ -20,7 +20,7 @@
             <nav id="sidebar">
                 <div class="p-4 pt-5">
                 <a href="#" class="img logo rounded-circle mb-5" style="background-image: url(../../images/rtu-logo.png);"></a>
-            <ul class="list-unstyled components mb-5">
+                <ul class="list-unstyled components mb-5">
               <li class="">
                 <a href="teachers.php" >&nbsp;&nbsp;&nbsp;<i class="fa-solid fa-user fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>TEACHERS</a>
               <li class="">
@@ -36,11 +36,16 @@
               <a href="subjects.php" >&nbsp;&nbsp;&nbsp;<i class="fa fa-book fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>SUBJECTS</a>
               </li>
               <li>
-               <a href="departments.php">&nbsp;&nbsp;&nbsp;<i class="fa fa-building fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>DEPARTMENTS</a>  
+               <a href="#">&nbsp;&nbsp;&nbsp;<i class="fa fa-building fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>DEPARTMENTS</a>  
               </li>
               <li>
                <a href="courses.php">&nbsp;&nbsp;&nbsp;<i class="fa fa-folder-open fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>COURSES</a>
               </li>
+              <li>
+               <a href="buildings.php">&nbsp;&nbsp;&nbsp;<i class="fa fas fa-archway fa-2x"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>BUILDINGS</a>
+              </li>
+              <li>
+               <a href="rooms.php">&nbsp;&nbsp;&nbsp;<i class="fa fa-archive fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>ROOMS</a>
               </li>
             </ul>
 
@@ -219,32 +224,24 @@
         <div id="editEmployeeModal" class="modal fade">
           <div class="modal-dialog">
             <div class="modal-content">
-              <form>
+            <form>
                 <div class="modal-header">						
                   <h4 class="modal-title">Edit Department</h4>
                   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 </div>
                 <div class="modal-body">					
                   <div class="form-group">
+                    <label>Code</label>
+                    <input type="text" class="form-control" required>
+                  </div>
+                  <div class="form-group">
                     <label>Name</label>
                     <input type="text" class="form-control" required>
                   </div>
-                  <div class="form-group">
-                    <label>Email</label>
-                    <input type="email" class="form-control" required>
-                  </div>
-                  <div class="form-group">
-                    <label>Address</label>
-                    <textarea class="form-control" required></textarea>
-                  </div>
-                  <div class="form-group">
-                    <label>Phone</label>
-                    <input type="text" class="form-control" required>
-                  </div>					
                 </div>
                 <div class="modal-footer">
                   <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                  <input type="submit" class="btn btn-info" value="Save">
+                  <input type="submit" class="btn btn-success" value="Add">
                 </div>
               </form>
             </div>

@@ -8,7 +8,7 @@
 
 <head>
     <link rel='icon' href='../../images/rtu-logo.png'/>
-    <title>Manage Teachers</title>
+    <title>Manage Rooms</title>
 </head>
   <body>
 
@@ -18,9 +18,9 @@
             <nav id="sidebar">
                 <div class="p-4 pt-5">
                 <a href="#" class="img logo rounded-circle mb-5" style="background-image: url(../../images/rtu-logo.png);"></a>
-                <ul class="list-unstyled components mb-5">
+            <ul class="list-unstyled components mb-5">
               <li class="">
-                <a href="#" >&nbsp;&nbsp;&nbsp;<i class="fa-solid fa-user fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>TEACHERS</a>
+                <a href="teachers.php" >&nbsp;&nbsp;&nbsp;<i class="fa-solid fa-user fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>TEACHERS</a>
               <li class="">
                 <a href="schedules.php" >&nbsp;&nbsp;&nbsp;<i class="fa fa-file-text fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>SCHEDULES</a>
               </li>
@@ -43,8 +43,9 @@
                <a href="buildings.php">&nbsp;&nbsp;&nbsp;<i class="fa fas fa-archway fa-2x"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>BUILDINGS</a>
               </li>
               <li>
-               <a href="rooms.php">&nbsp;&nbsp;&nbsp;<i class="fa fa-archive fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>ROOMS</a>
+               <a href="#">&nbsp;&nbsp;&nbsp;<i class="fa fa-archive fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>ROOMS</a>
               </li>
+
             </ul>
 
 
@@ -84,7 +85,7 @@
               <div class="table-title">
                 <div class="row">
                   <div class="col-sm-6">
-                    <h2>Manage <b>Teachers</b></h2>
+                    <h2>Manage <b>Rooms</b></h2>
                   </div>
                   <div class="col-sm-6">
                     <a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add New</span></a>
@@ -101,11 +102,8 @@
                         <label for="selectAll"></label>
                       </span>
                     </th>
-                    <th>Full Name</th>
-                    <th>Honoriffic</th>
-                    <th>Institutional Email</th>
-                    <th>Employee Number</th>
-                    <th>Password</th>
+                    <th>Name</th>
+                    <th>Code</th>
                     <th>Actions</th>
                   </tr>
                 </thead>
@@ -119,9 +117,6 @@
                     </td>
                     <td>Thomas Hardy</td>
                     <td>thomashardy@mail.com</td>
-                    <td>89 Chiaroscuro Rd, Portland, USA</td>
-                    <td>(171) 555-2222</td>
-                    <td>(171) 555-2222</td>
                     <td>
                       <a href="#editEmployeeModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
                       <a href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
@@ -136,9 +131,6 @@
                     </td>
                     <td>Thomas Hardy</td>
                     <td>thomashardy@mail.com</td>
-                    <td>89 Chiaroscuro Rd, Portland, USA</td>
-                    <td>(171) 555-2222</td>
-                    <td>(171) 555-2222</td>
                     <td>
                       <a href="#editEmployeeModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
                       <a href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
@@ -151,11 +143,8 @@
                         <label for="checkbox2"></label>
                       </span>
                     </td>
-                    <td>Dominique Perrier</td>
-                    <td>dominiqueperrier@mail.com</td>
-                    <td>Obere Str. 57, Berlin, Germany</td>
-                    <td>(313) 555-5735</td>
-                    <td>(171) 555-2222</td>
+                    <td>Thomas Hardy</td>
+                    <td>thomashardy@mail.com</td>
                     <td>
                       <a href="#editEmployeeModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
                       <a href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
@@ -168,11 +157,8 @@
                         <label for="checkbox3"></label>
                       </span>
                     </td>
-                    <td>Maria Anders</td>
-                    <td>mariaanders@mail.com</td>
-                    <td>25, rue Lauriston, Paris, France</td>
-                    <td>(503) 555-9931</td>
-                    <td>(171) 555-2222</td>
+                    <td>Thomas Hardy</td>
+                    <td>thomashardy@mail.com</td>
                     <td>
                       <a href="#editEmployeeModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
                       <a href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
@@ -185,11 +171,8 @@
                         <label for="checkbox4"></label>
                       </span>
                     </td>
-                    <td>Fran Wilson</td>
-                    <td>franwilson@mail.com</td>
-                    <td>C/ Araquil, 67, Madrid, Spain</td>
-                    <td>(204) 619-5731</td>
-                    <td>(171) 555-2222</td>
+                    <td>Thomas Hardy</td>
+                    <td>thomashardy@mail.com</td>
                     <td>
                       <a href="#editEmployeeModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
                       <a href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
@@ -202,11 +185,8 @@
                         <label for="checkbox5"></label>
                       </span>
                     </td>
-                    <td>Martin Blank</td>
-                    <td>martinblank@mail.com</td>
-                    <td>Via Monte Bianco 34, Turin, Italy</td>
-                    <td>(480) 631-2097</td>
-                    <td>(171) 555-2222</td>
+                    <td>Thomas Hardy</td>
+                    <td>thomashardy@mail.com</td>
                     <td>
                       <a href="#editEmployeeModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
                       <a href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
@@ -235,30 +215,18 @@
             <div class="modal-content">
               <form>
                 <div class="modal-header">						
-                  <h4 class="modal-title">Add Teacher</h4>
+                  <h4 class="modal-title">Add Room</h4>
                   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 </div>
                 <div class="modal-body">					
                   <div class="form-group">
-                    <label>Full Name</label>
+                    <label>Name</label>
                     <input type="text" class="form-control" required>
                   </div>
                   <div class="form-group">
-                    <label>Honoriffic</label>
+                    <label>Code</label>
                     <input type="text" class="form-control" required>
-                  </div>
-                  <div class="form-group">
-                    <label>Institutional Email</label>
-                    <input type="email" class="form-control" required>
-                  </div>
-                  <div class="form-group">
-                    <label>Employee Number</label>
-                    <input type="text" class="form-control" required>
-                  </div>	
-                  <div class="form-group">
-                    <label>Password</label>
-                    <input type="text" class="form-control" required>
-                  </div>					
+                  </div>				
                 </div>
                 <div class="modal-footer">
                   <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
@@ -274,7 +242,7 @@
             <div class="modal-content">
               <form>
                 <div class="modal-header">						
-                  <h4 class="modal-title">Edit Teacher</h4>
+                  <h4 class="modal-title">Edit Room</h4>
                   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 </div>
                 <div class="modal-body">					
@@ -313,7 +281,7 @@
             <div class="modal-content">
               <form>
                 <div class="modal-header">						
-                  <h4 class="modal-title">Delete Teacher</h4>
+                  <h4 class="modal-title">Delete Room</h4>
                   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 </div>
                 <div class="modal-body">					
