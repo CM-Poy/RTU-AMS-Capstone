@@ -1,7 +1,8 @@
 <!doctype html>
 <html lang="en">
 
-  <?php include('header.php'); 
+  <?php
+   include('header.php'); 
   require('../includes/config.php');
   ?>
   
@@ -141,8 +142,8 @@
                                     <td></td>
                                     <td>
                                       
-                                      <a href="#editModal" value = '.$id_std.' class="editBtn" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                                      <a href="#delModal" value = '.$id_std.' class="delBtn" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                                      <a href="#editModal" class="editBtn" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                                      <a href="#delModal" class="delBtn" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
                                      
                                     </td>
                             </tr>
@@ -176,35 +177,35 @@
 
 
         <!-- Add Modal HTML -->
-        <div id="addEmployeeModal" class="modal fade">
+  
+        <div id="addModal" class="modal fade">
           <div class="modal-dialog modalCenter">
             <div class="modal-content">
-              <form>
-              
+              <form action="students.php" method="POST">
                 <div class="modal-header">						
                   <h4 class="modal-title">Add Student</h4>
                   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 </div>
                 <div class="modal-body">					
-                  <div class="form-group">
+                  <div>
                     <label>Full Name</label>
-                    <input type="text" class="form-control" required>
+                    <input type="text" name="flname" class="form-control" required>
                   </div>
-                  <div class="form-group">
+                  <div>
                     <label>Institutional Email</label>
-                    <input type="email" class="form-control" required>
+                    <input type="email" name="email" class="form-control" required>
                   </div>
-                  <div class="form-group">
+                  <div>
                     <label>Student Number</label>
-                    <input class="form-control" required></textarea>
+                    <input name="studnum" class="form-control" required></textarea>
                   </div>
-                  <div class="form-group">
+                  <div>
                     <label>Guardian Full Name</label>
-                    <input type="text" class="form-control" required>
+                    <input type="text" name="guardianname" class="form-control" required>
                   </div>			
-                  <div class="form-group">
+                  <div>
                     <label>Guardian Email</label>
-                    <input type="email" class="form-control" required>
+                    <input type="email" name="guardianemail" class="form-control" required>
                   </div>	
                   <div class="form-group">
                     <label>Course</label>
@@ -287,9 +288,50 @@
                 </div>
                 <div class="modal-footer">
                   <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                  <input type="submit" class="btn btn-success" value="Add">
+                  <input type="submit" name="addbtn" class="btn btn-success" value="Add">
                 </div>
               </form>
+              <?php
+                  if(isset($_POST['addbtn']))
+                  {
+                      
+                      $fullname = $_POST['flname'];
+                      $email = $_POST['email'];
+                      $studnum = $_POST['studnum'];
+                      $gname = $_POST['guardianname'];
+                      $gemail = $_POST['guardianemail'];
+                      $yrlvl = $_POST['yrLvlStd'];
+                      $crsname = $_POST['crsNameSect'];
+                      $sectname = $_POST['sectNameSchd'];
+                      
+                      
+                      
+
+                      $sql = "INSERT INTO students (	
+                      flname_std,
+                      instemail_std,	
+                      studnum_std,	
+                      gflname_std,	
+                      gemail_std,	
+                      id_crs_fk,	
+                      id_yr_fk,	
+                      id_sect_fk) VALUES (:flname, :email, :studnum, :guardianname, :guardianemail, :yrLvlStd, :crsNameSect, :sectNameSchd)";
+                      $result = $conn->prepare($sql);
+
+                      $data = [
+                          ':flname' => $fullname,
+                          ':email' => $email,
+                          ':studnum' => $studnum,
+                          ':guardianname' => $gname,
+                          ':guardianemail' => $gemail,
+                          ':yrLvlStd' => $yrlvl,
+                          ':crsNameSect' => $crsname,
+                          ':sectNameSchd' => $sectname,
+                      ];
+                      $result->execute($data);
+                  }
+                
+                  ?>
             </div>
           </div>
         </div>
@@ -304,32 +346,35 @@
         <div id="editModal" class="modal fade" >
           <div class="modal-dialog modalCenter">
             <div class="modal-content" >
-              <form>
-              <input type="text" class="form-control" id = "id" hidden>
+              <form action="students.php" method="post">
+              <input type="text" class="form-control" name="student_id" id = "id" hidden>
                 <div class="modal-header">						
                   <h4 class="modal-title">Edit Student</h4>
                   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 </div>
-                <div class="modal-body" >					
+                <div class="modal-body" >	
+                  <?php
+                  if(isset($_GET['']))
+                  ?>	
                 <div class="form-group">
                     <label>Full Name</label>
-                    <input type="text" class="form-control" id="flname" required>
+                    <input type="text" class="form-control" name="editflname" id="flname" required>
                   </div>
                   <div class="form-group">
                     <label>Institutional Email</label>
-                    <input type="email" class="form-control" id="instemail" required>
+                    <input type="email" class="form-control" name="editemail" id="instemail" required>
                   </div>
                   <div class="form-group">
                     <label>Student Number</label>
-                    <input type="text" class="form-control" id="studnum" required></textarea>
+                    <input type="text" class="form-control" name="editstudnum" id="studnum" required></textarea>
                   </div>
                   <div class="form-group">
                     <label>Guardian Full Name</label>
-                    <input type="text" class="form-control" id="gflname" required>
+                    <input type="text" class="form-control" name="editgflname" id="gflname" required>
                   </div>			
                   <div class="form-group">
                     <label>Guardian Email</label>
-                    <input type="email" class="form-control" id="gemail" required>
+                    <input type="email" class="form-control" name="editgemail" id="gemail" required>
                   </div>	
                   <div class="form-group">
                     <label>Course</label>
@@ -412,7 +457,51 @@
                 </div>
                 <div class="modal-footer">
                   <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                  <input type="submit" class="btn btn-info" value="Save">
+                  <input type="button" class="btn btn-info" name="updatebtn" value="Save">
+                  <?php
+                  if(isset($_POST['updatebtn']))
+                  {
+                      $studid = $_POST['student_id'];
+                      $fullname = $_POST['editflname'];
+                      $email = $_POST['editemail'];
+                      $studnum = $_POST['editstudnum'];
+                      $gname = $_POST['editgflname'];
+                      $gemail = $_POST['editgemail'];
+                      $yrlvl = $_POST['yrLvlStd'];
+                      $crsname = $_POST['crsNameSect'];
+                      $sectname = $_POST['sectNameSchd'];
+
+                      try{
+                      $sql = 'UPDATE students SET (	
+                      flname_std = :editflname,
+                      instemail_std = :editemail,	
+                      studnum_std = :editstudnum,	
+                      gflname_std = :editgflname,	
+                      gemail_std = :editgemail,	
+                      id_crs_fk = :crsNameSect,	
+                      id_yr_fk = :yrLvlStd,	
+                      id_sect_fk = :sectNameSchd WHERE id_std = :student_id)';
+
+                      $statement = $conn->prepare($sql);
+                      $data = [
+                        
+                          ':editflname' => $fullname,
+                          ':editemail' => $email,
+                          ':editstudnum' => $studnum,
+                          ':editgflname' => $gname,
+                          ':editgemail' => $gemail,
+                          ':yrLvlStd' => $yrlvl,
+                          ':crsNameSect' => $crsname,
+                          ':sectNameSchd' => $sectname,
+                          ':student_id1' => $studid,
+                      ];
+                      $statement->execute($data);
+                      }
+                      catch(PDOException $e){
+                        echo $e->getMessage();
+                      }
+                  }
+                  ?>
                 </div>
               </form>
             </div>
@@ -437,8 +526,15 @@
                   <p class="text-warning"><small>This action cannot be undone.</small></p>
                 </div>
                 <div class="modal-footer">
+                  <?php
+                
+
+                 echo' 
+                  <form action = "delete.php" method="post">
                   <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                  <input type="submit" class="btn btn-danger" value="Delete">
+                  <button type="submit" class="btn btn-danger" name="deletestud" value ='.$id_std.'>DELETE</button>';
+                
+                  ?>
                 </div>
               </form>
             </div>
