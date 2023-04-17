@@ -9,6 +9,12 @@
     $obj=new dbfunction();
     $obj->updCrs($_POST["name"],$_POST["code"],$_POST["email"],$_POST["dept"]);
   }
+
+  if(isset($_POST['addbtn'])){
+    include('../includes/functions.php');
+    $obj=new dbfunction();
+    $obj->addCrs($_POST["name"],$_POST["code"],$_POST["dept"]);
+  }
   ?>
   
 <head>
@@ -115,7 +121,7 @@
                             $id_crs=$row["id_crs"];
                             $code_crs=$row["code_crs"];
                             $name_crs=$row["name_crs"];
-                            $id_dept_fk=$row["id_dept_fk"];
+                            $dept_id=$row["dept_id"];
                             
   
                             echo '
@@ -132,7 +138,7 @@
                                     
                                     <td name="name_crs">'.$name_crs.'</td>
                                     <td name="code_crs">'.$code_crs.'</td>
-                                    <td name="id_dept_fk">'.$id_dept_fk.'</td>
+                                    <td name="id_dept_fk">'.$dept_id.'</td>
                                     
                                     
                                     <td>
@@ -175,28 +181,47 @@
         <div id="addModal" class="modal fade">
           <div class="modal-dialog">
             <div class="modal-content">
-              <form>
+              <form method="post">
                 <div class="modal-header">						
-                  <h4 class="modal-title">Add Employee</h4>
+                  <h4 class="modal-title">Add Course</h4>
                   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 </div>
                 <div class="modal-body">					
                   <div class="form-group">
-                    <label>Code</label>
-                    <input type="text" class="form-control" required>
+                    <label>Name</label>
+                    <input type="text" name="name" class="form-control" required>
                   </div>
                   <div class="form-group">
-                    <label>Name</label>
-                    <input type="email" class="form-control" required>
+                    <label>Code</label>
+                    <input type="text" name="code" class="form-control" required>
                   </div>
                   <div class="form-group">
                     <label>Department</label>
-                    <textarea class="form-control" required></textarea>
+                    <?php
+                      echo '<select id="dept" name="dept" style="width: 340px">
+                      <option></option>';
+              
+                      $sql = "SELECT * from departments";
+                      $result = $conn->prepare($sql);
+                      $result->execute();
+                  
+                      if($result->rowCount() > 0){
+                      while ($row = $result->fetch(PDO::FETCH_ASSOC)){
+                          $id_dept=$row["id_dept"];
+                          $name_dept=$row["name_dept"];
+                          $code_dept=$row["code_dept"];
+                      
+                          echo '<option value= '.$id_dept.'>'.$name_dept.'</option>';
+                          }
+                      }
+
+                      echo '</select>';
+                    ?>
                   </div>
                 </div>
                 <div class="modal-footer">
                   <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                  <input type="submit" class="btn btn-success" value="Add">
+                  <input type="submit" class="btn btn-success" name="addbtn" value="Add">
                 </div>
               </form>
             </div>

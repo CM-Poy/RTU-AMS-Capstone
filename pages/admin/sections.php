@@ -3,6 +3,13 @@
 
   <?php include('header.php'); 
   require('../includes/config.php');
+
+
+  if(isset($_POST['addbtn'])){
+    include('../includes/functions.php');
+    $obj=new dbfunction();
+    $obj->addSec($_POST['code'],$_POST['crsName'],$_POST['yrlvl']);
+  }
   ?>
   
 
@@ -104,7 +111,7 @@
                 <tbody>
 
                 <?php
-                        $sql = "SELECT * from sections";
+                        $sql = "SELECT * from sections ";
                         $result = $conn->prepare($sql);
                         $result->execute();
                         
@@ -112,8 +119,8 @@
                           while ($row = $result->fetch(PDO::FETCH_ASSOC)){
                             $id_sec=$row["id_sec"];
                             $code_sec=$row["code_sec"];
-                            $id_crs_fk=$row["id_crs_fk"];
-                            $id_yr_fk=$row["id_yr_fk"];
+                            $crs_id=$row["crs_id"];
+                            $yrlvl_id=$row["yrlvl_id"];
   
                             echo '
                             <form action="subjects.php" method="post">
@@ -128,8 +135,8 @@
                                 
                                     
                                     <td name="code_sec">'.$code_sec.'</td>
-                                    <td name="id_crs_fk">'.$id_crs_fk.'</td>
-                                    <td name="id_yr_fk">'.$id_yr_fk.'</td>
+                                    <td name="id_crs_fk">'.$crs_id.'</td>
+                                    <td name="id_yr_fk">'.$yrlvl_id.'</td>
                                     
                                     <td>
                                       
@@ -172,7 +179,7 @@
         <div id="addModal" class="modal fade">
           <div class="modal-dialog">
             <div class="modal-content">
-              <form>
+              <form method="post">
                 <div class="modal-header">						
                   <h4 class="modal-title">Add Section</h4>
                   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -180,20 +187,60 @@
                 <div class="modal-body">					
                   <div class="form-group">
                     <label>Code</label>
-                    <input type="text" class="form-control" required>
+                    <input type="text" name="code" class="form-control" required>
                   </div>
                   <div class="form-group">
                     <label>Course</label>
-                    <input type="text" class="form-control" required>
+                    <?php
+                      echo '<select name="crsName" id="crs" style="width: 340px">
+                      <option></option>';
+              
+                      $sql = "SELECT id_crs, name_crs, code_crs from courses";
+                      $result = $conn->prepare($sql);
+                      $result->execute();
+                  
+                      if($result->rowCount() > 0){
+                      while ($row = $result->fetch(PDO::FETCH_ASSOC)){
+                          $id_crs=$row["id_crs"];
+                          $name_crs=$row["name_crs"];
+                          $code_crs=$row["code_crs"];
+                      
+                          echo '<option value= '.$id_crs.'>'.$name_crs.'</option>';
+                          }
+                      }
+
+                      echo '</select>';
+
+                    ?>
                   </div>
                   <div class="form-group">
                     <label>Year Level</label>
-                    <input type="text" class="form-control" required></textarea>
+                    <?php
+                      echo '<select name="yrlvl" id="yrlvl" style="width: 340px">
+                      <option></option>';
+              
+                      $sql = "SELECT * from year";
+                      $result = $conn->prepare($sql);
+                      $result->execute();
+                  
+                      if($result->rowCount() > 0){
+                      while ($row = $result->fetch(PDO::FETCH_ASSOC)){
+                          $id_yr=$row["id_yr"];
+                          $yrlvl=$row["yearlvl_yr"];
+                          
+                      
+                          echo '<option value= '.$id_yr.'>'.$yrlvl.'</option>';
+                          }
+                      }
+
+                      echo '</select>';
+
+                    ?>
                   </div>			
                 </div>
                 <div class="modal-footer">
                   <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                  <input type="submit" class="btn btn-success" value="Add">
+                  <input type="submit" class="btn btn-success" name="addbtn" value="Add">
                 </div>
               </form>
             </div>

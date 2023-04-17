@@ -7,10 +7,10 @@
   
  
 
-  if(isset($_POST['addUserBtn'])){
+  if(isset($_POST['addbtn'])){
     include('../includes/functions.php');
     $obj=new dbfunction();
-    $obj->addUser($_POST["addhnr"],$_POST["addname"],$_POST["addemail"],$_POST["empnum"],$_POST["addpwd"],$_POST["addusertype"]);
+    $obj->addUser($_POST["hnr"],$_POST["name"],$_POST["email"],$_POST["empnum"],$_POST["pwd"],$_POST["usertype"]);
   }
 
   
@@ -190,7 +190,7 @@
         <div id="addModal" class="modal fade">
           <div class="modal-dialog ">
             <div class="modal-content">
-              <form>
+              <form method="post">
               <input type="text" class="form-control" name="addid" hidden>
                 <div class="modal-header">						
                   <h4 class="modal-title">Add Teacher</h4>
@@ -199,28 +199,28 @@
                 <div class="modal-body">					
                   <div class="form-group">
                     <label>Full Name</label>
-                    <input type="text" class="form-control"name="addname" required>
+                    <input type="text" class="form-control"name="name" required>
                   </div>
                   <div class="form-group">
                     <label>Honoriffic</label>
-                    <input type="text" class="form-control"name="addhnr" required>
+                    <input type="text" class="form-control"name="hnr" required>
                   </div>
                   <div class="form-group">
                     <label>Institutional Email</label>
-                    <input type="email" class="form-control"name="addemail" required>
+                    <input type="email" class="form-control"name="email" required>
                   </div>
                   <div class="form-group">
                     <label>Employee Number</label>
-                    <input type="text" class="form-control"name="addempnum"  required>
+                    <input type="text" class="form-control"name="empnum"  required>
                   </div>	
                   <div class="form-group">
                     <label>Password</label>
-                    <input type="text" class="form-control" name="addpwd"required>
+                    <input type="text" class="form-control" name="pwd"required>
                   </div>
                   <div class="form-group">
                     <label>Usertype</label>
                     <?php
-                        echo '<select name="usertype" name="addusertype" style="width: 340px">
+                        echo '<select name="usertype" style="width: 340px">
                         <option></option>';
                         
                         $sql = "SELECT * from usertype";
@@ -233,7 +233,7 @@
                         
                             $usertype=$row["usertype"];
                         
-                            echo '<option value= '.$usertype.'>'.$usertype.'</option>';
+                            echo '<option value= '.$id_usertype.'>'.$usertype.'</option>';
                             }
                         }
 
@@ -245,7 +245,7 @@
                 </div>
                 <div class="modal-footer">
                   <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                  <input type="submit" class="btn btn-success" name="addUserBtn" value="Add">
+                  <input type="submit" class="btn btn-success" name="addbtn" value="Add">
                 </div>
               </form>
             </div>

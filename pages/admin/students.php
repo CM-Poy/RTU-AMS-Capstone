@@ -4,6 +4,20 @@
   <?php
    include('header.php'); 
   require('../includes/config.php');
+
+
+  if(isset($_POST['addbtn'])){
+    include('../includes/functions.php');
+    $obj=new dbfunction();
+    $obj->addStd($_POST['flname'],$_POST['email'],$_POST['studnum'],$_POST['gflname'],$_POST['gemail'],$_POST['crsNameStd'],$_POST['yrLvlStd'],$_POST['sectNameStd']);
+  }
+
+  if(isset($_POST['updbtn'])){
+    include('../includes/functions.php');
+    $obj=new dbfunction();
+    $obj->updStd($_POST['flname'],$_POST['email'],$_POST['studnum'],$_POST['gflname'],$_POST['gemail'],$_POST['crsNameStd'],$_POST['yrLvlStd'],$_POST['sectNameStd']);
+  }
+
   ?>
   
 
@@ -120,6 +134,9 @@
                             $studnum_std=$row["studnum_std"];
                             $gflname_std=$row["gflname_std"];
                             $gemail_std=$row["gemail_std"];
+                            $crs_id=$row["crs_id"];
+                            $yrlvl_id=$row["yrlvl_id"];
+                            $sect_id=$row["sect_id"];
   
                             echo '
                             <form action="subjects.php" method="post">
@@ -137,9 +154,10 @@
                                     <td name="studid_std">'.$studnum_std.'</td>
                                     <td name="gflname_std">'.$gflname_std.'</td>
                                     <td name="gemail_std">'.$gemail_std.'</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
+                                    <td name="studid_std">'.$crs_id.'</td>
+                                    <td name="gflname_std">'.$yrlvl_id.'</td>
+                                    <td name="gemail_std">'.$sect_id.'</td>
+                                    
                                     <td>
                                       
                                       <a href="#editModal" class="editBtn" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
@@ -181,7 +199,7 @@
         <div id="addModal" class="modal fade">
           <div class="modal-dialog modalCenter">
             <div class="modal-content">
-              <form action="students.php" method="POST">
+              <form  method="POST">
                 <div class="modal-header">						
                   <h4 class="modal-title">Add Student</h4>
                   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -201,18 +219,18 @@
                   </div>
                   <div>
                     <label>Guardian Full Name</label>
-                    <input type="text" name="guardianname" class="form-control" required>
+                    <input type="text" name="gflname" class="form-control" required>
                   </div>			
                   <div>
                     <label>Guardian Email</label>
-                    <input type="email" name="guardianemail" class="form-control" required>
-                  </div>	
+                    <input type="email" name="gemail" class="form-control" required>
+                  </div>	  
                   <div class="form-group">
                     <label>Course</label>
                    
 
                     <?php
-                      echo '<select name="crsNameSect" id="crs" style="width: 340px">
+                      echo '<select name="crsNameStd" id="crs" style="width: 340px">
                       <option></option>';
               
                       $sql = "SELECT id_crs, name_crs, code_crs from courses";
@@ -263,7 +281,7 @@
                     <label>Section</label>
                    
                     <?php
-                        echo '<select name="sectNameSchd" id="sect" style="width: 340px">
+                        echo '<select name="sectNameStd" id="sect" style="width: 340px">
                         <option></option>';
                         
                         $sql = "SELECT * from sections";
@@ -272,11 +290,11 @@
                     
                         if($result->rowCount() > 0){
                         while ($row = $result->fetch(PDO::FETCH_ASSOC)){
-                            $id_sect=$row["id_sect"];
+                            $id_sect=$row["id_sec"];
                         
-                            $code_sect=$row["code_sect"];
+                            $code_sect=$row["code_sec"];
                         
-                            echo '<option value= '.$code_sect.'>'.$code_sect.'</option>';
+                            echo '<option value= '.$id_sect.'>'.$code_sect.'</option>';
                             }
                         }
 
@@ -291,47 +309,7 @@
                   <input type="submit" name="addbtn" class="btn btn-success" value="Add">
                 </div>
               </form>
-              <?php
-                  if(isset($_POST['addbtn']))
-                  {
-                      
-                      $fullname = $_POST['flname'];
-                      $email = $_POST['email'];
-                      $studnum = $_POST['studnum'];
-                      $gname = $_POST['guardianname'];
-                      $gemail = $_POST['guardianemail'];
-                      $yrlvl = $_POST['yrLvlStd'];
-                      $crsname = $_POST['crsNameSect'];
-                      $sectname = $_POST['sectNameSchd'];
-                      
-                      
-                      
-
-                      $sql = "INSERT INTO students (	
-                      flname_std,
-                      instemail_std,	
-                      studnum_std,	
-                      gflname_std,	
-                      gemail_std,	
-                      id_crs_fk,	
-                      id_yr_fk,	
-                      id_sect_fk) VALUES (:flname, :email, :studnum, :guardianname, :guardianemail, :yrLvlStd, :crsNameSect, :sectNameSchd)";
-                      $result = $conn->prepare($sql);
-
-                      $data = [
-                          ':flname' => $fullname,
-                          ':email' => $email,
-                          ':studnum' => $studnum,
-                          ':guardianname' => $gname,
-                          ':guardianemail' => $gemail,
-                          ':yrLvlStd' => $yrlvl,
-                          ':crsNameSect' => $crsname,
-                          ':sectNameSchd' => $sectname,
-                      ];
-                      $result->execute($data);
-                  }
-                
-                  ?>
+            
             </div>
           </div>
         </div>
@@ -346,42 +324,39 @@
         <div id="editModal" class="modal fade" >
           <div class="modal-dialog modalCenter">
             <div class="modal-content" >
-              <form action="students.php" method="post">
+              <form method="post">
               <input type="text" class="form-control" name="student_id" id = "id" hidden>
                 <div class="modal-header">						
                   <h4 class="modal-title">Edit Student</h4>
                   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 </div>
-                <div class="modal-body" >	
-                  <?php
-                  if(isset($_GET['']))
-                  ?>	
-                <div class="form-group">
+                <div class="modal-body">					
+                  <div>
                     <label>Full Name</label>
-                    <input type="text" class="form-control" name="editflname" id="flname" required>
+                    <input type="text" name="flname" id = "flname" class="form-control" required>
                   </div>
-                  <div class="form-group">
+                  <div>
                     <label>Institutional Email</label>
-                    <input type="email" class="form-control" name="editemail" id="instemail" required>
+                    <input type="email" name="email" id = "email" class="form-control" required>
                   </div>
-                  <div class="form-group">
+                  <div>
                     <label>Student Number</label>
-                    <input type="text" class="form-control" name="editstudnum" id="studnum" required></textarea>
+                    <input name="studnum" id = "studnum" class="form-control" required></textarea>
                   </div>
-                  <div class="form-group">
+                  <div>
                     <label>Guardian Full Name</label>
-                    <input type="text" class="form-control" name="editgflname" id="gflname" required>
+                    <input type="text" name="gflname" id = "gflname" class="form-control" required>
                   </div>			
-                  <div class="form-group">
+                  <div>
                     <label>Guardian Email</label>
-                    <input type="email" class="form-control" name="editgemail" id="gemail" required>
-                  </div>	
+                    <input type="email" name="gemail" id = "gemail" class="form-control" required>
+                  </div>	  
                   <div class="form-group">
                     <label>Course</label>
                    
 
                     <?php
-                      echo '<select name="crsNameSect" id="crs" style="width: 340px">
+                      echo '<select name="crsNameStd" id="crs" style="width: 340px">
                       <option></option>';
               
                       $sql = "SELECT id_crs, name_crs, code_crs from courses";
@@ -432,7 +407,7 @@
                     <label>Section</label>
                    
                     <?php
-                        echo '<select name="sectNameSchd" id="sect" style="width: 340px">
+                        echo '<select name="sectNameStd" id="sect" style="width: 340px">
                         <option></option>';
                         
                         $sql = "SELECT * from sections";
@@ -441,11 +416,11 @@
                     
                         if($result->rowCount() > 0){
                         while ($row = $result->fetch(PDO::FETCH_ASSOC)){
-                            $id_sect=$row["id_sect"];
+                            $id_sect=$row["id_sec"];
                         
-                            $code_sect=$row["code_sect"];
+                            $code_sect=$row["code_sec"];
                         
-                            echo '<option value= '.$code_sect.'>'.$code_sect.'</option>';
+                            echo '<option value= '.$id_sect.'>'.$code_sect.'</option>';
                             }
                         }
 
@@ -453,55 +428,12 @@
                     ?>
 
 
-                  </div>			
+                  </div>						
                 </div>
                 <div class="modal-footer">
                   <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                  <input type="button" class="btn btn-info" name="updatebtn" value="Save">
-                  <?php
-                  if(isset($_POST['updatebtn']))
-                  {
-                      $studid = $_POST['student_id'];
-                      $fullname = $_POST['editflname'];
-                      $email = $_POST['editemail'];
-                      $studnum = $_POST['editstudnum'];
-                      $gname = $_POST['editgflname'];
-                      $gemail = $_POST['editgemail'];
-                      $yrlvl = $_POST['yrLvlStd'];
-                      $crsname = $_POST['crsNameSect'];
-                      $sectname = $_POST['sectNameSchd'];
-
-                      try{
-                      $sql = 'UPDATE students SET (	
-                      flname_std = :editflname,
-                      instemail_std = :editemail,	
-                      studnum_std = :editstudnum,	
-                      gflname_std = :editgflname,	
-                      gemail_std = :editgemail,	
-                      id_crs_fk = :crsNameSect,	
-                      id_yr_fk = :yrLvlStd,	
-                      id_sect_fk = :sectNameSchd WHERE id_std = :student_id)';
-
-                      $statement = $conn->prepare($sql);
-                      $data = [
-                        
-                          ':editflname' => $fullname,
-                          ':editemail' => $email,
-                          ':editstudnum' => $studnum,
-                          ':editgflname' => $gname,
-                          ':editgemail' => $gemail,
-                          ':yrLvlStd' => $yrlvl,
-                          ':crsNameSect' => $crsname,
-                          ':sectNameSchd' => $sectname,
-                          ':student_id1' => $studid,
-                      ];
-                      $statement->execute($data);
-                      }
-                      catch(PDOException $e){
-                        echo $e->getMessage();
-                      }
-                  }
-                  ?>
+                  <input type="submit" class="btn btn-info" name="updbtn" value="Save">
+                  
                 </div>
               </form>
             </div>
@@ -570,7 +502,7 @@
 
                 $('#id').val(data[0]);
                 $('#flname').val(data[1]);
-                $('#instemail').val(data[2]);
+                $('#email').val(data[2]);
                 $('#studnum').val(data[3]);
                 $('#gflname').val(data[4]);
                 $('#gemail').val(data[5]);

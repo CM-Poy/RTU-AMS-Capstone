@@ -3,6 +3,13 @@
 
   <?php include('header.php'); 
   require('../includes/config.php');
+
+
+  if(isset($_POST['addbtn'])){
+    include('../includes/functions.php');
+    $obj=new dbfunction();
+    $obj->addDept($_POST["name"],$_POST["code"]);
+  }
   ?>
   
 
@@ -170,24 +177,24 @@
         <div id="addModal" class="modal fade">
           <div class="modal-dialog">
             <div class="modal-content">
-              <form>
+              <form method="post">
                 <div class="modal-header">						
-                  <h4 class="modal-title">Add Employee</h4>
+                  <h4 class="modal-title">Add Department</h4>
                   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 </div>
                 <div class="modal-body">					
                   <div class="form-group">
-                    <label>Code</label>
-                    <input type="text" class="form-control" required>
+                    <label>Name</label>
+                    <input type="text" name="name" class="form-control" required>
                   </div>
                   <div class="form-group">
-                    <label>Name</label>
-                    <input type="text" class="form-control" required>
+                    <label>Code</label>
+                    <input type="text" name="code" class="form-control" required>
                   </div>
                 </div>
                 <div class="modal-footer">
                   <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                  <input type="submit" class="btn btn-success" value="Add">
+                  <input type="submit" class="btn btn-success" name = "addbtn" value="Add">
                 </div>
               </form>
             </div>
