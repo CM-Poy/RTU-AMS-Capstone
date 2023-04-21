@@ -11,6 +11,11 @@
     <link rel='icon' href='../../images/rtu-logo.png'/>
     <title>ADMIN:Manage Students</title>
 </head>
+<script>
+  if (window.history.replaceState){
+    window.history.replaceState(null, null, window.location.href);
+  }
+</script>
   <body>
 
   <!--sidebar-->
@@ -94,6 +99,7 @@
                         <label for="selectAll"></label>
                       </span>
                     </th>
+                    
                     <th>Full Name</th>
                     <th>Institutional Email</th>
                     <th>Student Number</th>
@@ -121,7 +127,7 @@
                             $gflname_std=$row["gflname_std"];
                             $gemail_std=$row["gemail_std"];
   
-                            echo '
+                            echo '  
                             <form action="subjects.php" method="post">
                               <tr>
                                     <td>
@@ -131,7 +137,7 @@
                                       </span>
                                     </td>
                                     
-                                
+                                    
                                     <td name="flname_std">'.$flname_std.'</td>
                                     <td name="instemail_std">'.$instemail_std.'</td>
                                     <td name="studid_std">'.$studnum_std.'</td>
@@ -181,7 +187,7 @@
         <div id="addModal" class="modal fade">
           <div class="modal-dialog modalCenter">
             <div class="modal-content">
-              <form action="students.php" method="POST">
+              <form  method="POST">
                 <div class="modal-header">						
                   <h4 class="modal-title">Add Student</h4>
                   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -329,7 +335,20 @@
                           ':sectNameSchd' => $sectname,
                       ];
                       $result->execute($data);
-                  }
+                      echo "<script language='javascript'>";
+                      echo 'window.location.replace("students.php");';
+                      echo "</script>";
+
+}
+else{ 
+    echo "";
+}
+                  
+                     
+                  
+                      
+                
+                      
                 
                   ?>
             </div>
@@ -346,16 +365,13 @@
         <div id="editModal" class="modal fade" >
           <div class="modal-dialog modalCenter">
             <div class="modal-content" >
-              <form action="students.php" method="post">
+              <form method="post">
               <input type="text" class="form-control" name="student_id" id = "id" hidden>
                 <div class="modal-header">						
                   <h4 class="modal-title">Edit Student</h4>
                   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 </div>
                 <div class="modal-body" >	
-                  <?php
-                  if(isset($_GET['']))
-                  ?>	
                 <div class="form-group">
                     <label>Full Name</label>
                     <input type="text" class="form-control" name="editflname" id="flname" required>
@@ -456,12 +472,16 @@
                   </div>			
                 </div>
                 <div class="modal-footer">
+                  <input type="hidden" name="id" value="<?php echo $id_std; ?>">  
                   <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                  <input type="button" class="btn btn-info" name="updatebtn" value="Save">
+                  <input type="submit" class="btn btn-info" name="updatebtn" value="Save">
                   <?php
                   if(isset($_POST['updatebtn']))
+                  
                   {
-                      $studid = $_POST['student_id'];
+                      $id = $_POST['id'];
+
+                  
                       $fullname = $_POST['editflname'];
                       $email = $_POST['editemail'];
                       $studnum = $_POST['editstudnum'];
@@ -472,7 +492,7 @@
                       $sectname = $_POST['sectNameSchd'];
 
                       try{
-                      $sql = 'UPDATE students SET (	
+                      $sql = "UPDATE students SET (	
                       flname_std = :editflname,
                       instemail_std = :editemail,	
                       studnum_std = :editstudnum,	
@@ -480,9 +500,9 @@
                       gemail_std = :editgemail,	
                       id_crs_fk = :crsNameSect,	
                       id_yr_fk = :yrLvlStd,	
-                      id_sect_fk = :sectNameSchd WHERE id_std = :student_id)';
+                      id_sect_fk = :sectNameSchd WHERE id_std = $id";
 
-                      $statement = $conn->prepare($sql);
+                      $result = $conn->prepare($sql);
                       $data = [
                         
                           ':editflname' => $fullname,
@@ -493,9 +513,9 @@
                           ':yrLvlStd' => $yrlvl,
                           ':crsNameSect' => $crsname,
                           ':sectNameSchd' => $sectname,
-                          ':student_id1' => $studid,
+                          
                       ];
-                      $statement->execute($data);
+                      $result->execute($data);
                       }
                       catch(PDOException $e){
                         echo $e->getMessage();
@@ -516,7 +536,7 @@
         <div id="delModal" class="modal fade">
           <div class="modal-dialog">
             <div class="modal-content">
-              <form>
+              <form method="POST">
                 <div class="modal-header">						
                   <h4 class="modal-title">Delete Student</h4>
                   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -526,15 +546,28 @@
                   <p class="text-warning"><small>This action cannot be undone.</small></p>
                 </div>
                 <div class="modal-footer">
-                  <?php
-                
-
-                 echo' 
-                  <form action = "delete.php" method="post">
+                  
+                  <input type="hidden" name="id" value="<?php echo $id_std; ?>">  
                   <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                  <button type="submit" class="btn btn-danger" name="deletestud" value ='.$id_std.'>DELETE</button>';
-                
+                  <input type="submit" name="deletebtn" value="DELETE" class="btn btn-danger"></button>
+                  <?php 
+                    require('../includes/config.php');
+
+                    if(isset($_POST['deletebtn'])){
+                    $id = $_POST['id'];
+
+                    $sql = "DELETE FROM students WHERE id_std=$id";
+                    $result = $conn->prepare($sql);
+                    $result->execute();
+                    echo "<script language='javascript'>";
+                    echo 'window.location.replace("students.php");';
+                    echo "</script>";
+                    
+                    }
+
                   ?>
+                
+                 
                 </div>
               </form>
             </div>
