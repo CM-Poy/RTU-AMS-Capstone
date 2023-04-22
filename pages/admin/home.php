@@ -6,7 +6,21 @@
   include('../includes/header.php'); 
   require('../includes/config.php');
 
-  
+  require ("../includes/authenticator.php");
+  session_start();
+  if ($_SERVER['REQUEST_METHOD'] != "POST") {
+      header("location: ../authenticate_admin.php");
+      die();
+  }
+
+  $Authenticator = new Authenticator();
+  $checkResult = $Authenticator->verifyCode($_SESSION['auth_secret'], $_POST['code'], 2);    // 2 = 2*30sec clock tolerance
+
+  if (!$checkResult) {
+      $_SESSION['failed'] = true;
+      header("location: ../authenticate_admin.php");
+      die();
+  } 
 
 
  
@@ -14,7 +28,7 @@
   if(isset($_POST['addbtnA'])){
     include('../includes/functions.php');
     $obj=new dbfunction();
-    $obj->addUserAdmin($_POST["hnr"],$_POST["name"],$_POST["email"],$_POST["empnum"],$_POST["pwd"],$_POST["usertype"]);
+    $obj->addUserA($_POST["hnr"],$_POST["name"],$_POST["email"],$_POST["empnum"],$_POST["pwd"],$_POST["usertype"]);
   }
 
   
@@ -111,7 +125,8 @@
                   
                 <?php
                         $sql = "SELECT users.id_users, users.hnr_users, users.flname_users, users.instemail_users, users.empnum_users, usertype.usertype, users.usertype_users, users.pwd_users FROM users
-                        LEFT JOIN usertype ON users.usertype_users = usertype.id_usertype where users.usertype_users < 3";
+                        LEFT JOIN usertype ON users.usertype_users = usertype.id_usertype where users.usertype_users < 3
+                        ";
                         $result = $conn->prepare($sql);
                         $result->execute();
                        
@@ -123,7 +138,7 @@
                             $instemail_users=$row["instemail_users"];
                             $empnum_users=$row["empnum_users"];
                             $pwd_users=$row["pwd_users"];
-                           
+                            $usertype_users=$row["usertype"];
   
                             echo '
                             <form action="subjects.php" method="post">
@@ -201,11 +216,36 @@
                   <div class="form-group">
                     <label>Employee Number</label>
                     <input type="text" class="form-control"name="empnum"  required>
-                    <input type="text" class="form-control"name="pwd" hidden>
-                    <input type="text" class="form-control"name="usertype" hidden>
+                  </div>	
+                  <div class="form-group">
+                    <label>Password</label>
+                    <input type="text" class="form-control" name="pwd"required>
                   </div>
+                  <div class="form-group">
+                    <label>Usertype</label>
+                    <?php
+                        echo '<select name="usertype" style="width: 340px">
+                        <option></option>';
+                        
+                        $sql = "SELECT * from usertype";
+                        $result = $conn->prepare($sql);
+                        $result->execute();
+                    
+                        if($result->rowCount() > 0){
+                        while ($row = $result->fetch(PDO::FETCH_ASSOC)){
+                            $id_usertype=$row["id_usertype"];
+                        
+                            $usertype=$row["usertype"];
+                        
+                            echo '<option value= '.$id_usertype.'>'.$usertype.'</option>';
+                            }
+                        }
+
+                        echo '</select>';
+                    ?>
                   
-                  					
+
+                  </div>					
                 </div>
                 <div class="modal-footer">
                   <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
@@ -249,7 +289,32 @@
                   <div class="form-group">
                     <label>Password</label>
                     <input type="text" class="form-control" name="pwd" id="pwd" required>
-                  </div>	
+                  </div>
+                  <div class="form-group">
+                    <label>Usertype</label>
+
+                      <?php
+                        echo '<select name="usertype" id="usertype" style="width: 340px">
+                        ';
+                        
+                        $sql = "SELECT * from usertype";
+                        $result = $conn->prepare($sql);
+                        $result->execute();
+                    
+                        if($result->rowCount() > 0){
+                        while ($row = $result->fetch(PDO::FETCH_ASSOC)){
+                            $id_usertype=$row["id_usertype"];
+                        
+                            $usertype=$row["usertype"];
+                        
+                            echo '<option value= '.$usertype.'>'.$usertype.'</option>';
+                            }
+                        }
+
+                        echo '</select>';
+                    ?>
+
+                  </div>					
                 </div>
                 <div class="modal-footer">
                   <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">

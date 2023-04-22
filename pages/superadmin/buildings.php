@@ -1,33 +1,36 @@
 <!doctype html>
 <html lang="en">
 
-  <?php include('header.php'); 
+  <?php
+  include('../includes/header.php'); 
   require('../includes/config.php');
+
 
   if(isset($_POST['addbtn'])){
     include('../includes/functions.php');
     $obj=new dbfunction();
-    $obj->addSub($_POST['code'],$_POST['name'],$_POST['units']);
+    $obj->addDept($_POST["name"],$_POST["code"]);
   }
-
   ?>
+  
+
   
 
 <head>
     <link rel='icon' href='../../images/rtu-logo.png'/>
-    <title>ADMIN:Manage Subjects</title>
+    <title>SUPERADMIN:Manage Departments</title>
 </head>
   <body>
 
   <!--sidebar-->
 
-  <div class="wrapper d-flex align-items-stretch">
+    <div class="wrapper d-flex align-items-stretch">
             <nav id="sidebar">
                 <div class="p-4 pt-5">
                 <a href="#" class="img logo rounded-circle mb-5" style="background-image: url(../../images/rtu-logo.png);"></a>
-            <ul class="list-unstyled components mb-5">
+                <ul class="list-unstyled components mb-5">
               <li class="">
-                <a href="teachers.php" >&nbsp;&nbsp;&nbsp;<i class="fa-solid fa-user fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>TEACHERS</a>
+                <a href="users.php" >&nbsp;&nbsp;&nbsp;<i class="fa-solid fa-user fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>USERS</a>
               <li class="">
                 <a href="schedules.php" >&nbsp;&nbsp;&nbsp;<i class="fa fa-file-text fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>SCHEDULES</a>
               </li>
@@ -46,6 +49,11 @@
               <li>
                <a href="courses.php">&nbsp;&nbsp;&nbsp;<i class="fa fa-folder-open fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>COURSES</a>
               </li>
+              <li>
+               <a href="buildings.php">&nbsp;&nbsp;&nbsp;<i class="fa fa-building fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>BUILDINGS</a>  
+              </li>
+              <li>
+               <a href="rooms.php">&nbsp;&nbsp;&nbsp;<i class="fa fa-building fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>ROOMS</a>  
               </li>
             </ul>
 
@@ -66,7 +74,7 @@
             <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <i class="fa fa-bars"></i>
             </button>
-            <a class="nav-link font-weight-bold text-justify" id="page-title">ATTENDANCE MANAGEMENT SYSTEM - ADMIN</a> 
+            <a class="nav-link font-weight-bold text-justify" id="page-title">ATTENDANCE MANAGEMENT SYSTEM - SUPERADMIN</a> 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
               <ul class="nav navbar-nav ml-auto">
                 <li class="nav-item">
@@ -83,7 +91,7 @@
               <div class="table-title">
                 <div class="row">
                   <div class="col-sm-6">
-                    <h2>Manage <b>Subjects</b></h2>
+                    <h2>Manage <b>Departments</b></h2>
                   </div>
                   <div class="col-sm-6">
                     <a href="#addModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add New</span></a>
@@ -100,28 +108,27 @@
                         <label for="selectAll"></label>
                       </span>
                     </th>
-                  
                     <th>Name</th>
                     <th>Code</th>
-                    <th>Units</th>
                     <th>Actions</th>
                   </tr>
                 </thead>
                 <tbody>
-                 	  <?php
-                        $sql = "SELECT * from subjects";
+                 
+                <?php
+                        $sql = "SELECT * from building";
                         $result = $conn->prepare($sql);
                         $result->execute();
-                       
+                        
                         if($result->rowCount() > 0){
                           while ($row = $result->fetch(PDO::FETCH_ASSOC)){
-                            $id_subj=$row["id_subj"];
-                            $code_subj=$row["code_subj"];
-                            $name_subj=$row["name_subj"];
-                            $units_subj=$row["units_subj"];
+                            $id_bldg=$row["id_bldg"];
+                            $name_bldg=$row["name_bldg"];
+                            $code_bldg=$row["code_bldg"];
+                            
   
                             echo '
-                            <form action="subjects.php" method="post">
+                            <form method="post">
                               <tr>
                                     <td>
                                       <span class="custom-checkbox">
@@ -131,13 +138,14 @@
                                     </td>
                                     
                                 
-                                    <td name="codeSubj">'.$code_subj.'</td>
-                                    <td name="nameSubj">'.$name_subj.'</td>
-                                    <td name="unitsSubj">'.$units_subj.'</td>
+                                    
+                                    <td name="name_dept">'.$name_bldg.'</td>
+                                    <td name="code_dept">'.$code_bldg.'</td>
+                                    
                                     <td>
                                       
-                                      <a href="#editModal" value = '.$id_subj.' class="editBtn" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                                      <a href="#delModal" value = '.$id_subj.' class="delBtn" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                                      <a href="#editModal" value = '.$id_bldg.' class="editBtn" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                                      <a href="#delModal" value = '.$id_bldg.' class="delBtn" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
                                      
                                     </td>
                             </tr>
@@ -146,8 +154,9 @@
                         }else{
                           echo "No Record Found";
                         }
+
                     ?>
-                  
+
                 </tbody>
               </table>
               <div class="clearfix">
@@ -174,28 +183,24 @@
         <div id="addModal" class="modal fade">
           <div class="modal-dialog">
             <div class="modal-content">
-              <form method = "post">
+              <form method="post">
                 <div class="modal-header">						
-                  <h4 class="modal-title">Add Subject</h4>
+                  <h4 class="modal-title">Add Department</h4>
                   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 </div>
                 <div class="modal-body">					
-                  <div class="form-group">
-                    <label>Code</label>
-                    <input type="text" name="code" class="form-control" required>
-                  </div>
                   <div class="form-group">
                     <label>Name</label>
                     <input type="text" name="name" class="form-control" required>
                   </div>
                   <div class="form-group">
-                    <label>Units</label>
-                    <input type="text" name="units" class="form-control" required>
-                  </div>		
+                    <label>Code</label>
+                    <input type="text" name="code" class="form-control" required>
+                  </div>
                 </div>
                 <div class="modal-footer">
                   <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                  <input type="submit" name="addbtn" class="btn btn-success" value="Add">
+                  <input type="submit" class="btn btn-success" name = "addbtn" value="Add">
                 </div>
               </form>
             </div>
@@ -208,39 +213,33 @@
 
         <!-- Edit Modal HTML -->
         <div id="editModal" class="modal fade">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <form>
-              <input type="text" class="form-control" id = "idSubj" hidden>
-              <div class="modal-header">						
-                <h4 class="modal-title">Edit Employee</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-              </div>
-              <div class="modal-body">					
-                <div class="form-group">
-                  <label>Code</label>
-                  <input type="text" class="form-control" id = "codeSubj" required>
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <form>
+              <input type="text" class="form-control" id="id" hidden>
+                <div class="modal-header">						
+                  <h4 class="modal-title">Edit Department</h4>
+                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 </div>
-                <div class="form-group">
-                  <label>Name</label>
-                  <input type="text" class="form-control" id = "nameSubj" required>
+                <div class="modal-body">					
+                  <div class="form-group">
+                    <label>Name</label>
+                    <textarea type="text" class="form-control" id="name" required></textarea> 
+                  </div>
+                  <div class="form-group">
+                    <label>Code</label>
+                    <input type="text" class="form-control" id="code" required>					
                 </div>
-                <div class="form-group">
-                  <label>Units</label>
-                  <input type="text" class="form-control" id = "unitsSubj" required>
-                </div>		
-              </div>
-              <div class="modal-footer">
-                <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                <input type="submit" class="btn btn-info" value="Save">
-              </div>
-            </form>
+                <div class="modal-footer">
+                  <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                  <input type="submit" class="btn btn-info" value="Save">
+                </div>
+              </form>
+            </div>
           </div>
         </div>
-      </div>
 
-
-
+        
 
 
         <!-- Delete Modal HTML -->
@@ -268,15 +267,15 @@
       
       </div>
     </div>
-
-
+        
+  </body>
+</html>
 
     <script src="../../js/jquery.min.js"></script>
     <script src="../../js/popper.js"></script>
     <script src="../../js/bootstrap.min.js"></script>
     <script src="../../js/main.js"></script>
-   
-   
+
 
     <script>
 
@@ -295,14 +294,13 @@
 
                 console.log(data);
 
-                $('#idSubj').val(data[0]);
-                $('#codeSubj').val(data[1]);
-                $('#nameSubj').val(data[2]);
-                $('#unitsSubj').val(data[3]);
+                $('#id').val(data[0]);
+                $('#name').val(data[1]);
+                $('#code').val(data[2]);
+               
           
             });
         });
-
 
 
         $(document).ready(function(){
@@ -328,17 +326,6 @@
         }
       });
     });
-
-    </script>
-
-
-
-  </body>
-</html>
-
-
-<?php
-
-?>
+    </script> 
 
 

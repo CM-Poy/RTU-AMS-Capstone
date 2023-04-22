@@ -42,6 +42,22 @@ class dbfunction{
           ";
         }
 
+
+        $sql = "SELECT * FROM `users` WHERE `instemail_users`=? and `pwd_users`=? and `usertype_users`=3";
+        $query = $conn->prepare($sql);
+        $query->execute(array($instEmail,$pwd));
+        $row = $query->rowCount();
+        $fetch = $query->fetch();
+        if($row > 0) {
+          $_SESSION['user'] = $fetch['id_users'];
+          header("location: authenticate_superadmin.php");
+        }else{
+          echo "
+          <script>alert('Invalid username or password')</script>
+          <script>window.location = authenticate_superadmin.php</script>
+          ";
+        }
+
         }else{
           echo "
             <script>alert('Please complete the required field!')</script>
@@ -76,9 +92,9 @@ class dbfunction{
     }
 
 
-  function addUser($hnr_users,$flname_users,$instemail_users,$empnum_users,$pwd_users,$usertype_users){
+  function addUserSupAdmin($hnr_users,$flname_users,$instemail_users,$empnum_users,$pwd_users,$usertype_users){
     global $conn;
-    if(ISSET($_POST['addbtn'])){
+    if(ISSET($_POST['addbtnSA'])){
       if($_POST['hnr'] != "" || $_POST['name'] != "" || $_POST['email'] != "" || $_POST['empnum'] != "" || $_POST['pwd'] != "" || $_POST['usertype'] != ""){  
 
  
@@ -86,8 +102,29 @@ class dbfunction{
         $flname_users=$_POST["name"];
         $instemail_users=$_POST["email"];
         $empnum_users=$_POST["empnum"];
-        $pwd_users=$_POST["pwd"];
         $usertype_users=$_POST["usertype"];
+        $pwd_users="1234";
+
+        $sql = "INSERT INTO  users (flname_users,hnr_users,instemail_users,empnum_users,pwd_users,usertype_users) VALUES (?,?,?,?,?,?)";
+        $query = $conn->prepare($sql);
+        $query->execute([$hnr_users,$flname_users, $instemail_users, $empnum_users, $pwd_users, $usertype_users]);
+      
+      } 
+    }
+  }
+
+  function addUserAdmin($hnr_users,$flname_users,$instemail_users,$empnum_users,$pwd_users,$usertype_users){
+    global $conn;
+    if(ISSET($_POST['addbtnA'])){
+      if($_POST['hnr'] != "" || $_POST['name'] != "" || $_POST['email'] != "" || $_POST['empnum'] != "" || $_POST['pwd'] != "" || $_POST['usertype'] != ""){  
+
+ 
+        $hnr_users=$_POST["hnr"];
+        $flname_users=$_POST["name"];
+        $instemail_users=$_POST["email"];
+        $empnum_users=$_POST["empnum"];
+        $usertype_users="1";
+        $pwd_users="1234";
 
         $sql = "INSERT INTO  users (flname_users,hnr_users,instemail_users,empnum_users,pwd_users,usertype_users) VALUES (?,?,?,?,?,?)";
         $query = $conn->prepare($sql);
@@ -151,10 +188,10 @@ class dbfunction{
         $studnum = $_POST['studnum'];
         $gflname = $_POST['gflname'];
         $gemail = $_POST['gemail'];
-        $crsname = $_POST['crsNameStd'];
-        $yrlvl = $_POST['yrLvlStd'];
-        $sectname = $_POST['sectNameStd'];
-        $studid = $_POST['student_id'];
+        $crsname = $_POST['crs'];
+        $yrlvl = $_POST['yrlvl'];
+        $sectname = $_POST['sect'];
+        $studid = $_POST['id'];
         
     
         $sql = "UPDATE students set 

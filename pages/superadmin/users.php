@@ -1,35 +1,42 @@
 <!doctype html>
 <html lang="en">
 
-  <?php include('header.php'); 
+<?php 
+
+  include('../includes/header.php'); 
   require('../includes/config.php');
 
-
-  if(isset($_POST['addbtn'])){
-    include('../includes/functions.php');
-    $obj=new dbfunction();
-    $obj->addDept($_POST["name"],$_POST["code"]);
-  }
-  ?>
   
 
+
+ 
+
+  if(isset($_POST['addbtnSA'])){
+    include('../includes/functions.php');
+    $obj=new dbfunction();
+    $obj->addUserSupAdmin($_POST["hnr"],$_POST["name"],$_POST["email"],$_POST["empnum"],$_POST["pwd"],$_POST["usertype"]);
+  }
+
+  
+
+?>
   
 
 <head>
     <link rel='icon' href='../../images/rtu-logo.png'/>
-    <title>ADMIN:Manage Departments</title>
+    <title>ADMIN:Manage Teachers</title>
 </head>
   <body>
 
   <!--sidebar-->
 
-    <div class="wrapper d-flex align-items-stretch">
+  <div class="wrapper d-flex align-items-stretch">
             <nav id="sidebar">
                 <div class="p-4 pt-5">
                 <a href="#" class="img logo rounded-circle mb-5" style="background-image: url(../../images/rtu-logo.png);"></a>
-            <ul class="list-unstyled components mb-5">
+                <ul class="list-unstyled components mb-5">
               <li class="">
-                <a href="teachers.php" >&nbsp;&nbsp;&nbsp;<i class="fa-solid fa-user fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>TEACHERS</a>
+                <a href="users.php" >&nbsp;&nbsp;&nbsp;<i class="fa-solid fa-user fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>USERS</a>
               <li class="">
                 <a href="schedules.php" >&nbsp;&nbsp;&nbsp;<i class="fa fa-file-text fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>SCHEDULES</a>
               </li>
@@ -48,6 +55,11 @@
               <li>
                <a href="courses.php">&nbsp;&nbsp;&nbsp;<i class="fa fa-folder-open fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>COURSES</a>
               </li>
+              <li>
+               <a href="buildings.php">&nbsp;&nbsp;&nbsp;<i class="fa fa-building fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>BUILDINGS</a>  
+              </li>
+              <li>
+               <a href="rooms.php">&nbsp;&nbsp;&nbsp;<i class="fa fa-building fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>ROOMS</a>  
               </li>
             </ul>
 
@@ -79,17 +91,20 @@
           </div>
             
         </nav>
+  
+
+
         <div class="container-xl">
           <div class="table-responsive">
             <div class="table-wrapper">
               <div class="table-title">
                 <div class="row">
                   <div class="col-sm-6">
-                    <h2>Manage <b>Departments</b></h2>
+                    <h2>Manage <b>Teachers</b></h2>
                   </div>
                   <div class="col-sm-6">
                     <a href="#addModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add New</span></a>
-                    <a href="#delModal" class="btn btn-danger" data-toggle="modal"><i class="material-icons">&#xE15C;</i> <span>Delete</span></a>						
+                    <a href="#delModal" class="btn btn-danger" data-toggle="modal"><i class="material-icons">&#xE15C;</i> <span>Delete</span></a>
                   </div>
                 </div>
               </div>
@@ -102,44 +117,54 @@
                         <label for="selectAll"></label>
                       </span>
                     </th>
-                    <th>Name</th>
-                    <th>Code</th>
+                    <th>Full Name</th>
+                    <th>Honoriffic</th>
+                    <th>Institutional Email</th>
+                    <th>Employee Number</th>
+                    <th>Password</th>
+                    <th>Usertype</th>
                     <th>Actions</th>
                   </tr>
                 </thead>
                 <tbody>
-                 
+                  
                 <?php
-                        $sql = "SELECT * from departments";
+                        $sql = "SELECT users.id_users, users.hnr_users, users.flname_users, users.instemail_users, users.empnum_users, usertype.usertype, users.usertype_users, users.pwd_users FROM users
+                        LEFT JOIN usertype ON users.usertype_users = usertype.id_usertype";
                         $result = $conn->prepare($sql);
                         $result->execute();
-                        
+                       
                         if($result->rowCount() > 0){
                           while ($row = $result->fetch(PDO::FETCH_ASSOC)){
-                            $id_schd=$row["id_dept"];
-                            $name_dept=$row["name_dept"];
-                            $code_dept=$row["code_dept"];
-                            
+                            $id_users=$row["id_users"];
+                            $hnr_users=$row["hnr_users"];
+                            $flname_users=$row["flname_users"];
+                            $instemail_users=$row["instemail_users"];
+                            $empnum_users=$row["empnum_users"];
+                            $pwd_users=$row["pwd_users"];
+                            $usertype_users=$row["usertype"];
   
                             echo '
-                            <form method="post">
+                            <form action="subjects.php" method="post">
                               <tr>
                                     <td>
                                       <span class="custom-checkbox">
-                                        <input type="checkbox" id="checkbox5" name="options[]" value="1">
+                                        <input type="checkbox" id="checkbox5" name="options[]" value='.$id_users.'>
                                         <label for="checkbox5"></label>
                                       </span>
                                     </td>
                                     
                                 
-                                    
-                                    <td name="name_dept">'.$name_dept.'</td>
-                                    <td name="code_dept">'.$code_dept.'</td>
-                                    
+                                    <td>'.$flname_users.'</td>
+                                    <td>'.$hnr_users.'</td>
+                                    <td>'.$instemail_users.'</td>
+                                    <td>'.$empnum_users.'</td>
+                                    <td>'.$pwd_users.'</td>
+                                    <td>'.$usertype_users.'</td>
                                     <td>
                                       
-                                      <a href="#editModal" value = '.$id_schd.' class="editBtn" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                                      <a href="#delModal" value = '.$id_schd.' class="delBtn" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                                      <a href="#editModal" value = '.$id_users.' class="editBtn" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                                      <a href="#delModal" value = '.$id_users.' class="delBtn" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
                                      
                                     </td>
                             </tr>
@@ -148,7 +173,6 @@
                         }else{
                           echo "No Record Found";
                         }
-
                     ?>
 
                 </tbody>
@@ -171,78 +195,148 @@
 
 
 
-
-
         <!-- Add Modal HTML -->
         <div id="addModal" class="modal fade">
-          <div class="modal-dialog">
+          <div class="modal-dialog ">
             <div class="modal-content">
               <form method="post">
+              <input type="text" class="form-control" name="addid" hidden>
                 <div class="modal-header">						
-                  <h4 class="modal-title">Add Department</h4>
+                  <h4 class="modal-title">Add Teacher</h4>
                   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 </div>
                 <div class="modal-body">					
                   <div class="form-group">
-                    <label>Name</label>
-                    <input type="text" name="name" class="form-control" required>
+                    <label>Full Name</label>
+                    <input type="text" class="form-control"name="name" required>
                   </div>
                   <div class="form-group">
-                    <label>Code</label>
-                    <input type="text" name="code" class="form-control" required>
+                    <label>Honoriffic</label>
+                    <input type="text" class="form-control"name="hnr" required>
                   </div>
+                  <div class="form-group">
+                    <label>Institutional Email</label>
+                    <input type="email" class="form-control"name="email" required>
+                  </div>
+                  <div class="form-group">
+                    <label>Employee Number</label>
+                    <input type="text" class="form-control"name="empnum"  required>
+                  </div>
+                  <div class="form-group">
+                    <label>Usertype</label>
+                    <?php
+                        echo '<select name="usertype" style="width: 340px">
+                        <option></option>';
+                        
+                        $sql = "SELECT * from usertype where id_usertype < 3";
+                        $result = $conn->prepare($sql);
+                        $result->execute();
+                    
+                        if($result->rowCount() > 0){
+                        while ($row = $result->fetch(PDO::FETCH_ASSOC)){
+                            $id_usertype=$row["id_usertype"];
+                        
+                            $usertype=$row["usertype"];
+                        
+                            echo '<option value= '.$id_usertype.'>'.$usertype.'</option>';
+                            }
+                        }
+
+                        echo '</select>';
+                    ?>
+
+                  <input type="text" class="form-control"name="pwd" hidden>
+
+                  </div>					
                 </div>
                 <div class="modal-footer">
                   <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                  <input type="submit" class="btn btn-success" name = "addbtn" value="Add">
+                  <input type="submit" class="btn btn-success" name="addbtnSA" value="Add">
                 </div>
               </form>
             </div>
           </div>
         </div>
-
 
 
 
 
         <!-- Edit Modal HTML -->
         <div id="editModal" class="modal fade">
-          <div class="modal-dialog">
+          <div class="modal-dialog ">
             <div class="modal-content">
-              <form>
-              <input type="text" class="form-control" id="id" hidden>
+            <form method= "post">
+              <input type="text" class="form-control" name="id" id="id"hidden>
                 <div class="modal-header">						
-                  <h4 class="modal-title">Edit Department</h4>
+                  <h4 class="modal-title">Edit Teacher</h4>
                   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 </div>
                 <div class="modal-body">					
                   <div class="form-group">
-                    <label>Name</label>
-                    <textarea type="text" class="form-control" id="name" required></textarea> 
+                    <label>Full Name</label>
+                    <input type="text" class="form-control" name="name" id="name"required>
                   </div>
                   <div class="form-group">
-                    <label>Code</label>
-                    <input type="text" class="form-control" id="code" required>					
+                    <label>Honoriffic</label>
+                    <input type="text" class="form-control" name="hnr" id="hnr"required>
+                  </div>
+                  <div class="form-group">
+                    <label>Institutional Email</label>
+                    <input type="email" class="form-control" name="email" id="email"required>
+                  </div>
+                  <div class="form-group">
+                    <label>Employee Number</label>
+                    <input type="text" class="form-control" name="empnum" id="empnum" required>
+                  </div>	
+                  <div class="form-group">
+                    <label>Password</label>
+                    <input type="text" class="form-control" name="pwd" id="pwd" required>
+                  </div>
+                  <div class="form-group">
+                    <label>Usertype</label>
+
+                      <?php
+                        echo '<select name="usertype" id="usertype" style="width: 340px">
+                        ';
+                        
+                        $sql = "SELECT * from usertype";
+                        $result = $conn->prepare($sql);
+                        $result->execute();
+                    
+                        if($result->rowCount() > 0){
+                        while ($row = $result->fetch(PDO::FETCH_ASSOC)){
+                            $id_usertype=$row["id_usertype"];
+                        
+                            $usertype=$row["usertype"];
+                        
+                            echo '<option value= '.$usertype.'>'.$usertype.'</option>';
+                            }
+                        }
+
+                        echo '</select>';
+                    ?>
+
+                  </div>					
                 </div>
                 <div class="modal-footer">
                   <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                  <input type="submit" class="btn btn-info" value="Save">
+                  <input type="submit" class="btn btn-success" name="updBtn" value="Update">
                 </div>
-              </form>
+            </form>
             </div>
           </div>
         </div>
 
-        
+
 
 
         <!-- Delete Modal HTML -->
         <div id="delModal" class="modal fade">
-          <div class="modal-dialog">
+          <div class="modal-dialog ">
             <div class="modal-content">
               <form>
                 <div class="modal-header">						
-                  <h4 class="modal-title">Delete Employee</h4>
+                  <h4 class="modal-title">Delete Teacher</h4>
                   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 </div>
                 <div class="modal-body">					
@@ -257,21 +351,18 @@
             </div>
           </div>
         </div>
-      
-      
+        
+
       </div>
     </div>
-        
-  </body>
-</html>
-
+</form>
+</body>
     <script src="../../js/jquery.min.js"></script>
     <script src="../../js/popper.js"></script>
     <script src="../../js/bootstrap.min.js"></script>
     <script src="../../js/main.js"></script>
-
-
-    <script>
+</html>
+<script>
 
       //EDIT MODAL 
         $(document).ready(function () {
@@ -290,11 +381,17 @@
 
                 $('#id').val(data[0]);
                 $('#name').val(data[1]);
-                $('#code').val(data[2]);
-               
+                $('#hnr').val(data[2]);
+                $('#email').val(data[3]);
+                $('#empnum').val(data[4]);
+                $('#pwd').val(data[5]);
+                $('#usertype').val(data[6]);
+
+
           
             });
         });
+
 
 
         $(document).ready(function(){
@@ -320,6 +417,5 @@
         }
       });
     });
-    </script> 
 
-
+    </script>

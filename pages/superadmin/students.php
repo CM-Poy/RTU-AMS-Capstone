@@ -15,7 +15,7 @@
   if(isset($_POST['updbtn'])){
     include('../includes/functions.php');
     $obj=new dbfunction();
-    $obj->updStd($_POST['flname'],$_POST['email'],$_POST['studnum'],$_POST['gflname'],$_POST['gemail'],$_POST['crs'],$_POST['yrlvl'],$_POST['sect']);
+    $obj->updStd($_POST['flname'],$_POST['email'],$_POST['studnum'],$_POST['gflname'],$_POST['gemail'],$_POST['crsNameStd'],$_POST['yrLvlStd'],$_POST['sectNameStd']);
   }
 
   ?>
@@ -35,12 +35,30 @@
                 <a href="#" class="img logo rounded-circle mb-5" style="background-image: url(../../images/rtu-logo.png);"></a>
                 <ul class="list-unstyled components mb-5">
               <li class="">
-                <a href="teachers.php" >&nbsp;&nbsp;&nbsp;<i class="fa-solid fa-user fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>TEACHERS</a>
+                <a href="users.php" >&nbsp;&nbsp;&nbsp;<i class="fa-solid fa-user fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>USERS</a>
               <li class="">
                 <a href="schedules.php" >&nbsp;&nbsp;&nbsp;<i class="fa fa-file-text fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>SCHEDULES</a>
               </li>
               <li>
               <a href="students.php" >&nbsp;&nbsp;<i class="fa fa-users fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;</i>STUDENTS</a>
+              </li>
+              <li>
+              <a href="sections.php" >&nbsp;&nbsp;&nbsp;<i class="fa-solid fa-th-large fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>SECTIONS</a>
+              </li>
+              <li>
+              <a href="subjects.php" >&nbsp;&nbsp;&nbsp;<i class="fa fa-book fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>SUBJECTS</a>
+              </li>
+              <li>
+               <a href="departments.php">&nbsp;&nbsp;&nbsp;<i class="fa fa-building fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>DEPARTMENTS</a>  
+              </li>
+              <li>
+               <a href="courses.php">&nbsp;&nbsp;&nbsp;<i class="fa fa-folder-open fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>COURSES</a>
+              </li>
+              <li>
+               <a href="buildings.php">&nbsp;&nbsp;&nbsp;<i class="fa fa-building fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>BUILDINGS</a>  
+              </li>
+              <li>
+               <a href="rooms.php">&nbsp;&nbsp;&nbsp;<i class="fa fa-building fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>ROOMS</a>  
               </li>
             </ul>
 
@@ -100,8 +118,8 @@
                     <th>Student Number</th>
                     <th>Guardian Full Name</th>
                     <th>Guardian Email</th>
-                    <th>Course</th>
                     <th>Section</th>
+                    <th>Course</th>
                     <th>Year Level</th>
                     <th>Actions</th>
                   </tr>
@@ -109,7 +127,7 @@
                 <tbody>
                   				
                 <?php
-                        $sql = "SELECT students.id_std, students.flname_std, students.instemail_std, students.studnum_std, students.gflname_std, students.gemail_std, sections.code_sec, courses.name_crs, year.yearlvl_yr FROM students
+                        $sql = "SELECT students.id_std, students.flname_std, students.instemail_std, students.studnum_std, students.gflname_std, students.gemail_std, sections.code_sec, courses.code_crs, year.yearlvl_yr FROM students
                         LEFT JOIN courses on students.crs_id = courses.id_crs
                         left join year on students.yrlvl_id = year.id_yr
                         left join sections on students.sect_id = sections.id_sec";
@@ -124,12 +142,12 @@
                             $studnum_std=$row["studnum_std"];
                             $gflname_std=$row["gflname_std"];
                             $gemail_std=$row["gemail_std"];
-                            $crs_id=$row["name_crs"];
+                            $crs_id=$row["code_crs"];
                             $yrlvl_id=$row["yearlvl_yr"];
                             $sect_id=$row["code_sec"];
   
                             echo '
-                            <form method="post">
+                            <form action="subjects.php" method="post">
                               <tr>
                                     <td>
                                       <span class="custom-checkbox">
@@ -139,14 +157,15 @@
                                     </td>
                                     
                                 
-                                    <td>'.$flname_std.'</td>
-                                    <td>'.$instemail_std.'</td>
-                                    <td>'.$studnum_std.'</td>
-                                    <td>'.$gflname_std.'</td>
-                                    <td>'.$gemail_std.'</td>
-                                    <td>'.$crs_id.'</td>
-                                    <td>'.$sect_id.'</td>
-                                    <td>'.$yrlvl_id.'</td>
+                                    <td name="flname_std">'.$flname_std.'</td>
+                                    <td name="instemail_std">'.$instemail_std.'</td>
+                                    <td name="studid_std">'.$studnum_std.'</td>
+                                    <td name="gflname_std">'.$gflname_std.'</td>
+                                    <td name="gemail_std">'.$gemail_std.'</td>
+                                    <td name="gemail_std">'.$sect_id.'</td>
+                                    <td name="studid_std">'.$crs_id.'</td>
+                                    <td name="gflname_std">'.$yrlvl_id.'</td>
+                                    
                                     
                                     <td>
                                       
@@ -222,7 +241,7 @@
                     <?php
                       echo '<select name="crsNameStd" id="crs" style="width: 340px">
                       <option></option>';
-                      
+              
                       $sql = "SELECT id_crs, name_crs, code_crs from courses";
                       $result = $conn->prepare($sql);
                       $result->execute();
@@ -315,7 +334,7 @@
           <div class="modal-dialog modalCenter">
             <div class="modal-content" >
               <form method="post">
-              <input type="text" class="form-control" name="id" id ="id" hidden>
+              <input type="text" class="form-control" name="student_id" id = "id" hidden>
                 <div class="modal-header">						
                   <h4 class="modal-title">Edit Student</h4>
                   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -331,7 +350,7 @@
                   </div>
                   <div>
                     <label>Student Number</label>
-                    <input name="studnum" name = "studnum" id = "studnum" class="form-control" required></textarea>
+                    <input name="studnum" id = "studnum" class="form-control" required></textarea>
                   </div>
                   <div>
                     <label>Guardian Full Name</label>
@@ -340,14 +359,15 @@
                   <div>
                     <label>Guardian Email</label>
                     <input type="email" name="gemail" id = "gemail" class="form-control" required>
-                    
                   </div>	  
                   <div class="form-group">
                     <label>Course</label>
+                   
+
                     <?php
-                      echo '<select name="crs" id="crs" style="width: 340px" class="form-control" required>
+                      echo '<select name="crsNameStd" id="crsNameStd" style="width: 340px">
                       <option></option>';
-                      
+              
                       $sql = "SELECT id_crs, name_crs, code_crs from courses";
                       $result = $conn->prepare($sql);
                       $result->execute();
@@ -356,6 +376,7 @@
                       while ($row = $result->fetch(PDO::FETCH_ASSOC)){
                           $id_crs=$row["id_crs"];
                           $name_crs=$row["name_crs"];
+                          $code_crs=$row["code_crs"];
                       
                           echo '<option value= '.$id_crs.'>'.$name_crs.'</option>';
                           }
@@ -370,7 +391,7 @@
 
                     <?php
 
-                      echo '<select name="yrlvl" id="yrlvl" style="width: 340px" class="form-control" required>
+                      echo '<select name="yrLvlStd" id="yrLvlStd" style="width: 340px">
                       <option></option>';
 
                       $sql = "SELECT id_yr, yearlvl_yr from year";
@@ -393,26 +414,28 @@
                   </div>			
                   <div class="form-group">
                     <label>Section</label>
+                   
                     <?php
-                      echo '<select name="sect" id="sect" style="width: 340px" class="form-control" required>
-                      <option></option>';
+                        echo '<select name="sectNameStd" id="sectNameStd" style="width: 340px">
+                        <option></option>';
+                        
+                        $sql = "SELECT * from sections";
+                        $result = $conn->prepare($sql);
+                        $result->execute();
+                    
+                        if($result->rowCount() > 0){
+                        while ($row = $result->fetch(PDO::FETCH_ASSOC)){
+                            $id_sect=$row["id_sec"];
+                        
+                            $code_sect=$row["code_sec"];
+                        
+                            echo '<option value= '.$id_sect.'>'.$code_sect.'</option>';
+                            }
+                        }
 
-                      $sql = "SELECT * from sections";
-                      $result = $conn->prepare($sql);
-                      $result->execute();
-
-                      if($result->rowCount() > 0){
-                      while ($row = $result->fetch(PDO::FETCH_ASSOC)){
-                          $id_sec=$row["id_sec"];
-                          $code_sec=$row["code_sec"];
-
-                          
-                          echo'<option value= '.$id_sec.' >'.$code_sec.'</option>';
-                          }
-                      }
-
-                      echo '</select>';
+                        echo '</select>';
                     ?>
+
 
                   </div>						
                 </div>
@@ -484,9 +507,6 @@
                     return $(this).text();
                 }).get();
 
-                
-               
-
                 console.log(data);
 
                 $('#id').val(data[0]);
@@ -495,12 +515,13 @@
                 $('#studnum').val(data[3]);
                 $('#gflname').val(data[4]);
                 $('#gemail').val(data[5]);
-                $('#crs').val(data[6]);
-                $('#yrlvl').val(data[7]);
-                $('#sect').val(data[8]);
+                $('#crsNameStd').val(data[6]);
+                $('#yrLvlStd').val(data[7]);
+                $('#sectNameStd').val(data[8]);
           
             });
         });
+      
     
    
     $(document).ready(function(){

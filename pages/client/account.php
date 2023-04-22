@@ -62,10 +62,6 @@
     background-repeat: no-repeat;
     background-position: center;
 }
-
-.container .content .list{
-
-}
   
 
 @media(max-width: 990px){

@@ -1,7 +1,8 @@
 <!doctype html>
 <html lang="en">
 
-  <?php include('header.php'); 
+  <?php
+  include('../includes/header.php'); 
   require('../includes/config.php');
 
 
@@ -15,7 +16,7 @@
 
 <head>
     <link rel='icon' href='../../images/rtu-logo.png'/>
-    <title>ADMIN:Manage Sections</title>
+    <title>SUPERADMIN:Manage Sections</title>
 </head>
 
   <body>
@@ -26,9 +27,9 @@
             <nav id="sidebar">
                 <div class="p-4 pt-5">
                 <a href="#" class="img logo rounded-circle mb-5" style="background-image: url(../../images/rtu-logo.png);"></a>
-            <ul class="list-unstyled components mb-5">
+                <ul class="list-unstyled components mb-5">
               <li class="">
-                <a href="teachers.php" >&nbsp;&nbsp;&nbsp;<i class="fa-solid fa-user fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>TEACHERS</a>
+                <a href="users.php" >&nbsp;&nbsp;&nbsp;<i class="fa-solid fa-user fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>USERS</a>
               <li class="">
                 <a href="schedules.php" >&nbsp;&nbsp;&nbsp;<i class="fa fa-file-text fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>SCHEDULES</a>
               </li>
@@ -47,6 +48,11 @@
               <li>
                <a href="courses.php">&nbsp;&nbsp;&nbsp;<i class="fa fa-folder-open fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>COURSES</a>
               </li>
+              <li>
+               <a href="buildings.php">&nbsp;&nbsp;&nbsp;<i class="fa fa-building fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>BUILDINGS</a>  
+              </li>
+              <li>
+               <a href="rooms.php">&nbsp;&nbsp;&nbsp;<i class="fa fa-building fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>ROOMS</a>  
               </li>
             </ul>
 
@@ -67,7 +73,7 @@
             <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <i class="fa fa-bars"></i>
             </button>
-            <a class="nav-link font-weight-bold text-justify" id="page-title">ATTENDANCE MANAGEMENT SYSTEM - ADMIN</a> 
+            <a class="nav-link font-weight-bold text-justify" id="page-title">ATTENDANCE MANAGEMENT SYSTEM - SUPERADMIN</a> 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
               <ul class="nav navbar-nav ml-auto">
                 <li class="nav-item">
@@ -111,7 +117,9 @@
                 <tbody>
 
                 <?php
-                        $sql = "SELECT * from sections ";
+                        $sql = "SELECT sections.id_sec, sections.code_sec, courses.code_crs, year.yearlvl_yr FROM sections 
+                        left JOIN courses on sections.crs_id = courses.id_crs 
+                        LEFT JOIN year on sections.yrlvl_id = year.id_yr";
                         $result = $conn->prepare($sql);
                         $result->execute();
                         
@@ -119,8 +127,8 @@
                           while ($row = $result->fetch(PDO::FETCH_ASSOC)){
                             $id_sec=$row["id_sec"];
                             $code_sec=$row["code_sec"];
-                            $crs_id=$row["crs_id"];
-                            $yrlvl_id=$row["yrlvl_id"];
+                            $crs_id=$row["code_crs"];
+                            $yrlvl_id=$row["yearlvl_yr"];
   
                             echo '
                             <form action="subjects.php" method="post">
