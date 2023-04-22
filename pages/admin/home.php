@@ -28,7 +28,7 @@
   if(isset($_POST['addbtnA'])){
     include('../includes/functions.php');
     $obj=new dbfunction();
-    $obj->addUserA($_POST["hnr"],$_POST["name"],$_POST["email"],$_POST["empnum"],$_POST["pwd"],$_POST["usertype"]);
+    $obj->addUserAdmin($_POST["hnr"],$_POST["name"],$_POST["email"],$_POST["empnum"],$_POST["pwd"],$_POST["usertype"]);
   }
 
   
@@ -77,6 +77,7 @@
                 <i class="fa fa-bars"></i>
             </button>
             <a class="nav-link font-weight-bold text-justify" id="page-title">ATTENDANCE MANAGEMENT SYSTEM - ADMIN</a> 
+            <?php echo $_SESSION['user']; ?>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
               <ul class="nav navbar-nav ml-auto">
                 <li class="nav-item">
