@@ -18,6 +18,7 @@
     $obj->updStd($_POST['flname'],$_POST['email'],$_POST['studnum'],$_POST['gflname'],$_POST['gemail'],$_POST['crs'],$_POST['yrlvl'],$_POST['sect']);
   }
 
+
   ?>
   
 
@@ -130,6 +131,7 @@
   
                             echo '
                             <form method="post">
+                            <input type="text" value ='.$id_std.' hidden>
                               <tr>
                                     <td>
                                       <span class="custom-checkbox">
@@ -138,7 +140,7 @@
                                       </span>
                                     </td>
                                     
-                                
+                                    
                                     <td>'.$flname_std.'</td>
                                     <td>'.$instemail_std.'</td>
                                     <td>'.$studnum_std.'</td>
@@ -151,7 +153,7 @@
                                     <td>
                                       
                                       <a href="#editModal" class="editBtn" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                                      <a href="#delModal" class="delBtn" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                                      <a href="#delModal" class="delBtn" name="delBtn" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
                                      
                                     </td>
                             </tr>
@@ -315,13 +317,14 @@
           <div class="modal-dialog modalCenter">
             <div class="modal-content" >
               <form method="post">
-              <input type="text" class="form-control" name="id" id ="id" hidden>
+              <input type="text" class="form-control" id = "id" hidden>
                 <div class="modal-header">						
                   <h4 class="modal-title">Edit Student</h4>
                   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 </div>
                 <div class="modal-body">					
                   <div>
+                 
                     <label>Full Name</label>
                     <input type="text" name="flname" id = "flname" class="form-control" required>
                   </div>
@@ -439,20 +442,18 @@
                   <h4 class="modal-title">Delete Student</h4>
                   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 </div>
-                <div class="modal-body">					
+                <div class="modal-body">
+                  <?php echo $id_std ?>
+                <input type="text" class="form-control" id ="iddel" hidden>							
                   <p>Are you sure you want to delete these Records?</p>
                   <p class="text-warning"><small>This action cannot be undone.</small></p>
                 </div>
                 <div class="modal-footer">
-                  <?php
-                
-
-                 echo' 
-                  <form action = "delete.php" method="post">
+                 
+                  <form method="post">
                   <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                  <button type="submit" class="btn btn-danger" name="deletestud" value ='.$id_std.'>DELETE</button>';
-                
-                  ?>
+                  <button type="submit" class="btn btn-danger" name="deletebtn">DELETE</button>';
+               
                 </div>
               </form>
             </div>
@@ -501,6 +502,25 @@
           
             });
         });
+
+      //DELETE
+      $(document).ready(function () {
+
+        $('.delBtn').on('click', function () {
+
+          $('#delModal').modal('show');
+
+          $tr = $(this).closest('tr');
+
+          var data = $tr.children("td").map(function () {
+              return $(this).text();
+          }).get();
+          
+          console.log(data);
+
+          $('#iddel').val(data[0]);
+        });
+      });
     
    
     $(document).ready(function(){

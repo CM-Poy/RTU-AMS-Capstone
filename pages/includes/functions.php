@@ -318,6 +318,37 @@ class dbfunction{
     }
   }
 
+  function delStd(){
+    global $conn;
+    if(isset($_POST['delbtn'])){
+      echo'
+      <div id="delModal" class="modal fade">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <form>
+                <div class="modal-header">						
+                  <h4 class="modal-title">Delete Student</h4>
+                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+                <div class="modal-body">					
+                  <p>Are you sure you want to delete these Records?</p>
+                  <p class="text-warning"><small>This action cannot be undone.</small></p>
+                </div>
+                <div class="modal-footer">
+                 
+                  <form method="post">
+                  <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                  <button type="submit" class="btn btn-danger" name="deletebtn">DELETE</button>
+               
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      ';
+      
+      }
+  }
 
 }
 
