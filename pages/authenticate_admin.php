@@ -37,6 +37,7 @@ if (!isset($_SESSION['failed'])) {
         body,html {
             height: 100%;
             
+            
         }       
 
 
@@ -46,7 +47,6 @@ if (!isset($_SESSION['failed'])) {
             /* Full height */
             height: 100%; 
             /* Center and scale the image nicely */
-            background-position: center;
             background-repeat: no-repeat;
            
             background-size: cover;
