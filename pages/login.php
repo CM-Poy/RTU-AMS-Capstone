@@ -39,7 +39,7 @@
                     <i class="fas fa-lock"></i>
                 </div>
 
-                <button name="btnLogin" class="submit"  >Log in</button>
+                <button name="btnLogin" class="submit"  type="submit">Log in</button>
             </form>
         </div>
     </section>
