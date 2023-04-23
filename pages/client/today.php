@@ -1,7 +1,9 @@
 <?php 
 require('../includes/config.php');
 include('../includes/header.php');
+
 session_start();
+
 
 ?>
 
@@ -84,6 +86,7 @@ $(".close,.buttons").click(function() {
   }
 }
       </style>
+       <link rel='icon' href='../../images/rtu-logo.png'/>
   </head>
   <body>
 	<!--sidebar-->
@@ -93,7 +96,7 @@ $(".close,.buttons").click(function() {
                 <a href="#" class="img logo rounded-circle mb-5" style="background-image: url(../../images/rtu-logo.png);"></a>
             <ul class="list-unstyled components mb-5">
               <li class="">
-                <a href="index.php">&nbsp;&nbsp;&nbsp;<i class="fa-sharp fa-solid fa-calendar-day fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>DASHBOARD</a>
+                <a href="today.php">&nbsp;&nbsp;&nbsp;<i class="fa-sharp fa-solid fa-calendar-day fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>DASHBOARD</a>
               </li>
               <li class="">
                <a href="calendar.php">&nbsp;&nbsp;&nbsp;<i class="fa-sharp fa-solid fa-calendar-days fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>CALENDAR</a>
@@ -189,30 +192,35 @@ $(".close,.buttons").click(function() {
                 <?php
                     $userid=$_SESSION['user'];
 
-                    $sql = "SELECT schedules.id_schd, users.flname_users, subjects.code_subj, sections.code_sec, schedules.day_schd, schedules.strtime_schd, schedules.endtime_schd, room.code_room from schedules
+                    $sql = "SELECT schedules.id_schd, users.flname_users, subjects.code_subj, schedules.sec_id, sections.code_sec, schedules.day_schd, schedules.strtime_schd, schedules.endtime_schd, room.code_room from schedules
                     left join users on schedules.user_id = users.id_users
                     left JOIN subjects on schedules.sub_id = subjects.id_subj
                     LEFT JOIN sections on schedules.sec_id = sections.id_sec
                     LEFT JOIN room on schedules.room_id = room.id_room where user_id = $userid ";
                     $result = $conn->prepare($sql);
                     $result->execute();
-                
                     if($result->rowCount() > 0){
                         while ($row = $result->fetch(PDO::FETCH_ASSOC)){
+                          
+                          
                             
                 ?>
-                            
+                       
                     <div class="col-md-4">
-                        <div class="card text-center card-1" style="width: 18rem;" id="subj1" data-toggle="modal" data-target="#myModal">
-                            <div class="card-body">
-                                <h5 class="card-title"><?php echo $row["code_subj"]; ?></h5>
-                                <h6 class="card-subtitle mb-2 text-muted"><?php echo $row["code_sec"];?>  |  <?php echo $row["day_schd"];?>  |  <?php echo $row["strtime_schd"];?>  -  <?php echo $row["endtime_schd"];?>  |  <?php echo $row["code_room"];?></h6>
-                            </div>
+                        <div class="card text-center card-1" style="width: 18rem;" id="subj1">
+                          <a href = "classlist.php">
+                                <div class="card-body">
+                                    <h5 class="card-title"><?php echo $row["code_subj"]; ?></h5>
+                                    <form action="classlist.php" method="POST">   
+                                    <input type="text" name="idsec" value="<?php echo $row["sec_id"]; ?>" hidden/>
+                                    </form>
+                                    <h6 class="card-subtitle mb-2 text-muted"><?php echo $row["code_sec"];?>  |  <?php echo $row["day_schd"];?>  |  <?php echo $row["strtime_schd"];?>  -  <?php echo $row["endtime_schd"];?>  |  <?php echo $row["code_room"];?></h6>
+                                </div>
+                          </a>
                         </div>
                     </div>
-
+                   
                 <?php
-  
                            
                         }
                     }
@@ -331,67 +339,18 @@ $(".close,.buttons").click(function() {
                 </div>
             </div>
           </div>
+    <!-- Modal content-->
     <div class="modal fade" id="myModal" role="dialog">
     <div class="modal-dialog">
     
-      <!-- Modal content-->
+      
       <div class="modal-content" id="modal">
         <div class="modal-header">
             <h4 class="modal-title">SUBJECT</h4>
           <button type="button" class="close" data-dismiss="modal"></button>
         </div>
         <div class="modal-body">
-        <table>
-            <tbody>
-                <tr>
-             <th>Name</th>
-             <th>Student Number</th>
-                                 
-             </tr>
-             
-
-
-          <?php
-                  global $conn;
-                  $sql = "SELECT schedules.id_schd, sections.code_sec, schedules.sec_id from schedules
-                    left join users on schedules.user_id = users.id_users
-                    LEFT JOIN sections on schedules.sec_id = sections.id_sec where user_id = $userid ";
-                  $result = $conn->prepare($sql);
-                  $result->execute();
-                  if($result->rowCount() > 0){
-                    while ($row=$result->fetch(PDO::FETCH_ASSOC)){
-                        $sec = $row['sec_id'];
-
-
-                        $sql2 = "SELECT * from students where sect_id = ? ";
-                        $result2 = $conn->prepare($sql2);
-                        $result2->execute([$sec]);
-                        if($result2->rowCount() > 0){
-                            while ($row2=$result2->fetch(PDO::FETCH_ASSOC)){
-                                ?><tr>
-                                <td><?php echo $row2['flname_std']; ?> </td>
-                                <td><?php echo $row2['studnum_std']; ?> </td>
-                                <td><?php echo $sec; ?> </td></tr>
-                                
-
-                                
-
-                     
-
-                      <?php
-                    }
-                }
-            }
-        }
-
-
-
-
-          ?>
-          </thead>
-             </tbody>
-         </table>
-         <div>
+       
          <button class="att">ATTENDANCE</button>
          <button class="att2">RANDOMIZER</button>
          

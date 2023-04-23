@@ -76,7 +76,7 @@ if (!isset($_SESSION['failed'])) {
                 <b><p class="header">RTU-BONI ATTENDANCE MANAGEMENT SYSTEM AUTHENTICATOR</p></b>
                 <p style="font-style: italic; text-align: center;">Powered by Google Authenticator</p>
                 <hr>
-                <form action="client/today.php" method="post">
+                <form action="client/home.php" method="post">
                     <div style="text-align: center;">
                         <?php if ($_SESSION['failed']): ?>
                             <div class="alert alert-danger" role="alert">
