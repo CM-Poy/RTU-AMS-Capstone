@@ -162,7 +162,7 @@
                                     <td name="studid_std">'.$studnum_std.'</td>
                                     <td name="gflname_std">'.$gflname_std.'</td>
                                     <td name="gemail_std">'.$gemail_std.'</td>
-                                    <td name="gemail_std">'.$sect_id.'</td>
+                                    
                                     <td name="studid_std">'.$crs_id.'</td>
                                     <td name="gflname_std">'.$yrlvl_id.'</td>
                                     
@@ -365,7 +365,7 @@
                    
 
                     <?php
-                      echo '<select name="crsNameStd" id="crsNameStd" style="width: 340px">
+                      echo '<select name="crsNameStd" id="crs" style="width: 340px">
                       <option></option>';
               
                       $sql = "SELECT id_crs, name_crs, code_crs from courses";
@@ -391,7 +391,7 @@
 
                     <?php
 
-                      echo '<select name="yrLvlStd" id="yrLvlStd" style="width: 340px">
+                      echo '<select name="yrLvlStd" id="yrlvl" style="width: 340px">
                       <option></option>';
 
                       $sql = "SELECT id_yr, yearlvl_yr from year";
@@ -416,7 +416,7 @@
                     <label>Section</label>
                    
                     <?php
-                        echo '<select name="sectNameStd" id="sectNameStd" style="width: 340px">
+                        echo '<select name="sectNameStd" id="sect" style="width: 340px">
                         <option></option>';
                         
                         $sql = "SELECT * from sections";
@@ -515,9 +515,9 @@
                 $('#studnum').val(data[3]);
                 $('#gflname').val(data[4]);
                 $('#gemail').val(data[5]);
-                $('#crsNameStd').val(data[6]);
-                $('#yrLvlStd').val(data[7]);
-                $('#sectNameStd').val(data[8]);
+                $('#crs').val(data[6]);
+                $('#yrlvl').val(data[7]);
+                $('#sect').val(data[8]);
           
             });
         });

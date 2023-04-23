@@ -77,7 +77,7 @@
                 <i class="fa fa-bars"></i>
             </button>
             <a class="nav-link font-weight-bold text-justify" id="page-title">ATTENDANCE MANAGEMENT SYSTEM - ADMIN</a> 
-            <?php echo $_SESSION['user']; ?>
+            
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
               <ul class="nav navbar-nav ml-auto">
                 <li class="nav-item">

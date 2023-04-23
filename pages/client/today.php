@@ -211,7 +211,7 @@ $(".close,.buttons").click(function() {
                           <a href = "classlist.php">
                                 <div class="card-body">
                                     <h5 class="card-title"><?php echo $row["code_subj"]; ?></h5>
-                                    <form action="classlist.php" method="POST">   
+                                    <form action="classlist.php" method="POST">
                                     <input type="text" name="idsec" value="<?php echo $row["sec_id"]; ?>" hidden/>
                                     </form>
                                     <h6 class="card-subtitle mb-2 text-muted"><?php echo $row["code_sec"];?>  |  <?php echo $row["day_schd"];?>  |  <?php echo $row["strtime_schd"];?>  -  <?php echo $row["endtime_schd"];?>  |  <?php echo $row["code_room"];?></h6>

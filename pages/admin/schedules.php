@@ -10,7 +10,7 @@
     include('../includes/functions.php');
     $obj=new dbfunction();
     $obj->addSchd($_POST['usrName'], $_POST['subName'], $_POST['secName'],  $_POST['day'], $_POST['strTime'], $_POST['endTime'], $_POST['room']);
-  }
+  } 
   ?>
   
 

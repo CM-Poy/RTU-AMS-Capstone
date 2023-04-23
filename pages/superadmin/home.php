@@ -25,7 +25,7 @@ if (!$checkResult) {
   if(isset($_POST['addbtnsa'])){
     include('../includes/functions.php');
     $obj=new dbfunction();
-    $obj->addUserSA($_POST["hnr"],$_POST["name"],$_POST["email"],$_POST["empnum"],$_POST["pwd"],$_POST["usertype"]);
+    $obj->addUserSupAdmin($_POST["hnr"],$_POST["name"],$_POST["email"],$_POST["empnum"],$_POST["pwd"],$_POST["usertype"]);
   }
 
   
