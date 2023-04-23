@@ -18,16 +18,18 @@
     <title>Log in page</title>
 </head>
 <body>
+
     <section class="side">
         <img src="../images/rtu-logo.png" alt="">
     </section>
-
+    
     <section class="main">
         <div class="login-container">
             <p class="title">ATTENDANCE MANAGEMENT SYSTEM</p>
             <div class="separator"></div>
             <p class="welcome-message">Provide Registered Credentials</p>
-            <form class="login-form">
+            
+            <form class="login-form" method="post">
                 <div class="form-control">
                     <input type="text" name="instEmail" placeholder="Instituitional Email">
                     <i class="fas fa-user"></i>
