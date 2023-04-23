@@ -3,6 +3,12 @@
 
   <?php include('admin/header.php'); 
     require('includes/config.php');
+
+    if(isset($_POST['btnLogin'])){
+        include('includes/functions.php');
+        $obj=new dbfunction();
+        $obj->login($_POST['instEmail'],$_POST['pwd']);
+      }
     ?>
   
 <head>
@@ -23,15 +29,15 @@
             <p class="welcome-message">Provide Registered Credentials</p>
             <form class="login-form">
                 <div class="form-control">
-                    <input type="text" placeholder="Instituitional Email">
+                    <input type="text" name="instEmail" placeholder="Instituitional Email">
                     <i class="fas fa-user"></i>
                 </div>
                 <div class="form-control">
-                    <input type="password" placeholder="Password">
+                    <input type="password" name="pwd" placeholder="Password">
                     <i class="fas fa-lock"></i>
                 </div>
 
-                <button href="#" class="submit"  >Log in</button>
+                <button name="btnLogin" class="submit"  >Log in</button>
             </form>
         </div>
     </section>
