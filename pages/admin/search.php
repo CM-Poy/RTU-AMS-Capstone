@@ -79,7 +79,7 @@
         </nav>
         
         <div class = "container-fluid">
-          <form action="search.php" method="GET">
+          <form action="" method="GET">
         <input type="text" class="search-click" name="search" value ="<?php if(isset($_GET['search']))?>" placeholder="search here..." />
         <button type="submit" class="btn btn-primary" id="searchbtn">SEARCH</button>
          </form>  
@@ -129,49 +129,54 @@
                 <tbody>
                   				
                 <?php
+if(isset($_GET['search']))
+{
+  $filtervalues = $_GET['search'];
+  $query = "SELECT * FROM students WHERE CONCAT(flname_std,instemail_std) LIKE '%$filtervalues%'";
+  $result = $conn->prepare($query);
+  $result->execute();
+
+  if($result->rowCount() > 0)
+  {
+    while ($row = $result->fetch(PDO::FETCH_ASSOC)){
+      $id_std=$row["id_std"];
+      $flname_std=$row["flname_std"];
+      $instemail_std=$row["instemail_std"];
+      $studnum_std=$row["studnum_std"];
+      $gflname_std=$row["gflname_std"];
+      $gemail_std=$row["gemail_std"];
+
+      echo '  
+     
+        <tr>
+            
+              
+              <th scope="row">'.$id_std.'</th>
+              <td name="flname_std">'.$flname_std.'</td>
+              <td name="instemail_std">'.$instemail_std.'</td>
+              <td name="studid_std">'.$studnum_std.'</td>
+              <td name="gflname_std">'.$gflname_std.'</td>
+              <td name="gemail_std">'.$gemail_std.'</td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td>
+                
+                <a href="#editModal" class="editBtn" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                <a href="delete.php?id='.$id_std.'" class="delBtn"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+               
+              </td>
+      </tr>
+      </form>';
+    }
+  }else{
+    echo "No Record Found";
+  }
+}
 
 
-                        $sql = "SELECT * from students";
-                        $result = $conn->prepare($sql);
-                        $result->execute();
-                        
-                        if($result->rowCount() > 0){
-                          while ($row = $result->fetch(PDO::FETCH_ASSOC)){
-                            $id_std=$row["id_std"];
-                            $flname_std=$row["flname_std"];
-                            $instemail_std=$row["instemail_std"];
-                            $studnum_std=$row["studnum_std"];
-                            $gflname_std=$row["gflname_std"];
-                            $gemail_std=$row["gemail_std"];
-  
-                            echo '  
-                           
-                              <tr>
-                                  
-                                    
-                                    <th scope="row">'.$id_std.'</th>
-                                    <td name="flname_std">'.$flname_std.'</td>
-                                    <td name="instemail_std">'.$instemail_std.'</td>
-                                    <td name="studid_std">'.$studnum_std.'</td>
-                                    <td name="gflname_std">'.$gflname_std.'</td>
-                                    <td name="gemail_std">'.$gemail_std.'</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td>
-                                      
-                                      <a href="#editModal" class="editBtn" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                                      <a href="delete.php?id='.$id_std.'" class="delBtn"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
-                                     
-                                    </td>
-                            </tr>
-                            </form>';
-                          }
-                        }else{
-                          echo "No Record Found";
-                        }
-                      
-                    ?>
+?>
+   
                 </tbody>
               </table>
               <div class="clearfix">
@@ -658,5 +663,3 @@ else{
 
   </body>
 </html>
-
-
