@@ -116,7 +116,7 @@
                 <thead>
                   <tr>
                     
-                    <th>id</th>
+                    
                     <th>Full Name</th>
                     <th>Institutional Email</th>
                     <th>Student Number</th>
@@ -318,7 +318,6 @@
                   <input type="submit" name="addbtn" class="btn btn-success" value="Add">
                 </div>
               </form>
-            
             </div>
           </div>
         </div>

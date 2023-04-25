@@ -160,7 +160,7 @@ class dbfunction{
         gemail_std,	
         crs_id,	
         yrlvl_id,	
-        sect_id) VALUES (:flname, :email, :studnum, :gflname, :gemail, :crsNameStd, :yrLvlStd, :sectNameStd)";
+        sectNameStd) VALUES (:flname, :email, :studnum, :gflname, :gemail, :crsNameStd, :yrLvlStd, :sectNameStd)";
         $result = $conn->prepare($sql);
 
         $data = [
