@@ -132,7 +132,7 @@
 if(isset($_GET['search']))
 {
   $filtervalues = $_GET['search'];
-  $query = "SELECT * FROM students WHERE CONCAT(flname_std,instemail_std) LIKE '%$filtervalues%'";
+  $query = "SELECT * FROM students WHERE CONCAT(flname_std,instemail_std,studnum_std,gflname_std,gemail_std) LIKE '%$filtervalues%'";
   $result = $conn->prepare($query);
   $result->execute();
 
@@ -170,7 +170,7 @@ if(isset($_GET['search']))
       </form>';
     }
   }else{
-    echo "No Record Found";
+    echo "<p style='color:red;'>No Record Found</p>";
   }
 }
 
