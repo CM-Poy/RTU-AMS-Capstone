@@ -118,7 +118,7 @@
               <div class="table-title">
                 <div class="row">
                   <div class="col-sm-6">
-                    <h2>Manage <b>Departments</b></h2>
+                    <h2>Manage <b>Buildings</b></h2>
                   </div>
                   <div class="col-sm-6">
                     <a href="#addModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add New</span></a>					
