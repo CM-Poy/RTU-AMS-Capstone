@@ -11,6 +11,33 @@
     $obj=new dbfunction();
     $obj->addDept($_POST["name"],$_POST["code"]);
   }
+
+
+
+
+  if(isset($_GET['page_no']) && $_GET['page_no'] !== ""){
+    $page_no = $_GET['page_no'];
+  }else{
+    $page_no = 1;
+  }
+
+  //total num rows to display
+  $total_records_perpage = 10;
+  //getting offset for for limit query
+  $offset = ($page_no - 1) * $total_records_perpage;
+  //previous page
+  $previous_page = $page_no - 1;
+  //next page
+  $next_page = $page_no + 1;
+
+  //getting the total number of records
+  $sql = "SELECT * from building";
+  $totalnumrecords = $conn->prepare($sql); 
+  $totalnumrecords->execute();
+  //total records
+  $result_totalnumrecords=$totalnumrecords->rowCount();
+  //total pages
+  $total_numpages = ceil($result_totalnumrecords/$total_records_perpage);
   ?>
   
 
@@ -18,7 +45,7 @@
 
 <head>
     <link rel='icon' href='../../images/rtu-logo.png'/>
-    <title>SUPERADMIN:Manage Departments</title>
+    <title>SUPERADMIN: Manage Buildings</title>
 </head>
   <body>
 
@@ -78,7 +105,7 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
               <ul class="nav navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Logout</a>
+                <a class="nav-link" href="../login.php">Logout</a>
                 </li>
               </ul>
             </div>
@@ -94,20 +121,13 @@
                     <h2>Manage <b>Departments</b></h2>
                   </div>
                   <div class="col-sm-6">
-                    <a href="#addModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add New</span></a>
-                    <a href="#delModal" class="btn btn-danger" data-toggle="modal"><i class="material-icons">&#xE15C;</i> <span>Delete</span></a>						
+                    <a href="#addModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add New</span></a>					
                   </div>
                 </div>
               </div>
               <table class="table table-striped table-hover">
                 <thead>
                   <tr>
-                    <th>
-                      <span class="custom-checkbox">
-                        <input type="checkbox" id="selectAll">
-                        <label for="selectAll"></label>
-                      </span>
-                    </th>
                     <th>Name</th>
                     <th>Code</th>
                     <th>Actions</th>
@@ -116,7 +136,7 @@
                 <tbody>
                  
                 <?php
-                        $sql = "SELECT * from building";
+                        $sql = "SELECT * from building LIMIT $offset, $total_records_perpage";
                         $result = $conn->prepare($sql);
                         $result->execute();
                         
@@ -130,12 +150,7 @@
                             echo '
                             <form method="post">
                               <tr>
-                                    <td>
-                                      <span class="custom-checkbox">
-                                        <input type="checkbox" id="checkbox5" name="options[]" value="1">
-                                        <label for="checkbox5"></label>
-                                      </span>
-                                    </td>
+                                 
                                     
                                 
                                     
@@ -160,15 +175,29 @@
                 </tbody>
               </table>
               <div class="clearfix">
-                <div class="hint-text">Showing <b>5</b> out of <b>25</b> entries</div>
+                <div class="hint-text">
+                  Showing <b><?php echo $page_no; ?></b> of <b><?php echo $total_numpages; ?></b> pages.
+                </div>
                 <ul class="pagination">
-                  <li class="page-item disabled"><a href="#">Previous</a></li>
-                  <li class="page-item"><a href="#" class="page-link">1</a></li>
-                  <li class="page-item"><a href="#" class="page-link">2</a></li>
-                  <li class="page-item active"><a href="#" class="page-link">3</a></li>
-                  <li class="page-item"><a href="#" class="page-link">4</a></li>
-                  <li class="page-item"><a href="#" class="page-link">5</a></li>
-                  <li class="page-item"><a href="#" class="page-link">Next</a></li>
+
+                  <li class="page-item"><a  class="page-link <?= ($page_no <=1) ? 'disabled' : ''; ?> " <?= ($page_no > 1) ? 'href=? page_no=' .$previous_page : ''; ?>>Previous</a></li>
+
+
+                  
+                  <?php for($counter = 1; $counter <= $total_numpages; $counter ++){ ?>
+                    
+                    <?php if ($page_no != $counter){?>
+                      <li class="page-item"><a class="page-link" href="?page_no=<?=$counter; ?>"><?=$counter; ?></a></li>
+                    <?php }else{ ?> 
+                      <li class="page-item"><a class="page-link active"><?=$counter; ?></a></li>
+                    <?php } ?>
+                   <?php } ?>
+
+
+          
+
+                  <li class="page-item"><a  class="page-link <?= ($page_no >= $total_numpages) ? 'disabled' : '' ; ?>" <?= ($page_no < $total_numpages) ? 'href=?page_no=' . $next_page : ''; ?>>Next</a></li>
+
                 </ul>
               </div>
             </div>
