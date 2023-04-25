@@ -3,15 +3,12 @@
 
   <?php include('header.php'); 
   require('../includes/config.php');
-
-
-
   ?>
   
 
 <head>
     <link rel='icon' href='../../images/rtu-logo.png'/>
-    <title>ADMIN:Manage Subjects</title>
+    <title>Manage Buildings</title>
 </head>
   <body>
 
@@ -42,7 +39,13 @@
               <li>
                <a href="courses.php">&nbsp;&nbsp;&nbsp;<i class="fa fa-folder-open fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>COURSES</a>
               </li>
+              <li>
+               <a href="#">&nbsp;&nbsp;&nbsp;<i class="fa fas fa-archway fa-2x"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>BUILDINGS</a>
               </li>
+              <li>
+               <a href="rooms.php">&nbsp;&nbsp;&nbsp;<i class="fa fa-archive fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>ROOMS</a>
+              </li>
+
             </ul>
 
 
@@ -73,17 +76,20 @@
           </div>
             
         </nav>
+  
+
+</head>
         <div class="container-xl">
           <div class="table-responsive">
             <div class="table-wrapper">
               <div class="table-title">
                 <div class="row">
                   <div class="col-sm-6">
-                    <h2>Manage <b>Subjects</b></h2>
+                    <h2>Manage <b>Buildings</b></h2>
                   </div>
                   <div class="col-sm-6">
-                    <a href="#addModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add New</span></a>
-                    <a href="#delModal" class="btn btn-danger" data-toggle="modal"><i class="material-icons">&#xE15C;</i> <span>Delete</span></a>						
+                    <a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add New</span></a>
+                    <a href="#deleteEmployeeModal" class="btn btn-danger" data-toggle="modal"><i class="material-icons">&#xE15C;</i> <span>Delete</span></a>						
                   </div>
                 </div>
               </div>
@@ -96,54 +102,96 @@
                         <label for="selectAll"></label>
                       </span>
                     </th>
-                  
                     <th>Name</th>
                     <th>Code</th>
-                    <th>Units</th>
                     <th>Actions</th>
                   </tr>
                 </thead>
                 <tbody>
-                 	  <?php
-                        $sql = "SELECT * from subjects";
-                        $result = $conn->prepare($sql);
-                        $result->execute();
-                       
-                        if($result->rowCount() > 0){
-                          while ($row = $result->fetch(PDO::FETCH_ASSOC)){
-                            $id_subj=$row["id_subj"];
-                            $code_subj=$row["code_subj"];
-                            $name_subj=$row["name_subj"];
-                            $units_subj=$row["units_subj"];
-  
-                            echo '
-                            <form action="subjects.php" method="post">
-                              <tr>
-                                    <td>
-                                      <span class="custom-checkbox">
-                                        <input type="checkbox" id="checkbox5" name="options[]" value="1">
-                                        <label for="checkbox5"></label>
-                                      </span>
-                                    </td>
-                                    
-                                
-                                    <td name="codeSubj">'.$code_subj.'</td>
-                                    <td name="nameSubj">'.$name_subj.'</td>
-                                    <td name="unitsSubj">'.$units_subj.'</td>
-                                    <td>
-                                      
-                                      <a href="#editModal" value = '.$id_subj.' class="editBtn" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                                      <a href="#delModal" value = '.$id_subj.' class="delBtn" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
-                                     
-                                    </td>
-                            </tr>
-                            </form>';
-                          }
-                        }else{
-                          echo "No Record Found";
-                        }
-                    ?>
-                  
+                  <tr>
+                    <td>
+                      <span class="custom-checkbox">
+                        <input type="checkbox" id="checkbox1" name="options[]" value="1">
+                        <label for="checkbox1"></label>
+                      </span>
+                    </td>
+                    <td>Thomas Hardy</td>
+                    <td>thomashardy@mail.com</td>
+                    <td>
+                      <a href="#editEmployeeModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                      <a href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <span class="custom-checkbox">
+                        <input type="checkbox" id="checkbox1" name="options[]" value="1">
+                        <label for="checkbox1"></label>
+                      </span>
+                    </td>
+                    <td>Thomas Hardy</td>
+                    <td>thomashardy@mail.com</td>
+                    <td>
+                      <a href="#editEmployeeModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                      <a href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <span class="custom-checkbox">
+                        <input type="checkbox" id="checkbox2" name="options[]" value="1">
+                        <label for="checkbox2"></label>
+                      </span>
+                    </td>
+                    <td>Thomas Hardy</td>
+                    <td>thomashardy@mail.com</td>
+                    <td>
+                      <a href="#editEmployeeModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                      <a href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <span class="custom-checkbox">
+                        <input type="checkbox" id="checkbox3" name="options[]" value="1">
+                        <label for="checkbox3"></label>
+                      </span>
+                    </td>
+                    <td>Thomas Hardy</td>
+                    <td>thomashardy@mail.com</td>
+                    <td>
+                      <a href="#editEmployeeModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                      <a href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <span class="custom-checkbox">
+                        <input type="checkbox" id="checkbox4" name="options[]" value="1">
+                        <label for="checkbox4"></label>
+                      </span>
+                    </td>
+                    <td>Thomas Hardy</td>
+                    <td>thomashardy@mail.com</td>
+                    <td>
+                      <a href="#editEmployeeModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                      <a href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                    </td>
+                  </tr>					
+                  <tr>
+                    <td>
+                      <span class="custom-checkbox">
+                        <input type="checkbox" id="checkbox5" name="options[]" value="1">
+                        <label for="checkbox5"></label>
+                      </span>
+                    </td>
+                    <td>Thomas Hardy</td>
+                    <td>thomashardy@mail.com</td>
+                    <td>
+                      <a href="#editEmployeeModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                      <a href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                    </td>
+                  </tr> 
                 </tbody>
               </table>
               <div class="clearfix">
@@ -161,35 +209,24 @@
             </div>
           </div>        
         </div>
-
-
-
-
-
-        <!-- Add Modal HTML -->
-        <div id="addModal" class="modal fade">
-          <div class="modal-dialog">
+        <!-- Edit Modal HTML -->
+        <div id="addEmployeeModal" class="modal fade">
+          <div class="modal-dialog  ">
             <div class="modal-content">
               <form>
                 <div class="modal-header">						
-                  <h4 class="modal-title">Add Employee</h4>
+                  <h4 class="modal-title">Add Building</h4>
                   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 </div>
                 <div class="modal-body">					
-                  <div class="form-group">
-
-                  
-                    <label>Code</label>
-                    <input type="text" class="form-control" required>
-                  </div>
                   <div class="form-group">
                     <label>Name</label>
                     <input type="text" class="form-control" required>
                   </div>
                   <div class="form-group">
-                    <label>Units</label>
+                    <label>Code</label>
                     <input type="text" class="form-control" required>
-                  </div>		
+                  </div>				
                 </div>
                 <div class="modal-footer">
                   <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
@@ -199,55 +236,40 @@
             </div>
           </div>
         </div>
-
-
-
-
-
         <!-- Edit Modal HTML -->
-        <div id="editModal" class="modal fade">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <form>
-              <input type="text" class="form-control" id = "idSubj" hidden>
-              <div class="modal-header">						
-                <h4 class="modal-title">Edit Employee</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-              </div>
-              <div class="modal-body">					
-                <div class="form-group">
-                  <label>Code</label>
-                  <input type="text" class="form-control" id = "codeSubj" required>
-                </div>
-                <div class="form-group">
-                  <label>Name</label>
-                  <input type="text" class="form-control" id = "nameSubj" required>
-                </div>
-                <div class="form-group">
-                  <label>Units</label>
-                  <input type="text" class="form-control" id = "unitsSubj" required>
-                </div>		
-              </div>
-              <div class="modal-footer">
-                <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                <input type="submit" class="btn btn-info" value="Save">
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
-
-
-
-
-
-        <!-- Delete Modal HTML -->
-        <div id="delModal" class="modal fade">
-          <div class="modal-dialog">
+        <div id="editEmployeeModal" class="modal fade">
+          <div class="modal-dialog ">
             <div class="modal-content">
               <form>
                 <div class="modal-header">						
-                  <h4 class="modal-title">Delete Employee</h4>
+                  <h4 class="modal-title">Edit Building</h4>
+                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+                <div class="modal-body">					
+                  <div class="form-group">
+                    <label>Name</label>
+                    <input type="text" class="form-control" required>
+                  </div>
+                  <div class="form-group">
+                    <label>Code</label>
+                    <input type="text" class="form-control" required>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                  <input type="submit" class="btn btn-info" value="Save">
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        <!-- Delete Modal HTML -->
+        <div id="deleteEmployeeModal" class="modal fade">
+          <div class="modal-dialog  ">
+            <div class="modal-content">
+              <form>
+                <div class="modal-header">						
+                  <h4 class="modal-title">Delete Building</h4>
                   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 </div>
                 <div class="modal-body">					
@@ -262,48 +284,16 @@
             </div>
           </div>
         </div>
-      
-      
+
       </div>
     </div>
-
-
-
     <script src="../../js/jquery.min.js"></script>
     <script src="../../js/popper.js"></script>
     <script src="../../js/bootstrap.min.js"></script>
     <script src="../../js/main.js"></script>
-   
-   
-
-    <script>
-
-      //EDIT MODAL 
-        $(document).ready(function () {
-
-            $('.editBtn').on('click', function () {
-
-                $('#editModal').modal('show');
-
-                $tr = $(this).closest('tr');
-
-                var data = $tr.children("td").map(function () {
-                    return $(this).text();
-                }).get();
-
-                console.log(data);
-
-                $('#idSubj').val(data[0]);
-                $('#codeSubj').val(data[1]);
-                $('#nameSubj').val(data[2]);
-                $('#unitsSubj').val(data[3]);
-          
-            });
-        });
-
-
-
-        $(document).ready(function(){
+</html>
+<script>
+    $(document).ready(function(){
       // Activate tooltip
       $('[data-toggle="tooltip"]').tooltip();
       
@@ -326,17 +316,4 @@
         }
       });
     });
-
-    </script>
-
-
-
-  </body>
-</html>
-
-
-<?php
-
-?>
-
-
+</script>

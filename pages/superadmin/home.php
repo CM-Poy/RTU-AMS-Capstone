@@ -4,16 +4,28 @@
 <?php 
   include('../includes/header.php'); 
   require('../includes/config.php');
-
   
+  session_start();
+  require ("../includes/authenticator.php");
+if ($_SERVER['REQUEST_METHOD'] != "POST") {
+    header("location: ../authenticate_superadmin.php");
+    die();
+}
+$Authenticator = new Authenticator();
+
+$checkResult = $Authenticator->verifyCode($_SESSION['auth_secret'], $_POST['code'], 2);    // 2 = 2*30sec clock tolerance
+
+if (!$checkResult) {
+    $_SESSION['failed'] = true;
+    header("location: ../authenticate_superadmin.php");
+    die();
+} 
 
 
- 
-
-  if(isset($_POST['addbtnA'])){
+  if(isset($_POST['addbtnsa'])){
     include('../includes/functions.php');
     $obj=new dbfunction();
-    $obj->addUserAdmin($_POST["hnr"],$_POST["name"],$_POST["email"],$_POST["empnum"],$_POST["pwd"],$_POST["usertype"]);
+    $obj->addUserSupAdmin($_POST["hnr"],$_POST["name"],$_POST["email"],$_POST["empnum"],$_POST["pwd"],$_POST["usertype"]);
   }
 
   
@@ -23,7 +35,7 @@
 
 <head>
     <link rel='icon' href='../../images/rtu-logo.png'/>
-    <title>ADMIN:Manage Teachers</title>
+    <title>SUPERADMIN:Manage Users</title>
 </head>
   <body>
 
@@ -33,14 +45,32 @@
             <nav id="sidebar">
                 <div class="p-4 pt-5">
                 <a href="#" class="img logo rounded-circle mb-5" style="background-image: url(../../images/rtu-logo.png);"></a>
-            <ul class="list-unstyled components mb-5">
+                <ul class="list-unstyled components mb-5">
               <li class="">
-                <a href="teachers.php" >&nbsp;&nbsp;&nbsp;<i class="fa-solid fa-user fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>TEACHERS</a>
+                <a href="users.php" >&nbsp;&nbsp;&nbsp;<i class="fa-solid fa-user fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>USERS</a>
               <li class="">
                 <a href="schedules.php" >&nbsp;&nbsp;&nbsp;<i class="fa fa-file-text fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>SCHEDULES</a>
               </li>
               <li>
               <a href="students.php" >&nbsp;&nbsp;<i class="fa fa-users fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;</i>STUDENTS</a>
+              </li>
+              <li>
+              <a href="sections.php" >&nbsp;&nbsp;&nbsp;<i class="fa-solid fa-th-large fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>SECTIONS</a>
+              </li>
+              <li>
+              <a href="subjects.php" >&nbsp;&nbsp;&nbsp;<i class="fa fa-book fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>SUBJECTS</a>
+              </li>
+              <li>
+               <a href="departments.php">&nbsp;&nbsp;&nbsp;<i class="fa fa-building fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>DEPARTMENTS</a>  
+              </li>
+              <li>
+               <a href="courses.php">&nbsp;&nbsp;&nbsp;<i class="fa fa-folder-open fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>COURSES</a>
+              </li>
+              <li>
+               <a href="buildings.php">&nbsp;&nbsp;&nbsp;<i class="fa fa-building fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>BUILDINGS</a>  
+              </li>
+              <li>
+               <a href="rooms.php">&nbsp;&nbsp;&nbsp;<i class="fa fa-building fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>ROOMS</a>  
               </li>
             </ul>
 
@@ -61,7 +91,7 @@
             <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <i class="fa fa-bars"></i>
             </button>
-            <a class="nav-link font-weight-bold text-justify" id="page-title">ATTENDANCE MANAGEMENT SYSTEM - ADMIN</a>
+            <a class="nav-link font-weight-bold text-justify" id="page-title">ATTENDANCE MANAGEMENT SYSTEM - SUPERADMIN</a> 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
               <ul class="nav navbar-nav ml-auto">
                 <li class="nav-item">
@@ -85,7 +115,7 @@
                   </div>
                   <div class="col-sm-6">
                     <a href="#addModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add New</span></a>
-                    <a href="#delModal" class="btn btn-danger" data-toggle="modal"><i class="material-icons">&#xE15C;</i> <span>Delete</span></a>
+                    <a href="#delModal" class="btn btn-danger" data-toggle="modal"><i class="material-icons">&#xE15C;</i> <span>Delete</span></a>						
                   </div>
                 </div>
               </div>
@@ -103,26 +133,27 @@
                     <th>Institutional Email</th>
                     <th>Employee Number</th>
                     <th>Password</th>
+                    <th>Usertype</th>
                     <th>Actions</th>
                   </tr>
                 </thead>
                 <tbody>
                   
                 <?php
-                        $sql = "SELECT users.id_users, users.hnr_users, users.flname_users, users.instemail_users, users.empnum_users, usertype.usertype, users.usertype_users, users.pwd_users FROM users
-                        LEFT JOIN usertype ON users.usertype_users = usertype.id_usertype where users.usertype_users < 3";
+                        $sql = "SELECT users.id_users, users.hnr_users, users.flname_users, users.instemail_users, users.empnum_users, usertype.usertype, users.usertype_users, users.pwd_users FROM users LEFT JOIN usertype ON users.usertype_users = usertype.id_usertype;
+                        ";
                         $result = $conn->prepare($sql);
                         $result->execute();
                        
                         if($result->rowCount() > 0){
                           while ($row = $result->fetch(PDO::FETCH_ASSOC)){
                             $id_users=$row["id_users"];
-                            $hnr_users=$row["hnr_users"];
                             $flname_users=$row["flname_users"];
+                            $hnr_users=$row["hnr_users"];
                             $instemail_users=$row["instemail_users"];
                             $empnum_users=$row["empnum_users"];
                             $pwd_users=$row["pwd_users"];
-                           
+                            $usertype_users=$row["usertype"];
   
                             echo '
                             <form action="subjects.php" method="post">
@@ -136,10 +167,11 @@
                                     
                                 
                                     <td>'.$flname_users.'</td>
-                                    <td>'.$hnr_users.'</td>
                                     <td>'.$instemail_users.'</td>
+                                    <td>'.$hnr_users.'</td>
                                     <td>'.$empnum_users.'</td>
                                     <td>'.$pwd_users.'</td>
+                                    <td>'.$usertype_users.'</td>
                                     <td>
                                       
                                       <a href="#editModal" value = '.$id_users.' class="editBtn" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
@@ -200,15 +232,37 @@
                   <div class="form-group">
                     <label>Employee Number</label>
                     <input type="text" class="form-control"name="empnum"  required>
-                    <input type="text" class="form-control"name="pwd" hidden>
-                    <input type="text" class="form-control"name="usertype" hidden>
                   </div>
-                  
-                  					
+                  <div class="form-group">
+                    <label>Usertype</label>
+                    <?php
+                        echo '<select name="usertype" style="width: 340px">
+                        <option></option>';
+                        
+                        $sql = "SELECT * from usertype where id_usertype < 3";
+                        $result = $conn->prepare($sql);
+                        $result->execute();
+                    
+                        if($result->rowCount() > 0){
+                        while ($row = $result->fetch(PDO::FETCH_ASSOC)){
+                            $id_usertype=$row["id_usertype"];
+                        
+                            $usertype=$row["usertype"];
+                        
+                            echo '<option value= '.$id_usertype.'>'.$usertype.'</option>';
+                            }
+                        }
+
+                        echo '</select>';
+                    ?>
+
+                  <input type="text" class="form-control"name="pwd" hidden>
+
+                  </div>					
                 </div>
                 <div class="modal-footer">
                   <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                  <input type="submit" class="btn btn-success" name="addbtnA" value="Add">
+                  <input type="submit" class="btn btn-success" name="addbtnsa" value="Add">
                 </div>
               </form>
             </div>
@@ -225,7 +279,7 @@
             <form method= "post">
               <input type="text" class="form-control" name="id" id="id"hidden>
                 <div class="modal-header">						
-                  <h4 class="modal-title">Edit Teacher</h4>
+                  <h4 class="modal-title">Edit User</h4>
                   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 </div>
                 <div class="modal-body">					
@@ -248,7 +302,32 @@
                   <div class="form-group">
                     <label>Password</label>
                     <input type="text" class="form-control" name="pwd" id="pwd" required>
-                  </div>	
+                  </div>
+                  <div class="form-group">
+                    <label>Usertype</label>
+
+                      <?php
+                        echo '<select name="usertype" id="usertype" style="width: 340px">
+                        ';
+                        
+                        $sql = "SELECT * from usertype";
+                        $result = $conn->prepare($sql);
+                        $result->execute();
+                    
+                        if($result->rowCount() > 0){
+                        while ($row = $result->fetch(PDO::FETCH_ASSOC)){
+                            $id_usertype=$row["id_usertype"];
+                        
+                            $usertype=$row["usertype"];
+                        
+                            echo '<option value= '.$usertype.'>'.$usertype.'</option>';
+                            }
+                        }
+
+                        echo '</select>';
+                    ?>
+
+                  </div>					
                 </div>
                 <div class="modal-footer">
                   <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">

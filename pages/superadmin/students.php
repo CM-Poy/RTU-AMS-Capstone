@@ -15,23 +15,16 @@
   if(isset($_POST['updbtn'])){
     include('../includes/functions.php');
     $obj=new dbfunction();
-    $obj->updStd($_POST['flname'],$_POST['email'],$_POST['studnum'],$_POST['gflname'],$_POST['gemail'],$_POST['crs'],$_POST['yrlvl'],$_POST['sect']);
+    $obj->updStd($_POST['flname'],$_POST['email'],$_POST['studnum'],$_POST['gflname'],$_POST['gemail'],$_POST['crsNameStd'],$_POST['yrLvlStd'],$_POST['sectNameStd']);
   }
-
 
   ?>
   
 
 <head>
     <link rel='icon' href='../../images/rtu-logo.png'/>
-
     <title>ADMIN:Manage Students</title>
 </head>
-<script>
-  if (window.history.replaceState){
-    window.history.replaceState(null, null, window.location.href);
-  }
-</script>
   <body>
 
   <!--sidebar-->
@@ -42,12 +35,30 @@
                 <a href="#" class="img logo rounded-circle mb-5" style="background-image: url(../../images/rtu-logo.png);"></a>
                 <ul class="list-unstyled components mb-5">
               <li class="">
-                <a href="teachers.php" >&nbsp;&nbsp;&nbsp;<i class="fa-solid fa-user fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>TEACHERS</a>
+                <a href="users.php" >&nbsp;&nbsp;&nbsp;<i class="fa-solid fa-user fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>USERS</a>
               <li class="">
                 <a href="schedules.php" >&nbsp;&nbsp;&nbsp;<i class="fa fa-file-text fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>SCHEDULES</a>
               </li>
               <li>
               <a href="students.php" >&nbsp;&nbsp;<i class="fa fa-users fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;</i>STUDENTS</a>
+              </li>
+              <li>
+              <a href="sections.php" >&nbsp;&nbsp;&nbsp;<i class="fa-solid fa-th-large fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>SECTIONS</a>
+              </li>
+              <li>
+              <a href="subjects.php" >&nbsp;&nbsp;&nbsp;<i class="fa fa-book fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>SUBJECTS</a>
+              </li>
+              <li>
+               <a href="departments.php">&nbsp;&nbsp;&nbsp;<i class="fa fa-building fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>DEPARTMENTS</a>  
+              </li>
+              <li>
+               <a href="courses.php">&nbsp;&nbsp;&nbsp;<i class="fa fa-folder-open fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>COURSES</a>
+              </li>
+              <li>
+               <a href="buildings.php">&nbsp;&nbsp;&nbsp;<i class="fa fa-building fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>BUILDINGS</a>  
+              </li>
+              <li>
+               <a href="rooms.php">&nbsp;&nbsp;&nbsp;<i class="fa fa-building fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>ROOMS</a>  
               </li>
             </ul>
 
@@ -72,32 +83,13 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
               <ul class="nav navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="#" id="logout">Logout</a>
+                    <a class="nav-link" href="#">Logout</a>
                 </li>
               </ul>
             </div>
           </div>
-    
+            
         </nav>
-        
-        <div class = "container-fluid">
-          <form action="search.php" method="GET">
-        <input type="text" class="search-click" name="search" value ="<?php if(isset($_GET['search']))?>" placeholder="search here..." />
-        <button type="submit" class="btn btn-primary" id="searchbtn">SEARCH</button>
-         </form>  
-      </div>
-       
-        <script>
-            const input = document.getElementById("search-input");
-        const searchBtn = document.getElementById("search-btn");
-
-        const expand = () => {
-          searchBtn.classList.toggle("close");
-          input.classList.toggle("square");
-        };
-
-        searchBtn.addEventListener("click", expand);
-        </script>
         <div class="container-xl">
           <div class="table-responsive">
             <div class="table-wrapper">
@@ -108,22 +100,26 @@
                   </div>
                   <div class="col-sm-6">
                     <a href="#addModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add New</span></a>
-                    						
+                    <a href="#delModal" class="btn btn-danger" data-toggle="modal"><i class="material-icons">&#xE15C;</i> <span>Delete</span></a>						
                   </div>
                 </div>
               </div>
               <table class="table table-striped table-hover">
                 <thead>
                   <tr>
-                    
-                    <th>id</th>
+                    <th>
+                      <span class="custom-checkbox">
+                        <input type="checkbox" id="selectAll">
+                        <label for="selectAll"></label>
+                      </span>
+                    </th>
                     <th>Full Name</th>
                     <th>Institutional Email</th>
                     <th>Student Number</th>
                     <th>Guardian Full Name</th>
                     <th>Guardian Email</th>
-                    <th>Course</th>
                     <th>Section</th>
+                    <th>Course</th>
                     <th>Year Level</th>
                     <th>Actions</th>
                   </tr>
@@ -131,10 +127,10 @@
                 <tbody>
                   				
                 <?php
-                        $sql = "SELECT students.id_std, students.flname_std, students.instemail_std, students.studnum_std, students.gflname_std, students.gemail_std, sections.code_sec, courses.name_crs, year.yearlvl_yr FROM students
+                        $sql = "SELECT students.id_std, students.flname_std, students.instemail_std, students.studnum_std, students.gflname_std, students.gemail_std, sections.code_sec, courses.code_crs, year.yearlvl_yr FROM students
                         LEFT JOIN courses on students.crs_id = courses.id_crs
                         left join year on students.yrlvl_id = year.id_yr
-                        left join sections on students.sec_id = sections.id_sec";
+                        left join sections on students.sect_id = sections.id_sec";
                         $result = $conn->prepare($sql);
                         $result->execute();
                         
@@ -146,30 +142,35 @@
                             $studnum_std=$row["studnum_std"];
                             $gflname_std=$row["gflname_std"];
                             $gemail_std=$row["gemail_std"];
-                            $crs_id=$row["name_crs"];
+                            $crs_id=$row["code_crs"];
                             $yrlvl_id=$row["yearlvl_yr"];
                             $sect_id=$row["code_sec"];
   
                             echo '
-                            <form method="post">
-                            <input type="text" value ='.$id_std.' hidden>
+                            <form action="subjects.php" method="post">
                               <tr>
-                                  
+                                    <td>
+                                      <span class="custom-checkbox">
+                                        <input type="checkbox" id="checkbox5" name="options[]" value="0">
+                                        <label for="checkbox5"></label>
+                                      </span>
+                                    </td>
                                     
+                                
+                                    <td name="flname_std">'.$flname_std.'</td>
+                                    <td name="instemail_std">'.$instemail_std.'</td>
+                                    <td name="studid_std">'.$studnum_std.'</td>
+                                    <td name="gflname_std">'.$gflname_std.'</td>
+                                    <td name="gemail_std">'.$gemail_std.'</td>
                                     
-                                    <td>'.$flname_std.'</td>
-                                    <td>'.$instemail_std.'</td>
-                                    <td>'.$studnum_std.'</td>
-                                    <td>'.$gflname_std.'</td>
-                                    <td>'.$gemail_std.'</td>
-                                    <td>'.$crs_id.'</td>
-                                    <td>'.$sect_id.'</td>
-                                    <td>'.$yrlvl_id.'</td>
+                                    <td name="studid_std">'.$crs_id.'</td>
+                                    <td name="gflname_std">'.$yrlvl_id.'</td>
+                                    
                                     
                                     <td>
                                       
                                       <a href="#editModal" class="editBtn" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                                      <a href="delete.php?id='.$id_std.'" class="delBtn" name="delBtn" ><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                                      <a href="#delModal" class="delBtn" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
                                      
                                     </td>
                             </tr>
@@ -178,7 +179,6 @@
                         }else{
                           echo "No Record Found";
                         }
-                      
                     ?>
                 </tbody>
               </table>
@@ -241,7 +241,7 @@
                     <?php
                       echo '<select name="crsNameStd" id="crs" style="width: 340px">
                       <option></option>';
-                      
+              
                       $sql = "SELECT id_crs, name_crs, code_crs from courses";
                       $result = $conn->prepare($sql);
                       $result->execute();
@@ -334,14 +334,13 @@
           <div class="modal-dialog modalCenter">
             <div class="modal-content" >
               <form method="post">
-              <input type="text" class="form-control" id = "id" hidden>
+              <input type="text" class="form-control" name="student_id" id = "id" hidden>
                 <div class="modal-header">						
                   <h4 class="modal-title">Edit Student</h4>
                   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 </div>
                 <div class="modal-body">					
                   <div>
-                 
                     <label>Full Name</label>
                     <input type="text" name="flname" id = "flname" class="form-control" required>
                   </div>
@@ -351,7 +350,7 @@
                   </div>
                   <div>
                     <label>Student Number</label>
-                    <input name="studnum" name = "studnum" id = "studnum" class="form-control" required></textarea>
+                    <input name="studnum" id = "studnum" class="form-control" required></textarea>
                   </div>
                   <div>
                     <label>Guardian Full Name</label>
@@ -360,14 +359,15 @@
                   <div>
                     <label>Guardian Email</label>
                     <input type="email" name="gemail" id = "gemail" class="form-control" required>
-                    
                   </div>	  
                   <div class="form-group">
                     <label>Course</label>
+                   
+
                     <?php
-                      echo '<select name="crs" id="crs" style="width: 340px" class="form-control" required>
+                      echo '<select name="crsNameStd" id="crs" style="width: 340px">
                       <option></option>';
-                      
+              
                       $sql = "SELECT id_crs, name_crs, code_crs from courses";
                       $result = $conn->prepare($sql);
                       $result->execute();
@@ -376,6 +376,7 @@
                       while ($row = $result->fetch(PDO::FETCH_ASSOC)){
                           $id_crs=$row["id_crs"];
                           $name_crs=$row["name_crs"];
+                          $code_crs=$row["code_crs"];
                       
                           echo '<option value= '.$id_crs.'>'.$name_crs.'</option>';
                           }
@@ -390,7 +391,7 @@
 
                     <?php
 
-                      echo '<select name="yrlvl" id="yrlvl" style="width: 340px" class="form-control" required>
+                      echo '<select name="yrLvlStd" id="yrlvl" style="width: 340px">
                       <option></option>';
 
                       $sql = "SELECT id_yr, yearlvl_yr from year";
@@ -413,31 +414,32 @@
                   </div>			
                   <div class="form-group">
                     <label>Section</label>
+                   
                     <?php
-                      echo '<select name="sect" id="sect" style="width: 340px" class="form-control" required>
-                      <option></option>';
+                        echo '<select name="sectNameStd" id="sect" style="width: 340px">
+                        <option></option>';
+                        
+                        $sql = "SELECT * from sections";
+                        $result = $conn->prepare($sql);
+                        $result->execute();
+                    
+                        if($result->rowCount() > 0){
+                        while ($row = $result->fetch(PDO::FETCH_ASSOC)){
+                            $id_sect=$row["id_sec"];
+                        
+                            $code_sect=$row["code_sec"];
+                        
+                            echo '<option value= '.$id_sect.'>'.$code_sect.'</option>';
+                            }
+                        }
 
-                      $sql = "SELECT * from sections";
-                      $result = $conn->prepare($sql);
-                      $result->execute();
-
-                      if($result->rowCount() > 0){
-                      while ($row = $result->fetch(PDO::FETCH_ASSOC)){
-                          $id_sec=$row["id_sec"];
-                          $code_sec=$row["code_sec"];
-
-                          
-                          echo'<option value= '.$id_sec.' >'.$code_sec.'</option>';
-                          }
-                      }
-
-                      echo '</select>';
+                        echo '</select>';
                     ?>
+
 
                   </div>						
                 </div>
                 <div class="modal-footer">
-                  <input type="hidden" name="id" value="<?php echo $id_std; ?>">  
                   <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
                   <input type="submit" class="btn btn-info" name="updbtn" value="Save">
                   
@@ -455,23 +457,25 @@
         <div id="delModal" class="modal fade">
           <div class="modal-dialog">
             <div class="modal-content">
-              <form method="POST">
+              <form>
                 <div class="modal-header">						
                   <h4 class="modal-title">Delete Student</h4>
                   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 </div>
-                <div class="modal-body">
-                  <?php echo $id_std ?>
-                <input type="text" class="form-control" id ="iddel" hidden>							
+                <div class="modal-body">					
                   <p>Are you sure you want to delete these Records?</p>
                   <p class="text-warning"><small>This action cannot be undone.</small></p>
                 </div>
                 <div class="modal-footer">
-                 
-                  <form method="post">
+                  <?php
+                
+
+                 echo' 
+                  <form action = "delete.php" method="post">
                   <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                  <button type="submit" class="btn btn-danger" name="deletebtn">DELETE</button>';
-               
+                  <button type="submit" class="btn btn-danger" name="deletestud" value ='.$id_std.'>DELETE</button>';
+                
+                  ?>
                 </div>
               </form>
             </div>
@@ -503,9 +507,6 @@
                     return $(this).text();
                 }).get();
 
-                
-               
-
                 console.log(data);
 
                 $('#id').val(data[0]);
@@ -521,7 +522,7 @@
             });
         });
       
-      
+    
    
     $(document).ready(function(){
       // Activate tooltip
@@ -546,7 +547,6 @@
         }
       });
     });
-  
 </script>
 
   </body>
