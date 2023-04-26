@@ -34,19 +34,8 @@
               <li>
               <a href="students.php" >&nbsp;&nbsp;<i class="fa fa-users fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;</i>STUDENTS</a>
               </li>
-              <li>
-              <a href="sections.php" >&nbsp;&nbsp;&nbsp;<i class="fa-solid fa-th-large fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>SECTIONS</a>
-              </li>
-              <li>
-              <a href="subjects.php" >&nbsp;&nbsp;&nbsp;<i class="fa fa-book fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>SUBJECTS</a>
-              </li>
-              <li>
-               <a href="departments.php">&nbsp;&nbsp;&nbsp;<i class="fa fa-building fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>DEPARTMENTS</a>  
-              </li>
-              <li>
-               <a href="courses.php">&nbsp;&nbsp;&nbsp;<i class="fa fa-folder-open fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>COURSES</a>
-              </li>
-              </li>
+              
+             
             </ul>
 
 
@@ -114,7 +103,7 @@
                 <thead>
                   <tr>
                     
-                    <th>id</th>
+                    
                     <th>Full Name</th>
                     <th>Institutional Email</th>
                     <th>Student Number</th>
@@ -132,7 +121,10 @@
 if(isset($_GET['search']))
 {
   $filtervalues = $_GET['search'];
-  $query = "SELECT * FROM students WHERE CONCAT(flname_std,instemail_std,studnum_std,gflname_std,gemail_std) LIKE '%$filtervalues%'";
+  $query = "SELECT students.id_std, students.flname_std, students.instemail_std, students.studnum_std, students.gflname_std, students.gemail_std, sections.code_sec, courses.code_crs, year.yearlvl_yr FROM students
+  LEFT JOIN courses on students.crs_id = courses.id_crs
+  left join year on students.yrlvl_id = year.id_yr
+  left join sections on students.sec_id = sections.id_sec WHERE CONCAT(id_std,flname_std,instemail_std,studnum_std,gflname_std,gemail_std,code_crs,yearlvl_yr,code_sec) LIKE '%$filtervalues%'";
   $result = $conn->prepare($query);
   $result->execute();
 
@@ -145,21 +137,27 @@ if(isset($_GET['search']))
       $studnum_std=$row["studnum_std"];
       $gflname_std=$row["gflname_std"];
       $gemail_std=$row["gemail_std"];
+      $crs_id=$row["code_crs"];
+      $yrlvl_id=$row["yearlvl_yr"];
+      $sect_id=$row["code_sec"];
 
-      echo '  
+      echo ' 
+      <form method="post">
+                            <input type="text" value ='.$id_std.' hidden>
+                              <tr> 
      
         <tr>
             
               
-              <th scope="row">'.$id_std.'</th>
+              
               <td name="flname_std">'.$flname_std.'</td>
               <td name="instemail_std">'.$instemail_std.'</td>
               <td name="studid_std">'.$studnum_std.'</td>
               <td name="gflname_std">'.$gflname_std.'</td>
               <td name="gemail_std">'.$gemail_std.'</td>
-              <td></td>
-              <td></td>
-              <td></td>
+              <td name="crs_id">'.$crs_id.'</td>
+              <td name="yrlvl_id">'.$yrlvl_id.'</td>
+              <td name="code_sec">'.$sect_id.'</td>
               <td>
                 
                 <a href="#editModal" class="editBtn" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>

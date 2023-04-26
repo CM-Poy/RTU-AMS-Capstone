@@ -131,10 +131,10 @@
                 <tbody>
                   				
                 <?php
-                        $sql = "SELECT students.id_std, students.flname_std, students.instemail_std, students.studnum_std, students.gflname_std, students.gemail_std, sections.code_sec, courses.name_crs, year.yearlvl_yr FROM students
-                        LEFT JOIN courses on students.crs_id = courses.id_crs
-                        left join year on students.yrlvl_id = year.id_yr
-                        left join sections on students.sec_id = sections.id_sec";
+                         $sql = "SELECT students.id_std, students.flname_std, students.instemail_std, students.studnum_std, students.gflname_std, students.gemail_std, sections.code_sec, courses.code_crs, year.yearlvl_yr FROM students
+                         LEFT JOIN courses on students.crs_id = courses.id_crs
+                         left join year on students.yrlvl_id = year.id_yr
+                         left join sections on students.sec_id = sections.id_sec";
                         $result = $conn->prepare($sql);
                         $result->execute();
                         
@@ -146,7 +146,7 @@
                             $studnum_std=$row["studnum_std"];
                             $gflname_std=$row["gflname_std"];
                             $gemail_std=$row["gemail_std"];
-                            $crs_id=$row["name_crs"];
+                            $crs_id=$row["code_crs"];
                             $yrlvl_id=$row["yearlvl_yr"];
                             $sect_id=$row["code_sec"];
   
@@ -206,10 +206,11 @@
         <!-- Add Modal HTML -->
   
         <div id="addModal" class="modal fade">
-          <div class="modal-dialog modalCenter">
+          <div class="modal-dialog ">
             <div class="modal-content">
-              <form  method="POST">
-                <div class="modal-header">						
+              <form method="post">
+              <input type="text" class="form-control" name="addid" hidden>
+                <div class="modal-header">	
                   <h4 class="modal-title">Add Student</h4>
                   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 </div>
@@ -329,9 +330,9 @@
 
 
         <!-- Edit Modal HTML -->
-        <div id="editModal" class="modal fade" >
-          <div class="modal-dialog modalCenter">
-            <div class="modal-content" >
+        <div id="editModal" class="modal fade">
+          <div class="modal-dialog ">
+            <div class="modal-content">
               <form method="post">
               <input type="text" class="form-control" id = "id" hidden>
                 <div class="modal-header">						
