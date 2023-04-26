@@ -1,15 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
 
-  <?php include('admin/header.php'); 
-    require('includes/config.php');
+<?php 
 
-    if(isset($_POST['btnLogin'])){
-        include('includes/functions.php');
-        $obj=new dbfunction();
-        $obj->login($_POST['instEmail'],$_POST['pwd']);
-      }
-    ?>
+
+
+include('includes/header.php'); 
+require('includes/config.php');
+
+if(isset($_POST['btnLogin'])){
+    include('includes/functions.php');
+    $obj=new dbfunction();
+    $obj->login($_POST['instEmail'],$_POST['pwd']);
+    }
+
+if (!isset($_SESSION['error'])) {
+    $_SESSION['error'] = false;
+}
+
+
+?>
   
 <head>
     <meta charset="UTF-8">
@@ -28,7 +38,14 @@
             <p class="title">ATTENDANCE MANAGEMENT SYSTEM</p>
             <div class="separator"></div>
             <p class="welcome-message">Provide Registered Credentials</p>
-            
+                    <?php if ($_SESSION['error']): ?>
+                        <div class="alert alert-danger" role="alert">
+                            <strong><?php echo $_SESSION['error'];?></strong>
+                        </div>
+                        <?php   
+                            $_SESSION['error'] = false;
+                        ?>
+                    <?php endif ?>
             <form class="login-form" method="post">
                 <div class="form-control">
                     <input type="text" name="instEmail" placeholder="Instituitional Email">

@@ -15,15 +15,46 @@
   if(isset($_POST['updbtn'])){
     include('../includes/functions.php');
     $obj=new dbfunction();
-    $obj->updStd($_POST['flname'],$_POST['email'],$_POST['studnum'],$_POST['gflname'],$_POST['gemail'],$_POST['crsNameStd'],$_POST['yrLvlStd'],$_POST['sectNameStd']);
+    $obj->updStd($_POST['flname'],$_POST['email'],$_POST['studnum'],$_POST['gflname'],$_POST['gemail'],$_POST['crs'],$_POST['yrlvl'],$_POST['sect']);
   }
+
+
+  if(isset($_GET['page_no']) && $_GET['page_no'] !== ""){
+    $page_no = $_GET['page_no'];
+  }else{
+    $page_no = 1;
+  }
+
+  //total num rows to display
+  $total_records_perpage = 10;
+  //getting offset for for limit query
+  $offset = ($page_no - 1) * $total_records_perpage;
+  //previous page
+  $previous_page = $page_no - 1;
+  //next page
+  $next_page = $page_no + 1;
+
+  //getting the total number of records
+  $sql = "SELECT * from students";
+  $totalnumrecords = $conn->prepare($sql); 
+  $totalnumrecords->execute();
+  //total records
+  $result_totalnumrecords=$totalnumrecords->rowCount();
+  //total pages
+  $total_numpages = ceil($result_totalnumrecords/$total_records_perpage);
+
+
+
+
+
+
 
   ?>
   
 
 <head>
     <link rel='icon' href='../../images/rtu-logo.png'/>
-    <title>ADMIN:Manage Students</title>
+    <title>SUPERADMIN: Manage Students</title>
 </head>
   <body>
 
@@ -62,7 +93,6 @@
               </li>
             </ul>
 
-
           </div>
         </nav>
 
@@ -83,7 +113,7 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
               <ul class="nav navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Logout</a>
+                <a class="nav-link" href="../login.php">Logout</a>
                 </li>
               </ul>
             </div>
@@ -100,26 +130,20 @@
                   </div>
                   <div class="col-sm-6">
                     <a href="#addModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add New</span></a>
-                    <a href="#delModal" class="btn btn-danger" data-toggle="modal"><i class="material-icons">&#xE15C;</i> <span>Delete</span></a>						
+                    					
                   </div>
                 </div>
               </div>
               <table class="table table-striped table-hover">
                 <thead>
                   <tr>
-                    <th>
-                      <span class="custom-checkbox">
-                        <input type="checkbox" id="selectAll">
-                        <label for="selectAll"></label>
-                      </span>
-                    </th>
                     <th>Full Name</th>
                     <th>Institutional Email</th>
                     <th>Student Number</th>
                     <th>Guardian Full Name</th>
                     <th>Guardian Email</th>
-                    <th>Section</th>
                     <th>Course</th>
+                    <th>Section</th>
                     <th>Year Level</th>
                     <th>Actions</th>
                   </tr>
@@ -147,15 +171,17 @@
                             $sect_id=$row["code_sec"];
   
                             echo '
-                            <form action="subjects.php" method="post">
+                            <form method="post">
+                            <input type="text" value ='.$id_std.' hidden>
                               <tr>
-                                    <td>
-                                      <span class="custom-checkbox">
-                                        <input type="checkbox" id="checkbox5" name="options[]" value="0">
-                                        <label for="checkbox5"></label>
-                                      </span>
-                                    </td>
-                                    
+                                <td>'.$flname_std.'</td>
+                                <td>'.$instemail_std.'</td>
+                                <td>'.$studnum_std.'</td>
+                                <td>'.$gflname_std.'</td>
+                                <td>'.$gemail_std.'</td>
+                                <td>'.$crs_id.'</td>
+                                <td>'.$sect_id.'</td>
+                                <td>'.$yrlvl_id.'</td>
                                 
                                     <td name="flname_std">'.$flname_std.'</td>
                                     <td name="instemail_std">'.$instemail_std.'</td>
@@ -183,15 +209,29 @@
                 </tbody>
               </table>
               <div class="clearfix">
-                <div class="hint-text">Showing <b>5</b> out of <b>25</b> entries</div>
+                <div class="hint-text">
+                  Showing <b><?php echo $page_no; ?></b> of <b><?php echo $total_numpages; ?></b> pages.
+                </div>
                 <ul class="pagination">
-                  <li class="page-item disabled"><a href="#">Previous</a></li>
-                  <li class="page-item"><a href="#" class="page-link">1</a></li>
-                  <li class="page-item"><a href="#" class="page-link">2</a></li>
-                  <li class="page-item active"><a href="#" class="page-link">3</a></li>
-                  <li class="page-item"><a href="#" class="page-link">4</a></li>
-                  <li class="page-item"><a href="#" class="page-link">5</a></li>
-                  <li class="page-item"><a href="#" class="page-link">Next</a></li>
+
+                  <li class="page-item"><a  class="page-link <?= ($page_no <=1) ? 'disabled' : ''; ?> " <?= ($page_no > 1) ? 'href=? page_no=' .$previous_page : ''; ?>>Previous</a></li>
+
+
+                  
+                  <?php for($counter = 1; $counter <= $total_numpages; $counter ++){ ?>
+                    
+                    <?php if ($page_no != $counter){?>
+                      <li class="page-item"><a class="page-link" href="?page_no=<?=$counter; ?>"><?=$counter; ?></a></li>
+                    <?php }else{ ?> 
+                      <li class="page-item"><a class="page-link active"><?=$counter; ?></a></li>
+                    <?php } ?>
+                   <?php } ?>
+
+
+          
+
+                  <li class="page-item"><a  class="page-link <?= ($page_no >= $total_numpages) ? 'disabled' : '' ; ?>" <?= ($page_no < $total_numpages) ? 'href=?page_no=' . $next_page : ''; ?>>Next</a></li>
+
                 </ul>
               </div>
             </div>
@@ -241,7 +281,7 @@
                     <?php
                       echo '<select name="crsNameStd" id="crs" style="width: 340px">
                       <option></option>';
-              
+                      
                       $sql = "SELECT id_crs, name_crs, code_crs from courses";
                       $result = $conn->prepare($sql);
                       $result->execute();
@@ -334,13 +374,14 @@
           <div class="modal-dialog modalCenter">
             <div class="modal-content" >
               <form method="post">
-              <input type="text" class="form-control" name="student_id" id = "id" hidden>
+              <input type="text" class="form-control" id = "id" hidden>
                 <div class="modal-header">						
                   <h4 class="modal-title">Edit Student</h4>
                   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 </div>
                 <div class="modal-body">					
                   <div>
+                 
                     <label>Full Name</label>
                     <input type="text" name="flname" id = "flname" class="form-control" required>
                   </div>
@@ -350,7 +391,7 @@
                   </div>
                   <div>
                     <label>Student Number</label>
-                    <input name="studnum" id = "studnum" class="form-control" required></textarea>
+                    <input name="studnum" name = "studnum" id = "studnum" class="form-control" required></textarea>
                   </div>
                   <div>
                     <label>Guardian Full Name</label>
@@ -359,15 +400,14 @@
                   <div>
                     <label>Guardian Email</label>
                     <input type="email" name="gemail" id = "gemail" class="form-control" required>
+                    
                   </div>	  
                   <div class="form-group">
                     <label>Course</label>
-                   
-
                     <?php
-                      echo '<select name="crsNameStd" id="crs" style="width: 340px">
+                      echo '<select name="crs" id="crs" style="width: 340px" class="form-control" required>
                       <option></option>';
-              
+                      
                       $sql = "SELECT id_crs, name_crs, code_crs from courses";
                       $result = $conn->prepare($sql);
                       $result->execute();
@@ -376,7 +416,6 @@
                       while ($row = $result->fetch(PDO::FETCH_ASSOC)){
                           $id_crs=$row["id_crs"];
                           $name_crs=$row["name_crs"];
-                          $code_crs=$row["code_crs"];
                       
                           echo '<option value= '.$id_crs.'>'.$name_crs.'</option>';
                           }
@@ -391,7 +430,7 @@
 
                     <?php
 
-                      echo '<select name="yrLvlStd" id="yrlvl" style="width: 340px">
+                      echo '<select name="yrlvl" id="yrlvl" style="width: 340px" class="form-control" required>
                       <option></option>';
 
                       $sql = "SELECT id_yr, yearlvl_yr from year";
@@ -414,28 +453,26 @@
                   </div>			
                   <div class="form-group">
                     <label>Section</label>
-                   
                     <?php
-                        echo '<select name="sectNameStd" id="sect" style="width: 340px">
-                        <option></option>';
-                        
-                        $sql = "SELECT * from sections";
-                        $result = $conn->prepare($sql);
-                        $result->execute();
-                    
-                        if($result->rowCount() > 0){
-                        while ($row = $result->fetch(PDO::FETCH_ASSOC)){
-                            $id_sect=$row["id_sec"];
-                        
-                            $code_sect=$row["code_sec"];
-                        
-                            echo '<option value= '.$id_sect.'>'.$code_sect.'</option>';
-                            }
-                        }
+                      echo '<select name="sect" id="sect" style="width: 340px" class="form-control" required>
+                      <option></option>';
 
-                        echo '</select>';
+                      $sql = "SELECT * from sections";
+                      $result = $conn->prepare($sql);
+                      $result->execute();
+
+                      if($result->rowCount() > 0){
+                      while ($row = $result->fetch(PDO::FETCH_ASSOC)){
+                          $id_sec=$row["id_sec"];
+                          $code_sec=$row["code_sec"];
+
+                          
+                          echo'<option value= '.$id_sec.' >'.$code_sec.'</option>';
+                          }
+                      }
+
+                      echo '</select>';
                     ?>
-
 
                   </div>						
                 </div>
@@ -462,20 +499,18 @@
                   <h4 class="modal-title">Delete Student</h4>
                   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 </div>
-                <div class="modal-body">					
+                <div class="modal-body">
+                  <?php echo $id_std ?>
+                <input type="text" class="form-control" id ="iddel" hidden>							
                   <p>Are you sure you want to delete these Records?</p>
                   <p class="text-warning"><small>This action cannot be undone.</small></p>
                 </div>
                 <div class="modal-footer">
-                  <?php
-                
-
-                 echo' 
-                  <form action = "delete.php" method="post">
+                 
+                  <form method="post">
                   <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                  <button type="submit" class="btn btn-danger" name="deletestud" value ='.$id_std.'>DELETE</button>';
-                
-                  ?>
+                  <button type="submit" class="btn btn-danger" name="deletebtn">DELETE</button>';
+               
                 </div>
               </form>
             </div>
@@ -507,6 +542,9 @@
                     return $(this).text();
                 }).get();
 
+                
+               
+
                 console.log(data);
 
                 $('#id').val(data[0]);
@@ -521,7 +559,25 @@
           
             });
         });
-      
+
+      //DELETE
+      $(document).ready(function () {
+
+        $('.delBtn').on('click', function () {
+
+          $('#delModal').modal('show');
+
+          $tr = $(this).closest('tr');
+
+          var data = $tr.children("td").map(function () {
+              return $(this).text();
+          }).get();
+          
+          console.log(data);
+
+          $('#iddel').val(data[0]);
+        });
+      });
     
    
     $(document).ready(function(){

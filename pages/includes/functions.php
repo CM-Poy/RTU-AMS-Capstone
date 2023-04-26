@@ -21,12 +21,11 @@ class dbfunction{
           $_SESSION['user'] = $fetch['id_users'];
           header("location: authenticate_client.php");
         }else{
-          echo "
-          <script>alert('Invalid username or password')</script>
-          <script>window.location = authenticate_client.php</script>
-          ";
+          $_SESSION['error']="Invalid Institutional Email or Password.";
         }
 
+
+      }elseif($_POST['instEmail'] != "" || $_POST['pwd'] != ""){
         $sql = "SELECT * FROM `users` WHERE `instemail_users`=? and `pwd_users`=? and `usertype_users`=2";
         $query = $conn->prepare($sql);
         $query->execute(array($instEmail,$pwd));
@@ -36,13 +35,11 @@ class dbfunction{
           $_SESSION['user'] = $fetch['id_users'];
           header("location: authenticate_admin.php");
         }else{
-          echo "
-          <script>alert('Invalid username or password')</script>
-          <script>window.location = authenticate_admin.php</script>
-          ";
+          $_SESSION['error']="Invalid Institutional Email or Password.";
         }
 
 
+      }elseif($_POST['instEmail'] != "" || $_POST['pwd'] != ""){
         $sql = "SELECT * FROM `users` WHERE `instemail_users`=? and `pwd_users`=? and `usertype_users`=3";
         $query = $conn->prepare($sql);
         $query->execute(array($instEmail,$pwd));
@@ -52,44 +49,36 @@ class dbfunction{
           $_SESSION['user'] = $fetch['id_users'];
           header("location: authenticate_superadmin.php");
         }else{
-          echo "
-          <script>alert('Invalid username or password')</script>
-          <script>window.location = authenticate_superadmin.php</script>
-          ";
+          $_SESSION['error']="Invalid Institutional Email or Password.";
         }
-
-        }else{
-          echo "
-            <script>alert('Please complete the required field!')</script>
-          ";
-        }
-        
-
+      }else{
+        $_SESSION['error']="Please enter Institutional Email and Password.";
       }
+
       
     }
+      
+  }
+      
+    
 
     function updCrs($code_crs, $name_crs, $dept, $id_crs){
       global $conn;
       
-        if(ISSET($_POST['updCrsBtn'])){
-          $id_crs=$_POST["id"];
-        
-          $name_crs=$_POST["name"];
-         $code_crs=$_POST["code"];
-         $dept=$_POST["dept"];
+      if(ISSET($_POST['updCrsBtn'])){
+        $id_crs=$_POST["id"];
       
-          $sql = "UPDATE courses SET code_crs=? , name_crs=?, id_dept_fk=? WHERE id_crs=?";
-          $query = $conn->prepare($sql);
-          $query->execute(array($code_crs, $name_crs, $dept, $id_crs));
-            
-            
-      
-        }
-      
+        $name_crs=$_POST["name"];
+        $code_crs=$_POST["code"];
+        $dept=$_POST["dept"];
     
-
+        $sql = "UPDATE courses SET code_crs=? , name_crs=?, id_dept_fk=? WHERE id_crs=?";
+        $query = $conn->prepare($sql);
+        $query->execute(array($code_crs, $name_crs, $dept, $id_crs));
+    
+      }
     }
+
 
 
   function addUserSupAdmin($hnr_users,$flname_users,$instemail_users,$empnum_users,$pwd_users,$usertype_users){
@@ -112,6 +101,7 @@ class dbfunction{
       } 
     }
   }
+
 
   function addUserAdmin($hnr_users,$flname_users,$instemail_users,$empnum_users,$pwd_users,$usertype_users){
     global $conn;
@@ -137,20 +127,19 @@ class dbfunction{
 
   function addStd($fullname,$email,$studnum,$gflname,$gemail,$crsname,$yrlvl,$sectname){
     global $conn;
-    if(isset($_POST['addbtn']))
-    {
+    if(isset($_POST['addbtn'])){
         
-        $fullname = $_POST['flname'];
-        $email = $_POST['email'];
-        $studnum = $_POST['studnum'];
-        $gflname = $_POST['gflname'];
-        $gemail = $_POST['gemail'];
-        $crsname = $_POST['crsNameStd'];
-        $yrlvl = $_POST['yrLvlStd'];
-        $sectname = $_POST['sectNameStd'];
-        
-        
-        
+      $fullname = $_POST['flname'];
+      $email = $_POST['email'];
+      $studnum = $_POST['studnum'];
+      $gflname = $_POST['gflname'];
+      $gemail = $_POST['gemail'];
+      $crsname = $_POST['crsNameStd'];
+      $yrlvl = $_POST['yrLvlStd'];
+      $sectname = $_POST['sectNameStd'];
+      
+      
+      
 
         $sql = "INSERT INTO students (	
         flname_std,
@@ -163,25 +152,25 @@ class dbfunction{
         sectNameStd) VALUES (:flname, :email, :studnum, :gflname, :gemail, :crsNameStd, :yrLvlStd, :sectNameStd)";
         $result = $conn->prepare($sql);
 
-        $data = [
-            ':flname' => $fullname,
-            ':email' => $email,
-            ':studnum' => $studnum,
-            ':gflname' => $gflname,
-            ':gemail' => $gemail,
-            ':crsNameStd' => $crsname,
-            ':yrLvlStd' => $yrlvl,
-            ':sectNameStd' => $sectname,
-        ];
-        $result->execute($data);
+      $data = [
+          ':flname' => $fullname,
+          ':email' => $email,
+          ':studnum' => $studnum,
+          ':gflname' => $gflname,
+          ':gemail' => $gemail,
+          ':crsNameStd' => $crsname,
+          ':yrLvlStd' => $yrlvl,
+          ':sectNameStd' => $sectname,
+      ];
+      $result->execute($data);
     }
   }
 
 
+
   function updStd($fullname,$email,$studnum,$gflname,$gemail,$crsname,$yrlvl,$sectname){
     global $conn;
-    if(isset($_POST['updbtn']))
-    {
+    if(isset($_POST['updbtn'])){
         
         $fullname = $_POST['flname'];
         $email = $_POST['email'];

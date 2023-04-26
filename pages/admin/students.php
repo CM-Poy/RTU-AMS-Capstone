@@ -19,6 +19,36 @@
   }
 
 
+  if(isset($_GET['page_no']) && $_GET['page_no'] !== ""){
+    $page_no = $_GET['page_no'];
+  }else{
+    $page_no = 1;
+  }
+
+  //total num rows to display
+  $total_records_perpage = 10;
+  //getting offset for for limit query
+  $offset = ($page_no - 1) * $total_records_perpage;
+  //previous page
+  $previous_page = $page_no - 1;
+  //next page
+  $next_page = $page_no + 1;
+
+  //getting the total number of records
+  $sql = "SELECT * from students";
+  $totalnumrecords = $conn->prepare($sql); 
+  $totalnumrecords->execute();
+  //total records
+  $result_totalnumrecords=$totalnumrecords->rowCount();
+  //total pages
+  $total_numpages = ceil($result_totalnumrecords/$total_records_perpage);
+
+
+
+
+
+
+
   ?>
   
 
@@ -134,7 +164,7 @@
                          $sql = "SELECT students.id_std, students.flname_std, students.instemail_std, students.studnum_std, students.gflname_std, students.gemail_std, sections.code_sec, courses.code_crs, year.yearlvl_yr FROM students
                          LEFT JOIN courses on students.crs_id = courses.id_crs
                          left join year on students.yrlvl_id = year.id_yr
-                         left join sections on students.sec_id = sections.id_sec";
+                         left join sections on students.sec_id = sections.id_sec LIMIT $offset, $total_records_perpage";
                         $result = $conn->prepare($sql);
                         $result->execute();
                         
@@ -183,15 +213,29 @@
                 </tbody>
               </table>
               <div class="clearfix">
-                <div class="hint-text">Showing <b>5</b> out of <b>25</b> entries</div>
+                <div class="hint-text">
+                  Showing <b><?php echo $page_no; ?></b> of <b><?php echo $total_numpages; ?></b> pages.
+                </div>
                 <ul class="pagination">
-                  <li class="page-item disabled"><a href="#">Previous</a></li>
-                  <li class="page-item"><a href="#" class="page-link">1</a></li>
-                  <li class="page-item"><a href="#" class="page-link">2</a></li>
-                  <li class="page-item active"><a href="#" class="page-link">3</a></li>
-                  <li class="page-item"><a href="#" class="page-link">4</a></li>
-                  <li class="page-item"><a href="#" class="page-link">5</a></li>
-                  <li class="page-item"><a href="#" class="page-link">Next</a></li>
+
+                  <li class="page-item"><a  class="page-link <?= ($page_no <=1) ? 'disabled' : ''; ?> " <?= ($page_no > 1) ? 'href=? page_no=' .$previous_page : ''; ?>>Previous</a></li>
+
+
+                  
+                  <?php for($counter = 1; $counter <= $total_numpages; $counter ++){ ?>
+                    
+                    <?php if ($page_no != $counter){?>
+                      <li class="page-item"><a class="page-link" href="?page_no=<?=$counter; ?>"><?=$counter; ?></a></li>
+                    <?php }else{ ?> 
+                      <li class="page-item"><a class="page-link active"><?=$counter; ?></a></li>
+                    <?php } ?>
+                   <?php } ?>
+
+
+          
+
+                  <li class="page-item"><a  class="page-link <?= ($page_no >= $total_numpages) ? 'disabled' : '' ; ?>" <?= ($page_no < $total_numpages) ? 'href=?page_no=' . $next_page : ''; ?>>Next</a></li>
+
                 </ul>
               </div>
             </div>
