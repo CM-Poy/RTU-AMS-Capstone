@@ -25,7 +25,7 @@ class dbfunction{
         }
 
 
-      }elseif($_POST['instEmail'] != "" || $_POST['pwd'] != ""){
+        if($_POST['instEmail'] != "" || $_POST['pwd'] != ""){
         $sql = "SELECT * FROM `users` WHERE `instemail_users`=? and `pwd_users`=? and `usertype_users`=2";
         $query = $conn->prepare($sql);
         $query->execute(array($instEmail,$pwd));
@@ -39,26 +39,31 @@ class dbfunction{
         }
 
 
-      }elseif($_POST['instEmail'] != "" || $_POST['pwd'] != ""){
-        $sql = "SELECT * FROM `users` WHERE `instemail_users`=? and `pwd_users`=? and `usertype_users`=3";
-        $query = $conn->prepare($sql);
-        $query->execute(array($instEmail,$pwd));
-        $row = $query->rowCount();
-        $fetch = $query->fetch();
-        if($row > 0) {
-          $_SESSION['user'] = $fetch['id_users'];
-          header("location: authenticate_superadmin.php");
-        }else{
-          $_SESSION['error']="Invalid Institutional Email or Password.";
+        if($_POST['instEmail'] != "" || $_POST['pwd'] != ""){
+          $sql = "SELECT * FROM `users` WHERE `instemail_users`=? and `pwd_users`=? and `usertype_users`=3";
+          $query = $conn->prepare($sql);
+          $query->execute(array($instEmail,$pwd));
+          $row = $query->rowCount();
+          $fetch = $query->fetch();
+          if($row > 0) {
+            $_SESSION['user'] = $fetch['id_users'];
+            header("location: authenticate_superadmin.php");
+          }else{
+            $_SESSION['error']="Invalid Institutional Email or Password.";
+          }
         }
-      }else{
-        $_SESSION['error']="Please enter Institutional Email and Password.";
+
       }
+    }else{
+      $_SESSION['error']="Please enter Institutional Email and Password.";
+    }
 
       
+  
     }
-      
   }
+      
+  
       
     
 
