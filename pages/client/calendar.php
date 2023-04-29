@@ -7,23 +7,13 @@
     <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">	
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="../../css/css_client/style.css">
+    <link rel="stylesheet" href="../../css/css_calendar/calendarstyle.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.css">
     <script src='fullcalendar/main.js'></script>
-<script>
 
-      document.addEventListener('DOMContentLoaded', function() {
-        var calendarEl = document.getElementById('calendar');
-        var calendar = new FullCalendar.Calendar(calendarEl, {
-        });
-        calendar.render();
-      });
-
-      headerToolbar:{
-        center:'title'
-      }
-    </script>
     <script>
         $(document).ready(function(){
             $(".profile .icon_wrap").click(function(){
@@ -75,7 +65,7 @@
                 <a href="#" class="img logo rounded-circle mb-5" style="background-image: url(../../images/rtu-logo.png);"></a>
             <ul class="list-unstyled components mb-5">
               <li class="">
-                <a href="today.php">&nbsp;&nbsp;&nbsp;<i class="fa-sharp fa-solid fa-calendar-day fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>DASHBOARD</a>
+                <a href="index.php">&nbsp;&nbsp;&nbsp;<i class="fa-sharp fa-solid fa-calendar-day fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>DASHBOARD</a>
               </li>
               <li class="">
                <a href="calendar.php">&nbsp;&nbsp;&nbsp;<i class="fa-sharp fa-solid fa-calendar-days fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>CALENDAR</a>
@@ -167,16 +157,75 @@
             
         </nav>
         <!--Calendar-->
-          <div class="container">
-              <div id='calendar'>
+        <div class="container">
+          <div class="left">
+            <div class="calendar">
+              <div class="month">
+                <i class="fas fa-angle-left prev"></i>
+                <div class="date">december 2015</div>
+                <i class="fas fa-angle-right next"></i>
               </div>
-         </div>
-    </div>
-    
-  </div>
-
+              <div class="weekdays">
+                <div>Sun</div>
+                <div>Mon</div>
+                <div>Tue</div>
+                <div>Wed</div>
+                <div>Thu</div>
+                <div>Fri</div>
+                <div>Sat</div>
+              </div>
+              <div class="days"></div>
+              <div class="goto-today">
+                <div class="goto">
+                  <input type="text" placeholder="mm/yyyy" class="date-input" />
+                  <button class="goto-btn">Go</button>
+                </div>
+                <button class="today-btn">Today</button>
+              </div>
+            </div>
+          </div>
+          <div class="right">
+            <div class="today-date">
+              <div class="event-day">wed</div>
+              <div class="event-date">12th december 2022</div>
+            </div>
+            <div class="events"></div>
+            <div class="add-event-wrapper">
+              <div class="add-event-header">
+                <div class="title">Add Event</div>
+                <i class="fas fa-times close"></i>
+              </div>
+              <div class="add-event-body">
+                <div class="add-event-input">
+                  <input type="text" placeholder="Event Name" class="event-name" />
+                </div>
+                <div class="add-event-input">
+                  <input
+                    type="text"
+                    placeholder="Event Time From"
+                    class="event-time-from"
+                  />
+                </div>
+                <div class="add-event-input">
+                  <input
+                    type="text"
+                    placeholder="Event Time To"
+                    class="event-time-to"
+                  />
+                </div>
+              </div>
+              <div class="add-event-footer">
+                <button class="add-event-btn">Add Event</button>
+              </div>
+            </div>
+          </div>
+          <button class="add-event">
+            <i class="fas fa-plus"></i>
+          </button>
+        </div>
+        
         <!--ALL NOTIFICATIONS-->
-      <div class="popup">
+        <div class="popup">
             <div class="shadow"></div>
             <div class="inner_popup">
                 <div class="notification_dd">
@@ -292,5 +341,6 @@
     <script src="../../js/popper.js"></script>
     <script src="../../js/bootstrap.min.js"></script>
     <script src="../../js/main.js"></script>
+    <script src="../../js/calendarscript.js"></script>
   </body>
 </html>
