@@ -7,7 +7,9 @@
 
 include('../../includes/header.php'); 
 require('../../includes/config.php');
+$id=$_REQUEST['updid'];
 
+echo $id;
 
 ?>
   
