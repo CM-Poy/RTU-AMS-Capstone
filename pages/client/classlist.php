@@ -1,13 +1,32 @@
 <!doctype html>
 <html lang="en">
 
-  <?php
-  session_start();
-  include('../includes/header.php'); 
-  require('../includes/config.php');
+<?php
+include('../includes/header.php'); 
+require('../includes/config.php');
+
+$idschd=$_REQUEST['id'];
 
 
-  ?>
+$sql="SELECT * from schedules  where id_schd=?";
+$query = $conn->prepare($sql);
+$query->execute([$idschd]);
+
+if($query->rowCount() > 0){
+  while ($row = $query->fetch(PDO::FETCH_ASSOC)){
+    $id=$row['id_schd'];
+    $user=$row['user_id'];
+    $sub=$row['sub_id'];
+    $sec=$row['sec_id'];
+    $day=$row['day_schd'];
+    $str=$row['strtime_schd'];
+    $end=$row['endtime_schd'];
+    $room=$row['room_id'];
+  }
+}
+
+
+?>
   
 
 <head>
@@ -68,7 +87,7 @@
               <div class="table-title">
                 <div class="row">
                   <div class="col-sm-6">
-                    <h2>Manage <b>Students</b></h2>
+                    <h2><b>Students</b></h2>
                   </div>
                   <div class="col-sm-6">
                     <a type="button" class="btn btn-success" name="attRec"><i class="material-icons custom">class</i> <span>RECORD ATTENDANCE</span></a>
@@ -80,12 +99,38 @@
                 <thead>
                   <tr>
                     <th>Full Name</th>
-                    <th>Institutional Email</th>
                     <th>Student Number</th>
+                    <th>Guardian Email</th>
+                    <th>Section</th>
                   </tr>
                 </thead>
                 <tbody>
-                   <?php echo $_POST['idsec'];  ?>
+
+
+                <?php
+                
+                global $conn;
+                $sql = "SELECT students.flname_std, students.studnum_std, students.gemail_std, students.sec_id, sections.code_sec from students left join sections on students.sec_id = sections.id_sec where sec_id=?";
+                $query = $conn->prepare($sql);
+                $query->execute([$sec]);
+                if($query->rowCount() > 0){
+                  while ($row = $query->fetch(PDO::FETCH_ASSOC)){
+                   ?><tr><td><?php echo $row['flname_std']; ?></td>
+                    <td><?php echo $row['studnum_std']; ?></td>
+                    <td><?php echo $row['gemail_std']; ?></td>
+                    <td><?php echo $row['code_sec']; ?></td></tr>
+                   
+                   
+                   
+                   <?php
+                  }
+                }
+
+
+                ?>
+
+
+                  
                 </tbody>
               </table>
               <div class="clearfix">
