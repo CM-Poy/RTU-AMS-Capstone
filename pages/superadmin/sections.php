@@ -13,6 +13,14 @@
   }
 
 
+  if(isset($_POST['btnDel'])){
+    include('../includes/functions.php');
+    $obj=new dbfunction();
+    $obj->delSec($_POST["idsec"]);
+  }
+
+
+
   if(isset($_GET['page_no']) && $_GET['page_no'] !== ""){
     $page_no = $_GET['page_no'];
   }else{
@@ -153,6 +161,7 @@
                             echo '
                             <form action="subjects.php" method="post">
                               <tr>
+                                    <td hidden>'.$id_sec.'</td>
                                     <td name="code_sec">'.$code_sec.'</td>
                                     <td name="id_crs_fk">'.$crs_id.'</td>
                                     <td name="id_yr_fk">'.$yrlvl_id.'</td>
@@ -282,104 +291,23 @@
 
 
 
-
-        <!-- Edit Modal HTML -->
-        <div id="editModal" class="modal fade">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <form>
-
-              <input type="text" class="form-control" id = "id" hidden>
-
-                <div class="modal-header">						
-                  <h4 class="modal-title">Edit Section</h4>
-                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                </div>
-                <div class="modal-body">					
-                  <div class="form-group">
-                    <label>Code</label>
-                    <input type="text" class="form-control" id="code" required>
-                  </div>
-                  <div class="form-group">
-                    <label>Course</label>
-
-                    <?php
-                      echo '<select name="crsNameSect" id="crs" style="width: 340px">
-                      <option></option>';
-              
-                      $sql = "SELECT id_crs, name_crs, code_crs from courses";
-                      $result = $conn->prepare($sql);
-                      $result->execute();
-                  
-                      if($result->rowCount() > 0){
-                      while ($row = $result->fetch(PDO::FETCH_ASSOC)){
-                          $id_crs=$row["id_crs"];
-                          $name_crs=$row["name_crs"];
-                          $code_crs=$row["code_crs"];
-                      
-                          echo '<option value= '.$id_crs.'>'.$name_crs.'</option>';
-                          }
-                      }
-
-                      echo '</select>';
-
-                    ?>
-                  </div>
-                  <div class="form-group">
-                    <label>Year Level</label>
-                    <?php
-
-                      echo '<select name="yrLvlStd" id="yrlvl" style="width: 340px">
-                      <option></option>';
-
-                      $sql = "SELECT id_yr, yearlvl_yr from year";
-                      $result = $conn->prepare($sql);
-                      $result->execute();
-
-                      if($result->rowCount() > 0){
-                      while ($row = $result->fetch(PDO::FETCH_ASSOC)){
-                          $id_yr=$row["id_yr"];
-                          $yearlvl_yr=$row["yearlvl_yr"];
-
-                          
-                          echo'<option value= '.$id_yr.' >'.$yearlvl_yr.'</option>';
-                          }
-                      }
-
-                      echo '</select>';
-                    ?>
-                  </div>			
-                </div>
-                <div class="modal-footer">
-                  <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                  <input type="submit" class="btn btn-info" value="Save">
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-
-
-
-
-
-
         <!-- Delete Modal HTML -->
         <div id="delModal" class="modal fade">
           <div class="modal-dialog">
             <div class="modal-content">
-              <form>
+              <form method="post">
                 <div class="modal-header">						
-                  <h4 class="modal-title">Delete Employee</h4>
+                  <h4 class="modal-title">Delete Schedule</h4>
                   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 </div>
                 <div class="modal-body">					
-                  <p>Are you sure you want to delete these Records?</p>
+                  <p>Are you sure you want to delete this record?</p>
+                  <input type="hidden" name="idsec" id="idsec">
                   <p class="text-warning"><small>This action cannot be undone.</small></p>
                 </div>
                 <div class="modal-footer">
                   <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                  <input type="submit" class="btn btn-danger" value="Delete">
+                  <input type="submit" class="btn btn-danger" name="btnDel" value="Delete">
                 </div>
               </form>
             </div>
@@ -399,53 +327,19 @@
 
     <script>
 
-    //EDIT MODAL 
+    //DELETE MODAL 
       $(document).ready(function () {
-
-          $('.editBtn').on('click', function () {
-
-              $('#editModal').modal('show');
-
-              $tr = $(this).closest('tr');
-
-              var data = $tr.children("td").map(function () {
-                  return $(this).text();
-              }).get();
-
-              console.log(data);
-
-              $('#id').val(data[0]);
-              $('#code').val(data[1]);
-              $('#crs').val(data[2]);
-              $('#yr').val(data[3]);
-        
-          });
+        $('.delBtn').on('click', function () {
+        $('#delModal').modal('show');
+        $tr = $(this).closest('tr');
+          var data = $tr.children("td").map(function () {
+              return $(this).text();
+          }).get();
+          console.log(data);
+          $('#idsec').val(data[0]);
+        });
       });
 
-
-      $(document).ready(function(){
-      // Activate tooltip
-      $('[data-toggle="tooltip"]').tooltip();
-      
-      // Select/Deselect checkboxes
-      var checkbox = $('table tbody input[type="checkbox"]');
-      $("#selectAll").click(function(){
-        if(this.checked){
-          checkbox.each(function(){
-            this.checked = true;                        
-          });
-        } else{
-          checkbox.each(function(){
-            this.checked = false;                        
-          });
-        } 
-      });
-      checkbox.click(function(){
-        if(!this.checked){
-          $("#selectAll").prop("checked", false);
-        }
-      });
-    });
 </script>
   </body>
 </html>

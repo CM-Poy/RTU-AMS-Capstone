@@ -11,6 +11,12 @@
     $obj->addSub($_POST['code'],$_POST['name'],$_POST['units']);
   }
 
+  if(isset($_POST['btnDel'])){
+    include('../includes/functions.php');
+    $obj=new dbfunction();
+    $obj->delSub($_POST["idsub"]);
+  }
+
   
   if(isset($_GET['page_no']) && $_GET['page_no'] !== ""){
     $page_no = $_GET['page_no'];
@@ -147,13 +153,14 @@
                             echo '
                             <form action="subjects.php" method="post">
                               <tr>
-                                   <td name="codeSubj">'.$code_subj.'</td>
+                                    <td hidden>'.$id_subj.'</td>
+                                    <td name="codeSubj">'.$code_subj.'</td>
                                     <td name="nameSubj">'.$name_subj.'</td>
                                     <td name="unitsSubj">'.$units_subj.'</td>
                                     <td>
                                       
-                                      <a href="#editModal" value = '.$id_subj.' class="editBtn" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                                      <a href="#delModal" value = '.$id_subj.' class="delBtn" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                                      <a href="#editModal" class="editBtn" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                                      <a href="#delModal" class="delBtn" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
                                      
                                     </td>
                             </tr>
@@ -234,61 +241,23 @@
 
 
 
-
-
-        <!-- Edit Modal HTML -->
-        <div id="editModal" class="modal fade">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <form>
-              <input type="text" class="form-control" id = "idSubj" hidden>
-              <div class="modal-header">						
-                <h4 class="modal-title">Edit Employee</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-              </div>
-              <div class="modal-body">					
-                <div class="form-group">
-                  <label>Code</label>
-                  <input type="text" class="form-control" id = "codeSubj" required>
-                </div>
-                <div class="form-group">
-                  <label>Name</label>
-                  <input type="text" class="form-control" id = "nameSubj" required>
-                </div>
-                <div class="form-group">
-                  <label>Units</label>
-                  <input type="text" class="form-control" id = "unitsSubj" required>
-                </div>		
-              </div>
-              <div class="modal-footer">
-                <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                <input type="submit" class="btn btn-info" value="Save">
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
-
-
-
-
-
         <!-- Delete Modal HTML -->
         <div id="delModal" class="modal fade">
           <div class="modal-dialog">
             <div class="modal-content">
-              <form>
+              <form method="post">
                 <div class="modal-header">						
-                  <h4 class="modal-title">Delete Employee</h4>
+                  <h4 class="modal-title">Delete Schedule</h4>
                   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 </div>
                 <div class="modal-body">					
-                  <p>Are you sure you want to delete these Records?</p>
+                  <p>Are you sure you want to delete this record?</p>
+                  <input type="hidden" name="idsub" id="idsub">
                   <p class="text-warning"><small>This action cannot be undone.</small></p>
                 </div>
                 <div class="modal-footer">
                   <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                  <input type="submit" class="btn btn-danger" value="Delete">
+                  <input type="submit" class="btn btn-danger"  name="btnDel" value="Delete">
                 </div>
               </form>
             </div>
@@ -310,54 +279,18 @@
 
     <script>
 
-      //EDIT MODAL 
-        $(document).ready(function () {
-
-            $('.editBtn').on('click', function () {
-
-                $('#editModal').modal('show');
-
-                $tr = $(this).closest('tr');
-
-                var data = $tr.children("td").map(function () {
-                    return $(this).text();
-                }).get();
-
-                console.log(data);
-
-                $('#idSubj').val(data[0]);
-                $('#codeSubj').val(data[1]);
-                $('#nameSubj').val(data[2]);
-                $('#unitsSubj').val(data[3]);
-          
-            });
+      //DELETE MODAL 
+      $(document).ready(function () {
+        $('.delBtn').on('click', function () {
+        $('#delModal').modal('show');
+        $tr = $(this).closest('tr');
+          var data = $tr.children("td").map(function () {
+              return $(this).text();
+          }).get();
+          console.log(data);
+          $('#idsub').val(data[0]);
         });
-
-
-
-        $(document).ready(function(){
-      // Activate tooltip
-      $('[data-toggle="tooltip"]').tooltip();
-      
-      // Select/Deselect checkboxes
-      var checkbox = $('table tbody input[type="checkbox"]');
-      $("#selectAll").click(function(){
-        if(this.checked){
-          checkbox.each(function(){
-            this.checked = true;                        
-          });
-        } else{
-          checkbox.each(function(){
-            this.checked = false;                        
-          });
-        } 
       });
-      checkbox.click(function(){
-        if(!this.checked){
-          $("#selectAll").prop("checked", false);
-        }
-      });
-    });
 
     </script>
 

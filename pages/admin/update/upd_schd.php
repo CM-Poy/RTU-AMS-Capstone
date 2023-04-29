@@ -7,9 +7,38 @@
 
 include('../../includes/header.php'); 
 require('../../includes/config.php');
+
 $id=$_REQUEST['updid'];
 
-echo $id;
+global $conn;
+$sql = "SELECT users.id_users, subjects.id_subj, sections.id_sec, room.id_room, schedules.id_schd, users.flname_users, subjects.code_subj, sections.code_sec, schedules.day_schd, schedules.strtime_schd, schedules.endtime_schd, room.code_room from schedules left join users on schedules.user_id = users.id_users LEFT JOIN subjects on schedules.sub_id = subjects.id_subj LEFT JOIN sections on schedules.sec_id = sections.id_sec LEFT JOIN room on schedules.room_id = room.id_room where schedules.id_schd=?";
+$result = $conn->prepare($sql);
+$result->execute([$id]);
+
+    if($result->rowCount() > 0){
+        while ($row = $result->fetch(PDO::FETCH_ASSOC)){
+            $iduser=$row['id_users'];
+            $idsub=$row['id_subj'];
+            $idsec=$row['id_sec'];
+            $idroom=$row['id_room'];
+            $id=$row['id_schd'];
+            $user=$row['flname_users'];
+            $sub=$row['code_subj'];
+            $sec=$row['code_sec'];
+            $day=$row['day_schd'];
+            $strtime=$row['strtime_schd'];
+            $endtime=$row['endtime_schd'];
+            $room=$row['code_room'];
+        }
+    }
+
+
+    if(isset($_POST['updBtn'])){
+        include('../../includes/functions.php');
+        $obj=new dbfunction();
+        $obj->updSchd($_REQUEST['updid'], $_POST['user'], $_POST['sub'], $_POST['sec'], $_POST['day'], $_POST['strtime'], $_POST['endtime'], $_POST['room']);
+        }
+
 
 ?>
   
@@ -27,12 +56,12 @@ echo $id;
             <p class="title">EDIT SCHEDULE</p>
                    
             <form class="login-form" method="post">
-            <div class="form-group">
+                <div class="form-group">
                     <label>Full Name</label>
 
                         <?php
-                          echo '<select name="usrName" id="user" style="width: 340px">
-                          <option></option>';
+                          echo '<select name="user" id="user" style="width: 340px">
+                          <option value='.$iduser.'>'.$user.'</option>';
                           global $conn;
                           $sql = "SELECT * from users";
                           $result = $conn->prepare($sql);
@@ -56,8 +85,8 @@ echo $id;
                     <label>Subject</label>
                     
                     <?php
-                        echo '<select name="subName" id="sub" style="width: 340px">
-                        <option></option>';
+                        echo '<select name="sub" id="sub" style="width: 340px">
+                        <option value='.$idsub.'>'.$sub.'</option>';
                         
                         $sql = "SELECT * from subjects";
                         $result = $conn->prepare($sql);
@@ -82,8 +111,8 @@ echo $id;
                     <label>Section</label>
                     
                     <?php
-                        echo '<select name="secName" id="sec" style="width: 340px">
-                        <option></option>';
+                        echo '<select name="sec" id="sec" style="width: 340px">
+                        <option value='.$idsec.'>'.$sec.'</option>';
                         
                         $sql = "SELECT * from sections";
                         $result = $conn->prepare($sql);
@@ -109,7 +138,7 @@ echo $id;
                     
                     <?php
                         echo '<select name="day" id="day" style="width: 340px">
-                        <option></option>';
+                        <option>'.$day.'</option>';
                         
                         function myDay($dy) {
 
@@ -118,7 +147,7 @@ echo $id;
                         }
 
                         $dayid = strtotime("sunday");
-                        while ($dayid < strtotime("+ 12 days")) {
+                        while ($dayid < strtotime("+ 7 days")) {
 
                             echo myDay($dayid);
                             $dayid += 86400; // number of seconds in a day, to get to next day
@@ -133,8 +162,8 @@ echo $id;
                     <label>Start</label>
                     
                     <?php
-                        echo '<select name=strTime id="strtime" style="width: 340px">
-                        <option></option>';
+                        echo '<select name="strtime" id="strtime" style="width: 340px">
+                        <option>'.$strtime.'</option>';
                         
                         for ($hours=0; $hours<24; $hours++) { // the interval for hours is '1'
                             
@@ -175,8 +204,8 @@ echo $id;
                     <label>End</label>
                     
                     <?php
-                        echo '<select name="endTime" id="endtime" style="width: 340px">
-                        <option></option>';
+                        echo '<select name="endtime" id="endtime" style="width: 340px">
+                        <option>'.$endtime.'</option>';
                         
                         for ($hours=0; $hours<24; $hours++) { // the interval for hours is '1'
                             
@@ -218,7 +247,7 @@ echo $id;
 
                     <?php
                       echo '<select name="room" id="room" style="width: 340px">
-                      <option></option>';
+                      <option value='.$idroom.'>'.$room.'</option>';
                       
                       $sql = "SELECT * from room";
                       $result = $conn->prepare($sql);
@@ -240,8 +269,8 @@ echo $id;
                   </div>			
                 </div>
 
-                 <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                  <input type="submit" class="btn btn-info" name="addbtn" value="Save">
+                <a href="../schedules.php"><input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel" ></a>
+                <input type="submit" class="btn btn-info" name="updBtn" value="Save">
             </form>
         </div>
 

@@ -12,6 +12,14 @@
     $obj=new dbfunction();
     $obj->addSchd($_POST['usrName'], $_POST['subName'], $_POST['secName'],  $_POST['day'], $_POST['strTime'], $_POST['endTime'], $_POST['room']);
   }
+
+  if(isset($_POST['btnDel'])){
+    include('../includes/functions.php');
+    $obj=new dbfunction();
+    $obj->delSchd($_POST['idschd']);
+  }
+
+  
   
   
 
@@ -122,7 +130,7 @@
                 <tbody>
                  
                 <?php
-                      session_start();
+                      
                        $sql = "SELECT schedules.id_schd, users.flname_users, subjects.code_subj, sections.code_sec, schedules.day_schd, schedules.strtime_schd, schedules.endtime_schd, room.code_room from schedules left join users on schedules.user_id = users.id_users LEFT JOIN subjects on schedules.sub_id = subjects.id_subj LEFT JOIN sections on schedules.sec_id = sections.id_sec LEFT JOIN room on schedules.room_id = room.id_room LIMIT $offset, $total_records_perpage";
                        $result = $conn->prepare($sql);
                        $result->execute();
@@ -151,8 +159,8 @@
 
                                     
                                     <td>
-                                      
-                                      <a href="update.php?updid='.$id_schd.'"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                                    
+                                      <a href="update/upd_schd.php?updid='.$id_schd.'"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
                                       <a href="#delModal" class="delBtn" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
                                      
                                     </td>
@@ -208,7 +216,7 @@
               <form method="post">
               <input type="text" class="form-control" id="id" hidden>
                 <div class="modal-header">						
-                  <h4 class="modal-title">Edit Schedule</h4>
+                  <h4 class="modal-title">Add Schedule</h4>
                   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 </div>
                 <div class="modal-body">					
@@ -433,33 +441,23 @@
           </div>
         </div>
 
-
-
-
-
-        <!-- Edit Modal HTML -->
-      
-
-
-
-
-
         <!-- Delete Modal HTML -->
         <div id="delModal" class="modal fade">
           <div class="modal-dialog">
             <div class="modal-content">
-              <form>
+              <form method="post">
                 <div class="modal-header">						
                   <h4 class="modal-title">Delete Schedule</h4>
                   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 </div>
                 <div class="modal-body">					
-                  <p>Are you sure you want to delete these Records?</p>
+                  <p>Are you sure you want to delete this record?</p>
+                  <input type="hidden" name="idschd" id="idschd">
                   <p class="text-warning"><small>This action cannot be undone.</small></p>
                 </div>
                 <div class="modal-footer">
                   <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                  <input type="submit" class="btn btn-danger" value="Delete">
+                  <input type="submit" class="btn btn-danger" name="btnDel" value="Delete">
                 </div>
               </form>
             </div>
@@ -476,57 +474,23 @@
 
     <script>
 
-//EDIT MODAL 
+//DELETE MODAL 
   $(document).ready(function () {
-
-      $('.editBtn').on('click', function () {
-
-          $('#editModal').modal('show');
-
-          $tr = $(this).closest('tr');
-
-          var data = $tr.children("td").map(function () {
+      $('.delBtn').on('click', function () {
+        $('#delModal').modal('show');
+        $tr = $(this).closest('tr');
+         var data = $tr.children("td").map(function () {
               return $(this).text();
           }).get();
-
           console.log(data);
-
-          $('#id').val(data[0]);
-          $('#user').val(data[1]);
-          $('#sub').val(data[2]);
-          $('#sec').val(data[3]);
-          $('#day').val(data[4]);
-          $('#strtime').val(data[5]);
-          $('#endtime').val(data[6]);
-          $('#room').val(data[7]);
-    
+          $('#idschd').val(data[0]);
       });
-  });
-
-
-  $(document).ready(function(){
-      // Activate tooltip
-      $('[data-toggle="tooltip"]').tooltip();
-      
-      // Select/Deselect checkboxes
-      var checkbox = $('table tbody input[type="checkbox"]');
-      $("#selectAll").click(function(){
-        if(this.checked){
-          checkbox.each(function(){
-            this.checked = true;                        
-          });
-        } else{
-          checkbox.each(function(){
-            this.checked = false;                        
-          });
-        } 
-      });
-      checkbox.click(function(){
-        if(!this.checked){
-          $("#selectAll").prop("checked", false);
-        }
-      });
+  
+  
     });
+
+
+  
 </script>
 
 
