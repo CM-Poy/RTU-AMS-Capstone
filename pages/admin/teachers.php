@@ -16,6 +16,13 @@
     $obj->addUserAdmin($_POST["hnr"],$_POST["name"],$_POST["email"],$_POST["empnum"],$_POST["pwd"],$_POST["usertype"]);
   }
 
+
+  if(isset($_POST['btnDel'])){
+    include('../includes/functions.php');
+    $obj=new dbfunction();
+    $obj->delUserAdmin($_POST["idusers"]);
+  }
+
   
 
   if(isset($_GET['page_no']) && $_GET['page_no'] !== ""){
@@ -146,7 +153,7 @@
                             echo '
                             <form action="subjects.php" method="post">
                               <tr>
-                                
+                                <td hidden>'.$id_users.'</td>
                                 <td>'.$hnr_users.'</td>
                                 <td>'.$flname_users.'</td>
                                 <td>'.$instemail_users.'</td>
@@ -292,18 +299,19 @@
         <div id="delModal" class="modal fade">
           <div class="modal-dialog ">
             <div class="modal-content">
-              <form>
+              <form method="post">
                 <div class="modal-header">						
                   <h4 class="modal-title">Delete Teacher</h4>
                   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 </div>
-                <div class="modal-body">					
-                  <p>Are you sure you want to delete these Records?</p>
+                <div class="modal-body">			
+                  <input type="hidden" name="idusers" id="idusers">		
+                  <p>Are you sure you want to delete this record?</p>
                   <p class="text-warning"><small>This action cannot be undone.</small></p>
                 </div>
                 <div class="modal-footer">
                   <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                  <input type="submit" class="btn btn-danger" value="Delete">
+                  <input type="submit" class="btn btn-danger" name="btnDel" value="Delete">
                 </div>
               </form>
             </div>
@@ -347,9 +355,23 @@
                 $('#pwd').val(data[5]);
                 $('#usertype').val(data[6]);
 
+            });
+
+
+            $('.delBtn').on('click', function () {
+              $('#delModal').modal('show');
+              $tr = $(this).closest('tr');
+
+              var data = $tr.children("td").map(function () {
+                    return $(this).text();
+                }).get();
+
+                console.log(data);
+                $('#idusers').val(data[0]);
+            });
+
 
           
-            });
         });
         
       
@@ -362,28 +384,6 @@
 
 
 
-        $(document).ready(function(){
-      // Activate tooltip
-      $('[data-toggle="tooltip"]').tooltip();
-      
-      // Select/Deselect checkboxes
-      var checkbox = $('table tbody input[type="checkbox"]');
-      $("#selectAll").click(function(){
-        if(this.checked){
-          checkbox.each(function(){
-            this.checked = true;                        
-          });
-        } else{
-          checkbox.each(function(){
-            this.checked = false;                        
-          });
-        } 
-      });
-      checkbox.click(function(){
-        if(!this.checked){
-          $("#selectAll").prop("checked", false);
-        }
-      });
-    });
+        
 
     </script>

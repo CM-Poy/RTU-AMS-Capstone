@@ -12,12 +12,12 @@
     $obj->addStd($_POST['flname'],$_POST['email'],$_POST['studnum'],$_POST['gflname'],$_POST['gemail'],$_POST['crsNameStd'],$_POST['yrLvlStd'],$_POST['sectNameStd']);
   }
 
-  if(isset($_POST['updbtn'])){
+
+  if(isset($_POST['btnDel'])){
     include('../includes/functions.php');
     $obj=new dbfunction();
-    $obj->updStd($_POST['flname'],$_POST['email'],$_POST['studnum'],$_POST['gflname'],$_POST['gemail'],$_POST['crs'],$_POST['yrlvl'],$_POST['sect']);
+    $obj->delStd($_POST["idstd"]);
   }
-
 
   if(isset($_GET['page_no']) && $_GET['page_no'] !== ""){
     $page_no = $_GET['page_no'];
@@ -172,8 +172,9 @@
   
                             echo '
                             <form method="post">
-                            <input type="text" value ='.$id_std.' hidden>
+                           
                               <tr>
+                                <td hidden>'.$id_std.'</td>
                                 <td>'.$flname_std.'</td>
                                 <td>'.$instemail_std.'</td>
                                 <td>'.$studnum_std.'</td>
@@ -494,23 +495,19 @@
         <div id="delModal" class="modal fade">
           <div class="modal-dialog">
             <div class="modal-content">
-              <form>
+              <form method="post">
                 <div class="modal-header">						
                   <h4 class="modal-title">Delete Student</h4>
                   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 </div>
                 <div class="modal-body">
-                  <?php echo $id_std ?>
-                <input type="text" class="form-control" id ="iddel" hidden>							
-                  <p>Are you sure you want to delete these Records?</p>
+                <input type="hidden" name="idstd" id="idstd">							
+                  <p>Are you sure you want to delete this record?</p>
                   <p class="text-warning"><small>This action cannot be undone.</small></p>
                 </div>
                 <div class="modal-footer">
-                 
-                  <form method="post">
                   <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                  <button type="submit" class="btn btn-danger" name="deletebtn">DELETE</button>';
-               
+                  <button type="submit" class="btn btn-danger" name="btnDel">DELETE</button>
                 </div>
               </form>
             </div>
@@ -558,51 +555,21 @@
                 $('#sect').val(data[8]);
           
             });
+
+
+            
+            $('.delBtn').on('click', function () {
+              $('#delModal').modal('show');
+              $tr = $(this).closest('tr');
+
+              var data = $tr.children("td").map(function () {
+                    return $(this).text();
+                }).get();
+
+                console.log(data);
+                $('#idstd').val(data[0]);
+            });
         });
-
-      //DELETE
-      $(document).ready(function () {
-
-        $('.delBtn').on('click', function () {
-
-          $('#delModal').modal('show');
-
-          $tr = $(this).closest('tr');
-
-          var data = $tr.children("td").map(function () {
-              return $(this).text();
-          }).get();
-          
-          console.log(data);
-
-          $('#iddel').val(data[0]);
-        });
-      });
-    
-   
-    $(document).ready(function(){
-      // Activate tooltip
-      $('[data-toggle="tooltip"]').tooltip();
-      
-      // Select/Deselect checkboxes
-      var checkbox = $('table tbody input[type="checkbox"]');
-      $("#selectAll").click(function(){
-        if(this.checked){
-          checkbox.each(function(){
-            this.checked = true;                        
-          });
-        } else{
-          checkbox.each(function(){
-            this.checked = false;                        
-          });
-        } 
-      });
-      checkbox.click(function(){
-        if(!this.checked){
-          $("#selectAll").prop("checked", false);
-        }
-      });
-    });
 </script>
 
   </body>

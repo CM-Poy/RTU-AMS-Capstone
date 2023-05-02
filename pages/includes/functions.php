@@ -16,7 +16,6 @@ class dbfunction{
         $row = $query->rowCount();
         $fetch = $query->fetch();
 
-
         if($row > 0) {
           $_SESSION['user'] = $fetch['id_users'];
           header("location: authenticate_client.php");
@@ -25,12 +24,13 @@ class dbfunction{
         }
 
 
-      }elseif($_POST['instEmail'] != "" || $_POST['pwd'] != ""){
+        if($_POST['instEmail'] != "" || $_POST['pwd'] != ""){
         $sql = "SELECT * FROM `users` WHERE `instemail_users`=? and `pwd_users`=? and `usertype_users`=2";
         $query = $conn->prepare($sql);
         $query->execute(array($instEmail,$pwd));
         $row = $query->rowCount();
         $fetch = $query->fetch();
+
         if($row > 0) {
           $_SESSION['user'] = $fetch['id_users'];
           header("location: authenticate_admin.php");
@@ -39,26 +39,30 @@ class dbfunction{
         }
 
 
-      }elseif($_POST['instEmail'] != "" || $_POST['pwd'] != ""){
-        $sql = "SELECT * FROM `users` WHERE `instemail_users`=? and `pwd_users`=? and `usertype_users`=3";
-        $query = $conn->prepare($sql);
-        $query->execute(array($instEmail,$pwd));
-        $row = $query->rowCount();
-        $fetch = $query->fetch();
-        if($row > 0) {
-          $_SESSION['user'] = $fetch['id_users'];
-          header("location: authenticate_superadmin.php");
-        }else{
-          $_SESSION['error']="Invalid Institutional Email or Password.";
+        if($_POST['instEmail'] != "" || $_POST['pwd'] != ""){
+          $sql = "SELECT * FROM `users` WHERE `instemail_users`=? and `pwd_users`=? and `usertype_users`=3";
+          $query = $conn->prepare($sql);
+          $query->execute(array($instEmail,$pwd));
+          $row = $query->rowCount();
+          $fetch = $query->fetch();
+          if($row > 0) {
+            $_SESSION['user'] = $fetch['id_users'];
+            header("location: authenticate_superadmin.php");
+          }else{
+            $_SESSION['error']="Invalid Institutional Email or Password.";
+          }
         }
-      }else{
-        $_SESSION['error']="Please enter Institutional Email and Password.";
+
       }
 
-      
+    }else{
+      $_SESSION['error']="Please enter Institutional Email and Password.";
     }
-      
+
   }
+}
+      
+  
       
     
 
@@ -311,6 +315,16 @@ class dbfunction{
         $sql = "INSERT INTO  schedules (`user_id`, `sub_id`, `sec_id`, `day_schd`, `strtime_schd`, `endtime_schd`, `room_id`) VALUES (?,?,?,?,?,?,?)  ";
         $query = $conn->prepare($sql);
         $query->execute([$user,$sub,$sec,$day,$strtime,$endtime,$room]);
+
+
+      //  $sql2="SELECT * schedules WHERE user_id=?, sub_id=?, sec_id=?, day_schd=?, strtime_schd=?, endtime_schd=?, room_id=?";
+      //  $result = $conn->prepare($sql2);
+      //  $result->execute([$user,$sub,$sec,$day,$strtime,$endtime,$room]);
+       // if($result->rowCount() > 0){
+       //   while ($result->fetch(PDO::FETCH_ASSOC)){
+       //     echo "nope.";
+      //    }
+       // }
       
       }  
     }
@@ -358,6 +372,197 @@ class dbfunction{
     
   }
 }
+
+
+  function addBldg($code,$name){
+    global $conn;
+    if(ISSET($_POST['addbtn'])){
+      if($_POST['code'] != "" || $_POST['name'] != ""){  
+        $code=$_POST["code"];
+        $name=$_POST["name"];
+      
+        $sql = "INSERT INTO building (`name_bldg`, `code_bldg`) VALUES (?,?)";
+        $query = $conn->prepare($sql);
+        $query->execute([$code,$name]);
+      
+      }  
+    }
+  }
+
+
+  function addRoom($code,$bldg){
+    global $conn;
+    if(ISSET($_POST['addbtn'])){
+      if($_POST['code'] != "" || $_POST['name'] != ""){  
+        $code=$_POST["code"];
+        $bldg=$_POST["bldg"];
+      
+        $sql = "INSERT INTO room (`code_room`, `bldg_id`) VALUES (?,?)";
+        $query = $conn->prepare($sql);
+        $query->execute([$code,$bldg]);
+      
+      }  
+    }
+  }
+
+
+  
+  function updSchd($user,$sub,$sec,$day,$strtime,$endtime,$room){
+    global $conn;
+    if(ISSET($_POST['updBtn'])){
+      if($_REQUEST['updid'] !="" || $_POST['user'] != "" || $_POST['sub'] != "" || $_POST['sec'] != "" || $_POST['day'] != "" || $_POST['strtime'] != "" || $_POST['endtime'] != "" || $_POST['room'] != ""){
+        $id=$_REQUEST['updid'];
+        $user=$_POST['user'];
+        $sub=$_POST['sub'];
+        $sec=$_POST['sec'];
+        $day=$_POST['day'];
+        $strtime=$_POST['strtime'];
+        $endtime=$_POST['endtime'];
+        $room=$_POST['room'];
+
+        $sql="UPDATE schedules set id_schd=?, user_id=?, sub_id=?, sec_id=?, day_schd=?, strtime_schd=?, endtime_schd=?, room_id=? where id_schd=?";
+        $query = $conn->prepare($sql);
+        $query->execute([$id,$user,$sub,$sec,$day,$strtime,$endtime,$room,$id]);
+
+        header("location: ../schedules.php");
+
+
+        
+      }
+    }
+  }
+
+
+
+
+
+
+
+
+  function delSchd($idschd){
+    global $conn;
+    if(ISSET($_POST['btnDel'])){
+      if($_POST['idschd'] != ""){
+        $idschd=$_POST['idschd'];
+
+        $sql="DELETE from schedules where id_schd=?";
+        $query = $conn->prepare($sql);
+        $query->execute([$idschd]);
+      }
+    }
+  }
+
+
+  function delUserAdmin($iduser){
+    global $conn;
+    if(ISSET($_POST['btnDel'])){
+      if($_POST['idusers'] != ""){
+        $iduser=$_POST['idusers'];
+
+        $sql="DELETE from users where id_users=?";
+        $query = $conn->prepare($sql);
+        $query->execute([$iduser]);
+      }
+    }
+  }
+
+
+  function delStd($idstd){
+    global $conn;
+    if(ISSET($_POST['btnDel'])){
+      if($_POST['idstd'] != ""){
+        $idstd=$_POST['idstd'];
+
+        $sql="DELETE from students where id_std=?";
+        $query = $conn->prepare($sql);
+        $query->execute([$idstd]);
+      }
+    }
+  }
+
+
+  function delBldg($idbldg){
+    global $conn;
+    if(ISSET($_POST['btnDel'])){
+      if($_POST['idbldg'] != ""){
+        $idstd=$_POST['idbldg'];
+
+        $sql="DELETE from building where id_bldg=?";
+        $query = $conn->prepare($sql);
+        $query->execute([$idstd]);
+      }
+    }
+  }
+
+
+  function delCrs($idcrs){
+    global $conn;
+    if(ISSET($_POST['btnDel'])){
+      if($_POST['idcrs'] != ""){
+        $idcrs=$_POST['idcrs'];
+
+        $sql="DELETE from courses where id_crs=?";
+        $query = $conn->prepare($sql);
+        $query->execute([$idcrs]);
+      }
+    }
+  }
+
+
+  function delDept($iddept){
+    global $conn;
+    if(ISSET($_POST['btnDel'])){
+      if($_POST['iddept'] != ""){
+        $idcrs=$_POST['iddept'];
+
+        $sql="DELETE from departments where id_dept=?";
+        $query = $conn->prepare($sql);
+        $query->execute([$iddept]);
+      }
+    }
+  }
+
+
+  function delRoom($idroom){
+    global $conn;
+    if(ISSET($_POST['btnDel'])){
+      if($_POST['idroom'] != ""){
+        $idroom=$_POST['idroom'];
+
+        $sql="DELETE from room where id_room=?";
+        $query = $conn->prepare($sql);
+        $query->execute([$idroom]);
+      }
+    }
+  }
+
+
+  function delSec($idsec){
+    global $conn;
+    if(ISSET($_POST['btnDel'])){
+      if($_POST['idsec'] != ""){
+        $idsec=$_POST['idsec'];
+
+        $sql="DELETE from sections where id_sec=?";
+        $query = $conn->prepare($sql);
+        $query->execute([$idsec]);
+      }
+    }
+  }
+
+
+  function delSub($idsub){
+    global $conn;
+    if(ISSET($_POST['btnDel'])){
+      if($_POST['idsub'] != ""){
+        $idsub=$_POST['idsub'];
+
+        $sql="DELETE from subjects where id_subj=?";
+        $query = $conn->prepare($sql);
+        $query->execute([$idsub]);
+      }
+    }
+  }
 
   
 

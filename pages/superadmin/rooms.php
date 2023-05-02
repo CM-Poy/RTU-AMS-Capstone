@@ -9,7 +9,13 @@
   if(isset($_POST['addbtn'])){
     include('../includes/functions.php');
     $obj=new dbfunction();
-    $obj->addDept($_POST["name"],$_POST["code"]);
+    $obj->addRoom($_POST["bldg"],$_POST["code"]);
+  }
+
+  if(isset($_POST['btnDel'])){
+    include('../includes/functions.php');
+    $obj=new dbfunction();
+    $obj->delRoom($_POST["idroom"]);
   }
 
 
@@ -149,16 +155,14 @@
                             echo '
                             <form method="post">
                               <tr>
-                                    
-                                    <td name="name_dept">'.$code_room.'</td>
-                                    <td name="code_dept">'.$bldg_id.'</td>
-                                    
-                                    <td>
-                                      
-                                      <a href="#editModal" value = '.$id_room.' class="editBtn" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                                      <a href="#delModal" value = '.$id_room.' class="delBtn" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
-                                     
-                                    </td>
+                                <td hidden>'.$id_room.'</td>
+                                <td name="name_dept">'.$code_room.'</td>
+                                <td name="code_dept">'.$bldg_id.'</td>
+                                
+                                <td>
+                                  <a href="#editModal" class="editBtn" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                                  <a href="#delModal"  class="delBtn" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                                </td>
                             </tr>
                             </form>';
                           }
@@ -252,76 +256,23 @@
         </div>
 
 
-
-
-
-        <!-- Edit Modal HTML -->
-        <div id="editModal" class="modal fade">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <form>
-              <input type="text" class="form-control" id="id" hidden>
-                <div class="modal-header">						
-                  <h4 class="modal-title">Edit Department</h4>
-                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                </div>
-                <div class="modal-body">					
-                  <div class="form-group">
-                    <label>Code</label>
-                    <input type="text" name="code" id = "code" class="form-control" required>
-                   
-                  </div>
-                  <div class="form-group">
-                    <label>Building</label>
-                    <?php
-                      echo '<select id="bldg" name="bldg" style="width: 340px" required>
-                      <option></option>';
-              
-                      $sql = "SELECT * from building";
-                      $result = $conn->prepare($sql);
-                      $result->execute();
-                  
-                      if($result->rowCount() > 0){
-                      while ($row = $result->fetch(PDO::FETCH_ASSOC)){
-                          $id_dept=$row["id_bldg"];
-                          $name_dept=$row["name_bldg"];
-                          $code_dept=$row["code_bldg"];
-                      
-                          echo '<option value= '.$id_dept.'>'.$name_dept.'</option>';
-                          }
-                      }
-
-                      echo '</select>';
-                    ?>				
-                </div>
-                <div class="modal-footer">
-                  <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                  <input type="submit" class="btn btn-info" value="Save">
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-
-        
-
-
         <!-- Delete Modal HTML -->
         <div id="delModal" class="modal fade">
           <div class="modal-dialog">
             <div class="modal-content">
-              <form>
+              <form method="post">
                 <div class="modal-header">						
-                  <h4 class="modal-title">Delete Employee</h4>
+                  <h4 class="modal-title">Delete Student</h4>
                   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 </div>
-                <div class="modal-body">					
-                  <p>Are you sure you want to delete these Records?</p>
+                <div class="modal-body">
+                <input type="text" name="idroom" id="idroom">							
+                  <p>Are you sure you want to delete this record?</p>
                   <p class="text-warning"><small>This action cannot be undone.</small></p>
                 </div>
                 <div class="modal-footer">
                   <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                  <input type="submit" class="btn btn-danger" value="Delete">
+                  <button type="submit" class="btn btn-danger" name="btnDel">DELETE</button>
                 </div>
               </form>
             </div>
@@ -343,53 +294,23 @@
 
     <script>
 
-      //EDIT MODAL 
+      
         $(document).ready(function () {
 
-            $('.editBtn').on('click', function () {
+          $('.delBtn').on('click', function () {
+              $('#delModal').modal('show');
+              $tr = $(this).closest('tr');
 
-                $('#editModal').modal('show');
-
-                $tr = $(this).closest('tr');
-
-                var data = $tr.children("td").map(function () {
+              var data = $tr.children("td").map(function () {
                     return $(this).text();
                 }).get();
 
                 console.log(data);
-
-                $('#id').val(data[0]);
-                $('#code').val(data[1]);
-                $('#bldg').val(data[2]);
-               
-          
+                $('#idroom').val(data[0]);
             });
         });
 
 
-        $(document).ready(function(){
-      // Activate tooltip
-      $('[data-toggle="tooltip"]').tooltip();
-      
-      // Select/Deselect checkboxes
-      var checkbox = $('table tbody input[type="checkbox"]');
-      $("#selectAll").click(function(){
-        if(this.checked){
-          checkbox.each(function(){
-            this.checked = true;                        
-          });
-        } else{
-          checkbox.each(function(){
-            this.checked = false;                        
-          });
-        } 
-      });
-      checkbox.click(function(){
-        if(!this.checked){
-          $("#selectAll").prop("checked", false);
-        }
-      });
-    });
     </script> 
 
 

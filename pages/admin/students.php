@@ -29,6 +29,12 @@
  
 
 
+ 
+
+
+ 
+
+
 
 
 
@@ -447,23 +453,19 @@
         <div id="delModal" class="modal fade">
           <div class="modal-dialog">
             <div class="modal-content">
-              <form method="POST">
+              <form method="post">
                 <div class="modal-header">						
                   <h4 class="modal-title">Delete Student</h4>
                   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 </div>
                 <div class="modal-body">
-                  <?php echo $id_std ?>
-                <input type="text" class="form-control" id ="iddel" hidden>							
-                  <p>Are you sure you want to delete these Records?</p>
+                <input type="hidden" name="idstd" id="idstd">							
+                  <p>Are you sure you want to delete this record?</p>
                   <p class="text-warning"><small>This action cannot be undone.</small></p>
                 </div>
                 <div class="modal-footer">
-                 
-                  <form method="post">
                   <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                  <button type="submit" class="btn btn-danger" name="deletebtn">DELETE</button>';
-               
+                  <button type="submit" class="btn btn-danger" name="btnDel">DELETE</button>
                 </div>
               </form>
             </div>
@@ -513,8 +515,23 @@
                 $('#sect').val(data[8]);
           
             });
-        });
 
+
+            $('.delBtn').on('click', function () {
+              $('#delModal').modal('show');
+              $tr = $(this).closest('tr');
+
+              var data = $tr.children("td").map(function () {
+                    return $(this).text();
+                }).get();
+
+                console.log(data);
+                $('#idstd').val(data[0]);
+            });
+        });
+      
+    
+   
         $(document).ready(function () {
     $('#tabler').DataTable({
       
