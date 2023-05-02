@@ -5,9 +5,7 @@
   include('../includes/header.php'); 
   require('../includes/config.php');
 
-  if ($_SESSION['user'] == ""){
-    header("location: ../login.php");
-  }
+
 
 
  
@@ -163,7 +161,7 @@
                                 <td>'.$pwd_users.'</td>
                                 <td>
                                   
-                                  <a href="#editModal" value = '.$id_users.' class="editBtn" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                                <a href="update/upd_users.php?updid='.$id_users.'"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
                                   <a href="#delModal" value = '.$id_users.' class="delBtn" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
                                   
                                 </td>

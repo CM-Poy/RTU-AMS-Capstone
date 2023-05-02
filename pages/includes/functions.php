@@ -62,26 +62,6 @@ class dbfunction{
   }
 }
       
-  
-      
-    
-
-    function updCrs($code_crs, $name_crs, $dept, $id_crs){
-      global $conn;
-      
-      if(ISSET($_POST['updCrsBtn'])){
-        $id_crs=$_POST["id"];
-      
-        $name_crs=$_POST["name"];
-        $code_crs=$_POST["code"];
-        $dept=$_POST["dept"];
-    
-        $sql = "UPDATE courses SET code_crs=? , name_crs=?, id_dept_fk=? WHERE id_crs=?";
-        $query = $conn->prepare($sql);
-        $query->execute(array($code_crs, $name_crs, $dept, $id_crs));
-    
-      }
-    }
 
 
 
@@ -224,7 +204,7 @@ class dbfunction{
 
 
   function addSec($code,$crs,$yrlvl){
-    global $conn;
+    global $conn; 
     if(ISSET($_POST['addbtn'])){
       if($_POST['code'] != "" || $_POST['crsName'] != "" || $_POST['yrlvl'] != ""){  
 
@@ -405,6 +385,128 @@ class dbfunction{
       }
     }
   }
+
+
+  function updUsrAdmin($hnr,$flname,$email,$empnum,$pwd){
+    global $conn;
+    if(ISSET($_POST['updBtn'])){
+      if($_REQUEST['updid'] !="" || $_POST['hnr'] != "" || $_POST['flname'] != "" || $_POST['email'] != "" || $_POST['empnum'] != "" || $_POST['pwd'] != ""){
+        $id=$_REQUEST['updid'];
+        $hnr=$_POST['hnr'];
+        $flname=$_POST['flname'];
+        $email=$_POST['email'];
+        $empnum=$_POST['empnum'];
+        $pwd=$_POST['pwd'];
+       
+
+        $sql="UPDATE users set id_users=?, hnr_users=?, flname_users=?, instemail_users=?, empnum_users=?, pwd_users=? where id_users=?";
+        $query = $conn->prepare($sql);
+        $query->execute([$id,$hnr,$flname,$email,$empnum,$pwd,$id]);
+
+        header("location: ../teachers.php");
+
+
+        
+      }
+    }
+  }
+
+
+  function updUsrSupAdmin($hnr,$flname,$email,$empnum,$pwd,$usertype){
+    global $conn;
+    if(ISSET($_POST['updBtn'])){
+      if($_REQUEST['updid'] !="" || $_POST['hnr'] != "" || $_POST['flname'] != "" || $_POST['email'] != "" || $_POST['empnum'] != "" || $_POST['pwd'] != "" || $_POST['usertype'] != ""){
+        $id=$_REQUEST['updid'];
+        $hnr=$_POST['hnr'];
+        $flname=$_POST['flname'];
+        $email=$_POST['email'];
+        $empnum=$_POST['empnum'];
+        $pwd=$_POST['pwd'];
+        $usertype=$_POST['usertype'];
+       
+        $sql="UPDATE users set id_users=?, hnr_users=?, flname_users=?, instemail_users=?, empnum_users=?, pwd_users=?, usertype_users=? where id_users=?";
+        $query = $conn->prepare($sql);
+        $query->execute([$id,$hnr,$flname,$email,$empnum,$pwd,$usertype,$id]);
+
+        header("location: ../users.php");
+
+
+        
+      }
+    }
+  }
+
+
+  function updBldg($name,$code){
+    global $conn;
+    if(ISSET($_POST['updBtn'])){
+      if($_REQUEST['updid'] !="" || $_POST['name'] != "" || $_POST['code']){
+
+        $id=$_REQUEST['updid'];
+        $name=$_POST['name'];
+        $code=$_POST['code'];
+        
+       
+        $sql="UPDATE building set name_bldg=?, code_bldg=? where id_bldg=?";
+        $query = $conn->prepare($sql);
+        $query->execute([$name,$code,$id]);
+
+        header("location: ../buildings.php");
+
+
+        
+      }
+    }
+  }
+
+
+  function updCrs($name,$code,$dept){
+    global $conn;
+    if(ISSET($_POST['updBtn'])){
+      if($_REQUEST['updid'] !="" || $_POST['name'] != "" || $_POST['code'] != "" || $_POST['dept']){
+        
+        $id=$_REQUEST['updid'];
+        $name=$_POST['name'];
+        $code=$_POST['code'];
+        $dept=$_POST['dept'];
+        
+       
+        $sql="UPDATE courses set name_crs=?, code_crs=? where id_crs  =?";
+        $query = $conn->prepare($sql);
+        $query->execute([$name,$code,$id]);
+
+        header("location: ../courses.php");
+
+
+        
+      }
+    }
+  }
+
+
+  function updDept($name,$code,$dept){
+    global $conn;
+    if(ISSET($_POST['updBtn'])){
+      if($_REQUEST['updid'] !="" || $_POST['name'] != "" || $_POST['code']){
+        
+        $id=$_REQUEST['updid'];
+        $name=$_POST['name'];
+        $code=$_POST['code'];
+        $dept=$_POST['dept'];
+        
+       
+        $sql="UPDATE departments set name_dept=?, code_dept=? where id_dept  =?";
+        $query = $conn->prepare($sql);
+        $query->execute([$name,$code,$id]);
+
+        header("location: ../departments.php");
+
+
+        
+      }
+    }
+  }
+
 
 
 

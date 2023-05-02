@@ -183,12 +183,12 @@
                                 <td>'.$crs_id.'</td>
                                 <td>'.$sect_id.'</td>
                                 <td>'.$yrlvl_id.'</td>
-                                    <td>
-                                      
-                                      <a href="#editModal" class="editBtn" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                                      <a href="#delModal" class="delBtn" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
-                                     
-                                    </td>
+                                <td>
+                                  
+                                  <a href="update/upd_std.php?updid='.$id_std.'"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                                  <a href="#delModal" class="delBtn" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                                  
+                                </td>
                             </tr>
                             </form>';
                           }

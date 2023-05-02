@@ -149,7 +149,7 @@
                         
                         if($result->rowCount() > 0){
                           while ($row = $result->fetch(PDO::FETCH_ASSOC)){
-                            $id_schd=$row["id_dept"];
+                            $id_dept=$row["id_dept"];
                             $name_dept=$row["name_dept"];
                             $code_dept=$row["code_dept"];
                             
@@ -157,14 +157,14 @@
                             echo '
                             <form method="post">
                               <tr>
-                                <td hidden>'.$id_schd.'</td>
+                                <td hidden>'.$id_dept.'</td>
                                 <td name="name_dept">'.$name_dept.'</td>
                                 <td name="code_dept">'.$code_dept.'</td>
                                 
                                 <td>
                                   
-                                  <a href="#editModal" value = '.$id_schd.' class="editBtn" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                                  <a href="#delModal" value = '.$id_schd.' class="delBtn" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                                  <a href="update/upd_dept.php?updid='.$id_dept.'"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                                  <a href="#delModal" value = '.$id_dept.' class="delBtn" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
                                   
                                 </td>
                             </tr>

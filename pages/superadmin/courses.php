@@ -4,10 +4,10 @@
   <?php include('../includes/header.php'); 
   require('../includes/config.php');
 
-  if(isset($_POST['updCrsBtn'])){
+  if(isset($_POST['updBtn'])){
     include('../includes/functions.php');
     $obj=new dbfunction();
-    $obj->updCrs($_POST["name"],$_POST["code"],$_POST["email"],$_POST["dept"]);
+    $obj->updCrs($_POST["name"],$_POST["code"],$_POST["dept"]);
   }
 
   if(isset($_POST['addbtn'])){
@@ -170,7 +170,7 @@
                                 
                                 <td>
                                   
-                                  <a href="#editModal"  class="editBtn" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                                <a href="update/upd_crs.php?updid='.$id_crs.'"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
                                   <a href="#delModal" class="delBtn" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
                                   
                                 </td>

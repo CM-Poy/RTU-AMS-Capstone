@@ -162,6 +162,7 @@
                             echo '
                             <form action="subjects.php" method="post">
                               <tr>
+                                    <td hidden>'.$id_users.'</td>
                                     <td>'.$flname_users.'</td>
                                     <td>'.$hnr_users.'</td>
                                     <td>'.$instemail_users.'</td>
@@ -170,7 +171,7 @@
                                     <td>'.$usertype_users.'</td>
                                     <td>
                                       
-                                      <a href="#editModal" value = '.$id_users.' class="editBtn" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                                    <a href="update/upd_users.php?updid='.$id_users.'"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
                                       <a href="#delModal" value = '.$id_users.' class="delBtn" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
                                      
                                     </td>
@@ -241,7 +242,7 @@
                   </div>
                   <div class="form-group">
                     <label>Password</label>
-                    <input type="text" class="form-control"name="pwd"  required>
+                    <input type="password" class="form-control"name="pwd"  required>
                   </div>
                   <div class="form-group">
                     <label>Employee Number</label>
@@ -269,8 +270,6 @@
 
                         echo '</select>';
                     ?>
-
-                  <input type="text" class="form-control"name="pwd" hidden>
 
                   </div>					
                 </div>
