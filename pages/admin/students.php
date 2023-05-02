@@ -22,7 +22,7 @@
   if(isset($_POST['btnDel'])){
     include('../includes/functions.php');
     $obj=new dbfunction();
-    $obj->delStd($_POST["idstd"]);
+    $obj->delStd($_POST['idstd']);
   }
 
 
