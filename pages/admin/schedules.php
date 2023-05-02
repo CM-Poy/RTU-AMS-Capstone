@@ -177,31 +177,7 @@
 
                 </tbody>
               </table>
-              <div class="clearfix">
-                <div class="hint-text">
-                  Showing <b><?php echo $page_no; ?></b> of <b><?php echo $total_numpages; ?></b> pages.
-                </div>
-                <ul class="pagination">
-
-                  <li class="page-item"><a  class="page-link <?= ($page_no <=1) ? 'disabled' : ''; ?> " <?= ($page_no > 1) ? 'href=? page_no=' .$previous_page : ''; ?>>Previous</a></li>
-
-
-                  
-                  <?php for($counter = 1; $counter <= $total_numpages; $counter ++){ ?>
-                    
-                    <?php if ($page_no != $counter){?>
-                      <li class="page-item"><a class="page-link" href="?page_no=<?=$counter; ?>"><?=$counter; ?></a></li>
-                    <?php }else{ ?> 
-                      <li class="page-item"><a class="page-link active"><?=$counter; ?></a></li>
-                    <?php } ?>
-                   <?php } ?>
-
-
-          
-
-                  <li class="page-item"><a  class="page-link <?= ($page_no >= $total_numpages) ? 'disabled' : '' ; ?>" <?= ($page_no < $total_numpages) ? 'href=?page_no=' . $next_page : ''; ?>>Next</a></li>
-
-                </ul>
+              
               </div>
             </div>
           </div>        
