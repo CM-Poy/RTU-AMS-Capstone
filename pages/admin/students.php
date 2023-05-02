@@ -19,32 +19,6 @@
   }
 
 
-<<<<<<< Updated upstream
-  if(isset($_GET['page_no']) && $_GET['page_no'] !== ""){
-    $page_no = $_GET['page_no'];
-  }else{
-    $page_no = 1;
-  }
-
-  //total num rows to display
-  $total_records_perpage = 10;
-  //getting offset for for limit query
-  $offset = ($page_no - 1) * $total_records_perpage;
-  //previous page
-  $previous_page = $page_no - 1;
-  //next page
-  $next_page = $page_no + 1;
-
-  //getting the total number of records
-  $sql = "SELECT * from students";
-  $totalnumrecords = $conn->prepare($sql); 
-  $totalnumrecords->execute();
-  //total records
-  $result_totalnumrecords=$totalnumrecords->rowCount();
-  //total pages
-  $total_numpages = ceil($result_totalnumrecords/$total_records_perpage);
-
-=======
   if(isset($_POST['btnDel'])){
     include('../includes/functions.php');
     $obj=new dbfunction();
@@ -53,7 +27,6 @@
 
 
  
->>>>>>> Stashed changes
 
 
 
@@ -65,13 +38,8 @@
 
 <head>
     <link rel='icon' href='../../images/rtu-logo.png'/>
-<<<<<<< Updated upstream
-
-    <title>ADMIN:Manage Students</title>
-=======
     <link rel = "stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css">
     <title>ADMIN: Manage Students</title>
->>>>>>> Stashed changes
 </head>
 <script>
   if (window.history.replaceState){
@@ -125,29 +93,9 @@
           </div>
     
         </nav>
-<<<<<<< Updated upstream
-        
-        <div class = "container-fluid">
-          <form action="search.php" method="GET">
-        <input type="text" class="search-click" name="search" value ="<?php if(isset($_GET['search']))?>" placeholder="search here..." />
-        <button type="submit" class="btn btn-primary" id="searchbtn">SEARCH</button>
-         </form>  
-      </div>
-=======
        
->>>>>>> Stashed changes
        
-        <script>
-            const input = document.getElementById("search-input");
-        const searchBtn = document.getElementById("search-btn");
-
-        const expand = () => {
-          searchBtn.classList.toggle("close");
-          input.classList.toggle("square");
-        };
-
-        searchBtn.addEventListener("click", expand);
-        </script>
+       
         <div class="container-xl">
           <div class="table-responsive">
             <div class="table-wrapper">
@@ -166,10 +114,6 @@
                 <thead>
                   <tr>
                     
-<<<<<<< Updated upstream
-                    
-=======
->>>>>>> Stashed changes
                     <th>Full Name</th>
                     <th>Institutional Email</th>
                     <th>Student Number</th>
@@ -232,53 +176,10 @@
               
                 
                         
-<<<<<<< Updated upstream
-                        if($result->rowCount() > 0){
-                          while ($row = $result->fetch(PDO::FETCH_ASSOC)){
-                            $id_std=$row["id_std"];
-                            $flname_std=$row["flname_std"];
-                            $instemail_std=$row["instemail_std"];
-                            $studnum_std=$row["studnum_std"];
-                            $gflname_std=$row["gflname_std"];
-                            $gemail_std=$row["gemail_std"];
-                            $crs_id=$row["code_crs"];
-                            $yrlvl_id=$row["yearlvl_yr"];
-                            $sect_id=$row["code_sec"];
-  
-                            echo '
-                            <form method="post">
-                            <input type="text" value ='.$id_std.' hidden>
-                              <tr>
-                                  
-                                    
-                                    
-                                    <td>'.$flname_std.'</td>
-                                    <td>'.$instemail_std.'</td>
-                                    <td>'.$studnum_std.'</td>
-                                    <td>'.$gflname_std.'</td>
-                                    <td>'.$gemail_std.'</td>
-                                    <td>'.$crs_id.'</td>
-                                    <td>'.$sect_id.'</td>
-                                    <td>'.$yrlvl_id.'</td>
-                                    
-                                    <td>
-                                      
-                                      <a href="#editModal" class="editBtn" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                                      <a href="delete.php?id='.$id_std.'" class="delBtn" name="delBtn" ><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
-                                     
-                                    </td>
-                            </tr>
-                            </form>';
-                          }
-                        }else{
-                          echo "No Record Found";
-                        }
-=======
                         
                           
                       
                       
->>>>>>> Stashed changes
                       
                     ?>
                 </tbody>

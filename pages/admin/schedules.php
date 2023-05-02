@@ -140,15 +140,6 @@
                             echo '
                             <forM method="post">
                               <tr>
-<<<<<<< Updated upstream
-                                    <td name="flnameuser_schd">'.$user_id.'</td>
-                                    <td name="sub_schd">'.$sub_id.'</td>
-                                    <td name="sec_schd">'.$sec_id.'</td>
-                                    <td name="day_schd">'.$day.'</td>
-                                    <td name="strtime_schd">'.$strtime.'</td>
-                                    <td name="endtime_schd">'.$endtime.'</td>
-                                    <td name="room_schd">'.$room_id.'</td>
-=======
                                     
                                     <td>'.$user_id.'</td>
                                     <td>'.$sub_id.'</td>
@@ -157,7 +148,6 @@
                                     <td>'.$strtime.'</td>
                                     <td>'.$endtime.'</td>
                                     <td>'.$room_id.'</td>
->>>>>>> Stashed changes
 
                                     
                                     <td>
@@ -768,8 +758,6 @@
         }
       });
     });
-<<<<<<< Updated upstream
-=======
     
       
       $(document).ready(function () {
@@ -781,7 +769,6 @@
 
 
   
->>>>>>> Stashed changes
 </script>
 
 

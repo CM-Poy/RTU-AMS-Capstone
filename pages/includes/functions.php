@@ -138,8 +138,7 @@ class dbfunction{
       $yrlvl = $_POST['yrLvlStd'];
       $sectname = $_POST['sectNameStd'];
 
-<<<<<<< Updated upstream
-=======
+      //check if existing
       $stmt = $conn->prepare("SELECT * FROM students WHERE instemail_std=?");
       $stmt2 = $conn->prepare("SELECT * FROM students WHERE studnum_std=?");
       $stmt3 = $conn->prepare("SELECT * FROM students WHERE gemail_std=?");
@@ -185,7 +184,6 @@ class dbfunction{
 
       
       
->>>>>>> Stashed changes
         $sql = "INSERT INTO students (	
         flname_std,
         instemail_std,	
@@ -194,11 +192,7 @@ class dbfunction{
         gemail_std,	
         crs_id,	
         yrlvl_id,	
-<<<<<<< Updated upstream
-        sectNameStd) VALUES (:flname, :email, :studnum, :gflname, :gemail, :crsNameStd, :yrLvlStd, :sectNameStd)";
-=======
         sec_id) VALUES (:flname, :email, :studnum, :gflname, :gemail, :crsNameStd, :yrLvlStd, :sectNameStd)";
->>>>>>> Stashed changes
         $result = $conn->prepare($sql);
 
       $data = [
@@ -363,12 +357,6 @@ class dbfunction{
     }
     
   }
-<<<<<<< Updated upstream
-
-  
-
-=======
->>>>>>> Stashed changes
 }
 
   
