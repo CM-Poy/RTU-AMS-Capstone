@@ -42,6 +42,7 @@
 
 <head>
     <link rel='icon' href='../../images/rtu-logo.png'/>
+    <link rel = "stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css">
     <title>ADMIN: Manage Schedules</title>
 </head>
 
@@ -105,9 +106,10 @@
                   </div>
                 </div>
               </div>
-              <table class="table table-striped table-hover">
+              <table id= "tabler" class="table table-striped table-hover">
                 <thead>
                   <tr>
+                    
                     <th>Full Name</th>
                     <th>Subject</th>
                     <th>Section</th>
@@ -138,6 +140,7 @@
                             echo '
                             <forM method="post">
                               <tr>
+<<<<<<< Updated upstream
                                     <td name="flnameuser_schd">'.$user_id.'</td>
                                     <td name="sub_schd">'.$sub_id.'</td>
                                     <td name="sec_schd">'.$sec_id.'</td>
@@ -145,6 +148,16 @@
                                     <td name="strtime_schd">'.$strtime.'</td>
                                     <td name="endtime_schd">'.$endtime.'</td>
                                     <td name="room_schd">'.$room_id.'</td>
+=======
+                                    
+                                    <td>'.$user_id.'</td>
+                                    <td>'.$sub_id.'</td>
+                                    <td>'.$sec_id.'</td>
+                                    <td>'.$day.'</td>
+                                    <td>'.$strtime.'</td>
+                                    <td>'.$endtime.'</td>
+                                    <td>'.$room_id.'</td>
+>>>>>>> Stashed changes
 
                                     
                                     <td>
@@ -698,6 +711,8 @@
     <script src="../../js/popper.js"></script>
     <script src="../../js/bootstrap.min.js"></script>
     <script src="../../js/main.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
 
 
     <script>
@@ -753,6 +768,20 @@
         }
       });
     });
+<<<<<<< Updated upstream
+=======
+    
+      
+      $(document).ready(function () {
+    $('#tabler').DataTable({
+      
+      
+    });
+});
+
+
+  
+>>>>>>> Stashed changes
 </script>
 
 

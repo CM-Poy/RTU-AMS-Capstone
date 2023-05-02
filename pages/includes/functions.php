@@ -137,10 +137,55 @@ class dbfunction{
       $crsname = $_POST['crsNameStd'];
       $yrlvl = $_POST['yrLvlStd'];
       $sectname = $_POST['sectNameStd'];
-      
-      
-      
 
+<<<<<<< Updated upstream
+=======
+      $stmt = $conn->prepare("SELECT * FROM students WHERE instemail_std=?");
+      $stmt2 = $conn->prepare("SELECT * FROM students WHERE studnum_std=?");
+      $stmt3 = $conn->prepare("SELECT * FROM students WHERE gemail_std=?");
+    
+     
+      //execute the statement
+      $stmt->execute([$email]); 
+      $stmt2->execute([$studnum]);
+      $stmt3->execute([$gemail]);    
+      //fetch result
+      $user = $stmt->fetch();
+      $user2 = $stmt2->fetch();
+      $user3 = $stmt3->fetch();
+      
+      if($user) {
+        echo '<script type="text/javascript">';
+        echo 'alert("Email Already Exist")';  
+        echo '</script>';
+      }
+
+      
+     
+      
+      
+       else if($user2) {
+        echo '<script type="text/javascript">';
+        echo 'alert("Student Number Already Exist")';  
+        echo '</script>';
+      
+      } 
+      
+      
+      
+      
+       else if($user3) {
+        echo '<script type="text/javascript">';
+        echo 'alert(" Guardian Email Already Exist")';  
+        echo '</script>';
+       }
+       else{
+      
+       
+
+      
+      
+>>>>>>> Stashed changes
         $sql = "INSERT INTO students (	
         flname_std,
         instemail_std,	
@@ -149,7 +194,11 @@ class dbfunction{
         gemail_std,	
         crs_id,	
         yrlvl_id,	
+<<<<<<< Updated upstream
         sectNameStd) VALUES (:flname, :email, :studnum, :gflname, :gemail, :crsNameStd, :yrLvlStd, :sectNameStd)";
+=======
+        sec_id) VALUES (:flname, :email, :studnum, :gflname, :gemail, :crsNameStd, :yrLvlStd, :sectNameStd)";
+>>>>>>> Stashed changes
         $result = $conn->prepare($sql);
 
       $data = [
@@ -163,8 +212,15 @@ class dbfunction{
           ':sectNameStd' => $sectname,
       ];
       $result->execute($data);
+      if($result)
+      echo '<script type="text/javascript">';
+      echo 'alert("Added Successfully")';  //not showing an alert box.
+      echo '</script>';
     }
   }
+}
+
+
 
 
 
@@ -305,9 +361,17 @@ class dbfunction{
       
       }  
     }
+    
   }
+<<<<<<< Updated upstream
 
   
 
+=======
+>>>>>>> Stashed changes
 }
+
+  
+
+
 

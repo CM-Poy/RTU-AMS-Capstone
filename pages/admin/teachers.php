@@ -47,6 +47,7 @@
 
 <head>
     <link rel='icon' href='../../images/rtu-logo.png'/>
+    <link rel = "stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css">
     <title>ADMIN: Manage Teachers</title>
 </head>
   <body>
@@ -112,9 +113,10 @@
                   </div>
                 </div>
               </div>
-              <table class="table table-striped table-hover">
+              <table id="tabler" class="table table-striped table-hover">
                 <thead>
                   <tr>
+                    
                     <th>Honoriffic</th>
                     <th>Full Name</th>
                     <th>Institutional Email</th>
@@ -317,6 +319,8 @@
     <script src="../../js/popper.js"></script>
     <script src="../../js/bootstrap.min.js"></script>
     <script src="../../js/main.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
 </html>
 <script>
 
@@ -347,6 +351,14 @@
           
             });
         });
+        
+      
+      $(document).ready(function () {
+    $('#tabler').DataTable({
+      
+      
+    });
+});
 
 
 

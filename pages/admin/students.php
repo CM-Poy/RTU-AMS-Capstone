@@ -19,6 +19,7 @@
   }
 
 
+<<<<<<< Updated upstream
   if(isset($_GET['page_no']) && $_GET['page_no'] !== ""){
     $page_no = $_GET['page_no'];
   }else{
@@ -43,6 +44,16 @@
   //total pages
   $total_numpages = ceil($result_totalnumrecords/$total_records_perpage);
 
+=======
+  if(isset($_POST['btnDel'])){
+    include('../includes/functions.php');
+    $obj=new dbfunction();
+    $obj->delStd($_POST["idstd"]);
+  }
+
+
+ 
+>>>>>>> Stashed changes
 
 
 
@@ -54,8 +65,13 @@
 
 <head>
     <link rel='icon' href='../../images/rtu-logo.png'/>
+<<<<<<< Updated upstream
 
     <title>ADMIN:Manage Students</title>
+=======
+    <link rel = "stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css">
+    <title>ADMIN: Manage Students</title>
+>>>>>>> Stashed changes
 </head>
 <script>
   if (window.history.replaceState){
@@ -66,7 +82,7 @@
 
   <!--sidebar-->
 
-  <div class="wrapper d-flex align-items-stretch">
+  <div class="wrapper d-flex align-items-stretch  fixed-side">
             <nav id="sidebar">
                 <div class="p-4 pt-5">
                 <a href="#" class="img logo rounded-circle mb-5" style="background-image: url(../../images/rtu-logo.png);"></a>
@@ -109,6 +125,7 @@
           </div>
     
         </nav>
+<<<<<<< Updated upstream
         
         <div class = "container-fluid">
           <form action="search.php" method="GET">
@@ -116,6 +133,9 @@
         <button type="submit" class="btn btn-primary" id="searchbtn">SEARCH</button>
          </form>  
       </div>
+=======
+       
+>>>>>>> Stashed changes
        
         <script>
             const input = document.getElementById("search-input");
@@ -142,11 +162,14 @@
                   </div>
                 </div>
               </div>
-              <table class="table table-striped table-hover">
+              <table id="tabler" class="table table-striped table-hover">
                 <thead>
                   <tr>
                     
+<<<<<<< Updated upstream
                     
+=======
+>>>>>>> Stashed changes
                     <th>Full Name</th>
                     <th>Institutional Email</th>
                     <th>Student Number</th>
@@ -161,13 +184,55 @@
                 <tbody>
                   				
                 <?php
+                
                          $sql = "SELECT students.id_std, students.flname_std, students.instemail_std, students.studnum_std, students.gflname_std, students.gemail_std, sections.code_sec, courses.code_crs, year.yearlvl_yr FROM students
                          LEFT JOIN courses on students.crs_id = courses.id_crs
                          left join year on students.yrlvl_id = year.id_yr
-                         left join sections on students.sec_id = sections.id_sec LIMIT $offset, $total_records_perpage";
+                         left join sections on students.sec_id = sections.id_sec";
                         $result = $conn->prepare($sql);
                         $result->execute();
+
+                        if($result->rowCount() > 0)
+                  {
+                    while ($row = $result->fetch(PDO::FETCH_ASSOC)){
+                      $id_std=$row["id_std"];
+                      $flname_std=$row["flname_std"];
+                      $instemail_std=$row["instemail_std"];
+                      $studnum_std=$row["studnum_std"];
+                      $gflname_std=$row["gflname_std"];
+                      $gemail_std=$row["gemail_std"];
+                      $crs_id=$row["code_crs"];
+                      $yrlvl_id=$row["yearlvl_yr"];
+                      $sect_id=$row["code_sec"];
+
+                      echo '
+                      <form method="post" action="students.php">
+                        <tr>
+                          
+                          <td>'.$flname_std.'</td>
+                          <td>'.$instemail_std.'</td>
+                          <td>'.$studnum_std.'</td>
+                          <td>'.$gflname_std.'</td>
+                          <td>'.$gemail_std.'</td>
+                          <td>'.$crs_id.'</td>
+                          <td>'.$sect_id.'</td>
+                          <td>'.$yrlvl_id.'</td>
+                          
+                          <td>
+                          
+                            <a href="#editModal" class="editBtn" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                            <a href="delete.php?id=.$id_std" class="delBtn"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                            
+                          </td>
+                      </tr>
+                      </form>';
+                    }
+                  }
+                
+              
+                
                         
+<<<<<<< Updated upstream
                         if($result->rowCount() > 0){
                           while ($row = $result->fetch(PDO::FETCH_ASSOC)){
                             $id_std=$row["id_std"];
@@ -208,35 +273,17 @@
                         }else{
                           echo "No Record Found";
                         }
+=======
+                        
+                          
+                      
+                      
+>>>>>>> Stashed changes
                       
                     ?>
                 </tbody>
               </table>
-              <div class="clearfix">
-                <div class="hint-text">
-                  Showing <b><?php echo $page_no; ?></b> of <b><?php echo $total_numpages; ?></b> pages.
-                </div>
-                <ul class="pagination">
-
-                  <li class="page-item"><a  class="page-link <?= ($page_no <=1) ? 'disabled' : ''; ?> " <?= ($page_no > 1) ? 'href=? page_no=' .$previous_page : ''; ?>>Previous</a></li>
-
-
-                  
-                  <?php for($counter = 1; $counter <= $total_numpages; $counter ++){ ?>
-                    
-                    <?php if ($page_no != $counter){?>
-                      <li class="page-item"><a class="page-link" href="?page_no=<?=$counter; ?>"><?=$counter; ?></a></li>
-                    <?php }else{ ?> 
-                      <li class="page-item"><a class="page-link active"><?=$counter; ?></a></li>
-                    <?php } ?>
-                   <?php } ?>
-
-
-          
-
-                  <li class="page-item"><a  class="page-link <?= ($page_no >= $total_numpages) ? 'disabled' : '' ; ?>" <?= ($page_no < $total_numpages) ? 'href=?page_no=' . $next_page : ''; ?>>Next</a></li>
-
-                </ul>
+             
               </div>
             </div>
           </div>        
@@ -258,7 +305,7 @@
                   <h4 class="modal-title">Add Student</h4>
                   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 </div>
-                <div class="modal-body">					
+                <div class="modal-body" id="dialog">					
                   <div>
                     <label>Full Name</label>
                     <input type="text" name="flname" class="form-control" required>
@@ -529,6 +576,8 @@
     <script src="../../js/popper.js"></script>
     <script src="../../js/bootstrap.min.js"></script>
     <script src="../../js/main.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
 
 
 
@@ -564,6 +613,13 @@
           
             });
         });
+
+        $(document).ready(function () {
+    $('#tabler').DataTable({
+      
+      
+    });
+});
       
       
    
