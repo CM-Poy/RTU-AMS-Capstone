@@ -5,6 +5,10 @@
   include('../includes/header.php'); 
   require('../includes/config.php');
 
+  if (!isset($_SESSION['error'])) {
+    $_SESSION['error'] = false;
+  }
+
 
   if(isset($_POST['addbtn'])){
     include('../includes/functions.php');
@@ -15,7 +19,7 @@
   if(isset($_POST['updbtn'])){
     include('../includes/functions.php');
     $obj=new dbfunction();
-    $obj->updStd($_POST['flname'],$_POST['email'],$_POST['studnum'],$_POST['gflname'],$_POST['gemail'],$_POST['crs'],$_POST['yrlvl'],$_POST['sect']);
+    $obj->updStd($_REQUEST['updid'],$_POST['flname'] , $_POST['email'] , $_POST['studnum'] , $_POST['gflname'] , $_POST['gemail'] , $_POST['crs'] , $_POST['yr'] , $_POST['sec']);
   }
 
 
@@ -23,9 +27,9 @@
     include('../includes/functions.php');
     $obj=new dbfunction();
     $obj->delStd($_POST['idstd']);
-  }
+  } 
 
-
+ 
  
 
 
@@ -99,9 +103,11 @@
           </div>
     
         </nav>
+    
        
        
-       
+
+
         <div class="container-xl">
           <div class="table-responsive">
             <div class="table-wrapper">
@@ -110,16 +116,26 @@
                   <div class="col-sm-6">
                     <h2>Manage <b>Students</b></h2>
                   </div>
+                  
                   <div class="col-sm-6">
                     <a href="#addModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add New</span></a>
-                    						
                   </div>
                 </div>
               </div>
+
+              <?php if ($_SESSION['error']): ?>
+                <div class="alert alert-danger" role="alert" >
+                    <center><strong><?php echo $_SESSION['error'];?></strong><center>
+                </div>
+                <?php   
+                    $_SESSION['error'] = false;
+                ?>
+              <?php endif ?>
+              
               <table id="tabler" class="table table-striped table-hover">
                 <thead>
                   <tr>
-                    
+                    <th hidden>ID</th>
                     <th>Full Name</th>
                     <th>Institutional Email</th>
                     <th>Student Number</th>
@@ -158,7 +174,7 @@
                       echo '
                       <form method="post" action="students.php">
                         <tr>
-                          
+                        <td hidden>'.$id_std.'</td>
                           <td>'.$flname_std.'</td>
                           <td>'.$instemail_std.'</td>
                           <td>'.$studnum_std.'</td>
@@ -170,8 +186,8 @@
                           
                           <td>
                           
-                            <a href="#editModal" class="editBtn" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                            <a href="delete.php?id=.$id_std" class="delBtn"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                          <a href="update/upd_std.php?updid='.$id_std.'"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                            <a href="#delModal" class="delBtn"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
                             
                           </td>
                       </tr>
@@ -200,7 +216,7 @@
             <div class="modal-content">
               <form method="post">
               <input type="text" class="form-control" name="addid" hidden>
-                <div class="modal-header">	
+                <div class="modal-header">
                   <h4 class="modal-title">Add Student</h4>
                   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 </div>

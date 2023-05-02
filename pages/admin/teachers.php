@@ -5,7 +5,9 @@
   include('../includes/header.php'); 
   require('../includes/config.php');
 
-  
+  if ($_SESSION['user'] == ""){
+    header("location: ../login.php");
+  }
 
 
  
@@ -123,7 +125,7 @@
               <table id="tabler" class="table table-striped table-hover">
                 <thead>
                   <tr>
-                    
+                    <th hidden></th>
                     <th>Honoriffic</th>
                     <th>Full Name</th>
                     <th>Institutional Email</th>
@@ -153,7 +155,7 @@
                             echo '
                             <form action="subjects.php" method="post">
                               <tr>
-                             
+                                <td hidden>'.$id_users.'</td>
                                 <td>'.$hnr_users.'</td>
                                 <td>'.$flname_users.'</td>
                                 <td>'.$instemail_users.'</td>

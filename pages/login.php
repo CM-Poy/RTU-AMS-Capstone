@@ -18,7 +18,6 @@ if (!isset($_SESSION['error'])) {
     $_SESSION['error'] = false;
 }
 
-
 ?>
   
 <head>

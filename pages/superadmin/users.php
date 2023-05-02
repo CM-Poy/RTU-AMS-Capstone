@@ -240,6 +240,10 @@
                     <input type="email" class="form-control"name="email" required>
                   </div>
                   <div class="form-group">
+                    <label>Password</label>
+                    <input type="text" class="form-control"name="pwd"  required>
+                  </div>
+                  <div class="form-group">
                     <label>Employee Number</label>
                     <input type="text" class="form-control"name="empnum"  required>
                   </div>
@@ -281,76 +285,6 @@
 
 
 
-
-        <!-- Edit Modal HTML -->
-        <div id="editModal" class="modal fade">
-          <div class="modal-dialog ">
-            <div class="modal-content">
-            <form method= "post">
-              <input type="text" class="form-control" name="id" id="id"hidden>
-                <div class="modal-header">						
-                  <h4 class="modal-title">Edit Teacher</h4>
-                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                </div>
-                <div class="modal-body">					
-                  <div class="form-group">
-                    <label>Full Name</label>
-                    <input type="text" class="form-control" name="name" id="name"required>
-                  </div>
-                  <div class="form-group">
-                    <label>Honoriffic</label>
-                    <input type="text" class="form-control" name="hnr" id="hnr"required>
-                  </div>
-                  <div class="form-group">
-                    <label>Institutional Email</label>
-                    <input type="email" class="form-control" name="email" id="email"required>
-                  </div>
-                  <div class="form-group">
-                    <label>Employee Number</label>
-                    <input type="text" class="form-control" name="empnum" id="empnum" required>
-                  </div>	
-                  <div class="form-group">
-                    <label>Password</label>
-                    <input type="text" class="form-control" name="pwd" id="pwd" required>
-                  </div>
-                  <div class="form-group">
-                    <label>Usertype</label>
-
-                      <?php
-                        echo '<select name="usertype" id="usertype" style="width: 340px">
-                        ';
-                        
-                        $sql = "SELECT * from usertype";
-                        $result = $conn->prepare($sql);
-                        $result->execute();
-                    
-                        if($result->rowCount() > 0){
-                        while ($row = $result->fetch(PDO::FETCH_ASSOC)){
-                            $id_usertype=$row["id_usertype"];
-                        
-                            $usertype=$row["usertype"];
-                        
-                            echo '<option value= '.$usertype.'>'.$usertype.'</option>';
-                            }
-                        }
-
-                        echo '</select>';
-                    ?>
-
-                  </div>					
-                </div>
-                <div class="modal-footer">
-                  <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                  <input type="submit" class="btn btn-success" name="updBtn" value="Update">
-                </div>
-            </form>
-            </div>
-          </div>
-        </div>
-
-
-
-
         <!-- Delete Modal HTML -->
         <div id="delModal" class="modal fade">
           <div class="modal-dialog ">
@@ -387,56 +321,8 @@
 
       //EDIT MODAL 
         $(document).ready(function () {
-
-            $('.editBtn').on('click', function () {
-
-                $('#editModal').modal('show');
-
-                $tr = $(this).closest('tr');
-
-                var data = $tr.children("td").map(function () {
-                    return $(this).text();
-                }).get();
-
-                console.log(data);
-
-                $('#id').val(data[0]);
-                $('#name').val(data[1]);
-                $('#hnr').val(data[2]);
-                $('#email').val(data[3]);
-                $('#empnum').val(data[4]);
-                $('#pwd').val(data[5]);
-                $('#usertype').val(data[6]);
-
-
-          
-            });
         });
 
 
-
-        $(document).ready(function(){
-      // Activate tooltip
-      $('[data-toggle="tooltip"]').tooltip();
-      
-      // Select/Deselect checkboxes
-      var checkbox = $('table tbody input[type="checkbox"]');
-      $("#selectAll").click(function(){
-        if(this.checked){
-          checkbox.each(function(){
-            this.checked = true;                        
-          });
-        } else{
-          checkbox.each(function(){
-            this.checked = false;                        
-          });
-        } 
-      });
-      checkbox.click(function(){
-        if(!this.checked){
-          $("#selectAll").prop("checked", false);
-        }
-      });
-    });
 
     </script>

@@ -118,7 +118,7 @@
               <table id= "tabler" class="table table-striped table-hover">
                 <thead>
                   <tr>
-                    
+                    <th hidden></th>
                     <th>Full Name</th>
                     <th>Subject</th>
                     <th>Section</th>
@@ -139,7 +139,7 @@
                        
                        if($result->rowCount() > 0){
                          while ($row = $result->fetch(PDO::FETCH_ASSOC)){
-                            $id_schd=$row["id_schd"];
+                           $id_schd=$row["id_schd"];
                            $user_id=$row["flname_users"];
                            $sub_id=$row["code_subj"];
                            $sec_id=$row["code_sec"];
@@ -150,7 +150,7 @@
                             echo '
                             <forM method="post">
                               <tr>
-                                    
+                                    <td hidden>'.$id_schd.'</td>
                                     <td>'.$user_id.'</td>
                                     <td>'.$sub_id.'</td>
                                     <td>'.$sec_id.'</td>

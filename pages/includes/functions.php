@@ -85,7 +85,7 @@ class dbfunction{
 
 
 
-  function addUserSupAdmin($hnr_users,$flname_users,$instemail_users,$empnum_users,$pwd_users,$usertype_users){
+  function addUserSupAdmin($hnr_users,$flname_users,$instemail_users,$empnum_users,$pwdhashed,$usertype_users){
     global $conn;
     if(ISSET($_POST['addbtnSA'])){
       if($_POST['hnr'] != "" || $_POST['name'] != "" || $_POST['email'] != "" || $_POST['empnum'] != "" || $_POST['pwd'] != "" || $_POST['usertype'] != ""){  
@@ -97,10 +97,12 @@ class dbfunction{
         $empnum_users=$_POST["empnum"];
         $usertype_users=$_POST["usertype"];
         $pwd_users="1234";
+        $pwdhashed=md5($pwd_users,false);
 
+        
         $sql = "INSERT INTO  users (flname_users,hnr_users,instemail_users,empnum_users,pwd_users,usertype_users) VALUES (?,?,?,?,?,?)";
         $query = $conn->prepare($sql);
-        $query->execute([$hnr_users,$flname_users, $instemail_users, $empnum_users, $pwd_users, $usertype_users]);
+        $query->execute([$flname_users,$hnr_users, $instemail_users, $empnum_users, $pwdhashed, $usertype_users]);
       
       } 
     }
@@ -119,10 +121,11 @@ class dbfunction{
         $empnum_users=$_POST["empnum"];
         $usertype_users="1";
         $pwd_users="1234";
+        $pwdhashed=md5($pwd_users,false);
 
         $sql = "INSERT INTO  users (flname_users,hnr_users,instemail_users,empnum_users,pwd_users,usertype_users) VALUES (?,?,?,?,?,?)";
         $query = $conn->prepare($sql);
-        $query->execute([$hnr_users,$flname_users, $instemail_users, $empnum_users, $pwd_users, $usertype_users]);
+        $query->execute([$flname_users, $hnr_users, $instemail_users, $empnum_users, $pwdhashed, $usertype_users]);
       
       } 
     }
@@ -158,36 +161,15 @@ class dbfunction{
       $user3 = $stmt3->fetch();
       
       if($user) {
-        echo '<script type="text/javascript">';
-        echo 'alert("Email Already Exist")';  
-        echo '</script>';
-      }
-
-      
-     
-      
-      
-       else if($user2) {
-        echo '<script type="text/javascript">';
-        echo 'alert("Student Number Already Exist")';  
-        echo '</script>';
-      
-      } 
-      
-      
-      
-      
-       else if($user3) {
-        echo '<script type="text/javascript">';
-        echo 'alert(" Guardian Email Already Exist")';  
-        echo '</script>';
-       }
-       else{
-      
-       
-
-      
-      
+        $_SESSION['error']="Email Already Exist.";
+        if($user2){
+          $_SESSION['error']="Studnum Already Exist.";
+          if($user3){
+            $_SESSION['error']="Gmail Already Exist.";
+          }
+        }
+      }else{
+    
         $sql = "INSERT INTO students (	
         flname_std,
         instemail_std,	
@@ -217,41 +199,6 @@ class dbfunction{
     }
   }
 }
-
-
-
-
-
-  function updStd($fullname,$email,$studnum,$gflname,$gemail,$crsname,$yrlvl,$sectname){
-    global $conn;
-    if(isset($_POST['updbtn'])){
-        
-        $fullname = $_POST['flname'];
-        $email = $_POST['email'];
-        $studnum = $_POST['studnum'];
-        $gflname = $_POST['gflname'];
-        $gemail = $_POST['gemail'];
-        $crsname = $_POST['crs'];
-        $yrlvl = $_POST['yrlvl'];
-        $sectname = $_POST['sect'];
-        $studid = $_POST['id'];
-        
-    
-        $sql = "UPDATE students set 
-        `flname_std`=?, 
-        `instemail_std` =?, 
-        `studnum_std` =?, 
-        `gflname_std` =?, 
-        `gemail_std` =?,
-        `crs_id` =?, 
-        `yrlvl_id` =?, 
-        `sect_id` =?
-          where `id_std` = ?";
-
-        $conn->prepare($sql)->execute([$fullname,$email,$studnum,$gflname,$gemail,$crsname,$yrlvl,$sectname,$studid]);
-      
-    }
-  }
 
 
 
@@ -371,7 +318,7 @@ class dbfunction{
     }
     
   }
-}
+
 
 
   function addBldg($code,$name){
@@ -425,6 +372,33 @@ class dbfunction{
         $query->execute([$id,$user,$sub,$sec,$day,$strtime,$endtime,$room,$id]);
 
         header("location: ../schedules.php");
+
+
+        
+      }
+    }
+  }
+
+
+  function updStd($flname,$email,$studnum,$gflname,$gemail,$crs,$yr,$sec){
+    global $conn;
+    if(ISSET($_POST['updBtn'])){
+      if($_REQUEST['updid'] !="" || $_POST['flname'] != "" || $_POST['email'] != "" || $_POST['studnum'] != "" || $_POST['gflname'] != "" || $_POST['gemail'] != "" || $_POST['crs'] != "" || $_POST['yr'] != "" || $_POST['sec'] != ""){
+        $id=$_REQUEST['updid'];
+        $flname=$_POST['flname'];
+        $email=$_POST['email'];
+        $studnum=$_POST['studnum'];
+        $gflname=$_POST['gflname'];
+        $gemail=$_POST['gemail'];
+        $crs=$_POST['crs'];
+        $yr=$_POST['yr'];
+        $sec=$_POST['sec'];
+
+        $sql="UPDATE students set id_std=?, flname_std=?, instemail_std=?, studnum_std=?, gflname_std=?, gemail_std=?, crs_id=?, yrlvl_id=?, sec_id=? where id_std=?";
+        $query = $conn->prepare($sql);
+        $query->execute([$id,$flname,$email,$studnum,$gflname,$gemail,$crs,$yr,$sec,$id]);
+
+        header("location: ../students.php");
 
 
         
@@ -564,7 +538,7 @@ class dbfunction{
     }
   }
 
-  
+}
 
 
 
