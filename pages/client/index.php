@@ -78,9 +78,6 @@ $(".close,.buttons").click(function() {
     background-position: center;
 }
 
-.container .content .list{
-
-}
 
 
 @media(max-width: 990px){

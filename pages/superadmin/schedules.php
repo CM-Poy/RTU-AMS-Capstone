@@ -2,7 +2,6 @@
 <html lang="en">
 
   <?php
-
   include('../includes/header.php');  
   require('../includes/config.php');
 
@@ -19,9 +18,6 @@
     $obj->delSchd($_POST['idschd']);
   }
 
-  
-  
-  
 
   if(isset($_GET['page_no']) && $_GET['page_no'] !== ""){
     $page_no = $_GET['page_no'];
@@ -46,13 +42,15 @@
   $result_totalnumrecords=$totalnumrecords->rowCount();
   //total pages
   $total_numpages = ceil($result_totalnumrecords/$total_records_perpage);
+
+
+
   ?>
   
 
 <head>
     <link rel='icon' href='../../images/rtu-logo.png'/>
-    <link rel = "stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css">
-    <title>ADMIN: Manage Schedules</title>
+    <title>SUPERADMIN: Manage Schedules</title>
 </head>
 
   <body>
@@ -65,12 +63,30 @@
                 <a href="#" class="img logo rounded-circle mb-5" style="background-image: url(../../images/rtu-logo.png);"></a>
                 <ul class="list-unstyled components mb-5">
               <li class="">
-                <a href="teachers.php" >&nbsp;&nbsp;&nbsp;<i class="fa-solid fa-user fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>TEACHERS</a>
+                <a href="users.php" >&nbsp;&nbsp;&nbsp;<i class="fa-solid fa-user fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>USERS</a>
               <li class="">
                 <a href="schedules.php" >&nbsp;&nbsp;&nbsp;<i class="fa fa-file-text fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>SCHEDULES</a>
               </li>
               <li>
               <a href="students.php" >&nbsp;&nbsp;<i class="fa fa-users fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;</i>STUDENTS</a>
+              </li>
+              <li>
+              <a href="sections.php" >&nbsp;&nbsp;&nbsp;<i class="fa-solid fa-th-large fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>SECTIONS</a>
+              </li>
+              <li>
+              <a href="subjects.php" >&nbsp;&nbsp;&nbsp;<i class="fa fa-book fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>SUBJECTS</a>
+              </li>
+              <li>
+               <a href="departments.php">&nbsp;&nbsp;&nbsp;<i class="fa fa-building fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>DEPARTMENTS</a>  
+              </li>
+              <li>
+               <a href="courses.php">&nbsp;&nbsp;&nbsp;<i class="fa fa-folder-open fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>COURSES</a>
+              </li>
+              <li>
+               <a href="buildings.php">&nbsp;&nbsp;&nbsp;<i class="fa fa-building fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>BUILDINGS</a>  
+              </li>
+              <li>
+               <a href="rooms.php">&nbsp;&nbsp;&nbsp;<i class="fa fa-building fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>ROOMS</a>  
               </li>
             </ul>
 
@@ -91,7 +107,7 @@
             <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <i class="fa fa-bars"></i>
             </button>
-            <a class="nav-link font-weight-bold text-justify" id="page-title">ATTENDANCE MANAGEMENT SYSTEM - ADMIN</a> 
+            <a class="nav-link font-weight-bold text-justify" id="page-title">ATTENDANCE MANAGEMENT SYSTEM - SUPERADMIN</a> 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
               <ul class="nav navbar-nav ml-auto">
                 <li class="nav-item">
@@ -111,14 +127,14 @@
                     <h2>Manage <b>Schedules</b></h2>
                   </div>
                   <div class="col-sm-6">
-                    <a href="#addModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add New</span></a>			
+                    <a href="#addModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add New</span></a>						
                   </div>
                 </div>
               </div>
-              <table id= "tabler" class="table table-striped table-hover">
+              <table class="table table-striped table-hover">
                 <thead>
                   <tr>
-                    <th hidden></th>
+                    
                     <th>Full Name</th>
                     <th>Subject</th>
                     <th>Section</th>
@@ -132,40 +148,40 @@
                 <tbody>
                  
                 <?php
-                      
-                       $sql = "SELECT schedules.id_schd, users.flname_users, subjects.code_subj, sections.code_sec, schedules.day_schd, schedules.strtime_schd, schedules.endtime_schd, room.code_room from schedules left join users on schedules.user_id = users.id_users LEFT JOIN subjects on schedules.sub_id = subjects.id_subj LEFT JOIN sections on schedules.sec_id = sections.id_sec LEFT JOIN room on schedules.room_id = room.id_room LIMIT $offset, $total_records_perpage";
-                       $result = $conn->prepare($sql);
-                       $result->execute();
-                       
-                       if($result->rowCount() > 0){
-                         while ($row = $result->fetch(PDO::FETCH_ASSOC)){
-                           $id_schd=$row["id_schd"];
-                           $user_id=$row["flname_users"];
-                           $sub_id=$row["code_subj"];
-                           $sec_id=$row["code_sec"];
-                           $day=$row["day_schd"];
-                           $strtime=$row["strtime_schd"];
-                           $endtime=$row["endtime_schd"];
-                           $room_id=$row["code_room"];
+                        $sql = "SELECT schedules.id_schd, users.flname_users, subjects.code_subj, sections.code_sec, schedules.day_schd, schedules.strtime_schd, schedules.endtime_schd, room.code_room from schedules left join users on schedules.user_id = users.id_users LEFT JOIN subjects on schedules.sub_id = subjects.id_subj LEFT JOIN sections on schedules.sec_id = sections.id_sec LEFT JOIN room on schedules.room_id = room.id_room LIMIT $offset, $total_records_perpage";
+                        $result = $conn->prepare($sql);
+                        $result->execute();
+                        
+                        if($result->rowCount() > 0){
+                          while ($row = $result->fetch(PDO::FETCH_ASSOC)){
+                            $id_schd=$row["id_schd"];
+                            $user_id=$row["flname_users"];
+                            $sub_id=$row["code_subj"];
+                            $sec_id=$row["code_sec"];
+                            $day=$row["day_schd"];
+                            $strtime=$row["strtime_schd"];
+                            $endtime=$row["endtime_schd"];
+                            $room_id=$row["code_room"];
+  
                             echo '
-                            <forM method="post">
+                            <form action="subjects.php" method="post">
                               <tr>
-                                    <td hidden>'.$id_schd.'</td>
-                                    <td>'.$user_id.'</td>
-                                    <td>'.$sub_id.'</td>
-                                    <td>'.$sec_id.'</td>
-                                    <td>'.$day.'</td>
-                                    <td>'.$strtime.'</td>
-                                    <td>'.$endtime.'</td>
-                                    <td>'.$room_id.'</td>
+                                  <td hidden>'.$id_schd.'</td>
+                                  <td name="flnameuser_schd">'.$user_id.'</td>
+                                  <td name="sub_schd">'.$sub_id.'</td>
+                                  <td name="sec_schd">'.$sec_id.'</td>
+                                  <td name="day_schd">'.$day.'</td>
+                                  <td name="strtime_schd">'.$strtime.'</td>
+                                  <td name="endtime_schd">'.$endtime.'</td>
+                                  <td name="room_schd">'.$room_id.'</td>
 
+                                  
+                                  <td>
                                     
-                                    <td>
+                                    <a href="update/upd_schd.php?updid='.$id_schd.'"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                                    <a href="#delModal" class="delBtn" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
                                     
-                                      <a href="update/upd_schd.php?updid='.$id_schd.'"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                                      <a href="#delModal" class="delBtn" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
-                                     
-                                    </td>
+                                  </td>
                             </tr>
                             </form>';
                           }
@@ -177,7 +193,31 @@
 
                 </tbody>
               </table>
-              
+              <div class="clearfix">
+                <div class="hint-text">
+                  Showing <b><?php echo $page_no; ?></b> of <b><?php echo $total_numpages; ?></b> pages.
+                </div>
+                <ul class="pagination">
+
+                  <li class="page-item"><a  class="page-link <?= ($page_no <=1) ? 'disabled' : ''; ?> " <?= ($page_no > 1) ? 'href=? page_no=' .$previous_page : ''; ?>>Previous</a></li>
+
+
+                  
+                  <?php for($counter = 1; $counter <= $total_numpages; $counter ++){ ?>
+                    
+                    <?php if ($page_no != $counter){?>
+                      <li class="page-item"><a class="page-link" href="?page_no=<?=$counter; ?>"><?=$counter; ?></a></li>
+                    <?php }else{ ?> 
+                      <li class="page-item"><a class="page-link active"><?=$counter; ?></a></li>
+                    <?php } ?>
+                   <?php } ?>
+
+
+          
+
+                  <li class="page-item"><a  class="page-link <?= ($page_no >= $total_numpages) ? 'disabled' : '' ; ?>" <?= ($page_no < $total_numpages) ? 'href=?page_no=' . $next_page : ''; ?>>Next</a></li>
+
+                </ul>
               </div>
             </div>
           </div>        
@@ -419,6 +459,7 @@
           </div>
         </div>
 
+
         <!-- Delete Modal HTML -->
         <div id="delModal" class="modal fade">
           <div class="modal-dialog">
@@ -448,37 +489,29 @@
     <script src="../../js/popper.js"></script>
     <script src="../../js/bootstrap.min.js"></script>
     <script src="../../js/main.js"></script>
-    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
 
 
     <script>
 
 //DELETE MODAL 
-  $(document).ready(function () {
-      $('.delBtn').on('click', function () {
-        $('#delModal').modal('show');
-        $tr = $(this).closest('tr');
-         var data = $tr.children("td").map(function () {
-              return $(this).text();
-          }).get();
-          console.log(data);
-          $('#idschd').val(data[0]);
-      });
+$(document).ready(function () {
   
-  
-    });
-    
-      
-      $(document).ready(function () {
-    $('#tabler').DataTable({
-      
-      
-    });
+  $('.delBtn').on('click', function () {
+
+    $('#delModal').modal('show');
+
+    $tr = $(this).closest('tr');
+
+     var data = $tr.children("td").map(function () {
+          return $(this).text();
+      }).get();
+
+      console.log(data);
+      $('#idschd').val(data[0]);
+  });
+
+
 });
-
-
-  
 </script>
 
 

@@ -5,10 +5,6 @@
   include('../includes/header.php'); 
   require('../includes/config.php');
 
-  if (!isset($_SESSION['error'])) {
-    $_SESSION['error'] = false;
-  }
-
 
   if(isset($_POST['addbtn'])){
     include('../includes/functions.php');
@@ -16,27 +12,37 @@
     $obj->addStd($_POST['flname'],$_POST['email'],$_POST['studnum'],$_POST['gflname'],$_POST['gemail'],$_POST['crsNameStd'],$_POST['yrLvlStd'],$_POST['sectNameStd']);
   }
 
-  if(isset($_POST['updbtn'])){
-    include('../includes/functions.php');
-    $obj=new dbfunction();
-    $obj->updStd($_REQUEST['updid'],$_POST['flname'] , $_POST['email'] , $_POST['studnum'] , $_POST['gflname'] , $_POST['gemail'] , $_POST['crs'] , $_POST['yr'] , $_POST['sec']);
-  }
-
 
   if(isset($_POST['btnDel'])){
     include('../includes/functions.php');
     $obj=new dbfunction();
-    $obj->delStd($_POST['idstd']);
-  } 
+    $obj->delStd($_POST["idstd"]);
+  }
 
- 
- 
+  if(isset($_GET['page_no']) && $_GET['page_no'] !== ""){
+    $page_no = $_GET['page_no'];
+  }else{
+    $page_no = 1;
+  }
 
+  //total num rows to display
+  $total_records_perpage = 10;
+  //getting offset for for limit query
+  $offset = ($page_no - 1) * $total_records_perpage;
+  //previous page
+  $previous_page = $page_no - 1;
+  //next page
+  $next_page = $page_no + 1;
 
- 
+  //getting the total number of records
+  $sql = "SELECT * from students";
+  $totalnumrecords = $conn->prepare($sql); 
+  $totalnumrecords->execute();
+  //total records
+  $result_totalnumrecords=$totalnumrecords->rowCount();
+  //total pages
+  $total_numpages = ceil($result_totalnumrecords/$total_records_perpage);
 
-
- 
 
 
 
@@ -48,33 +54,44 @@
 
 <head>
     <link rel='icon' href='../../images/rtu-logo.png'/>
-    <link rel = "stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css">
-    <title>ADMIN: Manage Students</title>
+    <title>SUPERADMIN: Manage Students</title>
 </head>
-<script>
-  if (window.history.replaceState){
-    window.history.replaceState(null, null, window.location.href);
-  }
-</script>
   <body>
 
   <!--sidebar-->
 
-  <div class="wrapper d-flex align-items-stretch  fixed-side">
+  <div class="wrapper d-flex align-items-stretch">
             <nav id="sidebar">
                 <div class="p-4 pt-5">
                 <a href="#" class="img logo rounded-circle mb-5" style="background-image: url(../../images/rtu-logo.png);"></a>
                 <ul class="list-unstyled components mb-5">
               <li class="">
-                <a href="teachers.php" >&nbsp;&nbsp;&nbsp;<i class="fa-solid fa-user fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>TEACHERS</a>
+                <a href="users.php" >&nbsp;&nbsp;&nbsp;<i class="fa-solid fa-user fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>USERS</a>
               <li class="">
                 <a href="schedules.php" >&nbsp;&nbsp;&nbsp;<i class="fa fa-file-text fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>SCHEDULES</a>
               </li>
               <li>
               <a href="students.php" >&nbsp;&nbsp;<i class="fa fa-users fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;</i>STUDENTS</a>
               </li>
+              <li>
+              <a href="sections.php" >&nbsp;&nbsp;&nbsp;<i class="fa-solid fa-th-large fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>SECTIONS</a>
+              </li>
+              <li>
+              <a href="subjects.php" >&nbsp;&nbsp;&nbsp;<i class="fa fa-book fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>SUBJECTS</a>
+              </li>
+              <li>
+               <a href="departments.php">&nbsp;&nbsp;&nbsp;<i class="fa fa-building fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>DEPARTMENTS</a>  
+              </li>
+              <li>
+               <a href="courses.php">&nbsp;&nbsp;&nbsp;<i class="fa fa-folder-open fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>COURSES</a>
+              </li>
+              <li>
+               <a href="buildings.php">&nbsp;&nbsp;&nbsp;<i class="fa fa-building fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>BUILDINGS</a>  
+              </li>
+              <li>
+               <a href="rooms.php">&nbsp;&nbsp;&nbsp;<i class="fa fa-building fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>ROOMS</a>  
+              </li>
             </ul>
-
 
           </div>
         </nav>
@@ -92,22 +109,17 @@
             <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <i class="fa fa-bars"></i>
             </button>
-            <a class="nav-link font-weight-bold text-justify" id="page-title">ATTENDANCE MANAGEMENT SYSTEM - ADMIN</a> 
+            <a class="nav-link font-weight-bold text-justify" id="page-title">ATTENDANCE MANAGEMENT SYSTEM - SUPERADMIN</a> 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
               <ul class="nav navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="#" id="logout">Logout</a>
+                <a class="nav-link" href="../login.php">Logout</a>
                 </li>
               </ul>
             </div>
           </div>
-    
+            
         </nav>
-    
-       
-       
-
-
         <div class="container-xl">
           <div class="table-responsive">
             <div class="table-wrapper">
@@ -116,26 +128,15 @@
                   <div class="col-sm-6">
                     <h2>Manage <b>Students</b></h2>
                   </div>
-                  
                   <div class="col-sm-6">
                     <a href="#addModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add New</span></a>
+                    					
                   </div>
                 </div>
               </div>
-
-              <?php if ($_SESSION['error']): ?>
-                <div class="alert alert-danger" role="alert" >
-                    <center><strong><?php echo $_SESSION['error'];?></strong><center>
-                </div>
-                <?php   
-                    $_SESSION['error'] = false;
-                ?>
-              <?php endif ?>
-              
-              <table id="tabler" class="table table-striped table-hover">
+              <table class="table table-striped table-hover">
                 <thead>
                   <tr>
-                    <th hidden>ID</th>
                     <th>Full Name</th>
                     <th>Institutional Email</th>
                     <th>Student Number</th>
@@ -150,55 +151,78 @@
                 <tbody>
                   				
                 <?php
-                
-                         $sql = "SELECT students.id_std, students.flname_std, students.instemail_std, students.studnum_std, students.gflname_std, students.gemail_std, sections.code_sec, courses.code_crs, year.yearlvl_yr FROM students
-                         LEFT JOIN courses on students.crs_id = courses.id_crs
-                         left join year on students.yrlvl_id = year.id_yr
-                         left join sections on students.sec_id = sections.id_sec";
+                        $sql = "SELECT students.id_std, students.flname_std, students.instemail_std, students.studnum_std, students.gflname_std, students.gemail_std, sections.code_sec, courses.code_crs, year.yearlvl_yr FROM students
+                        LEFT JOIN courses on students.crs_id = courses.id_crs
+                        left join year on students.yrlvl_id = year.id_yr
+                        left join sections on students.sec_id = sections.id_sec";
                         $result = $conn->prepare($sql);
                         $result->execute();
-
-                        if($result->rowCount() > 0)
-                  {
-                    while ($row = $result->fetch(PDO::FETCH_ASSOC)){
-                      $id_std=$row["id_std"];
-                      $flname_std=$row["flname_std"];
-                      $instemail_std=$row["instemail_std"];
-                      $studnum_std=$row["studnum_std"];
-                      $gflname_std=$row["gflname_std"];
-                      $gemail_std=$row["gemail_std"];
-                      $crs_id=$row["code_crs"];
-                      $yrlvl_id=$row["yearlvl_yr"];
-                      $sect_id=$row["code_sec"];
-
-                      echo '
-                      <form method="post" action="students.php">
-                        <tr>
-                        <td hidden>'.$id_std.'</td>
-                          <td>'.$flname_std.'</td>
-                          <td>'.$instemail_std.'</td>
-                          <td>'.$studnum_std.'</td>
-                          <td>'.$gflname_std.'</td>
-                          <td>'.$gemail_std.'</td>
-                          <td>'.$crs_id.'</td>
-                          <td>'.$sect_id.'</td>
-                          <td>'.$yrlvl_id.'</td>
-                          
-                          <td>
-                          
-                          <a href="update/upd_std.php?updid='.$id_std.'"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                            <a href="#delModal" class="delBtn"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
-                            
-                          </td>
-                      </tr>
-                      </form>';
-                    }
-                  }
+                        
+                        if($result->rowCount() > 0){
+                          while ($row = $result->fetch(PDO::FETCH_ASSOC)){
+                            $id_std=$row["id_std"];
+                            $flname_std=$row["flname_std"];
+                            $instemail_std=$row["instemail_std"];
+                            $studnum_std=$row["studnum_std"];
+                            $gflname_std=$row["gflname_std"];
+                            $gemail_std=$row["gemail_std"];
+                            $crs_id=$row["code_crs"];
+                            $yrlvl_id=$row["yearlvl_yr"];
+                            $sect_id=$row["code_sec"];
   
+                            echo '
+                            <form method="post">
+                           
+                              <tr>
+                                <td hidden>'.$id_std.'</td>
+                                <td>'.$flname_std.'</td>
+                                <td>'.$instemail_std.'</td>
+                                <td>'.$studnum_std.'</td>
+                                <td>'.$gflname_std.'</td>
+                                <td>'.$gemail_std.'</td>
+                                <td>'.$crs_id.'</td>
+                                <td>'.$sect_id.'</td>
+                                <td>'.$yrlvl_id.'</td>
+                                <td>
+                                  
+                                  <a href="update/upd_std.php?updid='.$id_std.'"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                                  <a href="#delModal" class="delBtn" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                                  
+                                </td>
+                            </tr>
+                            </form>';
+                          }
+                        }else{
+                          echo "No Record Found";
+                        }
                     ?>
                 </tbody>
               </table>
-             
+              <div class="clearfix">
+                <div class="hint-text">
+                  Showing <b><?php echo $page_no; ?></b> of <b><?php echo $total_numpages; ?></b> pages.
+                </div>
+                <ul class="pagination">
+
+                  <li class="page-item"><a  class="page-link <?= ($page_no <=1) ? 'disabled' : ''; ?> " <?= ($page_no > 1) ? 'href=? page_no=' .$previous_page : ''; ?>>Previous</a></li>
+
+
+                  
+                  <?php for($counter = 1; $counter <= $total_numpages; $counter ++){ ?>
+                    
+                    <?php if ($page_no != $counter){?>
+                      <li class="page-item"><a class="page-link" href="?page_no=<?=$counter; ?>"><?=$counter; ?></a></li>
+                    <?php }else{ ?> 
+                      <li class="page-item"><a class="page-link active"><?=$counter; ?></a></li>
+                    <?php } ?>
+                   <?php } ?>
+
+
+          
+
+                  <li class="page-item"><a  class="page-link <?= ($page_no >= $total_numpages) ? 'disabled' : '' ; ?>" <?= ($page_no < $total_numpages) ? 'href=?page_no=' . $next_page : ''; ?>>Next</a></li>
+
+                </ul>
               </div>
             </div>
           </div>        
@@ -216,11 +240,11 @@
             <div class="modal-content">
               <form method="post">
               <input type="text" class="form-control" name="addid" hidden>
-                <div class="modal-header">
+                <div class="modal-header">						
                   <h4 class="modal-title">Add Student</h4>
                   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 </div>
-                <div class="modal-body" id="dialog">					
+                <div class="modal-body">					
                   <div>
                     <label>Full Name</label>
                     <input type="text" name="flname" class="form-control" required>
@@ -325,6 +349,7 @@
                   <input type="submit" name="addbtn" class="btn btn-success" value="Add">
                 </div>
               </form>
+            
             </div>
           </div>
         </div>
@@ -336,9 +361,9 @@
 
 
         <!-- Edit Modal HTML -->
-        <div id="editModal" class="modal fade">
-          <div class="modal-dialog ">
-            <div class="modal-content">
+        <div id="editModal" class="modal fade" >
+          <div class="modal-dialog modalCenter">
+            <div class="modal-content" >
               <form method="post">
               <input type="text" class="form-control" id = "id" hidden>
                 <div class="modal-header">						
@@ -443,7 +468,6 @@
                   </div>						
                 </div>
                 <div class="modal-footer">
-                  <input type="hidden" name="id" value="<?php echo $id_std; ?>">  
                   <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
                   <input type="submit" class="btn btn-info" name="updbtn" value="Save">
                   
@@ -487,8 +511,6 @@
     <script src="../../js/popper.js"></script>
     <script src="../../js/bootstrap.min.js"></script>
     <script src="../../js/main.js"></script>
-    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
 
 
 
@@ -525,6 +547,7 @@
             });
 
 
+            
             $('.delBtn').on('click', function () {
               $('#delModal').modal('show');
               $tr = $(this).closest('tr');
@@ -537,25 +560,6 @@
                 $('#idstd').val(data[0]);
             });
         });
-      
-    
-   
-        $(document).ready(function () {
-    $('#tabler').DataTable({
-      
-      
-    });
-});
-      
-      
-   
-    $(document).ready(function(){
-      // Activate tooltip
-      $('[data-toggle="tooltip"]').tooltip();
-      
-     
-    });
-  
 </script>
 
   </body>

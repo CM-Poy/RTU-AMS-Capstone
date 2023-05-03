@@ -1,5 +1,10 @@
 <!doctype html>
 <html lang="en">
+  <?php
+   include('../includes/header.php'); 
+   require('../includes/config.php');
+  ?>
+  
   <head>
   	<title>Calendar</title>
     <meta charset="utf-8">
@@ -65,7 +70,7 @@
                 <a href="#" class="img logo rounded-circle mb-5" style="background-image: url(../../images/rtu-logo.png);"></a>
             <ul class="list-unstyled components mb-5">
               <li class="">
-                <a href="index.php">&nbsp;&nbsp;&nbsp;<i class="fa-sharp fa-solid fa-calendar-day fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>DASHBOARD</a>
+                <a href="today.php">&nbsp;&nbsp;&nbsp;<i class="fa-sharp fa-solid fa-calendar-day fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>DASHBOARD</a>
               </li>
               <li class="">
                <a href="calendar.php">&nbsp;&nbsp;&nbsp;<i class="fa-sharp fa-solid fa-calendar-days fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>CALENDAR</a>
@@ -100,54 +105,6 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
               <ul class="nav navbar-nav ml-auto">
-                   <div class="navbar_right">
-                      <div class="notifications">
-                        <div class="icon_wrap"><i class="far fa-bell"></i></div>
-                        
-                        <div class="notification_dd">
-                           
-                                <li class="present">
-                                    <div class="notify_icon">
-                                        <span class="icon"></span>  
-                                    </div>
-                                    <div class="notify_data">
-                                        <div class="title">
-                                            Lorem, ipsum dolor.  
-                                        </div>
-                                        <div class="sub_title">
-                                          Lorem ipsum dolor sit amet consectetur.
-                                      </div>
-                                    </div>
-                                    <div class="notify_status">
-                                        <p>PRESENT</p>  
-                                    </div>
-                                </li>  
-                                <li class="absent">
-                                    <div class="notify_icon">
-                                        <span class="icon"></span>  
-                                    </div>
-                                    <div class="notify_data">
-                                        <div class="title">
-                                            Lorem, ipsum dolor.  
-                                        </div>
-                                        <div class="sub_title">
-                                          Lorem ipsum dolor sit amet consectetur.
-                                      </div>
-                                    </div>
-                                    <div class="notify_status">
-                                        <p>ABSENT</p>  
-                                    </div>
-                                </li> 
-                                <li class="show_all">
-                                    <p class="link">Show All Activities</p>
-                                </li> 
-                           
-                        </div>
-                        
-                      </div>
-                      
-                    </div>
-                
                 <li class="nav-item">
                     <a class="nav-link" href="../login.php">Logout</a>
                 </li> 
@@ -332,8 +289,52 @@
                         </li>
                    
                 </div>
+                <button class="today-btn">Today</button>
+              </div>
             </div>
           </div>
+          <div class="right">
+            <div class="today-date">
+              <div class="event-day">wed</div>
+              <div class="event-date">12th december 2022</div>
+            </div>
+            <div class="events"></div>
+            <div class="add-event-wrapper">
+              <div class="add-event-header">
+                <div class="title">Add Event</div>
+                <i class="fas fa-times close"></i>
+              </div>
+              <div class="add-event-body">
+                <div class="add-event-input">
+                  <input type="text" placeholder="Event Name" class="event-name" />
+                </div>
+                <div class="add-event-input">
+                  <input
+                    type="text"
+                    placeholder="Event Time From"
+                    class="event-time-from"
+                  />  
+                </div>
+                <div class="add-event-input">
+                  <input
+                    type="text"
+                    placeholder="Event Time To"
+                    class="event-time-to"
+                  />
+                </div>
+              </div>
+              <div class="add-event-footer">
+                <button class="add-event-btn">Add Event</button>
+              </div>
+            </div>
+          </div>
+          <button class="add-event">
+            <i class="fas fa-plus"></i>
+          </button>
+        </div>
+        
+       
+    
 
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.js"></script>
 

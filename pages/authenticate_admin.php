@@ -10,7 +10,7 @@ if (!isset($_SESSION['auth_secret'])) {
 }
 
 
-$qrCodeUrl = $Authenticator->getQR('myPHPnotes', $_SESSION['auth_secret']);
+$qrCodeUrl = $Authenticator->getQR('RTU-AMS', $_SESSION['auth_secret']);
 
 
 if (!isset($_SESSION['failed'])) {
@@ -91,10 +91,10 @@ if (!isset($_SESSION['failed'])) {
         <div class="row">
             <div class="col-md-6 offset-md-3" id="card">
                <img style="text-align: center ;" class="img-logo" src="../images/rtu-logo.png"><br><br>
-                <b><p class="header">RTU-BONI ATTENDANCE MANAGEMENT SYSTEM AUTHENTICATOR</p></b>
+                <b><p class="header">RTU-BONI ATTENDANCE MANAGEMENT SYSTEM AUTHENTICATOR - <i>ADMIN</i></p></b>
                 <p style="font-style: italic; text-align: center;">Powered by Google Authenticator</p>
                 <hr>
-                <form action="admin/index.php" method="post">
+                <form action="admin/home.php" method="post">
                     <div style="text-align: center;">
                         <?php if ($_SESSION['failed']): ?>
                             <div class="alert alert-danger" role="alert">
