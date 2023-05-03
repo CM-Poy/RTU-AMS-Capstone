@@ -1,3 +1,44 @@
+<?php
+include('../includes/header.php'); 
+require('../includes/config.php');
+
+session_start();
+
+$userid=$_SESSION['user'];
+
+
+$sql="SELECT * from users where id_users=$userid";
+$result = $conn->prepare($sql);
+$result->execute();
+if($result->rowCount() > 0){
+    while ($row = $result->fetch(PDO::FETCH_ASSOC)){
+      $id=$row['id_users'];
+      $hnr=$row['hnr_users'];
+      $name=$row['flname_users'];
+      $email=$row['instemail_users'];
+      $empnum=$row['empnum_users'];
+      $pwd=$row['pwd_users'];
+
+    }
+  }
+
+
+if (!isset($_SESSION['pwderror'])) {
+  $_SESSION['pwderror'] = false;
+}
+
+if(isset($_POST['btnUpd'])){
+  include('includes/functions.php');
+  $obj=new dbfunction();
+  $obj->updUsrPwd($_POST['oldpwd'], $_POST['newpwd'], $_POST['conpwd']);
+  }
+
+
+?>
+
+
+
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -62,6 +103,19 @@
     background-repeat: no-repeat;
     background-position: center;
 }
+
+.field-icon {
+  float: right;
+  margin-left: -25px;
+  margin-top: -25px;
+  position: relative;
+  z-index: 2;
+}
+
+.container{
+  padding-top:50px;
+  margin: auto;
+}
   
 
 @media(max-width: 990px){
@@ -106,55 +160,16 @@
                 <i class="fa fa-bars"></i>
             </button>
             <a class="nav-link font-weight-bold text-justify" id="page-title">ATTENDANCE MANAGEMENT SYSTEM</a> 
+            <?php if ($_SESSION['pwderror']): ?>
+                        <div class="alert alert-danger" role="alert">
+                            <strong><?php echo $_SESSION['pwderror'];?></strong>
+                        </div>
+                        <?php   
+                            $_SESSION['pwderror'] = false;
+                        ?>
+                      <?php endif ?>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
               <ul class="nav navbar-nav ml-auto">
-                   <div class="navbar_right">
-                      <div class="notifications">
-                        <div class="icon_wrap"><i class="far fa-bell"></i></div>
-                        
-                        <div class="notification_dd">
-                           
-                                <li class="present">
-                                    <div class="notify_icon">
-                                        <span class="icon"></span>  
-                                    </div>
-                                    <div class="notify_data">
-                                        <div class="title">
-                                            Lorem, ipsum dolor.  
-                                        </div>
-                                        <div class="sub_title">
-                                          Lorem ipsum dolor sit amet consectetur.
-                                      </div>
-                                    </div>
-                                    <div class="notify_status">
-                                        <p>PRESENT</p>  
-                                    </div>
-                                </li>  
-                                <li class="absent">
-                                    <div class="notify_icon">
-                                        <span class="icon"></span>  
-                                    </div>
-                                    <div class="notify_data">
-                                        <div class="title">
-                                            Lorem, ipsum dolor.  
-                                        </div>
-                                        <div class="sub_title">
-                                          Lorem ipsum dolor sit amet consectetur.
-                                      </div>
-                                    </div>
-                                    <div class="notify_status">
-                                        <p>ABSENT</p>  
-                                    </div>
-                                </li> 
-                                <li class="show_all">
-                                    <p class="link">Show All Activities</p>
-                                </li> 
-                           
-                        </div>
-                        
-                      </div>
-                      
-                    </div>
                 
                 <li class="nav-item">
                 <a class="nav-link" href="../login.php">Logout</a>
@@ -172,191 +187,130 @@
           </div>
             
         </nav>
-<div class="container">
-    <div class="main-body">
-    
-          <!-- Breadcrumb -->
-          <!-- /Breadcrumb -->
-    
-          
+
+          <div class="main-body">
             <div class="col-md-12">
               <div class="card mb-3">
                 <div class="card-body">
+               
                   <div class="row">
                     <div class="col-sm-3">
-                      <h6 class="mb-0">Full Name</h6>
+                      <div hidden>
+                        <?php echo $id; ?>
+                      </div>
+                      <h6 class="mb-0">Honnorific</h6>
                     </div>
                     <div class="col-sm-9 text-secondary">
-                      Kenneth Valdez
+                      <?php echo $hnr; ?>
                     </div>
                   </div>
+
                   <hr>
                   <div class="row">
                     <div class="col-sm-3">
-                      <h6 class="mb-0">Email</h6>
+                      <h6 class="mb-0">Fullname</h6>
                     </div>
                     <div class="col-sm-9 text-secondary">
-                      fip@jukmuh.al
+                      <?php echo $name; ?>
                     </div>
                   </div>
+
                   <hr>
                   <div class="row">
                     <div class="col-sm-3">
-                      <h6 class="mb-0">Phone</h6>
+                      <h6 class="mb-0">Institutional Email</h6>
                     </div>
                     <div class="col-sm-9 text-secondary">
-                      (239) 816-9029
+                      <?php echo $email; ?>
                     </div>
                   </div>
+
                   <hr>
                   <div class="row">
                     <div class="col-sm-3">
-                      <h6 class="mb-0">Mobile</h6>
+                      <h6 class="mb-0">Employee Number</h6>
                     </div>
                     <div class="col-sm-9 text-secondary">
-                      (320) 380-4539
+                      <?php echo $empnum; ?>
                     </div>
                   </div>
+
                   <hr>
                   <div class="row">
                     <div class="col-sm-3">
-                      <h6 class="mb-0">Address</h6>
+                      <h6 class="mb-0">Password</h6>
                     </div>
                     <div class="col-sm-9 text-secondary">
-                      Addition hills
+                      <input type=password value =<?php echo $empnum; ?> disabled/> 
+                      <a class="btn btn-info" href="#editModal" class="editBtn" data-toggle="modal">Change</a>
                     </div>
                   </div>
-                  <hr>
+
+                  
                   <div class="row">
                     <div class="col-sm-12">
-                      <a class="btn btn-info " target="__blank" href="https://www.bootdey.com/snippets/view/profile-edit-data-and-skills">Edit</a>
+                      
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-          
+          </div>
+   
 
-        </div>
-    </div>
-      
-      </div>
-      
-      </div>
-
-      <!--ALL NOTIFICATIONS-->
-      <div class="popup">
-            <div class="shadow"></div>
-            <div class="inner_popup">
-                <div class="notification_dd">
-                    
-                        <li class="title">
-                            <p>All Notifications</p>
-                            <p class="close"><i class="fas fa-times" aria-hidden="true"></i></p>
-                        </li> 
-                        <li class="starbucks success">
-                            <div class="notify_icon">
-                                <span class="icon"></span>  
-                            </div>
-                            <div class="notify_data">
-                                <div class="title">
-                                    Lorem, ipsum dolor.  
-                                </div>
-                                <div class="sub_title">
-                                  Lorem ipsum dolor sit amet consectetur.
-                              </div>
-                            </div>
-                            <div class="notify_status">
-                                <p>Success</p>  
-                            </div>
-                        </li>  
-                        <li class="baskin_robbins failed">
-                            <div class="notify_icon">
-                                <span class="icon"></span>  
-                            </div>
-                            <div class="notify_data">
-                                <div class="title">
-                                    Lorem, ipsum dolor.  
-                                </div>
-                                <div class="sub_title">
-                                  Lorem ipsum dolor sit amet consectetur.
-                              </div>
-                            </div>
-                            <div class="notify_status">
-                                <p>Failed</p>  
-                            </div>
-                        </li> 
-                        <li class="mcd success">
-                            <div class="notify_icon">
-                                <span class="icon"></span>  
-                            </div>
-                            <div class="notify_data">
-                                <div class="title">
-                                    Lorem, ipsum dolor.  
-                                </div>
-                                <div class="sub_title">
-                                  Lorem ipsum dolor sit amet consectetur.
-                              </div>
-                            </div>
-                            <div class="notify_status">
-                                <p>Success</p>  
-                            </div>
-                        </li>  
-                        <li class="baskin_robbins failed">
-                            <div class="notify_icon">
-                                <span class="icon"></span>  
-                            </div>
-                            <div class="notify_data">
-                                <div class="title">
-                                    Lorem, ipsum dolor.  
-                                </div>
-                                <div class="sub_title">
-                                  Lorem ipsum dolor sit amet consectetur.
-                              </div>
-                            </div>
-                            <div class="notify_status">
-                                <p>Failed</p>  
-                            </div>
-                        </li> 
-                        <li class="pizzahut failed">
-                            <div class="notify_icon">
-                                <span class="icon"></span>  
-                            </div>
-                            <div class="notify_data">
-                                <div class="title">
-                                    Lorem, ipsum dolor.  
-                                </div>
-                                <div class="sub_title">
-                                  Lorem ipsum dolor sit amet consectetur.
-                              </div>
-                            </div>
-                            <div class="notify_status">
-                                <p>Failed</p>  
-                            </div>
-                        </li> 
-                        <li class="kfc success">
-                            <div class="notify_icon">
-                                <span class="icon"></span>  
-                            </div>
-                            <div class="notify_data">
-                                <div class="title">
-                                    Lorem, ipsum dolor.  
-                                </div>
-                                <div class="sub_title">
-                                  Lorem ipsum dolor sit amet consectetur.
-                              </div>
-                            </div>
-                            <div class="notify_status">
-                                <p>Success</p>  
-                            </div>
-                        </li>
-                   
+      <!--EDIT PASSWORD MODAL-->
+      <div id="editModal" class="modal fade">
+          <div class="modal-dialog ">
+            <div class="modal-content">
+            <form method= "post">
+              <input type="text" class="form-control" name="id" id="id"hidden>
+                <div class="modal-header">						
+                  <h4 class="modal-title">Change Password</h4>
+                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 </div>
+                <div class="modal-body">					
+                  <div class="form-group">
+                    <label>Old Password</label>
+                    <input   type="password" class="form-control" name="oldpwd" id="oldpwd"required><span toggle="#oldpwd" class="fa fa-fw fa-eye field-icon toggle-password"></span>
+                  </div>
+                  <div class="form-group">
+                    <label>New Password</label>
+                    <input type="password" class="form-control" name="newpwd" id="newpwd"required><span toggle="#newpwd" class="fa fa-fw fa-eye field-icon toggle-password"> </span>
+                  </div>
+                  <div class="form-group">
+                    <label>Confirm Password</label>
+                    <input type="password" class="form-control" name="conpwd" id="conpwd"required><span toggle="#conpwd" class="fa fa-fw fa-eye field-icon toggle-password"> </span>
+                  </div>
+                  
+                <div class="modal-footer">
+                  <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                  <input type="submit" class="btn btn-success" name="updBtn" value="Change">
+                </div>
+            </form>
             </div>
           </div>
+        </div>
+   
     <script src="../../js/jquery.min.js"></script>
     <script src="../../js/popper.js"></script>
     <script src="../../js/bootstrap.min.js"></script>
     <script src="../../js/main.js"></script>
+
+    <script>
+     
+
+
+
+$(".toggle-password").click(function() {
+
+$(this).toggleClass("fa-eye fa-eye-slash");
+var input = $($(this).attr("toggle"));
+if (input.attr("type") == "password") {
+  input.attr("type", "text");
+} else {
+  input.attr("type", "password");
+}
+});
+    </script>
   </body>
 </html>

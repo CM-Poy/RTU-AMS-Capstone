@@ -3,68 +3,53 @@ require_once('config.php');
 session_start();
 class dbfunction{
 
+
+//---LOGIN
   function login($instEmail,$pwd){
      global $conn;
+
     if(ISSET($_POST['btnLogin'])){
       if($_POST['instEmail'] != "" || $_POST['pwd'] != ""){
+
         $instEmail = $_POST['instEmail'];
-        $pwd = $_POST['pwd'];
+        $pwd = $_POST['pwd']; 
 
-        $sql = "SELECT * FROM `users` WHERE `instemail_users`=? and `pwd_users`=? and `usertype_users`=1";
+        $sql = "SELECT * FROM users WHERE instemail_users=? and usertype_users=1";
         $query = $conn->prepare($sql);
-        $query->execute(array($instEmail,$pwd));
-        $row = $query->rowCount();
-        $fetch = $query->fetch();
+        $query->execute([$instEmail]);
+        $row = $query->fetch();
 
-        if($row > 0) {
-          $_SESSION['user'] = $fetch['id_users'];
+        if($row==0){
+          $_SESSION['error']="Invalid Institutional Email.";
+        }elseif($row && password_verify($pwd,$row['pwd_users'])){
+          $_SESSION['user'] = $row['id_users'];
           header("location: authenticate_client.php");
         }else{
-          $_SESSION['error']="Invalid Institutional Email or Password.";
+            $_SESSION['error']="Invalid Password";
         }
 
+        $sql2 = "SELECT * FROM users WHERE instemail_users=? and usertype_users=2";
+        $query2 = $conn->prepare($sql2);
+        $query2->execute([$instEmail]);
+        $row2 = $query2->fetch();
 
-        if($_POST['instEmail'] != "" || $_POST['pwd'] != ""){
-        $sql = "SELECT * FROM `users` WHERE `instemail_users`=? and `pwd_users`=? and `usertype_users`=2";
-        $query = $conn->prepare($sql);
-        $query->execute(array($instEmail,$pwd));
-        $row = $query->rowCount();
-        $fetch = $query->fetch();
-
-        if($row > 0) {
-          $_SESSION['user'] = $fetch['id_users'];
+        if($row2==0){
+          $_SESSION['error']="Invalid Institutional Email.";
+        }elseif($row2 && password_verify($pwd,$row2['pwd_users'])){
+          $_SESSION['user'] = $row2['id_users'];
           header("location: authenticate_admin.php");
         }else{
-          $_SESSION['error']="Invalid Institutional Email or Password.";
+            $_SESSION['error']="Invalid Password";
         }
-
-
-        if($_POST['instEmail'] != "" || $_POST['pwd'] != ""){
-          $sql = "SELECT * FROM `users` WHERE `instemail_users`=? and `pwd_users`=? and `usertype_users`=3";
-          $query = $conn->prepare($sql);
-          $query->execute(array($instEmail,$pwd));
-          $row = $query->rowCount();
-          $fetch = $query->fetch();
-          if($row > 0) {
-            $_SESSION['user'] = $fetch['id_users'];
-            header("location: authenticate_superadmin.php");
-          }else{
-            $_SESSION['error']="Invalid Institutional Email or Password.";
-          }
-        }
-
-      }
-
-    }else{
-      $_SESSION['error']="Please enter Institutional Email and Password.";
+        
+      }else{
+        $_SESSION['error']="Please Enter Institutional Email and Password.";
+      } 
     }
-
-  }
-}
+  }      
       
 
-
-
+//---ADD USER(SUPERADMIN)
   function addUserSupAdmin($hnr_users,$flname_users,$instemail_users,$empnum_users,$pwdhashed,$usertype_users){
     global $conn;
     if(ISSET($_POST['addbtnSA'])){
@@ -77,7 +62,7 @@ class dbfunction{
         $empnum_users=$_POST["empnum"];
         $usertype_users=$_POST["usertype"];
         $pwd_users="1234";
-        $pwdhashed=md5($pwd_users,false);
+        $pwdhashed=password_hash($pwd_users,PASSWORD_DEFAULT);
 
         
         $sql = "INSERT INTO  users (flname_users,hnr_users,instemail_users,empnum_users,pwd_users,usertype_users) VALUES (?,?,?,?,?,?)";
@@ -89,6 +74,8 @@ class dbfunction{
   }
 
 
+
+//---ADD USER(ADMIN)
   function addUserAdmin($hnr_users,$flname_users,$instemail_users,$empnum_users,$pwd_users,$usertype_users){
     global $conn;
     if(ISSET($_POST['addbtnA'])){
@@ -101,7 +88,7 @@ class dbfunction{
         $empnum_users=$_POST["empnum"];
         $usertype_users="1";
         $pwd_users="1234";
-        $pwdhashed=md5($pwd_users,false);
+        $pwdhashed=password_hash($pwd_users,PASSWORD_DEFAULT);
 
         $sql = "INSERT INTO  users (flname_users,hnr_users,instemail_users,empnum_users,pwd_users,usertype_users) VALUES (?,?,?,?,?,?)";
         $query = $conn->prepare($sql);
@@ -112,6 +99,8 @@ class dbfunction{
   }
 
 
+
+//---ADD STUDENT
   function addStd($fullname,$email,$studnum,$gflname,$gemail,$crsname,$yrlvl,$sectname){
     global $conn;
     if(isset($_POST['addbtn'])){
@@ -182,6 +171,7 @@ class dbfunction{
 
 
 
+//---ADD SUBJECT
   function addSub($name,$code,$units){
     global $conn;
     if(ISSET($_POST['addbtn'])){
@@ -202,6 +192,7 @@ class dbfunction{
 
 
 
+//---ADD SECTION
   function addSec($code,$crs,$yrlvl){
     global $conn; 
     if(ISSET($_POST['addbtn'])){
@@ -223,6 +214,7 @@ class dbfunction{
 
 
 
+//---ADD SCHEDULE
   function addSchd($user,$sub,$sec,$day,$strtime,$endtime,$room){
     global $conn;
     if(ISSET($_POST['addbtn'])){
@@ -241,16 +233,6 @@ class dbfunction{
         $sql = "INSERT INTO  schedules (`user_id`, `sub_id`, `sec_id`, `day_schd`, `strtime_schd`, `endtime_schd`, `room_id`) VALUES (?,?,?,?,?,?,?)  ";
         $query = $conn->prepare($sql);
         $query->execute([$user,$sub,$sec,$day,$strtime,$endtime,$room]);
-
-
-      //  $sql2="SELECT * schedules WHERE user_id=?, sub_id=?, sec_id=?, day_schd=?, strtime_schd=?, endtime_schd=?, room_id=?";
-      //  $result = $conn->prepare($sql2);
-      //  $result->execute([$user,$sub,$sec,$day,$strtime,$endtime,$room]);
-       // if($result->rowCount() > 0){
-       //   while ($result->fetch(PDO::FETCH_ASSOC)){
-       //     echo "nope.";
-      //    }
-       // }
       
       }  
     }
@@ -258,6 +240,7 @@ class dbfunction{
 
 
 
+//---ADD COURSE
   function addCrs($name,$code,$dept){
     global $conn;
     if(ISSET($_POST['addbtn'])){
@@ -279,6 +262,7 @@ class dbfunction{
 
 
 
+//---ADD DEPARTMENT
   function addDept($name,$code){
     global $conn;
     if(ISSET($_POST['addbtn'])){
@@ -300,6 +284,7 @@ class dbfunction{
 
 
 
+//---ADD BUILDING
   function addBldg($code,$name){
     global $conn;
     if(ISSET($_POST['addbtn'])){
@@ -316,6 +301,8 @@ class dbfunction{
   }
 
 
+
+//---ADD ROOM
   function addRoom($code,$bldg){
     global $conn;
     if(ISSET($_POST['addbtn'])){
@@ -332,7 +319,8 @@ class dbfunction{
   }
 
 
-  
+
+//---UPDATE SCHEDULE
   function updSchd($user,$sub,$sec,$day,$strtime,$endtime,$room){
     global $conn;
     if(ISSET($_POST['updBtn'])){
@@ -359,6 +347,8 @@ class dbfunction{
   }
 
 
+
+//---UPDATE STUDENT
   function updStd($flname,$email,$studnum,$gflname,$gemail,$crs,$yr,$sec){
     global $conn;
     if(ISSET($_POST['updBtn'])){
@@ -386,6 +376,8 @@ class dbfunction{
   }
 
 
+
+//---UPDATE USER(ADMIN)
   function updUsrAdmin($hnr,$flname,$email,$empnum,$pwd){
     global $conn;
     if(ISSET($_POST['updBtn'])){
@@ -396,7 +388,6 @@ class dbfunction{
         $email=$_POST['email'];
         $empnum=$_POST['empnum'];
         $pwd=$_POST['pwd'];
-       
 
         $sql="UPDATE users set id_users=?, hnr_users=?, flname_users=?, instemail_users=?, empnum_users=?, pwd_users=? where id_users=?";
         $query = $conn->prepare($sql);
@@ -411,6 +402,8 @@ class dbfunction{
   }
 
 
+
+//---UPDATE USER(SUPERADMIN)
   function updUsrSupAdmin($hnr,$flname,$email,$empnum,$pwd,$usertype){
     global $conn;
     if(ISSET($_POST['updBtn'])){
@@ -436,6 +429,8 @@ class dbfunction{
   }
 
 
+
+//---UPDATE BUILDING
   function updBldg($name,$code){
     global $conn;
     if(ISSET($_POST['updBtn'])){
@@ -459,6 +454,8 @@ class dbfunction{
   }
 
 
+
+//---UPDATE COURSE
   function updCrs($name,$code,$dept){
     global $conn;
     if(ISSET($_POST['updBtn'])){
@@ -480,6 +477,8 @@ class dbfunction{
   }
 
 
+
+//---UPDATE DEPARTMENT
   function updDept($name,$code,$dept){
     global $conn;
     if(ISSET($_POST['updBtn'])){
@@ -501,6 +500,8 @@ class dbfunction{
   }
 
 
+
+//---UPDATE ROOM
   function updRm($code,$bldg){
     global $conn;
     if(ISSET($_POST['updBtn'])){
@@ -521,6 +522,8 @@ class dbfunction{
   }
 
 
+
+//---UPDATE SECTION
   function updSec($code,$crs,$yr){
     global $conn;
     if(ISSET($_POST['updBtn'])){
@@ -542,6 +545,8 @@ class dbfunction{
   }
 
 
+
+//---UPDATE SUBJECT
   function updSub($name,$code,$units){
     global $conn;
     if(ISSET($_POST['updBtn'])){
@@ -564,12 +569,62 @@ class dbfunction{
 
 
 
+//---UPDATE PASSWORD(USER)
+  function updUsrPwd($oldpwd,$newpwd,$conpwd){
+    
+    global $conn;
+    if(ISSET($_POST['updBtn'])){
+      if($_SESSION['user'] != "" || $_POST['oldpwd'] != "" || $_POST['newpwd'] != "" || $_POST['conpwd'] ){
+        $userid=$_SESSION['user'];
+        
+        
+        $oldpwd=$_POST['oldpwd'];
+        $newpwd=password_hash($_POST['newpwd'],PASSWORD_DEFAULT);
+        $conpwd=password_hash($_POST['conpwd'],PASSWORD_DEFAULT);
+
+        $sql="SELECT pwd_users FROM users where id_users=?";
+        $query= $conn->prepare($sql);
+        $query->execute([$userid]);
+        $row = $query->fetch();
+        
+          if(password_verify($oldpwd,$row['pwd_users'])){
+
+            if($row> 0){
+
+              if($newpwd===$conpwd){
+
+                $sql2="UPDATE users set pwd_users=? where id_users=?";
+                $query2 = $conn->prepare($sql2);
+                $query2->execute([$newpwd,$userid]);
+              }else{
+                echo '<script>alert("Passwords are incorrect. Must be the same.");</script>';
+               // $_SESSION['pwderror']="Passwords are incorrect. Must be the same.";
+              }
+              
+            }else{
+              echo '<script>alert("No Records Found.");</script>';
+             // $_SESSION['pwderror']="No Records Found.";
+            }
+          }else{
+            echo '<script>alert("Invalid Old Password.");</script>';
+           // $_SESSION['pwderror']="Invalid Old Password.";
+          }
+
+       
+
+           
+      }
+          
+
+       
+        
+    }
+  }
+  
 
 
 
-
-
-
+//---DELETE SCHEDULE
   function delSchd($idschd){
     global $conn;
     if(ISSET($_POST['btnDel'])){
@@ -584,6 +639,8 @@ class dbfunction{
   }
 
 
+
+//---DELETE USER
   function delUserAdmin($iduser){
     global $conn;
     if(ISSET($_POST['btnDel'])){
@@ -598,6 +655,8 @@ class dbfunction{
   }
 
 
+
+//---DELETE STUDENT
   function delStd($idstd){
     global $conn;
     if(ISSET($_POST['btnDel'])){
@@ -612,20 +671,24 @@ class dbfunction{
   }
 
 
+
+//---DELETE BUILDING
   function delBldg($idbldg){
     global $conn;
     if(ISSET($_POST['btnDel'])){
       if($_POST['idbldg'] != ""){
-        $idstd=$_POST['idbldg'];
+        $idbldg=$_POST['idbldg'];
 
         $sql="DELETE from building where id_bldg=?";
         $query = $conn->prepare($sql);
-        $query->execute([$idstd]);
+        $query->execute([$idbldg]);
       }
     }
   }
 
 
+
+//---DELETE COURSE
   function delCrs($idcrs){
     global $conn;
     if(ISSET($_POST['btnDel'])){
@@ -640,6 +703,8 @@ class dbfunction{
   }
 
 
+
+//---DELETE DEPARTMENT
   function delDept($iddept){
     global $conn;
     if(ISSET($_POST['btnDel'])){
@@ -654,6 +719,8 @@ class dbfunction{
   }
 
 
+
+//---DELETE ROOM
   function delRoom($idroom){
     global $conn;
     if(ISSET($_POST['btnDel'])){
@@ -668,6 +735,8 @@ class dbfunction{
   }
 
 
+
+//---DELETE SECTION
   function delSec($idsec){
     global $conn;
     if(ISSET($_POST['btnDel'])){
@@ -682,6 +751,8 @@ class dbfunction{
   }
 
 
+
+//---DELETE SUBJECT
   function delSub($idsub){
     global $conn;
     if(ISSET($_POST['btnDel'])){
@@ -694,6 +765,10 @@ class dbfunction{
       }
     }
   }
+
+
+
+
 
 }
 
