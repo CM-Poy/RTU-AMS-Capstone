@@ -39,46 +39,54 @@ $result->execute([$id]);
 ?>
   
 <head>
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <link rel="stylesheet" href="../../../css/css_update/updatestyle.css">
     
-    <title>Edit Student</title>
+    <title>Edit Teacher</title>
 </head>
 <body>
 
     
    
-        <div class="login-container">
-            <p class="title">EDIT STUDENT</p>
+    <div class="edit-wrapper">
+        <div class="edit-container">
+            <p class="title">EDIT TEACHER</p>
+            <div class="separator"></div>
+            <form class="login-form" method="post">
                    
             <form method="post">
-                <div>
-                    <label>Honoriffic</label>
-                    <input type="text" name="hnr"  value="<?php echo $hnr_users;?>" required/>
-                </div>
-                <div>
-                    <label>Full Name</label>
-                    <input type="text" name="flname"  value="<?php echo $flname_users;?>" required/>
-                </div>
-                <div>
-                    <label>Institutional Email</label>
-                    <input type="email" name="email" class="form-control" value="<?php echo $instemail_users;?>" required>
-                </div>
-                <div>
-                    <label>Employee Number</label>
-                    <input type="text" name="empnum" class="form-control" value="<?php echo $empnum_users;?>" required>
-                <div>
-                    <label>Password</label>
-                    <input type="password" name="pwd" class="form-control" value="<?php echo $pwd_users;?>" required>
-                </div>			
+                
+                <label>Honoriffic</label>
+                    <div class="form-control">
+                        <input type="text" name="hnr"  value="<?php echo $hnr_users;?>" required/>
+                    </div>
+                    
+                <label>Full Name</label>
+                    <div class="form-control">
+                        <input type="text" name="flname"  value="<?php echo $flname_users;?>" required/>
+                    </div>
+                    
+                <label>Institutional Email</label>
+                    <div class="form-control">
+                        <input type="email" name="email"  value="<?php echo $instemail_users;?>" required>
+                    </div>
+                    
+                <label>Employee Number</label>
+                    <div class="form-control">
+                        <input type="text" name="empnum" value="<?php echo $empnum_users;?>" required>
+                        </div>
+                <label>Password</label>
+                    <div class="form-control">
+                        <input type="password" name="pwd" value="<?php echo $pwd_users;?>" required>
+                    </div>		
                 
                 
-
-
                 <a href="../teachers.php"><input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel" ></a>
-                <input type="submit" class="btn btn-info" name="updBtn" value="Save">
+                <button class="submit" name="updBtn">Save</button>
             </form>
         </div>
+    </div>
 
     
 </body>

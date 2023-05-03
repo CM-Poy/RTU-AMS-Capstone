@@ -168,7 +168,7 @@
                                     
                                     <td>
                                       
-                                      <a href="#editModal" value = '.$id_sec.' class="editBtn" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                                      <a href="update/upd_sec.php?updid='.$id_sec.'"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
                                       <a href="#delModal" value = '.$id_sec.' class="delBtn" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
                                      
                                     </td>

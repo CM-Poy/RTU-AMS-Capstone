@@ -182,20 +182,19 @@ class dbfunction{
 
 
 
-  function addSub($code,$name,$units){
+  function addSub($name,$code,$units){
     global $conn;
     if(ISSET($_POST['addbtn'])){
-      if($_POST['code'] != "" || $_POST['name'] != "" || $_POST['units'] != ""){  
+      if($_POST['name'] != "" || $_POST['code'] != "" || $_POST['units'] != ""){  
 
- 
-        $code=$_POST["code"];
         $name=$_POST["name"];
+        $code=$_POST["code"];
         $units=$_POST["units"];
        
 
-        $sql = "INSERT INTO  subjects (`code_subj`, `name_subj`, `units_subj`) VALUES (?,?,?)  ";
+        $sql = "INSERT INTO  subjects ( `name_subj`, `code_subj`,`units_subj`) VALUES (?,?,?)  ";
         $query = $conn->prepare($sql);
-        $query->execute([$code,$name,$units]);
+        $query->execute([$name,$code,$units]);
       
       }  
     }
@@ -469,15 +468,12 @@ class dbfunction{
         $name=$_POST['name'];
         $code=$_POST['code'];
         $dept=$_POST['dept'];
-        
-       
-        $sql="UPDATE courses set name_crs=?, code_crs=? where id_crs  =?";
+            
+        $sql="UPDATE courses set name_crs=?, code_crs=?, dept_id=? where id_crs  =?";
         $query = $conn->prepare($sql);
-        $query->execute([$name,$code,$id]);
+        $query->execute([$name,$code,$dept,$id]);
 
         header("location: ../courses.php");
-
-
         
       }
     }
@@ -492,16 +488,75 @@ class dbfunction{
         $id=$_REQUEST['updid'];
         $name=$_POST['name'];
         $code=$_POST['code'];
-        $dept=$_POST['dept'];
-        
+        $dept=$_POST['dept'];       
        
         $sql="UPDATE departments set name_dept=?, code_dept=? where id_dept  =?";
         $query = $conn->prepare($sql);
         $query->execute([$name,$code,$id]);
 
         header("location: ../departments.php");
+        
+      }
+    }
+  }
 
 
+  function updRm($code,$bldg){
+    global $conn;
+    if(ISSET($_POST['updBtn'])){
+      if($_REQUEST['updid'] !="" || $_POST['code'] != "" || $_POST['bldg']){
+        
+        $id=$_REQUEST['updid'];
+        $bldg=$_POST['bldg'];
+        $code=$_POST['code'];
+       
+        $sql="UPDATE room set code_room=?, bldg_id=? where id_room  =?";
+        $query = $conn->prepare($sql);
+        $query->execute([$code,$bldg,$id]);
+
+        header("location: ../rooms.php");
+        
+      }
+    }
+  }
+
+
+  function updSec($code,$crs,$yr){
+    global $conn;
+    if(ISSET($_POST['updBtn'])){
+      if($_REQUEST['updid'] !="" || $_POST['code'] != "" || $_POST['crs'] != "" || $_POST['yr'] ){
+        
+        $id=$_REQUEST['updid'];
+        $code=$_POST['code'];
+        $crs=$_POST['crs'];
+        $yr=$_POST['yr'];
+       
+        $sql="UPDATE sections set code_sec=?, crs_id=?, yrlvl_id=? where id_sec=?";
+        $query = $conn->prepare($sql);
+        $query->execute([$code,$crs,$yr,$id]);
+
+        header("location: ../sections.php");
+        
+      }
+    }
+  }
+
+
+  function updSub($name,$code,$units){
+    global $conn;
+    if(ISSET($_POST['updBtn'])){
+      if($_REQUEST['updid'] !="" || $_POST['name'] != "" || $_POST['code'] != "" || $_POST['units'] ){
+        
+        $id=$_REQUEST['updid'];
+        $name=$_POST['name'];
+        $code=$_POST['code'];
+        $units=$_POST['units'];
+       
+        $sql="UPDATE subjects set name_subj=?, code_subj=?, units_subj=? where id_subj=?";
+        $query = $conn->prepare($sql);
+        $query->execute([$name,$code,$units,$id]);
+
+        header("location: ../subjects.php");
         
       }
     }

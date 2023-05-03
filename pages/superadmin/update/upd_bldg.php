@@ -33,30 +33,36 @@ $result->execute([$id]);
 
 ?>
   
-<head>
+  <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../../css/css_update/updatestyle.css">
     
-    <title>Edit Buildings</title>
+    <title>Edit Building</title>
 </head>
 <body>
 
     
    
-        <div class="login-container">
-            <p class="title">EDIT BUILDINGS</p>
-            <form method="post">
-                <div>
-                    <label>Name</label>
-                    <input type="text" name="name"  value="<?php echo $name;?>" required/>
-                </div>
-                <div>
-                    <label>Code</label>
-                    <input type="text" name="code" class="form-control" value="<?php echo $code;?>" required>
-                </div>
-           
-                <a href="../buildings.php"><input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel" ></a>
-                <input type="submit" class="btn btn-info" name="updBtn" value="Save">
+    <div class="edit-wrapper">
+        <div class="edit-container">
+            <p class="title">EDIT BUILDING</p>
+            <div class="separator"></div>
+            <form class="login-form" method="post">
+                
+                <label>Name</label>
+                    <div class="form-control">
+                        <input type="text" name="name"  value="<?php echo $name;?>" required/>
+                    </div>
+                    <div>
+                        
+                <label>Code</label>
+                    <div class="form-control">
+                        <input type="text" name="code" value="<?php echo $code;?>" required>
+                    </div>
+            
+                    <a href="../buildings.php"><input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel" ></a>
+                    <button class="submit" name="updBtn">Save</button> 
             </form>
         </div>
 

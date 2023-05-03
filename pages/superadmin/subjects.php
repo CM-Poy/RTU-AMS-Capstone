@@ -8,7 +8,7 @@
   if(isset($_POST['addbtn'])){
     include('../includes/functions.php');
     $obj=new dbfunction();
-    $obj->addSub($_POST['code'],$_POST['name'],$_POST['units']);
+    $obj->addSub($_POST['name'],$_POST['code'],$_POST['units']);
   }
 
   if(isset($_POST['btnDel'])){
@@ -125,7 +125,6 @@
                   </div>
                   <div class="col-sm-6">
                     <a href="#addModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add New</span></a>
-                    <a href="#delModal" class="btn btn-danger" data-toggle="modal"><i class="material-icons">&#xE15C;</i> <span>Delete</span></a>						
                   </div>
                 </div>
               </div>
@@ -155,12 +154,12 @@
                             <form action="subjects.php" method="post">
                               <tr>
                                     <td hidden>'.$id_subj.'</td>
-                                    <td name="codeSubj">'.$code_subj.'</td>
                                     <td name="nameSubj">'.$name_subj.'</td>
+                                    <td name="codeSubj">'.$code_subj.'</td>
                                     <td name="unitsSubj">'.$units_subj.'</td>
                                     <td>
                                       
-                                      <a href="#editModal" class="editBtn" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                                      <a href="update/upd_sub.php?updid='.$id_subj.'"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
                                       <a href="#delModal" class="delBtn" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
                                      
                                     </td>
@@ -217,14 +216,14 @@
                   <h4 class="modal-title">Add Subject</h4>
                   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 </div>
-                <div class="modal-body">					
-                  <div class="form-group">
-                    <label>Code</label>
-                    <input type="text" name="code" class="form-control" required>
-                  </div>
+                <div class="modal-body">	
                   <div class="form-group">
                     <label>Name</label>
                     <input type="text" name="name" class="form-control" required>
+                  </div>
+                  <div class="form-group">
+                    <label>Code</label>
+                    <input type="text" name="code" class="form-control" required>
                   </div>
                   <div class="form-group">
                     <label>Units</label>

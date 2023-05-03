@@ -47,9 +47,9 @@ $result->execute([$id]);
 
 ?>
   
-<head>
-    <meta charset="UTF-8">
+  <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <link rel="stylesheet" href="../../../css/css_update/updatestyle.css">
     
     <title>Edit Student</title>
 </head>
@@ -57,113 +57,123 @@ $result->execute([$id]);
 
     
    
-        <div class="login-container">
+<div class="edit-wrapper">
+        <div class="edit-container">
             <p class="title">EDIT STUDENT</p>
+            <div class="separator"></div>
+            <form class="login-form" method="post">
                    
             <form method="post">
-                <div>
-                    <label>Full Name</label>
-                    <input type="text" name="flname"  value="<?php echo $flname_std;?>" required/>
+              
+              <label>Full Name</label>
+                <div class="form-control">
+                  <input type="text" name="flname"  value="<?php echo $flname_std;?>" required/>
                 </div>
-                <div>
-                    <label>Institutional Email</label>
-                    <input type="email" name="email" class="form-control" value="<?php echo $instemail_std;?>" required>
-                  </div>
-                  <div>
-                    <label>Student Number</label>
-                    <input type="text" name="studnum" class="form-control" value="<?php echo $studnum_std;?>" required>
-                  <div>
-                    <label>Guardian Full Name</label>
-                    <input type="text" name="gflname" class="form-control" value="<?php echo $gflname_std;?>" required>
-                  </div>			
-                  <div>
-                    <label>Guardian Email</label>
-                    <input type="email" name="gemail" class="form-control" value="<?php echo $gemail_std;?>"required>
-                  </div>	  
-                  <div class="form-group">
-                    <label>Course</label>
-                   
+              
+              <label>Institutional Email</label>
+                <div class="form-control">
+                  <input type="email" name="email" value="<?php echo $instemail_std;?>" required>
+                </div>
+                
+              <label>Student Number</label>
+                <div class="form-control">
+                  <input type="text" name="studnum"  value="<?php echo $studnum_std;?>" required>
+                </div>
+                
+              <label>Guardian Full Name</label>
+                <div class="form-control">
+                  <input type="text" name="gflname" value="<?php echo $gflname_std;?>" required>
+                </div>			
+                
+              <label>Guardian Email</label>
+                <div class="form-control">
+                  <input type="email" name="gemail" value="<?php echo $gemail_std;?>"required>
+                </div>	  
+                
+              <label>Course</label>
+                <div class="form-control">
+                  
 
-                    <?php
-                      echo '<select name="crs" id="crs" style="width: 340px">
-                      <option value='.$code_crs.'>'.$code_crs.'</option>';
+                  <?php
+                    echo '<select name="crs" id="crs" style="width: 100%">
+                    <option value='.$code_crs.'>'.$code_crs.'</option>';
+                    
+                    $sql = "SELECT id_crs, name_crs, code_crs from courses";
+                    $result = $conn->prepare($sql);
+                    $result->execute();
+                
+                    if($result->rowCount() > 0){
+                    while ($row = $result->fetch(PDO::FETCH_ASSOC)){
+                        $id_crs=$row["id_crs"];
+                        $name_crs=$row["name_crs"];
+                        $code_crs=$row["code_crs"];
+                    
+                        echo '<option value= '.$id_crs.'>'.$name_crs.'</option>';
+                        }
+                    }
+
+                    echo '</select>';
+                  ?>
+
+                </div>			
+                
+              <label>Year Level</label>
+                <div class="form-control">
+
+                  <?php
+
+                    echo '<select name="yr" id="yr" style="width: 100%">
+                    <option value='.$id_yr.'>'.$yearlvl_yr.'</option>';
+
+                    $sql = "SELECT id_yr, yearlvl_yr from year";
+                    $result = $conn->prepare($sql);
+                    $result->execute();
+
+                    if($result->rowCount() > 0){
+                    while ($row = $result->fetch(PDO::FETCH_ASSOC)){
+                        $id_yr=$row["id_yr"];
+                        $yearlvl_yr=$row["yearlvl_yr"];
+
+                        
+                        echo'<option value= '.$id_yr.' >'.$yearlvl_yr.'</option>';
+                        }
+                    }
+
+                    echo '</select>';
+                  ?>
+
+                </div>			
+                
+              <label>Section</label>
+                <div class="form-control">
+                  
+                  <?php
+                      echo '<select name="sec" id="sec" style="width: 100%">
+                      <option value='.$code_sec.'>'.$code_sec.'</option>';
                       
-                      $sql = "SELECT id_crs, name_crs, code_crs from courses";
+                      $sql = "SELECT * from sections";
                       $result = $conn->prepare($sql);
                       $result->execute();
                   
                       if($result->rowCount() > 0){
                       while ($row = $result->fetch(PDO::FETCH_ASSOC)){
-                          $id_crs=$row["id_crs"];
-                          $name_crs=$row["name_crs"];
-                          $code_crs=$row["code_crs"];
+                          $id_sect=$row["id_sec"];
                       
-                          echo '<option value= '.$id_crs.'>'.$name_crs.'</option>';
+                          $code_sect=$row["code_sec"];
+                      
+                          echo '<option value= '.$id_sect.'>'.$code_sect.'</option>';
                           }
                       }
 
                       echo '</select>';
-                    ?>
-
-                  </div>			
-                  <div class="form-group">
-                    <label>Year Level</label>
-
-                    <?php
-
-                      echo '<select name="yr" id="yr" style="width: 340px">
-                      <option value='.$id_yr.'>'.$yearlvl_yr.'</option>';
-
-                      $sql = "SELECT id_yr, yearlvl_yr from year";
-                      $result = $conn->prepare($sql);
-                      $result->execute();
-
-                      if($result->rowCount() > 0){
-                      while ($row = $result->fetch(PDO::FETCH_ASSOC)){
-                          $id_yr=$row["id_yr"];
-                          $yearlvl_yr=$row["yearlvl_yr"];
-
-                          
-                          echo'<option value= '.$id_yr.' >'.$yearlvl_yr.'</option>';
-                          }
-                      }
-
-                      echo '</select>';
-                    ?>
-
-                  </div>			
-                  <div class="form-group">
-                    <label>Section</label>
-                   
-                    <?php
-                        echo '<select name="sec" id="sec" style="width: 340px">
-                        <option value='.$code_sec.'>'.$code_sec.'</option>';
-                        
-                        $sql = "SELECT * from sections";
-                        $result = $conn->prepare($sql);
-                        $result->execute();
-                    
-                        if($result->rowCount() > 0){
-                        while ($row = $result->fetch(PDO::FETCH_ASSOC)){
-                            $id_sect=$row["id_sec"];
-                        
-                            $code_sect=$row["code_sec"];
-                        
-                            echo '<option value= '.$id_sect.'>'.$code_sect.'</option>';
-                            }
-                        }
-
-                        echo '</select>';
-                    ?>
-
-
-                  </div>						
-                </div>
+                  ?>
+                </div>						
 
 
                 <a href="../students.php"><input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel" ></a>
-                <input type="submit" class="btn btn-info" name="updBtn" value="Save">
+                <button class="submit" name="updBtn">Save</button>
             </form>
+          </div>
         </div>
 
     
