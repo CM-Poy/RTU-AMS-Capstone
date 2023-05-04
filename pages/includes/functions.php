@@ -1,7 +1,9 @@
 <?php
 require_once('config.php');
+require_once ('../../vendor/phpqrcode/qrlib.php');
 session_start();
 class dbfunction{
+
 
 
 //---LOGIN
@@ -47,7 +49,8 @@ class dbfunction{
       } 
     }
   }      
-      
+   
+  
 
 //---ADD USER(SUPERADMIN)
   function addUserSupAdmin($hnr_users,$flname_users,$instemail_users,$empnum_users,$pwdhashed,$usertype_users){
@@ -114,6 +117,10 @@ class dbfunction{
       $yrlvl = $_POST['yrLvlStd'];
       $sectname = $_POST['sectNameStd'];
 
+      $path = '../../images/qrcodes/';
+      $qrcode = $path.$fullname.$studnum.".png";
+      $qrimage = $fullname.$studnum.".png";
+
       //check if existing
       $stmt = $conn->prepare("SELECT * FROM students WHERE instemail_std=?");
       $stmt2 = $conn->prepare("SELECT * FROM students WHERE studnum_std=?");
@@ -139,35 +146,21 @@ class dbfunction{
         }
       }else{
     
-        $sql = "INSERT INTO students (	
-        flname_std,
-        instemail_std,	
-        studnum_std,	
-        gflname_std,	
-        gemail_std,	
-        crs_id,	
-        yrlvl_id,	
-        sec_id) VALUES (:flname, :email, :studnum, :gflname, :gemail, :crsNameStd, :yrLvlStd, :sectNameStd)";
+        $sql = "INSERT INTO students (flname_std,instemail_std,studnum_std,gflname_std,gemail_std,crs_id,yrlvl_id,sec_id,qrcode_std) VALUES (?,?,?,?,?,?,?,?,?)";
         $result = $conn->prepare($sql);
+        $result->execute([$fullname,$email,$studnum,$gflname,$gemail,$crsname,$yrlvl,$sectname,$qrimage]);
 
-      $data = [
-          ':flname' => $fullname,
-          ':email' => $email,
-          ':studnum' => $studnum,
-          ':gflname' => $gflname,
-          ':gemail' => $gemail,
-          ':crsNameStd' => $crsname,
-          ':yrLvlStd' => $yrlvl,
-          ':sectNameStd' => $sectname,
-      ];
-      $result->execute($data);
-      if($result)
-      echo '<script type="text/javascript">';
-      echo 'alert("Added Successfully")';  //not showing an alert box.
-      echo '</script>';
+          if($result){
+            
+              echo '<script type="text/javascript">';
+              echo 'alert("Added Successfully")';  //not showing an alert box.
+              echo '</script>';
+
+              QRcode::png($fullname, $qrcode, 'H', 5, 5);
+            }
+      }
     }
   }
-}
 
 
 
@@ -363,13 +356,15 @@ class dbfunction{
         $yr=$_POST['yr'];
         $sec=$_POST['sec'];
 
+        $sql="SELECT * from students where id_std=?";
+        $query = $conn->prepare($sql);
+        $query->execute([$id,$flname,$email,$studnum,$gflname,$gemail,$crs,$yr,$sec,$id]);
+
         $sql="UPDATE students set id_std=?, flname_std=?, instemail_std=?, studnum_std=?, gflname_std=?, gemail_std=?, crs_id=?, yrlvl_id=?, sec_id=? where id_std=?";
         $query = $conn->prepare($sql);
         $query->execute([$id,$flname,$email,$studnum,$gflname,$gemail,$crs,$yr,$sec,$id]);
 
         header("location: ../students.php");
-
-
         
       }
     }
@@ -574,52 +569,47 @@ class dbfunction{
     
     global $conn;
     if(ISSET($_POST['updBtn'])){
-      if($_SESSION['user'] != "" || $_POST['oldpwd'] != "" || $_POST['newpwd'] != "" || $_POST['conpwd'] ){
-        $userid=$_SESSION['user'];
+      if($_REQUEST['updid'] !="" || $_POST['oldpwd'] != "" || $_POST['newpwd'] != "" || $_POST['conpwd'] ){
         
-        
+        $id=$_REQUEST['updid'];
         $oldpwd=$_POST['oldpwd'];
         $newpwd=password_hash($_POST['newpwd'],PASSWORD_DEFAULT);
         $conpwd=password_hash($_POST['conpwd'],PASSWORD_DEFAULT);
 
-        $sql="SELECT pwd_users FROM users where id_users=?";
+        $sql="SELECT * FROM users where id_users=?";
         $query= $conn->prepare($sql);
-        $query->execute([$userid]);
+        $query->execute([$id]);
         $row = $query->fetch();
         
+
+        if($row > 0){
           if(password_verify($oldpwd,$row['pwd_users'])){
+            if($newpwd===$conpwd){
 
-            if($row> 0){
+              $sql2="UPDATE users set pwd_users=? where id_users=?";
+              $query2 = $conn->prepare($sql2);
+              $query2->execute([$newpwd,$id]);
 
-              if($newpwd===$conpwd){
-
-                $sql2="UPDATE users set pwd_users=? where id_users=?";
-                $query2 = $conn->prepare($sql2);
-                $query2->execute([$newpwd,$userid]);
-              }else{
-                echo '<script>alert("Passwords are incorrect. Must be the same.");</script>';
-               // $_SESSION['pwderror']="Passwords are incorrect. Must be the same.";
-              }
-              
+             echo "UPDAT SUCCESS";
             }else{
-              echo '<script>alert("No Records Found.");</script>';
-             // $_SESSION['pwderror']="No Records Found.";
+              echo "Passwords are incorrect. Must be the same.";
+              //$_SESSION['pwderror']="Passwords are incorrect. Must be the same.";
+
             }
+
           }else{
-            echo '<script>alert("Invalid Old Password.");</script>';
-           // $_SESSION['pwderror']="Invalid Old Password.";
+            echo "Invalid Old Password.";
+           //$_SESSION['pwderror']="Invalid Old Password.";
           }
 
-       
-
-           
-      }
-          
-
-       
-        
+        }else{
+          echo "No Records Found.";
+         //$_SESSION['pwderror']="No Records Found.";
+        }     
+      }       
     }
   }
+
   
 
 

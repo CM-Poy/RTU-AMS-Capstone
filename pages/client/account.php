@@ -31,7 +31,7 @@ if(isset($_POST['btnUpd'])){
   include('includes/functions.php');
   $obj=new dbfunction();
   $obj->updUsrPwd($_POST['oldpwd'], $_POST['newpwd'], $_POST['conpwd']);
-  }
+}
 
 
 ?>
@@ -241,8 +241,8 @@ if(isset($_POST['btnUpd'])){
                       <h6 class="mb-0">Password</h6>
                     </div>
                     <div class="col-sm-9 text-secondary">
-                      <input type=password value =<?php echo $empnum; ?> disabled/> 
-                      <a class="btn btn-info" href="#editModal" class="editBtn" data-toggle="modal">Change</a>
+                      <input type=password value =<?php echo $pwd;?> disabled/>
+                      <a href="update/upd_pwd.php?updid=<?php echo $id; ?>" class="btn btn-info">Change</a>
                     </div>
                   </div>
 
@@ -258,38 +258,7 @@ if(isset($_POST['btnUpd'])){
           </div>
    
 
-      <!--EDIT PASSWORD MODAL-->
-      <div id="editModal" class="modal fade">
-          <div class="modal-dialog ">
-            <div class="modal-content">
-            <form method= "post">
-              <input type="text" class="form-control" name="id" id="id"hidden>
-                <div class="modal-header">						
-                  <h4 class="modal-title">Change Password</h4>
-                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                </div>
-                <div class="modal-body">					
-                  <div class="form-group">
-                    <label>Old Password</label>
-                    <input   type="password" class="form-control" name="oldpwd" id="oldpwd"required><span toggle="#oldpwd" class="fa fa-fw fa-eye field-icon toggle-password"></span>
-                  </div>
-                  <div class="form-group">
-                    <label>New Password</label>
-                    <input type="password" class="form-control" name="newpwd" id="newpwd"required><span toggle="#newpwd" class="fa fa-fw fa-eye field-icon toggle-password"> </span>
-                  </div>
-                  <div class="form-group">
-                    <label>Confirm Password</label>
-                    <input type="password" class="form-control" name="conpwd" id="conpwd"required><span toggle="#conpwd" class="fa fa-fw fa-eye field-icon toggle-password"> </span>
-                  </div>
-                  
-                <div class="modal-footer">
-                  <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                  <input type="submit" class="btn btn-success" name="updBtn" value="Change">
-                </div>
-            </form>
-            </div>
-          </div>
-        </div>
+
    
     <script src="../../js/jquery.min.js"></script>
     <script src="../../js/popper.js"></script>
