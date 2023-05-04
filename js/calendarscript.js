@@ -70,6 +70,14 @@ function initCalendar() {
   const nextDays = 7 - lastDay.getDay() - 1;
 
   date.innerHTML = months[month] + " " + year;
+  
+  $holidays = array(
+    15 = "Independence Day", 
+    19 = "Muharram", 
+    21 = "Onam", 
+    22 = "Raksha Bandhan", 
+    30 => "Janmashtami"
+);
 
   let days = "";
 

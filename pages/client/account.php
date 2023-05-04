@@ -9,28 +9,7 @@
     <link rel="stylesheet" href="../../css/css_client/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script>
-        $(document).ready(function(){
-            $(".profile .icon_wrap").click(function(){
-              $(this).parent().toggleClass("active");
-              $(".notifications").removeClass("active");
-            });
-
-            $(".notifications .icon_wrap").click(function(){
-              $(this).parent().toggleClass("active");
-               $(".profile").removeClass("active");
-            });
-
-            $(".show_all .link").click(function(){
-              $(".notifications").removeClass("active");
-              $(".popup").show();
-            });
-
-            $(".close").click(function(){
-              $(".popup").hide();
-            });
-        });
-    </script>
+       
    <style>
 
 .card{
