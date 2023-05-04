@@ -13,6 +13,8 @@
       die();
   }
 
+  
+
   $Authenticator = new Authenticator();
   $checkResult = $Authenticator->verifyCode($_SESSION['auth_secret'], $_POST['code'], 2);    // 2 = 2*30sec clock tolerance
 

@@ -139,7 +139,7 @@
                        
                        if($result->rowCount() > 0){
                          while ($row = $result->fetch(PDO::FETCH_ASSOC)){
-                            $id_schd=$row["id_schd"];
+                           $id_schd=$row["id_schd"];
                            $user_id=$row["flname_users"];
                            $sub_id=$row["code_subj"];
                            $sec_id=$row["code_sec"];

@@ -114,7 +114,7 @@
                   <tr>
                     <th hidden></th>
                     <th>Code</th>
-                    <th>Name</th>
+                    <th>Building</th>
                     <th>Actions</th>
                   </tr>
                 </thead>
@@ -140,7 +140,7 @@
                                 <td name="code_dept">'.$bldg_id.'</td>
                                 
                                 <td>
-                                  <a href="#editModal" class="editBtn" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                                  <a href="update/upd_rooms.php?updid='.$id_room.'"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
                                   <a href="#delModal"  class="delBtn" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
                                 </td>
                             </tr>

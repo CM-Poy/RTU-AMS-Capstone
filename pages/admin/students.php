@@ -9,8 +9,6 @@
     $_SESSION['error'] = false;
   }
 
-  
-
 
   if(isset($_POST['addbtn'])){
     include('../includes/functions.php');
@@ -21,7 +19,7 @@
   if(isset($_POST['updbtn'])){
     include('../includes/functions.php');
     $obj=new dbfunction();
-    $obj->updStd($_POST['flname'],$_POST['email'],$_POST['studnum'],$_POST['gflname'],$_POST['gemail'],$_POST['crs'],$_POST['yrlvl'],$_POST['sect']);
+    $obj->updStd($_REQUEST['updid'],$_POST['flname'] , $_POST['email'] , $_POST['studnum'] , $_POST['gflname'] , $_POST['gemail'] , $_POST['crs'] , $_POST['yr'] , $_POST['sec']);
   }
 
 
@@ -188,7 +186,7 @@
                           
                           <td>
                           
-                            <a href="#editModal" class="editBtn" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                          <a href="update/upd_std.php?updid='.$id_std.'"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
                             <a href="#delModal" class="delBtn"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
                             
                           </td>

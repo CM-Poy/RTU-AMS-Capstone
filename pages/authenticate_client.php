@@ -91,7 +91,7 @@ if (!isset($_SESSION['failed'])) {
         <div class="row">
             <div class="col-md-6 offset-md-3" id="card">
                <img style="text-align: center ;" class="img-logo" src="../images/rtu-logo.png"><br><br>
-                <b><p class="header">RTU-BONI ATTENDANCE MANAGEMENT SYSTEM AUTHENTICATOR</p></b>
+                <b><p class="header">RTU-BONI ATTENDANCE MANAGEMENT SYSTEM AUTHENTICATOR - <i>TEACHER</i></p></b>
                 <p style="font-style: italic; text-align: center;">Powered by Google Authenticator</p>
                 <hr>
                 <form action="client/home.php" method="post">
