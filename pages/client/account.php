@@ -27,11 +27,7 @@ if (!isset($_SESSION['pwderror'])) {
   $_SESSION['pwderror'] = false;
 }
 
-if(isset($_POST['btnUpd'])){
-  include('includes/functions.php');
-  $obj=new dbfunction();
-  $obj->updUsrPwd($_POST['oldpwd'], $_POST['newpwd'], $_POST['conpwd']);
-}
+
 
 
 ?>

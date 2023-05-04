@@ -1,9 +1,15 @@
 <?php
+declare(strict_types=1);
 require_once('config.php');
-require_once ('../../vendor/phpqrcode/qrlib.php');
+require_once('../../vendor/autoload.php');
+use chillerlan\QRCode\QRCode;
+use chillerlan\QRCode\QROptions;
+
+
 session_start();
 class dbfunction{
 
+  
 
 
 //---LOGIN
@@ -118,8 +124,8 @@ class dbfunction{
       $sectname = $_POST['sectNameStd'];
 
       $path = '../../images/qrcodes/';
-      $qrcode = $path.$fullname.$studnum.".png";
-      $qrimage = $fullname.$studnum.".png";
+      $qrloc = $path.$fullname.$studnum.".svg";
+      $qrimage = $fullname.$studnum.".svg"; 
 
       //check if existing
       $stmt = $conn->prepare("SELECT * FROM students WHERE instemail_std=?");
@@ -135,6 +141,11 @@ class dbfunction{
       $user = $stmt->fetch();
       $user2 = $stmt2->fetch();
       $user3 = $stmt3->fetch();
+
+      
+
+      
+
       
       if($user) {
         $_SESSION['error']="Email Already Exist.";
@@ -156,7 +167,22 @@ class dbfunction{
               echo 'alert("Added Successfully")';  //not showing an alert box.
               echo '</script>';
 
-              QRcode::png($fullname, $qrcode, 'H', 5, 5);
+
+
+              //GENERATING AND SAVING QR CODE TO IMAGES FOLDER
+              $options = new QROptions(
+                [
+                    'eccLevel' => QRCode::ECC_L,
+                    'outputType' => QRCode::OUTPUT_MARKUP_SVG,
+                    'version' => 5
+                ]
+                );
+
+                
+                $qrcode=(new QRCode($options))->render($fullname, $qrloc);
+
+
+              
             }
       }
     }

@@ -162,7 +162,7 @@
                                 <td>
                                   
                                 <a href="update/upd_users.php?updid='.$id_users.'"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                                  <a href="#delModal" value = '.$id_users.' class="delBtn" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                                <a href="#delModal" value = '.$id_users.' class="delBtn" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
                                   
                                 </td>
                             </tr>
