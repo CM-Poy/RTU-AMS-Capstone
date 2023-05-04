@@ -177,7 +177,7 @@ class dbfunction{
           ':sectNameStd' => $sectname,
       ];
       $result->execute($data);
-     
+    
     }
   }
 }
