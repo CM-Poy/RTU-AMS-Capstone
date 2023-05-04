@@ -1,3 +1,5 @@
+
+<link rel='icon' href='../../images/rtu-logo.png'/>
 <?php 
 require('../includes/config.php');
 include('../includes/header.php');

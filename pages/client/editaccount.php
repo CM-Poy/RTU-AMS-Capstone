@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <link rel='icon' href='../../images/rtu-logo.png'/>
-  	<title>Account</title>
+  	<title>Edit Account</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">	
@@ -13,34 +13,25 @@
        
    <style>
 
-#content{
-    margin: 0;
-    padding: 0;
-    background-image: url('../../images/blurbg.png');
-    height: 100%;
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
-}
-  .account-settings .user-profile {
+.account-settings . {
     margin: 0 0 1rem 0;
     padding-bottom: 1rem;
     text-align: center;
 }
-.account-settings .user-profile .user-avatar {
+.account-settings  .user-avatar {
     margin: 0 0 1rem 0;
 }
-.account-settings .user-profile .user-avatar img {
+.account-settings . .user-avatar img {
     width: 90px;
     height: 90px;
     -webkit-border-radius: 100px;
     -moz-border-radius: 100px;
     border-radius: 100px;
 }
-.account-settings .user-profile h5.user-name {
+.account-settings . h5.user-name {
     margin: 0 0 0.5rem 0;
 }
-.account-settings .user-profile h6.user-email {
+.account-settings  h6.user-email {
     margin: 0;
     font-size: 0.8rem;
     font-weight: 400;
@@ -77,6 +68,18 @@
 }
 
 
+
+
+
+#content{
+    margin: 0;
+    padding: 0;
+    background-image: url('../../images/blurbg.png');
+    height: 100%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
 @media(max-width: 990px){
   .card{
     margin: 20px;
@@ -121,24 +124,20 @@
             <a class="nav-link font-weight-bold text-justify" id="page-title">ATTENDANCE MANAGEMENT SYSTEM</a> 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
               <ul class="nav navbar-nav ml-auto">
+                
                 <li class="nav-item">
                 <a class="nav-link" href="../login.php">Logout</a>
                 </li> 
-            </ul>
+              </ul>
             
             </div>
-
           </div>
             
         </nav>
-
-    
           <!-- Breadcrumb -->
-          <!-- /Breadcrumb -->
-    
           
-        
-          <div class="col">
+          <!-- /Breadcrumb -->
+            <div class="col">
             <div class="card h-100">
               <div class="card-body">
                 <div class="row gutters">
@@ -148,25 +147,26 @@
                   <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                     <div class="form-group">
                       <label for="fullName">Full Name</label>
-                      <h6>Aboutasdfsfasfasdf</h6>
+                      <input type="text" class="form-control" id="fullName" placeholder="Enter full name">
                     </div>
                   </div>
                   <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                     <div class="form-group">
                       <label for="eMail">Email</label>
-                      <h6>About</h6>
+                      <input type="email" class="form-control" id="eMail" placeholder="Enter email ID">
+                    <hr>
                     </div>
                   </div>
                   <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                     <div class="form-group">
                       <label for="phone">Phone</label>
-                      <h6>About</h6>
+                      <input type="text" class="form-control" id="phone" placeholder="Enter phone number">
                     </div>
                   </div>
                   <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                     <div class="form-group">
                       <label for="website">Website URL</label>
-                      <h6>About</h6>
+                      <input type="url" class="form-control" id="website" placeholder="Website url">
                     </div>
                   </div>
                 </div>
@@ -177,32 +177,33 @@
                   <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                     <div class="form-group">
                       <label for="Street">Street</label>
-                      <h6>About</h6>
+                      <input type="name" class="form-control" id="Street" placeholder="Enter Street">
                     </div>
                   </div>
                   <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                     <div class="form-group">
                       <label for="ciTy">City</label>
-                      <h6>About</h6>
+                      <input type="name" class="form-control" id="ciTy" placeholder="Enter City">
                     </div>
                   </div>
                   <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                     <div class="form-group">
                       <label for="sTate">State</label>
-                      <h6>About</h6>
+                      <input type="text" class="form-control" id="sTate" placeholder="Enter State">
                     </div>
                   </div>
                   <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                     <div class="form-group">
                       <label for="zIp">Zip Code</label>
-                      <h6>About</h6>
+                      <input type="text" class="form-control" id="zIp" placeholder="Zip Code">
                     </div>
                   </div>
                 </div>
                 <div class="row gutters">
                   <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                     <div class="text-right">
-                      <a href="editaccount.php  " class="btn btn-primary" role="button">Edit</a>
+                       <a href="account.php  " class="btn btn-secondary" role="button">Cancel</a>
+                      <a href="" class="btn btn-primary" role="button">Update</a>
                     </div>
                   </div>
                 </div>
@@ -211,14 +212,11 @@
             </div>
             </div>
             </div>
-          
 
-        </div>
-     </div>
-      
-      </div>
-      
-      </div>
+                   
+                </div>
+            </div>
+          </div>
     <script src="../../js/jquery.min.js"></script>
     <script src="../../js/popper.js"></script>
     <script src="../../js/bootstrap.min.js"></script>
