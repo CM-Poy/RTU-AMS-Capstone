@@ -3504,7 +3504,7 @@ input[type="button"].btn-block {
   line-height: 1;
   background-color: transparent;
   border: 1px solid transparent;
-  border-radius: 0.25rem; }
+  border-radius: 1rem; }
   .navbar-toggler:hover, .navbar-toggler:focus {
     text-decoration: none; }
 
@@ -8544,4 +8544,128 @@ a[data-toggle="collapse"] {
 .popup .notification_dd li.title .close:hover{
   opacity: 0.5;
 }
+#myTable{
+  margin: auto;
+  margin-top: 70px;
+  padding: 15px;
+  width: 355px;
+  
+}
+#myTable th{
+  border: 1px solid black;
+  text-align: center;
+  background-color: 2FB8D4;
+
+}
+#myTable td{
+  border: 1px solid black;
+  text-align: center;
+}
+
+
+#random-name {
+  margin: 2rem 0;
+  color: black;
+  }
+
+#rando {
+  padding-top: 80px;
+}
+
+#random-name {
+  font-size: 30px;
+}
+  
+
+#fulln {
+  font-size: 15px;
+  padding-left: 5px;
+}
+
+#rem {
+  margin-left: 15px;
+}
+.card{
+  color: aqua;
+}
+.btn{
+  position: relative;
+  background-color: black;
+  border-radius: 4em;
+  font-size: 16px;
+  color: white;
+  padding: 0.8em 1.8em;
+  cursor:pointer;
+  user-select:none;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition-duration: 0.4s;
+  -webkit-transition-duration: 0.4s; /* Safari */
+}
+
+.btn:hover {
+  transition-duration: 0.1s;
+  background-color: #3A3A3A;
+}
+
+.btn:after {
+  content: "";
+  display: block;
+  position: absolute;
+  border-radius: 4em;
+  left: 0;
+  top:0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: all 0.5s;
+  box-shadow: 0 0 10px 40px white;
+}
+
+.btn:active:after {
+  box-shadow: 0 0 0 0 white;
+  position: absolute;
+  border-radius: 4em;
+  left: 0;
+  top:0;
+  opacity: 1;
+  transition: 0s;
+}
+
+.btn:active {
+  top: 1px;
+}
+.animate{
+  animation: 2s anim-popoutin ease;
+  }
+  
+  @keyframes anim-popoutin {
+    0% {
+      color: black;
+      transform: scale(0);
+      opacity: 0;
+      text-shadow: 0 0 0 rgba(0, 0, 0, 0);
+    }
+    25% {
+      color: blue;
+      transform: scale(2);
+      opacity: 1;
+      text-shadow: 3px 10px 5px rgba(0, 0, 0, 0.5);
+    }
+    50% {
+      color: black;
+      transform: scale(1);
+      opacity: 1;
+      text-shadow: 1px 0 0 rgba(0, 0, 0, 0);
+    }
+    100% {
+      /* animate nothing to add pause at the end of animation */
+      transform: scale(1);
+      opacity: 1;
+      text-shadow: 1px 0 0 rgba(0, 0, 0, 0);
+    }
+  }
+
+  
 

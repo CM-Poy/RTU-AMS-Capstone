@@ -157,32 +157,16 @@ class dbfunction{
       $user2 = $stmt2->fetch();
       $user3 = $stmt3->fetch();
       
-      if($user) {
-        echo '<script type="text/javascript">';
-        echo 'alert("Email Already Exist")';  
-        echo '</script>';
-      }
-
-      
-     
-      
-      
-       else if($user2) {
-        echo '<script type="text/javascript">';
-        echo 'alert("Student Number Already Exist")';  
-        echo '</script>';
-      
-      } 
-      
-      
-      
-      
-       else if($user3) {
-        echo '<script type="text/javascript">';
-        echo 'alert(" Guardian Email Already Exist")';  
-        echo '</script>';
-       }
-       else{
+      if($user) 
+        $_SESSION['error']="Email Already Exist.";
+        else if($user2)
+          $_SESSION['error']="Studnum Already Exist.";
+          else if($user3)
+            $_SESSION['error']="Guardian Email Already Exist.";
+        
+        
+       
+        else{
       
        
 
@@ -210,10 +194,7 @@ class dbfunction{
           ':sectNameStd' => $sectname,
       ];
       $result->execute($data);
-      if($result)
-      echo '<script type="text/javascript">';
-      echo 'alert("Added Successfully")';  //not showing an alert box.
-      echo '</script>';
+     
     }
   }
 }
@@ -255,24 +236,52 @@ class dbfunction{
 
 
 
-  function addSub($code,$name,$units){
+  function addSub($name,$code,$units){
     global $conn;
     if(ISSET($_POST['addbtn'])){
-      if($_POST['code'] != "" || $_POST['name'] != "" || $_POST['units'] != ""){  
+       if ($_POST['name'] != "" || $_POST['code'] != "" || $_POST['units'] != ""){ 
 
  
-        $code=$_POST["code"];
+        
         $name=$_POST["name"];
+        $code=$_POST["code"];
         $units=$_POST["units"];
-       
 
-        $sql = "INSERT INTO  subjects (`code_subj`, `name_subj`, `units_subj`) VALUES (?,?,?)  ";
+        $stmt = $conn->prepare("SELECT * FROM subjects WHERE code_subj=?");
+        $stmt2 = $conn->prepare("SELECT * FROM subjects WHERE name_subj=?");
+  
+        //execute the statement
+        $stmt->execute([$code]); 
+        $stmt2->execute([$name]);
+        
+        //fetch result
+        $codesubj = $stmt->fetch();
+        $namesubj = $stmt2->fetch();
+        
+        
+        if($codesubj) 
+          $_SESSION['error']="Subject Code Already Exist.";
+          else if ($namesubj)
+            $_SESSION['error']="Subject Name Already Exist.";
+            
+          
+          
+         
+          
+        else{
+
+        $sql = "INSERT INTO  subjects (`name_subj`,`code_subj`, `units_subj`) VALUES (?,?,?)  ";
         $query = $conn->prepare($sql);
-        $query->execute([$code,$name,$units]);
+        $query->execute([$name,$code,$units]);
       
       }  
     }
   }
+}
+
+    
+  
+
 
 
 
@@ -285,6 +294,17 @@ class dbfunction{
         $code=$_POST["code"];
         $crs=$_POST["crsName"];
         $yrlvl=$_POST["yrlvl"];
+
+        $stmt = $conn->prepare("SELECT * FROM sections WHERE code_sec=?");
+        //execute the statement
+        $stmt->execute([$code]); 
+        //fetch result
+        $codesec = $stmt->fetch();
+        if($codesec) {
+          $_SESSION['error']="Section Code Already Exist.";
+            
+          }   
+        else{
        
 
         $sql = "INSERT INTO  sections (`code_sec`, `crs_id`, `yrlvl_id`) VALUES (?,?,?)  ";
@@ -294,6 +314,9 @@ class dbfunction{
       }  
     }
   }
+}
+
+  
 
 
 
@@ -310,6 +333,25 @@ class dbfunction{
         $strtime = $_POST['strTime'];
         $endtime = $_POST['endTime'];
         $room = $_POST['room'];
+
+        $stmt = $conn->prepare("SELECT * FROM subjects WHERE code_subj=?");
+        $stmt2 = $conn->prepare("SELECT * FROM subjects WHERE name_subj=?");
+  
+        //execute the statement
+        $stmt->execute([$code]); 
+        $stmt2->execute([$name]);
+        //fetch result
+        $codesubj = $stmt->fetch();
+        $namesubj = $stmt2->fetch();
+        
+        if($codesubj) 
+          $_SESSION['error']="Subject Code Already Exist.";
+          else if($namesubj)
+            $_SESSION['error']="Subject Name Already Exist.";
+            
+          
+          
+        else{
        
 
         $sql = "INSERT INTO  schedules (`user_id`, `sub_id`, `sec_id`, `day_schd`, `strtime_schd`, `endtime_schd`, `room_id`) VALUES (?,?,?,?,?,?,?)  ";
@@ -329,27 +371,49 @@ class dbfunction{
       }  
     }
   }
+}
+
 
 
 
   function addCrs($name,$code,$dept){
     global $conn;
     if(ISSET($_POST['addbtn'])){
-      if($_POST['code'] != "" || $_POST['name'] != "" || $_POST['dept'] != ""){  
+      if($_POST['name'] != "" || $_POST['code'] != ""  || $_POST['dept'] != ""){  
 
  
         $name=$_POST["name"];
         $code=$_POST["code"];
         $dept=$_POST["dept"];
+        $stmt = $conn->prepare("SELECT * FROM courses WHERE name_crs=?");
+        $stmt2 = $conn->prepare("SELECT * FROM courses WHERE code_crs=?");
+  
+        //execute the statement
+        $stmt->execute([$name]); 
+        $stmt2->execute([$code]);
+        
+        //fetch result
+        $namecrs = $stmt->fetch();
+        $codecrs = $stmt2->fetch();
+        
+        
+        if($namecrs) 
+          $_SESSION['error']="Course Name Already Exist.";
+          else if($codecrs)
+            $_SESSION['error']="Course code Already Exist.";
+            
+          
+        }else{
        
 
-        $sql = "INSERT INTO  courses (`code_crs`, `name_crs`, `dept_id`) VALUES (?,?,?)  ";
+        $sql = "INSERT INTO  courses (`name_crs`,`code_crs`,`dept_id`) VALUES (?,?,?)  ";
         $query = $conn->prepare($sql);
-        $query->execute([$code,$name,$dept]);
+        $query->execute([$name,$code,$dept]);
       
       }  
     }
   }
+
 
 
 
@@ -362,32 +426,84 @@ class dbfunction{
         $name=$_POST["name"];
         $code=$_POST["code"];
        
+        $stmt = $conn->prepare("SELECT * FROM departments WHERE name_dept =?");
+        $stmt2 = $conn->prepare("SELECT * FROM departments WHERE code_dept =?");
+  
+        //execute the statement
+        $stmt->execute([$name]); 
+        $stmt2->execute([$code]);
 
-        $sql = "INSERT INTO  departments (`name_dept`, `code_dept`) VALUES (?,?)  ";
+        
+        //fetch result
+        $namedepart = $stmt->fetch();
+        $codedepart = $stmt2->fetch();
+        
+        
+        if($namedepart)
+          $_SESSION['error']="Department Name Already Exist.";
+          else if($codedepart)
+            $_SESSION['error']="Department code Already Exist.";
+            
+      
+        else{  
+
+        $sql = "INSERT INTO  departments (`name_dept`,`code_dept`) VALUES (?,?)  ";
         $query = $conn->prepare($sql);
         $query->execute([$name,$code]);
       
       }  
     }
-    
   }
 }
+    
+  
 
 
-  function addBldg($code,$name){
+
+
+  function addBldg($name,$code){
     global $conn;
     if(ISSET($_POST['addbtn'])){
-      if($_POST['code'] != "" || $_POST['name'] != ""){  
-        $code=$_POST["code"];
+      if($_POST['name'] != "" || $_POST['code'] != ""  ){  
         $name=$_POST["name"];
+        $code=$_POST["code"];
+       
+
+        $stmt = $conn->prepare("SELECT * FROM building WHERE name_bldg=?");
+        $stmt2 = $conn->prepare("SELECT * FROM building WHERE code_bldg=?");
+  
+        //execute the statement
+        $stmt->execute([$name]); 
+        $stmt2->execute([$code]);
+        
+        //fetch result
+        $namebldg = $stmt->fetch();
+        $codebldg = $stmt2->fetch();
+        
+        
+        if($namebldg) 
+          $_SESSION['error']="Building Name Already Exist.";
+          else if($codebldg)
+            $_SESSION['error']="Building Code Already Exist.";
+            
+          
+          
+         
+          
+        else{
       
         $sql = "INSERT INTO building (`name_bldg`, `code_bldg`) VALUES (?,?)";
         $query = $conn->prepare($sql);
-        $query->execute([$code,$name]);
+        $query->execute([$name,$code]);
       
-      }  
+      } 
     }
   }
+} 
+
+    
+  
+
 
 
   function addRoom($code,$bldg){
@@ -396,6 +512,25 @@ class dbfunction{
       if($_POST['code'] != "" || $_POST['name'] != ""){  
         $code=$_POST["code"];
         $bldg=$_POST["bldg"];
+
+        $stmt = $conn->prepare("SELECT * FROM building WHERE code_room=?");
+       
+        //execute the statement
+     
+        $stmt->execute([$code]);
+        
+        //fetch result
+        
+        $coderoom = $stmt->fetch();
+        
+        
+        if($namebldg) 
+          $_SESSION['error']="Building Name Already Exist.";
+            
+          
+         
+          
+        else{
       
         $sql = "INSERT INTO room (`code_room`, `bldg_id`) VALUES (?,?)";
         $query = $conn->prepare($sql);
@@ -404,6 +539,7 @@ class dbfunction{
       }  
     }
   }
+}
 
 
   
@@ -568,3 +704,4 @@ class dbfunction{
 
 
 
+  }

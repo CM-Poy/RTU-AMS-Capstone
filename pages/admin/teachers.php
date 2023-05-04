@@ -10,7 +10,7 @@
 
  
 
-  if(isset($_POST['addbtnA'])){
+  if(isset($_POST['addbtn'])){
     include('../includes/functions.php');
     $obj=new dbfunction();
     $obj->addUserAdmin($_POST["hnr"],$_POST["name"],$_POST["email"],$_POST["empnum"],$_POST["pwd"],$_POST["usertype"]);
@@ -25,29 +25,7 @@
 
   
 
-  if(isset($_GET['page_no']) && $_GET['page_no'] !== ""){
-    $page_no = $_GET['page_no'];
-  }else{
-    $page_no = 1;
-  }
-
-  //total num rows to display
-  $total_records_perpage = 10;
-  //getting offset for for limit query
-  $offset = ($page_no - 1) * $total_records_perpage;
-  //previous page
-  $previous_page = $page_no - 1;
-  //next page
-  $next_page = $page_no + 1;
-
-  //getting the total number of records
-  $sql = "SELECT * from users where usertype_users < 3";
-  $totalnumrecords = $conn->prepare($sql); 
-  $totalnumrecords->execute();
-  //total records
-  $result_totalnumrecords=$totalnumrecords->rowCount();
-  //total pages
-  $total_numpages = ceil($result_totalnumrecords/$total_records_perpage);
+ 
 
 ?>
   
@@ -123,7 +101,7 @@
               <table id="tabler" class="table table-striped table-hover">
                 <thead>
                   <tr>
-                    
+                    <th hidden></th>
                     <th>Honoriffic</th>
                     <th>Full Name</th>
                     <th>Institutional Email</th>
@@ -136,7 +114,7 @@
                   
                 <?php
                         $sql = "SELECT users.id_users, users.hnr_users, users.flname_users, users.instemail_users, users.empnum_users, usertype.usertype, users.usertype_users, users.pwd_users FROM users
-                        LEFT JOIN usertype ON users.usertype_users = usertype.id_usertype where users.usertype_users < 3 LIMIT $offset, $total_records_perpage";
+                        LEFT JOIN usertype ON users.usertype_users = usertype.id_usertype where users.usertype_users < 3 ";
                         $result = $conn->prepare($sql);
                         $result->execute();
                        
@@ -153,8 +131,8 @@
                             echo '
                             <form action="subjects.php" method="post">
                               <tr>
-                             
-                                <td>'.$hnr_users.'</td>
+                                <td hidden>'.$id_users.'</td>
+                                <td style="width: 170px;height: 40px">'.$hnr_users.'</td>
                                 <td>'.$flname_users.'</td>
                                 <td>'.$instemail_users.'</td>
                                 <td>'.$empnum_users.'</td>

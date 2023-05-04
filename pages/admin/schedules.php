@@ -118,7 +118,7 @@
               <table id= "tabler" class="table table-striped table-hover">
                 <thead>
                   <tr>
-                    
+                    <th hidden></th>
                     <th>Full Name</th>
                     <th>Subject</th>
                     <th>Section</th>
@@ -150,8 +150,8 @@
                             echo '
                             <forM method="post">
                               <tr>
-                                    
-                                    <td>'.$user_id.'</td>
+                                    <td hidden>'.$id_schd.'</td>
+                                    <td style="width: 170px;height: 40px">'.$user_id.'</td>
                                     <td>'.$sub_id.'</td>
                                     <td>'.$sec_id.'</td>
                                     <td>'.$day.'</td>
