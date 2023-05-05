@@ -2,11 +2,16 @@
 <html lang="en">
 
 <?php
+
 session_start();
 include('../includes/header.php'); 
 require('../includes/config.php');
+date_default_timezone_set('Asia/Shanghai');
 
-$idschd=$_REQUEST['id'];
+
+$idschd=$_GET['id'];
+
+
 
 
 $sql="SELECT * from schedules  where id_schd=?";
@@ -25,10 +30,14 @@ if($query->rowCount() > 0){
     $room=$row['room_id'];
 
     $_SESSION['secid']=$row["sec_id"];
-
-
+    $_SESSION['schdid']=$row["id_schd"];
   }
 }
+
+ 
+
+
+
 
 
 ?>
@@ -95,8 +104,9 @@ if($query->rowCount() > 0){
                     <h2><b>Students</b></h2>
                   </div>
                   <div class="col-sm-6">
-                    <a type="button" class="btn btn-success" name="attRec"href="rec_attendance.php?secid=<?php echo $_SESSION['secid']; ?>"><i class="material-icons custom">class</i> <span>RECORD ATTENDANCE</span></a>
-                    <a type="button" class="btn btn-danger" name="rnd" ><i class="material-icons custom">autorenew</i> <span>RANDOMIZER</span></a>						
+                  <form method="post">
+                    <a type="button" class="btn btn-success" name="recAtt" href="rec_attendance.php?secid=<?php echo $_SESSION['secid']; ?>schdid=<?php echo $_SESSION['schdid']; ?>"><i class="material-icons custom">class</i> <span>RECORD ATTENDANCE</span></a>
+                    <a type="button" class="btn btn-danger" name="rnd" ><i class="material-icons custom">autorenew</i> <span>RANDOMIZER</span></a></form>				  
                   </div>
                 </div>
               </div>

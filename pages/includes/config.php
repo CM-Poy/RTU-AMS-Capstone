@@ -1,5 +1,5 @@
 <?php
-
+date_default_timezone_set('Asia/Shanghai');
 $servername = "localhost";
 $username = "root";
 $password = "";

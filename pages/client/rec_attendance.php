@@ -1,9 +1,47 @@
 <?php 
 require('../includes/config.php');
+
 session_start();
+
 $secid=$_SESSION['secid'];
 
 global $conn;
+
+
+if(ISSET($_SESSION['schdid'])){
+    $sql="SELECT schd_id, doc, COUNT(*) AS count FROM attendance_list GROUP BY schd_id, doc HAVING count > 1";
+    $query = $conn->prepare($sql);
+    $query->execute();
+
+    if($query->rowCount() > 0){
+        while ($row = $query->fetch(PDO::FETCH_ASSOC)){
+            $idschd = $row['schd_id'];
+            $doc = $row['doc'];
+
+            $sql2="DELETE FROM attendance_list WHERE schd_id = ? AND doc = ? ORDER BY id_attendance DESC LIMIT 1";
+            $query2 = $conn->prepare($sql2);
+            $query2->execute([$idschd,$doc]);
+
+            $_SESSION['error']="ATTENDANCE ALREADY DONE FOR THIS SUBJECT.";
+        }
+    }else{
+        $idsched=$_SESSION['schdid'];
+        $date=date('Y-m-d');
+        $datetime=date('Y-m-d H:i:s');
+        $sql="INSERT INTO attendance_list (`schd_id`,`doc`,`datetimecreated`) values (?,?,?)";
+        $query = $conn->prepare($sql);
+        $query->execute([$idsched,$date,$datetime]);
+    }
+  }
+
+   
+ 
+  
+
+
+
+
+
 $sql = "SELECT students.sec_id, students.flname_std, sections.code_sec from students left join sections on students.sec_id = sections.id_sec where sec_id=?";
 $result = $conn->prepare($sql);
 $result->execute([$secid]);
@@ -38,13 +76,40 @@ if (isset($_POST['qr'])){
             $_SESSION['error'] =  "Already Recorded.";
            
         }else{
-            $present="1";
+            
 
-            $sql = "INSERT INTO  attendance_record (`stud_id`, `type`) VALUES ($id,$present)  ";
-            $query = $conn->prepare($sql);
-            $query->execute();
+
+            $idsched=$_SESSION['schdid'];
+            $date=date('Y-m-d');
+            $sql2= "SELECT * FROM attendance_list WHERE schd_id=? AND doc=?";
+            $query2 = $conn->prepare($sql2);
+            $query2->execute([$idsched,$date]);
+            
+            if($query2->rowCount() > 0){
+        
+                while ($row = $query2->fetch(PDO::FETCH_ASSOC)){
+                    $present="1";
+                    $idatt=$row["id_attendance"];
+                    $sql = "INSERT INTO  attendance_record (`attendance_id`,`stud_id`, `type`) VALUES ($idatt,$id,$present)  ";
+                    $query = $conn->prepare($sql);
+                    $query->execute();
+                }
+            }
+
+
+
+            
         }
-
+    
+    $sql="SELECT attendance_record.stud_id from attendance record where attendance_record.attendance_id =?";
+    $query = $conn->prepare($sql);
+    $query->execute([$idatt]);
+    if($query->rowCount() > 0){
+        
+        while ($row = $query->fetch(PDO::FETCH_ASSOC)){
+            $idstd=$row["stud_id"];
+        }
+    }
             
 
             
@@ -53,6 +118,15 @@ if (isset($_POST['qr'])){
         $_SESSION['error'] =  "You are not enrolled to this subject.";
     }
 }
+
+
+
+
+
+
+            
+
+
 
 
 
@@ -172,7 +246,7 @@ if (isset($_POST['qr'])){
                     <tbody>
                     
                         <tr class="table-info">
-                            <td></td>
+                            <td><?php echo $row["stud_id"]; ?></td>
                         </tr>
                     </tbody>
                      
