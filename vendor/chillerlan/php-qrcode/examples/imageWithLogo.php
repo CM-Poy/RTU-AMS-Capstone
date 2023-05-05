@@ -12,7 +12,7 @@ namespace chillerlan\QRCodeExamples;
 
 use chillerlan\QRCode\{QRCode, QROptions};
 
-require_once __DIR__.'/../vendor/autoload.php';
+require_once __DIR__.'../../../vendor/autoload.php';
 
 $data = 'https://www.youtube.com/watch?v=DLzxrzFCyOs&t=43s';
 /**

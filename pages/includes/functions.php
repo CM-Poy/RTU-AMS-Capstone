@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 require_once('config.php');
-require_once('../../vendor/autoload.php');
+
 use chillerlan\QRCode\QRCode;
 use chillerlan\QRCode\QROptions;
 
@@ -107,10 +107,11 @@ class dbfunction{
     }
   }
 
-
+  
 
 //---ADD STUDENT
   function addStd($fullname,$email,$studnum,$gflname,$gemail,$crsname,$yrlvl,$sectname){
+    require_once('../../vendor/autoload.php');
     global $conn;
     if(isset($_POST['addbtn'])){
         
@@ -179,7 +180,7 @@ class dbfunction{
                 );
 
                 
-                $qrcode=(new QRCode($options))->render($fullname, $qrloc);
+                $qrcode=(new QRCode($options))->render($studnum, $qrloc);
 
 
               
@@ -235,6 +236,7 @@ class dbfunction{
 
 //---ADD SCHEDULE
   function addSchd($user,$sub,$sec,$day,$strtime,$endtime,$room){
+    
     global $conn;
     if(ISSET($_POST['addbtn'])){
       if($_POST['usrName'] != "" || $_POST['subName'] != "" || $_POST['secName'] != "" || $_POST['day'] != "" || $_POST['strTime'] != "" || $_POST['endtime_schd'] != "" || $_POST['room_id'] != ""){  
@@ -384,7 +386,7 @@ class dbfunction{
 
         $sql="SELECT * from students where id_std=?";
         $query = $conn->prepare($sql);
-        $query->execute([$id,$flname,$email,$studnum,$gflname,$gemail,$crs,$yr,$sec,$id]);
+        $query->execute([$id]);
 
         $sql="UPDATE students set id_std=?, flname_std=?, instemail_std=?, studnum_std=?, gflname_std=?, gemail_std=?, crs_id=?, yrlvl_id=?, sec_id=? where id_std=?";
         $query = $conn->prepare($sql);

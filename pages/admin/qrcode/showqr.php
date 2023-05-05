@@ -38,13 +38,13 @@ $result->execute([$id]);
    
 <div class="edit-wrapper">
         <div class="edit-container">
-            <p class="title"><?php echo $name; ?> - QR CODE</p>
+            <p class="title">QR CODE</p>
             <div class="separator"></div>
             <form method="post">
               
-              <label>Full Name</label>
+              <label><?php echo $name; ?></label>
                 <div class="form-control">
-                  <img src="../../../images/qrcodes/<?php echo $qrcode; ?>">
+                  <img src="../../../images/qrcodes/<?php echo $qrcode; ?>" alt="NO QR AVAILABLE" width="400" height="400">
                 </div>
 
                 <a href="../students.php"><input type="button" class="btn btn-default" data-dismiss="modal" value="Back" ></a>

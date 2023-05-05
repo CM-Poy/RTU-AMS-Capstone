@@ -2,6 +2,7 @@
 <html lang="en">
 
 <?php
+session_start();
 include('../includes/header.php'); 
 require('../includes/config.php');
 
@@ -22,6 +23,10 @@ if($query->rowCount() > 0){
     $str=$row['strtime_schd'];
     $end=$row['endtime_schd'];
     $room=$row['room_id'];
+
+    $_SESSION['secid']=$row["sec_id"];
+
+
   }
 }
 
@@ -90,8 +95,8 @@ if($query->rowCount() > 0){
                     <h2><b>Students</b></h2>
                   </div>
                   <div class="col-sm-6">
-                    <a type="button" class="btn btn-success" name="attRec"><i class="material-icons custom">class</i> <span>RECORD ATTENDANCE</span></a>
-                    <a type="button" class="btn btn-danger" name="rnd"><i class="material-icons custom">autorenew</i> <span>RANDOMIZER</span></a>						
+                    <a type="button" class="btn btn-success" name="attRec"href="rec_attendance.php?secid=<?php echo $_SESSION['secid']; ?>"><i class="material-icons custom">class</i> <span>RECORD ATTENDANCE</span></a>
+                    <a type="button" class="btn btn-danger" name="rnd" ><i class="material-icons custom">autorenew</i> <span>RANDOMIZER</span></a>						
                   </div>
                 </div>
               </div>
@@ -110,20 +115,23 @@ if($query->rowCount() > 0){
                 <?php
                 
                 global $conn;
-                $sql = "SELECT students.flname_std, students.studnum_std, students.gemail_std, students.sec_id, sections.code_sec from students left join sections on students.sec_id = sections.id_sec where sec_id=?";
+                $sql = "SELECT students.id_std,students.flname_std, students.studnum_std, students.gemail_std, students.sec_id, sections.code_sec from students left join sections on students.sec_id = sections.id_sec where sec_id=?";
                 $query = $conn->prepare($sql);
                 $query->execute([$sec]);
                 if($query->rowCount() > 0){
                   while ($row = $query->fetch(PDO::FETCH_ASSOC)){
+                    $id_std=$row['id_std'];
+                    
                    ?><tr><td><?php echo $row['flname_std']; ?></td>
                     <td><?php echo $row['studnum_std']; ?></td>
                     <td><?php echo $row['gemail_std']; ?></td>
                     <td><?php echo $row['code_sec']; ?></td></tr>
                    
                    
-                   
                    <?php
                   }
+                }else{
+                  echo "No Records Found.";
                 }
 
 
