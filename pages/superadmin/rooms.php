@@ -133,7 +133,7 @@
               <table class="table table-striped table-hover">
                 <thead>
                   <tr>
-                    <th>Name</th>
+                    <th>Code</th>
                     <th>Building</th>
                     <th>Actions</th>
                   </tr>

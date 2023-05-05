@@ -4,11 +4,7 @@
   <?php include('../includes/header.php'); 
   require('../includes/config.php');
 
-  if(isset($_POST['updBtn'])){
-    include('../includes/functions.php');
-    $obj=new dbfunction();
-    $obj->updCrs($_POST["name"],$_POST["code"],$_POST["dept"]);
-  }
+ 
 
   if(isset($_POST['addbtn'])){
     include('../includes/functions.php');

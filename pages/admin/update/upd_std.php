@@ -11,7 +11,7 @@ require('../../includes/config.php');
 $id=$_REQUEST['updid'];
 
 global $conn;
-$sql = "SELECT sections.id_sec, courses.id_crs, year.id_yr, students.yrlvl_id, students.id_std, students.flname_std, students.instemail_std, students.studnum_std, students.gflname_std, students.gemail_std, sections.code_sec, courses.code_crs, year.yearlvl_yr FROM students
+$sql = "SELECT sections.id_sec, courses.id_crs, year.id_yr, students.yrlvl_id, students.id_std, students.crs_id, students.sec_id, students.flname_std, students.instemail_std, students.studnum_std, students.gflname_std, students.gemail_std, sections.code_sec, courses.code_crs, year.yearlvl_yr FROM students
 LEFT JOIN courses on students.crs_id = courses.id_crs
 left join year on students.yrlvl_id = year.id_yr
 left join sections on students.sec_id = sections.id_sec where students.id_std=?";
@@ -34,6 +34,8 @@ $result->execute([$id]);
             $code_sec=$row['code_sec'];
             $code_crs=$row['code_crs'];
             $yearlvl_yr=$row['yearlvl_yr'];
+            $crs_id=$row['crs_id'];
+            $sec_id=$row['sec_id'];
         }
     }
 
@@ -96,7 +98,7 @@ $result->execute([$id]);
 
                   <?php
                     echo '<select name="crs" id="crs" style="width: 100%">
-                    <option value='.$code_crs.'>'.$code_crs.'</option>';
+                    <option value='.$crs_id.'>'.$code_crs.'</option>';
                     
                     $sql = "SELECT id_crs, name_crs, code_crs from courses";
                     $result = $conn->prepare($sql);
@@ -149,7 +151,7 @@ $result->execute([$id]);
                   
                   <?php
                       echo '<select name="sec" id="sec" style="width: 100%">
-                      <option value='.$code_sec.'>'.$code_sec.'</option>';
+                      <option value='.$sec_id.'>'.$code_sec.'</option>';
                       
                       $sql = "SELECT * from sections";
                       $result = $conn->prepare($sql);

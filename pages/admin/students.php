@@ -13,7 +13,7 @@
   if(isset($_POST['addbtn'])){
     include('../includes/functions.php');
     $obj=new dbfunction();
-    $obj->addStd($_POST['flname'],$_POST['email'],$_POST['studnum'],$_POST['gflname'],$_POST['gemail'],$_POST['crsNameStd'],$_POST['yrLvlStd'],$_POST['sectNameStd']);
+    $obj->addStd($_POST['flname'],$_POST['email'],$_POST['studnum'],$_POST['gflname'],$_POST['gemail'],$_POST['crsNameStd'],$_POST['yrLvlStd'],$_POST['sectNameStd'],);
   }
 
   if(isset($_POST['updbtn'])){
@@ -49,6 +49,7 @@
 <head>
     <link rel='icon' href='../../images/rtu-logo.png'/>
     <link rel = "stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css">
+    <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
     <title>ADMIN: Manage Students</title>
 </head>
 <script>
@@ -96,7 +97,7 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
               <ul class="nav navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="#" id="logout">Logout</a>
+                    <a class="nav-link" href="../login.php" id="logout">Logout</a>
                 </li>
               </ul>
             </div>
@@ -144,6 +145,7 @@
                     <th>Course</th>
                     <th>Section</th>
                     <th>Year Level</th>
+                    
                     <th>Actions</th>
                   </tr>
                 </thead>
@@ -151,7 +153,7 @@
                   				
                 <?php
                 
-                         $sql = "SELECT students.id_std, students.flname_std, students.instemail_std, students.studnum_std, students.gflname_std, students.gemail_std, sections.code_sec, courses.code_crs, year.yearlvl_yr FROM students
+                         $sql = "SELECT students.id_std, students.flname_std, students.instemail_std, students.studnum_std, students.gflname_std, students.gemail_std, students.qrcode_std, sections.code_sec, courses.code_crs, year.yearlvl_yr FROM students
                          LEFT JOIN courses on students.crs_id = courses.id_crs
                          left join year on students.yrlvl_id = year.id_yr
                          left join sections on students.sec_id = sections.id_sec";
@@ -170,7 +172,10 @@
                       $crs_id=$row["code_crs"];
                       $yrlvl_id=$row["yearlvl_yr"];
                       $sect_id=$row["code_sec"];
+                      $qrcode=$row['qrcode_std'];
 
+           
+                      
                       echo '
                       <form method="post" action="students.php">
                         <tr>
@@ -184,11 +189,13 @@
                           <td>'.$sect_id.'</td>
                           <td>'.$yrlvl_id.'</td>
                           
-                          <td>
                           
+                          <td>
+
+                          <a href="qrcode/showqr.php?qrid='.$id_std.'"><i class="material-icons " data-toggle="tooltip" title="QR-Code">&#xe3f4;</i></a>
                           <a href="update/upd_std.php?updid='.$id_std.'"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
                             <a href="#delModal" class="delBtn"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
-                            
+
                           </td>
                       </tr>
                       </form>';
@@ -496,35 +503,7 @@
 
       //EDIT MODAL 
         $(document).ready(function () {
-
-            $('.editBtn').on('click', function () {
-
-                $('#editModal').modal('show');
-
-                $tr = $(this).closest('tr');
-
-                var data = $tr.children("td").map(function () {
-                    return $(this).text();
-                }).get();
-
-                
-               
-
-                console.log(data);
-
-                $('#id').val(data[0]);
-                $('#flname').val(data[1]);
-                $('#email').val(data[2]);
-                $('#studnum').val(data[3]);
-                $('#gflname').val(data[4]);
-                $('#gemail').val(data[5]);
-                $('#crs').val(data[6]);
-                $('#yrlvl').val(data[7]);
-                $('#sect').val(data[8]);
           
-            });
-
-
             $('.delBtn').on('click', function () {
               $('#delModal').modal('show');
               $tr = $(this).closest('tr');

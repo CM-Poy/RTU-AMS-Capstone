@@ -17,7 +17,6 @@ if(isset($_POST['btnLogin'])){
 if (!isset($_SESSION['error'])) {
     $_SESSION['error'] = false;
 }
-
 ?>
   
 <head>

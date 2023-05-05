@@ -130,6 +130,7 @@ $(".close,.buttons").click(function() {
               <a class="nav-link font-weight-bold text-justify" id="page-title">ATTENDANCE MANAGEMENT SYSTEM</a> 
               <div class="collapse navbar-collapse" id="navbarSupportedContent">
               <ul class="nav navbar-nav ml-auto">
+                     
                   
                   <li class="nav-item">
                 <a class="nav-link" href="../login.php">Logout</a>
@@ -155,7 +156,7 @@ $(".close,.buttons").click(function() {
                     $result->execute();
                     if($result->rowCount() > 0){
                         while ($row = $result->fetch(PDO::FETCH_ASSOC)){
-                          
+                          $_SESSION['idschd']=$row["id_schd"];
                           
                             
                 ?>
@@ -163,8 +164,10 @@ $(".close,.buttons").click(function() {
                     <div class="col-md-4">
                       <div class="card text-center card-1" style="width: 18rem;" id="subj1">
                       <form method="POST">
-                        <a href="classlist.php?id=<?php echo $row["id_schd"]; ?>">
+                       
+                        <a href="classlist.php?id=<?php echo $_SESSION['idschd']; ?>">
                             <div class="card-body">
+
                               <h5 class="card-title"><?php echo $row["code_subj"]; ?></h5>
                               <h6 class="card-subtitle mb-2 text-muted"><?php echo $row["code_sec"];?>  |  <?php echo $row["day_schd"];?>  |  <?php echo $row["strtime_schd"];?>  -  <?php echo $row["endtime_schd"];?>  |  <?php echo $row["code_room"];?></h6>
                             </div>
@@ -183,115 +186,7 @@ $(".close,.buttons").click(function() {
           
         <!--/show all notification-->
 
-        <div class="popup">
-            <div class="shadow"></div>
-            <div class="inner_popup">
-                <div class="notification_dd">
-                    
-                        <li class="title">
-                            <p>All Notifications</p>
-                            <p class="close"><i class="fas fa-times" aria-hidden="true"></i></p>
-                        </li> 
-                        <li class="starbucks success">
-                            <div class="notify_icon">
-                                <span class="icon"></span>  
-                            </div>
-                            <div class="notify_data">
-                                <div class="title">
-                                    Lorem, ipsum dolor.  
-                                </div>
-                                <div class="sub_title">
-                                  Lorem ipsum dolor sit amet consectetur.
-                              </div>
-                            </div>
-                            <div class="notify_status">
-                                <p>Success</p>  
-                            </div>
-                        </li>  
-                        <li class="baskin_robbins failed">
-                            <div class="notify_icon">
-                                <span class="icon"></span>  
-                            </div>
-                            <div class="notify_data">
-                                <div class="title">
-                                    Lorem, ipsum dolor.  
-                                </div>
-                                <div class="sub_title">
-                                  Lorem ipsum dolor sit amet consectetur.
-                              </div>
-                            </div>
-                            <div class="notify_status">
-                                <p>Failed</p>  
-                            </div>
-                        </li> 
-                        <li class="mcd success">
-                            <div class="notify_icon">
-                                <span class="icon"></span>  
-                            </div>
-                            <div class="notify_data">
-                                <div class="title">
-                                    Lorem, ipsum dolor.  
-                                </div>
-                                <div class="sub_title">
-                                  Lorem ipsum dolor sit amet consectetur.
-                              </div>
-                            </div>
-                            <div class="notify_status">
-                                <p>Success</p>  
-                            </div>
-                        </li>  
-                        <li class="baskin_robbins failed">
-                            <div class="notify_icon">
-                                <span class="icon"></span>  
-                            </div>
-                            <div class="notify_data">
-                                <div class="title">
-                                    Lorem, ipsum dolor.  
-                                </div>
-                                <div class="sub_title">
-                                  Lorem ipsum dolor sit amet consectetur.
-                              </div>
-                            </div>
-                            <div class="notify_status">
-                                <p>Failed</p>  
-                            </div>
-                        </li> 
-                        <li class="pizzahut failed">
-                            <div class="notify_icon">
-                                <span class="icon"></span>  
-                            </div>
-                            <div class="notify_data">
-                                <div class="title">
-                                    Lorem, ipsum dolor.  
-                                </div>
-                                <div class="sub_title">
-                                  Lorem ipsum dolor sit amet consectetur.
-                              </div>
-                            </div>
-                            <div class="notify_status">
-                                <p>Failed</p>  
-                            </div>
-                        </li> 
-                        <li class="kfc success">
-                            <div class="notify_icon">
-                                <span class="icon"></span>  
-                            </div>
-                            <div class="notify_data">
-                                <div class="title">
-                                    Lorem, ipsum dolor.  
-                                </div>
-                                <div class="sub_title">
-                                  Lorem ipsum dolor sit amet consectetur.
-                              </div>
-                            </div>
-                            <div class="notify_status">
-                                <p>Success</p>  
-                            </div>
-                        </li>
-                   
-                </div>
-            </div>
-          </div>
+        
     <!-- Modal content-->
     <div class="modal fade" id="myModal" role="dialog">
     <div class="modal-dialog">

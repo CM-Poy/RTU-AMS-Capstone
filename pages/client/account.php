@@ -1,3 +1,40 @@
+<?php
+include('../includes/header.php'); 
+require('../includes/config.php');
+
+session_start();
+
+$userid=$_SESSION['user'];
+
+
+$sql="SELECT * from users where id_users=$userid";
+$result = $conn->prepare($sql);
+$result->execute();
+if($result->rowCount() > 0){
+    while ($row = $result->fetch(PDO::FETCH_ASSOC)){
+      $id=$row['id_users'];
+      $hnr=$row['hnr_users'];
+      $name=$row['flname_users'];
+      $email=$row['instemail_users'];
+      $empnum=$row['empnum_users'];
+      $pwd=$row['pwd_users'];
+
+    }
+  }
+
+
+if (!isset($_SESSION['pwderror'])) {
+  $_SESSION['pwderror'] = false;
+}
+
+
+
+
+?>
+
+
+
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -22,23 +59,20 @@
     background-repeat: no-repeat;
     background-position: center;
 }
-.form-control {
-    border: 1px solid #cfd1d8;
-    -webkit-border-radius: 2px;
-    -moz-border-radius: 2px;
-    border-radius: 2px;
-    font-size: .825rem;
-    background: #ffffff;
-    color: #2e323c;
+
+.field-icon {
+  float: right;
+  margin-left: -25px;
+  margin-top: -25px;
+  position: relative;
+  z-index: 2;
 }
-.card {
-    background: #ffffff;
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    border-radius: 5px;
-    border: 0;
-    margin-bottom: 1rem;
+
+.container{
+  padding-top:50px;
+  margin: auto;
 }
+  
 
 @media(max-width: 990px){
   .card{
@@ -82,10 +116,18 @@
                 <i class="fa fa-bars"></i>
             </button>
             <a class="nav-link font-weight-bold text-justify" id="page-title">ATTENDANCE MANAGEMENT SYSTEM</a> 
-            
+            <?php if ($_SESSION['pwderror']): ?>
+                        <div class="alert alert-danger" role="alert">
+                            <strong><?php echo $_SESSION['pwderror'];?></strong>
+                        </div>
+                        <?php   
+                            $_SESSION['pwderror'] = false;
+                        ?>
+                      <?php endif ?>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <span class="sr-only">Toggle Menu</span>
               <ul class="nav navbar-nav ml-auto">
+                
                 <li class="nav-item">
                 <a class="nav-link" href="../login.php">Logout</a>
                 </li> 
@@ -97,102 +139,98 @@
             
         </nav>
 
-    
-          <!-- Breadcrumb -->
-          <!-- /Breadcrumb -->
-    
-          
-        
-          <div class="col">
-            <div class="card h-100">
-              <div class="card-body">
-                <div class="row gutters">
-                  <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                    <h6 class="mb-2 text-warning">Personal Details</h6>
-                  </div>
-                  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                    <div class="form-group">
-                      <label for="honorific">Honnorific</label>
-                      <h6>Aboutasdfsfasfasdf</h6>
+          <div class="main-body">
+            <div class="col-md-12">
+              <div class="card mb-3">
+                <div class="card-body">
+               
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <div hidden>
+                        <?php echo $id; ?>
+                      </div>
+                      <h6 class="mb-0">Honnorific</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                      <?php echo $hnr; ?>
                     </div>
                   </div>
-                  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                    <div class="form-group">
-                      <label for="fullname">Fullname</label>
-                      <h6>About</h6>
+
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">Fullname</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                      <?php echo $name; ?>
                     </div>
                   </div>
-                  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                    <div class="form-group">
-                      <label for="email">Institutional Email</label>
-                      <h6>About</h6>
+
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">Institutional Email</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                      <?php echo $email; ?>
                     </div>
                   </div>
-                  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                    <div class="form-group">
-                      <label for="empnum">Employee Number</label>
-                      <h6>About</h6>
+
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">Employee Number</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                      <?php echo $empnum; ?>
                     </div>
                   </div>
-                  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                    <div class="form-group">
-                      <label for="password">Password</label>
-                      <h6>About</h6>
+
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">Password</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                      <input type=password value =<?php echo $pwd;?> disabled/>
+                      <a href="update/upd_pwd.php?updid=<?php echo $id; ?>" class="btn btn-info">Change</a>
                     </div>
                   </div>
-                </div>
-                <div class="row gutters">
-                  <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                    <h6 class="mt-3 mb-2 text-warning">Address</h6>
-                  </div>
-                  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                    <div class="form-group">
-                      <label for="Street">Street</label>
-                      <h6>About</h6>
-                    </div>
-                  </div>
-                  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                    <div class="form-group">
-                      <label for="ciTy">City</label>
-                      <h6>About</h6>
-                    </div>
-                  </div>
-                  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                    <div class="form-group">
-                      <label for="sTate">State</label>
-                      <h6>About</h6>
-                    </div>
-                  </div>
-                  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                    <div class="form-group">
-                      <label for="zIp">Zip Code</label>
-                      <h6>About</h6>
-                    </div>
-                  </div>
-                </div>
-                <div class="row gutters">
-                  <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                    <div class="text-right">
-                      <a href="editaccount.php  " class="btn btn-primary" role="button">Edit</a>
+
+                  
+                  <div class="row">
+                    <div class="col-sm-12">
+                      
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-            </div>
-            </div>
-            </div>
-          
+          </div>
+   
 
-        </div>
-     </div>
-      
-      </div>
-      
-      </div>
+
+   
     <script src="../../js/jquery.min.js"></script>
     <script src="../../js/popper.js"></script>
     <script src="../../js/bootstrap.min.js"></script>
     <script src="../../js/main.js"></script>
+
+    <script>
+     
+
+
+
+$(".toggle-password").click(function() {
+
+$(this).toggleClass("fa-eye fa-eye-slash");
+var input = $($(this).attr("toggle"));
+if (input.attr("type") == "password") {
+  input.attr("type", "text");
+} else {
+  input.attr("type", "password");
+}
+});
+    </script>
   </body>
 </html>
