@@ -20,32 +20,8 @@
   }
 
   
-  
-  
 
-  if(isset($_GET['page_no']) && $_GET['page_no'] !== ""){
-    $page_no = $_GET['page_no'];
-  }else{
-    $page_no = 1;
-  }
 
-  //total num rows to display
-  $total_records_perpage = 10;
-  //getting offset for for limit query
-  $offset = ($page_no - 1) * $total_records_perpage;
-  //previous page
-  $previous_page = $page_no - 1;
-  //next page
-  $next_page = $page_no + 1;
-
-  //getting the total number of records
-  $sql = "SELECT * from schedules";
-  $totalnumrecords = $conn->prepare($sql); 
-  $totalnumrecords->execute();
-  //total records
-  $result_totalnumrecords=$totalnumrecords->rowCount();
-  //total pages
-  $total_numpages = ceil($result_totalnumrecords/$total_records_perpage);
   ?>
   
 
@@ -54,7 +30,11 @@
     <link rel = "stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css">
     <title>ADMIN: Manage Schedules</title>
 </head>
-
+<script>
+  if (window.history.replaceState){
+    window.history.replaceState(null, null, window.location.href);
+  }
+</script>
   <body>
 
   <!--sidebar-->
@@ -133,7 +113,7 @@
                  
                 <?php
                       
-                       $sql = "SELECT schedules.id_schd, users.flname_users, subjects.code_subj, sections.code_sec, schedules.day_schd, schedules.strtime_schd, schedules.endtime_schd, room.code_room from schedules left join users on schedules.user_id = users.id_users LEFT JOIN subjects on schedules.sub_id = subjects.id_subj LEFT JOIN sections on schedules.sec_id = sections.id_sec LEFT JOIN room on schedules.room_id = room.id_room LIMIT $offset, $total_records_perpage";
+                       $sql = "SELECT schedules.id_schd, users.flname_users, subjects.name_subj, sections.code_sec, schedules.day_schd, schedules.strtime_schd, schedules.endtime_schd, room.code_room from schedules left join users on schedules.user_id = users.id_users LEFT JOIN subjects on schedules.sub_id = subjects.id_subj LEFT JOIN sections on schedules.sec_id = sections.id_sec LEFT JOIN room on schedules.room_id = room.id_room";
                        $result = $conn->prepare($sql);
                        $result->execute();
                        
@@ -141,7 +121,7 @@
                          while ($row = $result->fetch(PDO::FETCH_ASSOC)){
                            $id_schd=$row["id_schd"];
                            $user_id=$row["flname_users"];
-                           $sub_id=$row["code_subj"];
+                           $sub_id=$row["name_subj"];
                            $sec_id=$row["code_sec"];
                            $day=$row["day_schd"];
                            $strtime=$row["strtime_schd"];

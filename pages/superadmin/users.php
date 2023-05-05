@@ -27,6 +27,11 @@
     <link rel = "stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css">
     <title>SUPERADMIN: Manage Teachers</title>
 </head>
+<script>
+  if (window.history.replaceState){
+    window.history.replaceState(null, null, window.location.href);
+  }
+</script>
   <body>
 
   <!--sidebar-->

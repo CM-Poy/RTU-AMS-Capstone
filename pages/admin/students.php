@@ -322,7 +322,7 @@
                 </div>
                 <div class="modal-footer">
                   <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                  <input type="submit" name="addbtn" class="btn btn-success" value="Add">
+                  <input type="submit" name="addbtn" class="btn btn-success" value="Add" onclick="customAlert.alert('This is a custom alert without heading.')">
                 </div>
               </form>
             </div>

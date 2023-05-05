@@ -1,7 +1,10 @@
 <?php
 require_once('config.php');
 session_start();
+
 class dbfunction{
+
+  
 
   function login($instEmail,$pwd){
      global $conn;
@@ -265,14 +268,14 @@ class dbfunction{
 
   
 
-
+ 
 
   function addSchd($user,$sub,$sec,$day,$strtime,$endtime,$room){
     global $conn;
     if(ISSET($_POST['addbtn'])){
       if($_POST['usrName'] != "" || $_POST['subName'] != "" || $_POST['secName'] != "" || $_POST['day'] != "" || $_POST['strTime'] != "" || $_POST['endtime_schd'] != "" || $_POST['room_id'] != ""){  
 
- 
+        function phpAlert($msg) { echo '<script type="text/javascript">alert("' . $msg . '")</script>'; }
         $user = $_POST['usrName'];
         $sub = $_POST['subName'];
         $sec = $_POST['secName'];
@@ -281,24 +284,17 @@ class dbfunction{
         $endtime = $_POST['endTime'];
         $room = $_POST['room'];
 
-        $stmt = $conn->prepare("SELECT * FROM subjects WHERE code_subj=?");
-        $stmt2 = $conn->prepare("SELECT * FROM subjects WHERE name_subj=?");
-  
-        //execute the statement
-        $stmt->execute([$code]); 
-        $stmt2->execute([$name]);
-        //fetch result
-        $codesubj = $stmt->fetch();
-        $namesubj = $stmt2->fetch();
         
-        if($codesubj) 
-          $_SESSION['error']="Subject Code Already Exist.";
-          else if($namesubj)
-            $_SESSION['error']="Subject Name Already Exist.";
-            
-          
-          
-        else{
+        $stmt ="SELECT * FROM schedules WHERE  day_schd=? AND room_id=? AND ((strtime_schd <= ? AND endtime_schd >= ?) OR (strtime_schd <=? AND endtime_schd >= ?))";
+        $query = $conn->prepare($stmt);
+        $query->execute([$day,$room,$strtime,$strtime,$endtime,$endtime]);
+        $row = $query->rowCount();
+        $fetch = $query->fetch();
+
+        if($row>0){
+          phpAlert( "ERROR\\n\\nSchedule overlapped" ); 
+        }else{
+       
        
 
         $sql = "INSERT INTO  schedules (`user_id`, `sub_id`, `sec_id`, `day_schd`, `strtime_schd`, `endtime_schd`, `room_id`) VALUES (?,?,?,?,?,?,?)  ";
@@ -319,6 +315,7 @@ class dbfunction{
     }
   }
 }
+
 
 
 
@@ -495,7 +492,17 @@ class dbfunction{
     global $conn;
     if(ISSET($_POST['updBtn'])){
       if($_REQUEST['updid'] !="" || $_POST['user'] != "" || $_POST['sub'] != "" || $_POST['sec'] != "" || $_POST['day'] != "" || $_POST['strtime'] != "" || $_POST['endtime'] != "" || $_POST['room'] != ""){
+        function phpAlert($msg) { echo '<script type="text/javascript">alert("' . $msg . '")</script>'; }
         $id=$_REQUEST['updid'];
+        $sql="SELECT * FROM schedules WHERE id_schd=?";
+        $query = $conn->prepare($sql);
+        $query->execute([$id]);
+         $check = $query->fetch();
+
+
+       
+
+        
         $user=$_POST['user'];
         $sub=$_POST['sub'];
         $sec=$_POST['sec'];
@@ -503,6 +510,52 @@ class dbfunction{
         $strtime=$_POST['strtime'];
         $endtime=$_POST['endtime'];
         $room=$_POST['room'];
+        
+
+        if ($user == $check['user_id'] && $sub == $check['sub_id'] && $sec == $check['sec_id'] && $day == $check['day_schd'] &&  
+        $strtime ==  $check['strtime_schd'] && $endtime ==  $check['endtime_schd']  && $room ==  $check['room_id']) {
+          header("location: ../schedules.php");
+          exit();
+        }
+        if($user != $check['user_id']){
+          $sql="UPDATE schedules set  user_id=?  where id_schd=?";
+          $query = $conn->prepare($sql);
+          $query->execute([$user,$id]);
+  
+          header("location: ../schedules.php");
+        }
+        if($sub != $check['sub_id']){
+          $sql="UPDATE schedules set  sub_id=?  where id_schd=?";
+          $query = $conn->prepare($sql);
+          $query->execute([$sub,$id]);
+  
+          header("location: ../schedules.php");
+        }
+        if($sec != $check['sec_id']){
+          $sql="UPDATE schedules set  sec_id=?  where id_schd=?";
+          $query = $conn->prepare($sql);
+          $query->execute([$sec,$id]);
+  
+          header("location: ../schedules.php");
+        }
+
+        $stmt ="SELECT * FROM schedules WHERE  day_schd=? AND room_id=? AND ((strtime_schd <= ? AND endtime_schd >= ?) OR (strtime_schd <=? AND endtime_schd >= ?))";
+        $query = $conn->prepare($stmt);
+        $query->execute([$day,$room,$strtime,$strtime,$endtime,$endtime]);
+        $row = $query->rowCount();
+        $fetch = $query->fetch();
+
+        
+
+          if($row>0){
+          phpAlert( "ERROR\\n\\nSchedule overlapped" ); 
+          
+          
+           }
+    
+        else{
+
+
 
         $sql="UPDATE schedules set id_schd=?, user_id=?, sub_id=?, sec_id=?, day_schd=?, strtime_schd=?, endtime_schd=?, room_id=? where id_schd=?";
         $query = $conn->prepare($sql);
@@ -515,13 +568,21 @@ class dbfunction{
       }
     }
   }
-
+}
 
   function updStd($flname,$email,$studnum,$gflname,$gemail,$crs,$yr,$sec){
     global $conn;
     if(ISSET($_POST['updBtn'])){
       if($_REQUEST['updid'] !="" || $_POST['flname'] != "" || $_POST['email'] != "" || $_POST['studnum'] != "" || $_POST['gflname'] != "" || $_POST['gemail'] != "" || $_POST['crs'] != "" || $_POST['yr'] != "" || $_POST['sec'] != ""){
+        function phpAlert($msg) { echo '<script type="text/javascript">alert("' . $msg . '")</script>'; }
+       
         $id=$_REQUEST['updid'];
+        $sql="SELECT * FROM students WHERE id_std=?";
+        $query = $conn->prepare($sql);
+        $query->execute([$id]);
+         $check = $query->fetch();
+
+
         $flname=$_POST['flname'];
         $email=$_POST['email'];
         $studnum=$_POST['studnum'];
@@ -531,17 +592,75 @@ class dbfunction{
         $yr=$_POST['yr'];
         $sec=$_POST['sec'];
 
-        $sql="UPDATE students set id_std=?, flname_std=?, instemail_std=?, studnum_std=?, gflname_std=?, gemail_std=?, crs_id=?, yrlvl_id=?, sec_id=? where id_std=?";
-        $query = $conn->prepare($sql);
-        $query->execute([$id,$flname,$email,$studnum,$gflname,$gemail,$crs,$yr,$sec,$id]);
+        if ($flname == $check['flname_std'] && $email == $check['instemail_std'] && $studnum == $check['studnum_std'] && $gflname == $check['gflname_std'] &&  $gemail ==  $check['gemail_std'] && $crs==  $check['crs_id']  && $yr ==  $check['yrlvl_id'] && $sec ==  $check['sec_id']) {
+          header("location: ../students.php");
+          exit();
+        }
 
-        header("location: ../students.php");
-
-
+        if($flname != $check['flname_std']){
+          $sql="UPDATE students set  flname_std=?  where id_std=?";
+          $query = $conn->prepare($sql);
+          $query->execute([$flname,$id]);
+  
+          header("location: ../students.php");
+        }
+        if($crs!= $check['crs_id']){
+          $sql="UPDATE students set  crs_id=?  where id_std=?";
+          $query = $conn->prepare($sql);
+          $query->execute([$flname,$id]);
+  
+          header("location: ../students.php");
+        }
+        if($yr != $check['yrlvl_id']){
+          $sql="UPDATE students set  yrlvl_id=?  where id_std=?";
+          $query = $conn->prepare($sql);
+          $query->execute([$flname,$id]);
+  
+          header("location: ../students.php");
+        }
+         if($yr != $check['yrlvl_id']){
+          $sql="UPDATE students set  yrlvl_id=?  where id_std=?";
+          $query = $conn->prepare($sql);
+          $query->execute([$flname,$id]);
+  
+          header("location: ../students.php");
+        }
         
+
+      
+      $stmt ="SELECT * FROM students WHERE instemail_std =? OR studnum_std = ? OR gemail_std = ?";
+      $query = $conn->prepare($stmt);
+      $query->execute([$email, $studnum,$gemail]);
+      $row = $query->rowCount();
+      $fetch = $query->fetch();
+
+        if($row>0){
+        phpAlert( "ERROR\\n\\nEmail Already Exist" ); 
+        
+        
+         }
+        
+        
+       
+          
+        
+      
+        else{
+          $sql="UPDATE students set id_std=?, flname_std=?, instemail_std = ?, studnum_std=?, gflname_std=?, gemail_std=?, crs_id=?, yrlvl_id=?, sec_id=? where id_std=?";
+          $query = $conn->prepare($sql);
+          $query->execute([$id,$flname,$email,$studnum,$gflname,$gemail,$crs,$yr,$sec,$id]);
+          header("location: ../students.php");  
+        }
       }
-    }
+    } 
   }
+    
+
+  
+
+  
+
+
 
 
   function updUsrAdmin($hnr,$flname,$email,$empnum,$pwd){
@@ -554,9 +673,31 @@ class dbfunction{
         $email=$_POST['email'];
         $empnum=$_POST['empnum'];
         $pwd=$_POST['pwd'];
-       
 
-        $sql="UPDATE users set id_users=?, hnr_users=?, flname_users=?, instemail_users=?, empnum_users=?, pwd_users=? where id_users=?";
+        $stmt = $conn->prepare("SELECT * FROM users WHERE instemail_users=?");
+        $stmt2 = $conn->prepare("SELECT * FROM users WHERE empnum_users=?");
+        
+      
+       
+        //execute the statement
+        $stmt->execute([$email]); 
+        $stmt2->execute([$empnum]);
+          
+        //fetch result
+        $user = $stmt->fetch();
+        $user2 = $stmt2->fetch();
+        
+
+        if(!empty($user)){
+          $sql="UPDATE users set id_users=?, hnr_users=?, flname_users=?, pwd_users=? where id_users=?";
+          $query = $conn->prepare($sql);
+          $query->execute([$id,$hnr,$flname,$pwd,$id]);
+          header("location: ../teachers.php"); 
+        }else{  
+        
+         
+            
+        $sql="UPDATE users set id_users=?, hnr_users=?, flname_users=?, instemail_users= ?, empnum_users=?, pwd_users=? where id_users=?";
         $query = $conn->prepare($sql);
         $query->execute([$id,$hnr,$flname,$email,$empnum,$pwd,$id]);
 
@@ -567,6 +708,8 @@ class dbfunction{
       }
     }
   }
+} 
+  
 
 
   function updUsrSupAdmin($hnr,$flname,$email,$empnum,$pwd,$usertype){
@@ -852,8 +995,8 @@ class dbfunction{
       }
     }
   }
-
 }
+
 
 
 
