@@ -97,7 +97,7 @@ $(".close,.buttons").click(function() {
                 <a href="#" class="img logo rounded-circle mb-5" style="background-image: url(../../images/rtu-logo.png);"></a>
             <ul class="list-unstyled components mb-5">
               <li class="">
-                <a href="today.php">&nbsp;&nbsp;&nbsp;<i class="fa-sharp fa-solid fa-calendar-day fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>DASHBOARD</a>
+                <a href="today.php">&nbsp;&nbsp;&nbsp;<i class="fa-sharp fa-solid fa-calendar-day fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>TODAY</a>
               </li>
               <li class="">
                <a href="calendar.php">&nbsp;&nbsp;&nbsp;<i class="fa-sharp fa-solid fa-calendar-days fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>CALENDAR</a>
@@ -130,53 +130,6 @@ $(".close,.buttons").click(function() {
               <a class="nav-link font-weight-bold text-justify" id="page-title">ATTENDANCE MANAGEMENT SYSTEM</a> 
               <div class="collapse navbar-collapse" id="navbarSupportedContent">
               <ul class="nav navbar-nav ml-auto">
-                     <div class="navbar_right">
-                        <div class="notifications">
-                          <div class="icon_wrap"><i class="far fa-bell"></i></div>
-                          
-                          <div class="notification_dd">
-                             
-                                  <li class="present">
-                                      <div class="notify_icon">
-                                          <span class="icon"></span>  
-                                      </div>
-                                      <div class="notify_data">
-                                          <div class="title">
-                                              Lorem, ipsum dolor.  
-                                          </div>
-                                          <div class="sub_title">
-                                            Lorem ipsum dolor sit amet consectetur.
-                                        </div>
-                                      </div>
-                                      <div class="notify_status">
-                                          <p>PRESENT</p>  
-                                      </div>
-                                  </li>  
-                                  <li class="absent">
-                                      <div class="notify_icon">
-                                          <span class="icon"></span>  
-                                      </div>
-                                      <div class="notify_data">
-                                          <div class="title">
-                                              Lorem, ipsum dolor.  
-                                          </div>
-                                          <div class="sub_title">
-                                            Lorem ipsum dolor sit amet consectetur.
-                                        </div>
-                                      </div>
-                                      <div class="notify_status">
-                                          <p>ABSENT</p>  
-                                      </div>
-                                  </li> 
-                                  <li class="show_all">
-                                      <p class="link">Show All Activities</p>
-                                  </li> 
-                             
-                          </div>
-                          
-                        </div>
-                        
-                      </div>
                   
                   <li class="nav-item">
                 <a class="nav-link" href="../login.php">Logout</a>
