@@ -201,6 +201,45 @@ if($query->rowCount() > 0){
           </div>
             
         </nav>
+
+        <?php
+              
+
+              $stmt = $conn->prepare('SELECT flname_std from students where sec_id=?');
+  $stmt->execute([$sec]);
+  $result = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+  foreach ($result as $value) {
+    $data = $value;
+  }
+              
+        ?>
+
+              
+        <div id="randomizer" class="modal fade">
+
+        
+          <div class="modal-dialog ">
+            <div class="modal-content">
+              <form method="post">
+              <input type="text" class="form-control" name="" hidden>
+                <div class="modal-header">
+                  <h4 class="modal-title">Section</h4>
+                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+                <div class="modal-body" id="dialog">
+                  <div class="card">					
+                    <center><div id="random-name">Generate Randomly</div></center>
+                  </div>
+
+                  <center> <a class="btn1 btn-success" id="generate" name="generate" value="generate"
+                  onclick="setRandomName()" style="color: white;">GENERATE</a>
+
+                  <div id="jstable"></div></center>
+                </div>
+            </div>
+          </div>
+        </div>
+
         <div class="container-xl">
           <div class="table-responsive">
             <div class="table-wrapper">
@@ -276,39 +315,7 @@ if($query->rowCount() > 0){
 
 
 
-        <?php
-              
-              $stmt = $conn->prepare('SELECT FullName FROM students');
-              $stmt->execute(array());
-              $result = $stmt->fetchAll(\PDO::FETCH_ASSOC);
-              foreach ($result as $value) {
-                $data = $value;
-              }
-              ?>
-
-              
-        <div id="randomizer" class="modal fade">
-          <div class="modal-dialog ">
-            <div class="modal-content">
-              <form method="post">
-              <input type="text" class="form-control" name="" hidden>
-                <div class="modal-header">
-                  <h4 class="modal-title">Section</h4>
-                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                </div>
-                <div class="modal-body" id="dialog">
-                  <div class="card">					
-                    <center><div id="random-name">Generate Randomly</div></center>
-                  </div>
-
-                  <center> <a class="btn1 btn-success" id="generate" name="generate" value="generate"
-                  onclick="setRandomName()" style="color: white;">GENERATE</a>
-
-                  <div id="jstable"></div></center>
-                </div>
-            </div>
-          </div>
-        </div>
+        
 
 
 
@@ -325,7 +332,7 @@ if($query->rowCount() > 0){
     <script>const fnames = (<?php echo json_encode($result); ?>);
   const getRandomName = () => {
     let x = fnames[Math.floor(Math.random() * fnames.length)]
-    return fnames.length ? x['FullName'] : 'No value/s to show';
+    return fnames.length ? x['flname_std'] : 'No value/s to show';
   }
 
   const setRandomName = () => {
@@ -377,7 +384,7 @@ if($query->rowCount() > 0){
         document.getElementById("myTable").appendChild(y);
 
         var t = document.createElement("TD");
-        t.appendChild(document.createTextNode(fnames[index]['FullName']));
+        t.appendChild(document.createTextNode(fnames[index]['flname_std']));
         y.appendChild(t);
         
         
