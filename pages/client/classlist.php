@@ -31,6 +31,7 @@ if($query->rowCount() > 0){
 
     $_SESSION['secid']=$row["sec_id"];
     $_SESSION['schdid']=$row["id_schd"];
+    $_SESSION['subid']=$row["sub_id"];
   }
 }
 
@@ -44,10 +45,115 @@ if($query->rowCount() > 0){
   
 
 <head>
+<style>
+  
+  #myTable td{
+    
+    text-align: center;
+    }
+
+    #myTable{
+      height: 2rem;
+      
+    }
+#rando {
+    padding-top: 80px;
+  }
+
+  #random-name {
+    font-size: 30px;
+  }
+    
+
+  #fulln {
+    font-size: 15px;
+    padding-left: 5px;
+  }
+
+  #rem {
+    margin-left: 15px;
+  }
+  .card{
+    color: black;
+    margin-bottom: 25px;
+    border-radius: 15px;
+    box-shadow: 0px 0px 6px 0px;
+  }
+  #random-name {
+    margin: 2rem 0;
+    color: black;
+    }
+  .btn1{
+    position: relative;
+    border-radius: 4em;
+    font-size: 16px;
+    padding: 0.8em 1.8em;
+    cursor:pointer;
+    user-select:none;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition-duration: 0.4s;
+    -webkit-transition-duration: 0.4s; /* Safari */
+   
+    
+  }
+  
+  .btn1:hover {
+    transition-duration: 0.1s;
+    background-color: green;
+    color: white;
+  }
+  
+  
+  
+  .btn1:after {
+    content: "";
+    display: block;
+    position: absolute;
+    border-radius: 4em;
+    left: 0;
+    top:0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: all 0.5s;
+    box-shadow: 0 0 10px 40px white;
+  }
+  
+  .btn1:active:after {
+    box-shadow: 0 0 0 0 white;
+    position: absolute;
+    border-radius: 4em;
+    left: 0;
+    top:0;
+    opacity: 1;
+    transition: 0s;
+  }
+  
+  .btn1:active {
+    top: 1px;
+    color: white;
+  }
+ 
+    #jstable{
+      margin-top: 20px;
+    }
+    #randomizer {
+  position: absolute;
+  float: left;
+  left: 50%;
+  top: 65%;
+  transform: translate(-50%, -50%);
+}
+
+
+
+  </style>
     <link rel='icon' href='../../images/rtu-logo.png'/>
     <title>Student List</title>
 </head>
-  <body>
+  <body onload="createClassList()">
 
   <!--sidebar-->
 
@@ -106,7 +212,8 @@ if($query->rowCount() > 0){
                   <div class="col-sm-6">
                   <form method="post">
                     <a type="button" class="btn btn-success" name="recAtt" href="rec_attendance.php?secid=<?php echo $_SESSION['secid']; ?>schdid=<?php echo $_SESSION['schdid']; ?>"><i class="material-icons custom">class</i> <span>RECORD ATTENDANCE</span></a>
-                    <a type="button" class="btn btn-danger" name="rnd" ><i class="material-icons custom">autorenew</i> <span>RANDOMIZER</span></a></form>				  
+                    <a href="#randomizer" type="button" class="btn btn-danger" data-toggle="modal"><i class="material-icons custom">autorenew</i> <span>RANDOMIZER</span></a>
+                  </form>				  
                   </div>
                 </div>
               </div>
@@ -169,6 +276,42 @@ if($query->rowCount() > 0){
 
 
 
+        <?php
+              
+              $stmt = $conn->prepare('SELECT FullName FROM students');
+              $stmt->execute(array());
+              $result = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+              foreach ($result as $value) {
+                $data = $value;
+              }
+              ?>
+
+              
+        <div id="randomizer" class="modal fade">
+          <div class="modal-dialog ">
+            <div class="modal-content">
+              <form method="post">
+              <input type="text" class="form-control" name="" hidden>
+                <div class="modal-header">
+                  <h4 class="modal-title">Section</h4>
+                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+                <div class="modal-body" id="dialog">
+                  <div class="card">					
+                    <center><div id="random-name">Generate Randomly</div></center>
+                  </div>
+
+                  <center> <a class="btn1 btn-success" id="generate" name="generate" value="generate"
+                  onclick="setRandomName()" style="color: white;">GENERATE</a>
+
+                  <div id="jstable"></div></center>
+                </div>
+            </div>
+          </div>
+        </div>
+
+
+
 
 
 
@@ -179,7 +322,84 @@ if($query->rowCount() > 0){
     <script src="../../js/bootstrap.min.js"></script>
     <script src="../../js/main.js"></script>
 
-      
+    <script>const fnames = (<?php echo json_encode($result); ?>);
+  const getRandomName = () => {
+    let x = fnames[Math.floor(Math.random() * fnames.length)]
+    return fnames.length ? x['FullName'] : 'No value/s to show';
+  }
+
+  const setRandomName = () => {
+    const initialTable = document.getElementById("myTable");
+    initialTable.remove();
+    document.getElementById('random-name').classList.add('animate');
+    const dist = document.querySelector('#random-name');
+
+  document.querySelector('a').addEventListener('click', () => {
+  dist.classList.remove('animate');
+
+  setTimeout(function(){
+    dist.classList.add('animate');
+  },);
+});
+  
+    
+
+    let randomName = getRandomName()
+    document.getElementById('random-name').innerText = randomName;
+    fnames.splice(fnames.findIndex((name) => name.FullName === randomName), 1);
+    createClassList();
+  }
+
+  const createClassList = () => {
+    //Create Table Element
+    var element = document.createElement("TABLE");
+    element.setAttribute("id", "myTable");
+    document.getElementById("jstable").appendChild(element);
+
+    //Create Table Header Element
+    var theader = document.createElement("TR");
+    theader.setAttribute("id", "header");
+    document.getElementById("myTable").appendChild(theader);
+
+    var heads =  'Class List';
+    var x = document.createElement("TH");
+    x.appendChild(document.createTextNode(heads));
+    theader.appendChild(x);
+
+    //Create Table Values (Student Names) Element
+    var index;
+    var len = fnames.length;
+
+    if (len > 0) {
+      for (index = 0, len; index < len; ++index) {
+        var y = document.createElement("TR");
+        y.setAttribute("id", "myTr");
+        document.getElementById("myTable").appendChild(y);
+
+        var t = document.createElement("TD");
+        t.appendChild(document.createTextNode(fnames[index]['FullName']));
+        y.appendChild(t);
+        
+        
+      }
+      }
+
+    else {
+      //Create Table Header Element
+      var theader = document.createElement("TR");
+      theader.setAttribute("id", "header");
+      document.getElementById("myTable").appendChild(theader);
+
+      var heads = 'No more values to show';
+      var x = document.createElement("TD");
+      x.appendChild(document.createTextNode(heads));
+      theader.appendChild(x);
+    }
+  }
+  
+
+
+  </script>
 
 
   </body>

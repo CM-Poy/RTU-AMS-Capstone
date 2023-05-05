@@ -1,45 +1,13 @@
 <?php 
 require('../includes/config.php');
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
 
 session_start();
 
 $secid=$_SESSION['secid'];
 
 global $conn;
-
-
-if(ISSET($_SESSION['schdid'])){
-    $sql="SELECT schd_id, doc, COUNT(*) AS count FROM attendance_list GROUP BY schd_id, doc HAVING count > 1";
-    $query = $conn->prepare($sql);
-    $query->execute();
-
-    if($query->rowCount() > 0){
-        while ($row = $query->fetch(PDO::FETCH_ASSOC)){
-            $idschd = $row['schd_id'];
-            $doc = $row['doc'];
-
-            $sql2="DELETE FROM attendance_list WHERE schd_id = ? AND doc = ? ORDER BY id_attendance DESC LIMIT 1";
-            $query2 = $conn->prepare($sql2);
-            $query2->execute([$idschd,$doc]);
-
-            $_SESSION['error']="ATTENDANCE ALREADY DONE FOR THIS SUBJECT.";
-        }
-    }else{
-        $idsched=$_SESSION['schdid'];
-        $date=date('Y-m-d');
-        $datetime=date('Y-m-d H:i:s');
-        $sql="INSERT INTO attendance_list (`schd_id`,`doc`,`datetimecreated`) values (?,?,?)";
-        $query = $conn->prepare($sql);
-        $query->execute([$idsched,$date,$datetime]);
-    }
-  }
-
-   
- 
-  
-
-
-
 
 
 $sql = "SELECT students.sec_id, students.flname_std, sections.code_sec from students left join sections on students.sec_id = sections.id_sec where sec_id=?";
@@ -53,6 +21,42 @@ $result->execute([$secid]);
             $sec=$row['code_sec'];
         }
     }
+
+    $sql="SELECT schd_id, doc, COUNT(*) AS count FROM attendance_list GROUP BY schd_id, doc HAVING count > 1";
+    $query = $conn->prepare($sql);
+    $query->execute();
+
+    if($query->rowCount() > 0){
+        while ($row = $query->fetch(PDO::FETCH_ASSOC)){
+            $idschd = $row['schd_id'];
+            $doc = $row['doc'];
+
+            $sql2="DELETE FROM attendance_list WHERE schd_id = ? AND doc = ? ORDER BY id_attendance DESC LIMIT 1";
+            $query2 = $conn->prepare($sql2);
+            $query2->execute([$idschd,$doc]);
+
+            //$_SESSION['error']="ATTENDANCE ALREADY DONE FOR THIS SUBJECT.";
+        }
+    }else{
+        $idsched=$_SESSION['schdid'];
+        $date=date('Y-m-d');
+        $datetime=date('Y-m-d H:i:s');
+        $sql="INSERT INTO attendance_list (`schd_id`,`doc`,`datetimecreated`) values (?,?,?)";
+        $query = $conn->prepare($sql);
+        $query->execute([$idsched,$date,$datetime]);
+
+    }
+  
+
+   
+ 
+  
+
+
+
+
+
+
 
 
 if (isset($_POST['qr'])){
@@ -90,26 +94,77 @@ if (isset($_POST['qr'])){
                 while ($row = $query2->fetch(PDO::FETCH_ASSOC)){
                     $present="1";
                     $idatt=$row["id_attendance"];
+                    $_SESSION['idatt']=$row["id_attendance"];
                     $sql = "INSERT INTO  attendance_record (`attendance_id`,`stud_id`, `type`) VALUES ($idatt,$id,$present)  ";
                     $query = $conn->prepare($sql);
                     $query->execute();
+
+                    $sql3= "SELECT * FROM students WHERE id_std=?";
+                    $query3 = $conn->prepare($sql3);
+                    $query3->execute([$id]);
+                    if($query3->rowCount() > 0){
+        
+                        while ($row = $query3->fetch(PDO::FETCH_ASSOC)){
+                            $stdname=$row['flname_std'];
+                            $name=$row['gflname_std'];
+                            $email=$row['gemail_std'];
+
+                            $subj=$_SESSION['subid'];
+                            $sql4= "SELECT * FROM subjects WHERE id_subj=?";
+                            $query4 = $conn->prepare($sql4);
+                            $query4->execute([$subj]);
+
+                            if($query4->rowCount() > 0){
+        
+                                while ($row2 = $query4->fetch(PDO::FETCH_ASSOC)){
+                                    $subj=$row2["name_subj"];
+                                }
+                            }
+
+                            
+                           
+                            $subject = "ATTENDANCE RESULT";
+                            $message = "Student ".$stdname." was present in his class ".$subj;
+
+                            require "../../vendor/autoload.php";
+                            $mail = new PHPMailer(true);
+
+                            // $mail->SMTPDebug = SMTP::DEBUG_SERVER;
+
+                            $mail->isSMTP();
+                            $mail->SMTPAuth = true;
+
+                            $mail->Host = "smtp.gmail.com";
+                            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+                            $mail->Port = 587;
+
+                            $mail->Username = "rtuboni.ams@gmail.com";
+                            $mail->Password = "eidwfqkytlhuzjdl";
+
+                            $mail->setFrom("rtuboni.ams@gmail.com","RTU Boni-Attendance Management System");
+                            $mail->addAddress($email, $name);
+
+                            $mail->Subject = $subject;
+                            $mail->Body = $message;
+
+                            $mail->send();
+                        }
+                    }else{
+                        
+                    }
+
+                    
+                    
                 }
             }
 
-
+            
+           
 
             
         }
     
-    $sql="SELECT attendance_record.stud_id from attendance record where attendance_record.attendance_id =?";
-    $query = $conn->prepare($sql);
-    $query->execute([$idatt]);
-    if($query->rowCount() > 0){
-        
-        while ($row = $query->fetch(PDO::FETCH_ASSOC)){
-            $idstd=$row["stud_id"];
-        }
-    }
+    
             
 
             
@@ -118,6 +173,8 @@ if (isset($_POST['qr'])){
         $_SESSION['error'] =  "You are not enrolled to this subject.";
     }
 }
+
+
 
 
 
@@ -155,7 +212,7 @@ if (isset($_POST['qr'])){
 <body>
 
     <section class="side">
-      
+     
         <div class="col-sm-12">
             <video id="preview" class="p-1 border" width="125%"></video>
                 
@@ -244,10 +301,10 @@ if (isset($_POST['qr'])){
 
                     <!--Table body-->
                     <tbody>
-                    
-                        <tr class="table-info">
-                            <td><?php echo $row["stud_id"]; ?></td>
-                        </tr>
+
+
+
+                        
                     </tbody>
                      
                     <!--Table body-->
@@ -262,3 +319,12 @@ if (isset($_POST['qr'])){
 
 
 </html>
+
+
+
+<script>
+if ( window.history.replaceState ) {
+  window.history.replaceState( null, null, window.location.href );
+}
+</script>
+
