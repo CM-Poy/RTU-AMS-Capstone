@@ -51,7 +51,7 @@ class dbfunction{
         }
         
       }else{
-        $_SESSION['error']="Please Enter Institutional Email and Password.";
+        $_SESSION['error']=" Input Institutional Email and Password";
       } 
     }
   }      
