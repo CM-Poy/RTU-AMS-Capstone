@@ -223,7 +223,6 @@ if($query->rowCount() > 0){
               <form method="post">
               <input type="text" class="form-control" name="" hidden>
                 <div class="modal-header">
-                  <h4 class="modal-title">Section</h4>
                   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 </div>
                 <div class="modal-body" id="dialog">
@@ -248,10 +247,15 @@ if($query->rowCount() > 0){
                   <div class="col-sm-6">
                     <h2><b>Students</b></h2>
                   </div>
+                  
+                  
                   <div class="col-sm-6">
                   <form method="post">
+                  
+
                     <a type="button" class="btn btn-success" name="recAtt" href="rec_attendance.php?secid=<?php echo $_SESSION['secid']; ?>schdid=<?php echo $_SESSION['schdid']; ?>"><i class="material-icons custom">class</i> <span>RECORD ATTENDANCE</span></a>
                     <a href="#randomizer" type="button" class="btn btn-danger" data-toggle="modal"><i class="material-icons custom">autorenew</i> <span>RANDOMIZER</span></a>
+                    <a type="button" class="btn btn-warning" href="rep_attendance.php"><i class="material-icons custom">&#xebbe;</i> <span>ATTENDANCE REPORT</span></a>
                   </form>				  
                   </div>
                 </div>
@@ -297,6 +301,7 @@ if($query->rowCount() > 0){
                   
                 </tbody>
               </table>
+
               <div class="clearfix">
                 <div class="hint-text">Showing <b>5</b> out of <b>25</b> entries</div>
                 <ul class="pagination">
@@ -309,6 +314,7 @@ if($query->rowCount() > 0){
                   <li class="page-item"><a href="#" class="page-link">Next</a></li>
                 </ul>
               </div>
+              
             </div>
           </div>        
         </div>

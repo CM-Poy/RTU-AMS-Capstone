@@ -49,6 +49,20 @@ class dbfunction{
         }else{
             $_SESSION['error']="Invalid Password";
         }
+
+        $sql2 = "SELECT * FROM users WHERE instemail_users=? and usertype_users=3";
+        $query2 = $conn->prepare($sql2);
+        $query2->execute([$instEmail]);
+        $row2 = $query2->fetch();
+
+        if($row2==0){
+          $_SESSION['error']="Invalid Institutional Email.";
+        }elseif($row2 && password_verify($pwd,$row2['pwd_users'])){
+          $_SESSION['user'] = $row2['id_users'];
+          header("location: authenticate_superadmin.php");
+        }else{
+            $_SESSION['error']="Invalid Password";
+        }
         
       }else{
         $_SESSION['error']="Please Enter Institutional Email and Password.";
@@ -608,7 +622,7 @@ class dbfunction{
         $query= $conn->prepare($sql);
         $query->execute([$id]);
         $row = $query->fetch();
-        
+
 
         if($row > 0){
           if(password_verify($oldpwd,$row['pwd_users'])){
