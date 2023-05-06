@@ -23,13 +23,13 @@ if (!isset($_SESSION['failed'])) {
 <head>
     <meta charset="UTF-8">
     <title>RTU AMS AUTHENTICATION</title>
-    <link rel="icon" href="favicon.ico" type="image/x-icon" />
+    <link rel='icon' href='../images/rtu-logo.png'/>
     <meta name="description" content="Implement Google like Time-Based Authentication into your existing PHP application. And learn How to Build it? How it Works? and Why is it Necessary these days."/>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
-    <link rel='shortcut icon' href='/favicon.ico'  />
+    
     <style>
         *{
             font-family: 'Poppins', sans-serif;
@@ -84,7 +84,9 @@ if (!isset($_SESSION['failed'])) {
         
     
     </style>
+    
 </head>
+
 <body  class="bg">
     <div class="container">
         <div class="logo">

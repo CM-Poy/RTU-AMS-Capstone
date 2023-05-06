@@ -42,6 +42,7 @@ $result->execute([$id]);
   <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
      <link rel="stylesheet" href="../../../css/css_update/updatestyle.css">
+     <link rel='icon' href='../../../images/rtu-logo.png'/>
     
     <title>Edit Teacher</title>
 </head>

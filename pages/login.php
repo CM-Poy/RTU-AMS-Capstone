@@ -24,7 +24,7 @@ if (!isset($_SESSION['error'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <title>Log in page</title>
+    <title>RTU-AMS: LOGIN</title>
 </head>
 <body>
 
