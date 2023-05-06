@@ -22,6 +22,7 @@ if (!isset($_SESSION['failed'])) {
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel='icon' href='../images/rtu-logo.png'/>
     <title>RTU AMS AUTHENTICATION</title>
     <link rel="icon" href="favicon.ico" type="image/x-icon" />
     <meta name="description" content="Implement Google like Time-Based Authentication into your existing PHP application. And learn How to Build it? How it Works? and Why is it Necessary these days."/>
@@ -37,6 +38,7 @@ if (!isset($_SESSION['failed'])) {
         body,html {
             height: 100%;
             
+            
         }       
 
 
@@ -46,7 +48,6 @@ if (!isset($_SESSION['failed'])) {
             /* Full height */
             height: 100%; 
             /* Center and scale the image nicely */
-            background-position: center;
             background-repeat: no-repeat;
            
             background-size: cover;
@@ -81,7 +82,19 @@ if (!isset($_SESSION['failed'])) {
              width: 40%;
              height: auto; 
         }
-        
+        /* nice scroll bar */
+        ::-webkit-scrollbar {
+        width: 5px;
+        }
+        ::-webkit-scrollbar-track {
+        background: #f5f5f5;
+        border-radius: 50px;
+        }
+        ::-webkit-scrollbar-thumb {
+        background: #DAA520;
+        border-radius: 50px;
+        }
+
     
     </style>
 </head>
@@ -106,7 +119,7 @@ if (!isset($_SESSION['failed'])) {
                         <?php endif ?>
                             
                             <img style="text-align: center;;" class="img-fluid" src="<?php   echo $qrCodeUrl ?>" alt="Verify this Google Authenticator"><br><br>        
-                            <input type="text" class="form-control" name="code" placeholder="******" style="font-size: xx-large;width: 200px;border-radius: 5px;text-align: center;display: inline;color: #0275d8;"><br> <br>    
+                            <input type="text" class="form-control" name="code" placeholder="••••••" style="font-size: xx-large;width: 200px;border-radius: 5px;text-align: center;display: inline; color:#0275d8;"><br> <br>    
                             <button type="submit" class="btn btn-md btn-warning" id="ver" style="width: 200px;border-radius: 5px;  background-color: #DAA520;;">VERIFY</button>
 
                     </div>

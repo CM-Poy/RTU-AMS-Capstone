@@ -38,6 +38,7 @@ if (!isset($_SESSION['pwderror'])) {
 <!doctype html>
 <html lang="en">
   <head>
+    <link rel='icon' href='../../images/rtu-logo.png'/>
   	<title>Account</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -46,50 +47,9 @@ if (!isset($_SESSION['pwderror'])) {
     <link rel="stylesheet" href="../../css/css_client/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script>
-        $(document).ready(function(){
-            $(".profile .icon_wrap").click(function(){
-              $(this).parent().toggleClass("active");
-              $(".notifications").removeClass("active");
-            });
-
-            $(".notifications .icon_wrap").click(function(){
-              $(this).parent().toggleClass("active");
-               $(".profile").removeClass("active");
-            });
-
-            $(".show_all .link").click(function(){
-              $(".notifications").removeClass("active");
-              $(".popup").show();
-            });
-
-            $(".close").click(function(){
-              $(".popup").hide();
-            });
-        });
-    </script>
+       
    <style>
 
-.card{
-    margin: 25px;
-          }
-.container{
-    margin-top: 150px;
-        }
-.card{
-    border-radius: 4px;
-    background: #fff;
-    box-shadow: 0 6px 10px rgba(0,0,0,.08), 0 0 6px rgba(0,0,0,.05);
-    transition: .3s transform cubic-bezier(.155,1.105,.295,1.12),.3s box-shadow,.3s -webkit-transform cubic-bezier(.155,1.105,.295,1.12);
-}
-
-.card{
-  box-shadow: 0 10px 20px rgba(0,0,0,.12), 0 4px 8px rgba(0,0,0,.06);
-}
-
-.card h3{
-  font-weight: 600;
-}
 #content{
     margin: 0;
     padding: 0;
@@ -129,7 +89,7 @@ if (!isset($_SESSION['pwderror'])) {
                 <a href="#" class="img logo rounded-circle mb-5" style="background-image: url(../../images/rtu-logo.png);"></a>
             <ul class="list-unstyled components mb-5">
               <li class="">
-                <a href="today.php">&nbsp;&nbsp;&nbsp;<i class="fa-sharp fa-solid fa-calendar-day fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>DASHBOARD</a>
+                <a href="today.php">&nbsp;&nbsp;&nbsp;<i class="fa-sharp fa-solid fa-calendar-day fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>TODAY</a>
               </li>
               <li class="">
                <a href="calendar.php">&nbsp;&nbsp;&nbsp;<i class="fa-sharp fa-solid fa-calendar-days fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>CALENDAR</a>
@@ -165,6 +125,7 @@ if (!isset($_SESSION['pwderror'])) {
                         ?>
                       <?php endif ?>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <span class="sr-only">Toggle Menu</span>
               <ul class="nav navbar-nav ml-auto">
                 
                 <li class="nav-item">
@@ -173,12 +134,6 @@ if (!isset($_SESSION['pwderror'])) {
             </ul>
             
             </div>
-
-
-
-
-
-
 
           </div>
             

@@ -40,8 +40,9 @@ $result->execute([$id]);
   
 <head>
 <meta charset="UTF-8">
+    <link rel='icon' href='../../../images/rtu-logo.png'/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-     <link rel="stylesheet" href="../../../css/css_update/updatestyle.css">
+     <link rel="stylesheet" href="../../../css/css_update/editstyle.css">
     
     <title>Edit Teacher</title>
 </head>
@@ -49,7 +50,7 @@ $result->execute([$id]);
 
     
    
-    <div class="edit-wrapper">
+<div class="edit-wrapper">
         <div class="edit-container">
             <p class="title">EDIT TEACHER</p>
             <div class="separator"></div>
@@ -79,11 +80,10 @@ $result->execute([$id]);
                 <label>Password</label>
                     <div class="form-control">
                         <input type="password" name="pwd" value="<?php echo $pwd_users;?>" required>
-                    </div>		
-                
-                
-                <a href="../teachers.php"><input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel" ></a>
-                <button class="submit" name="updBtn">Save</button>
+                    </div>  
+
+                <button class="submit" name="updBtn">Save </button>
+                <button class="cancel" name="cancel" type="cancel" onclick="window.location='../teachers.php';return false;" >Cancel</button>
             </form>
         </div>
     </div>

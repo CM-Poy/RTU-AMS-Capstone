@@ -20,6 +20,7 @@ if (!isset($_SESSION['error'])) {
 ?>
   
 <head>
+    <link rel='icon' href='../images/rtu-logo.png'/>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
@@ -35,15 +36,17 @@ if (!isset($_SESSION['error'])) {
         <div class="login-container">
             <p class="title">ATTENDANCE MANAGEMENT SYSTEM</p>
             <div class="separator"></div>
-            <p class="welcome-message">Provide Registered Credentials</p>
                     <?php if ($_SESSION['error']): ?>
-                        <div class="alert alert-danger" role="alert">
+                           <!-- Error Message HTML -->
+                           <div class="validation"> 
                             <strong><?php echo $_SESSION['error'];?></strong>
                         </div>
+                               <!-- End Error Message HTML -->
                         <?php   
                             $_SESSION['error'] = false;
                         ?>
                     <?php endif ?>
+                    
             <form class="login-form" method="post">
                 <div class="form-control">
                     <input type="text" name="instEmail" placeholder="Instituitional Email">

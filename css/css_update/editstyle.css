@@ -68,14 +68,6 @@ body {
 
 }
 
-.textarea{
-    resize: none;
-    font-size: 1em;
-    height: 75px;
-    width: 100%;
-
-}
-
 input,
 button {
     border: none;
@@ -89,7 +81,7 @@ input {
     background: #e6e6e6;
     color: #333;
     letter-spacing: 0.5px;
-    padding: 14px 64px;
+    padding: 14px 15px;
 }
 
 input ~ i {
@@ -101,14 +93,11 @@ input ~ i {
     transition: color   0.4s;
 }
 
-input:focus ~ i {
-    color: #DAA520;
-}
 
 button.submit {
     color: #fff;
     padding: 14px 64px;
-    margin: 32px auto;
+    margin:0 auto;
     text-transform: uppercase;
     letter-spacing: 2px;
     font-weight: bold;
@@ -121,3 +110,18 @@ button.submit:hover {
     opacity: 0.8;
 }
 
+button.cancel {
+    color: #fff;
+    padding: 14px 50px;
+    margin: 5px auto;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: bold;
+    background-color: red;
+    cursor: pointer;
+    transition: opacity 0.4s;
+}
+
+button.cancel:hover {
+    opacity: 0.8;
+}

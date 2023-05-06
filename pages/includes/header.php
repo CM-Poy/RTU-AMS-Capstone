@@ -10,18 +10,14 @@
     <link rel="stylesheet" href="../../css/css_admin/adminstyle.css">
     <link rel="stylesheet" href="../../css/css_admin/tableadmin.css">
     <link rel="stylesheet" href="../../css/css_calendar/calendarstyle.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
     <link rel="stylesheet" href="../css/css_front/frontstyle.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
     <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src='fullcalendar/main.js'></script>
-   
-    
     
     <!--/Background Design-->
    <style>
@@ -45,45 +41,78 @@
         }
 
         .search-click {
-  border: 1px solid #ccc;
-  outline: none;
-  background-size: 22px;
-  background-position: 13px;
-  border-radius: 10px;
-  width: 50px;
-  height: 50px;
-  padding: 25px;
-  transition: all 0.5s;
-  float: right;
-  margin-right: -15px;
-  margin-bottom: -20px;
-  margin-top: -25px;
-}
-.search-click:focus {
-  width: 300px;
-  padding-left: 50px;
-}
-.search-click {
-  position: relative;
-  overflow: hidden;
-  height: 50px;
-}
-.search-click input {
-  background: transparent;
-  border: 1px solid #ccc;
-  outline: none;
-  position: absolute;
-  width: 300px;
-  height: 50px;
-  left: 0%;
-  padding: 10px;
-}
-#searchbtn{
-  float: right;
-  margin-right: 10px;
-  margin-top: -15px;
-  margin-bottom: 20px;
-}
+        border: 1px solid #ccc;
+        outline: none;
+        background-size: 22px;
+        background-position: 13px;
+        border-radius: 10px;
+        width: 50px;
+        height: 50px;
+        padding: 25px;
+        transition: all 0.5s;
+        float: right;
+        margin-right: -15px;
+        margin-bottom: -20px;
+        margin-top: -25px;
+      }
+      .search-click:focus {
+        width: 300px;
+        padding-left: 50px;
+      }
+      .search-click {
+        position: relative;
+        overflow: hidden;
+        height: 50px;
+      }
+      .search-click input {
+        background: transparent;
+        border: 1px solid #ccc;
+        outline: none;
+        position: absolute;
+        width: 300px;
+        height: 50px;
+        left: 0%;
+        padding: 10px;
+      }
+      #searchbtn{
+        float: right;
+        margin-right: 10px;
+        margin-top: -15px;
+        margin-bottom: 20px;
+      }
+
+      /*VALIDATION DESIGN */
+      .validation {
+        border: 1px solid;
+        margin: 10px auto;
+        padding: 5px 5px 5px 5px;
+        background-repeat: no-repeat;
+        background-position: 10px center;
+        max-width: 460px;
+        margin-bottom: 30px
+      }
+
+      .validation {
+        color: #D63301;
+        font-weight: lighter;
+        background-color: #FFCCBA;
+      }
+
+     /* nice scroll bar */
+     ::-webkit-scrollbar {
+        width: 5px;
+        }
+        ::-webkit-scrollbar-track {
+        background: #f5f5f5;
+        border-radius: 50px;
+        }
+        ::-webkit-scrollbar-thumb {
+        background: #DAA520;
+        border-radius: 50px;
+        }
+
+
+
         
     </style>
    

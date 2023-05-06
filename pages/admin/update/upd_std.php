@@ -50,8 +50,9 @@ $result->execute([$id]);
 ?>
   
   <meta charset="UTF-8">
+    <link rel='icon' href='../../../images/rtu-logo.png'/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-     <link rel="stylesheet" href="../../../css/css_update/updatestyle.css">
+     <link rel="stylesheet" href="../../../css/css_update/editstyle.css">
     
     <title>Edit Student</title>
 </head>
@@ -171,9 +172,8 @@ $result->execute([$id]);
                   ?>
                 </div>						
 
-
-                <a href="../students.php"><input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel" ></a>
-                <button class="submit" name="updBtn">Save</button>
+                <button class="submit" name="updBtn">Save </button>
+                <button class="cancel" name="cancel" type="cancel" onclick="window.location='../teachers.php';return false;" >Cancel</button>
             </form>
           </div>
         </div>
