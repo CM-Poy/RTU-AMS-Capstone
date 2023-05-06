@@ -38,6 +38,7 @@ $result->execute([$id]);
   
 <head>
 <meta charset="UTF-8">
+<link rel='icon' href='../../../images/rtu-logo.png'/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
      <link rel="stylesheet" href="../../../css/css_update/updatestyle.css">
      <link rel='icon' href='../../../images/rtu-logo.png'/>
@@ -68,8 +69,8 @@ $result->execute([$id]);
                         <input type="text" name="units" value="<?php echo $units_subj;?>" required>
                     </div>
             
-                    <a href="../subjects.php"><input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel" ></a>
-                    <button class="submit" name="updBtn">Save</button>
+                    <button class="submit" name="updBtn">Save </button>
+                    <button class="cancel" name="cancel" type="cancel" onclick="window.location='../subjects.php';return false;" >Cancel</button>
             </form>
         </div>
 
