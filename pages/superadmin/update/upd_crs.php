@@ -37,9 +37,9 @@ $result->execute([$id]);
   
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../../../css/css_update/updatestyle.css">
     <link rel='icon' href='../../../images/rtu-logo.png'/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <link rel="stylesheet" href="../../../css/css_update/updstyle.css">
     <title>Edit Courses</title>
 </head>
 <body>
@@ -83,10 +83,10 @@ $result->execute([$id]);
 
                         echo '</select>';
                         ?>
-                    </div>
-           
-                <a href="../courses.php"><input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel" ></a>
-                <button class="submit" name="updBtn">Save</button>  
+                    </div>  
+                    <button class="cancel" name="cancel" type="cancel" onclick="window.location='../courses.php';return false;" >Cancel</button>
+                    <button class="submit" name="updBtn">Save </button>
+                    
             </form>
         </div>
 
