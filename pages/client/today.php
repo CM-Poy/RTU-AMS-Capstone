@@ -11,7 +11,6 @@ session_start();
 <!doctype html>
 <html lang="en">
   <head>
-  <link rel='icon' href='../../images/rtu-logo.png'/>
   	<title>Today</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -98,9 +97,6 @@ $(".close,.buttons").click(function() {
             <ul class="list-unstyled components mb-5">
               <li class="">
                 <a href="today.php">&nbsp;&nbsp;&nbsp;<i class="fa-sharp fa-solid fa-calendar-day fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>TODAY</a>
-              </li>
-              <li class="">
-               <a href="calendar.php">&nbsp;&nbsp;&nbsp;<i class="fa-sharp fa-solid fa-calendar-days fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>CALENDAR</a>
               </li>
               <li>
               <a href="account.php" >&nbsp;&nbsp;&nbsp;<i class="fa-solid fa-user fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>ACCOUNT</a>
