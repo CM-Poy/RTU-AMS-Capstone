@@ -180,7 +180,10 @@ if (isset($_POST['qr'])){
 
 
 
-
+if(!isset($_SESSION['user'])) {
+    header("Location: ../login.php");
+    exit;
+    }
 
 ?>
 
@@ -301,5 +304,16 @@ if (isset($_POST['qr'])){
 if ( window.history.replaceState ) {
   window.history.replaceState( null, null, window.location.href );
 }
+</script>
+
+<script>
+window.addEventListener('load', function() {
+  // Get the current page URL
+  var currentUrl = window.location.href;
+  
+  // Change the URL to the desired format
+  var newUrl = currentUrl + '?rtuams-rec-att?=jmd';
+  window.history.pushState({ path: newUrl }, '', newUrl);
+});
 </script>
 

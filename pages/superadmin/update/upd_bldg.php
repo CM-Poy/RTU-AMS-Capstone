@@ -10,6 +10,8 @@ require('../../includes/config.php');
 
 $id=$_REQUEST['updid'];
 
+
+
 global $conn;
 $sql = "SELECT * from building where id_bldg=?";
 $result = $conn->prepare($sql);
@@ -70,3 +72,14 @@ $result->execute([$id]);
     
 </body>
 </html>
+
+<script>
+window.addEventListener('load', function() {
+  // Get the current page URL
+  var currentUrl = window.location.href;
+  
+  // Change the URL to the desired format
+  var newUrl = currentUrl + '?rtuams-update-bldg=cmqrmsjmdere';
+  window.history.pushState({ path: newUrl }, '', newUrl);
+});
+</script>

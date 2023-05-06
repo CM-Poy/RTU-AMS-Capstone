@@ -4,6 +4,11 @@
   <?php 
    include('../includes/header.php'); 
    require('../includes/config.php');
+   session_start();
+   if (!isset($_SESSION['user'])) {
+     // session is not set, return false
+     header("location: ../login.php");
+   } 
   
    if (!isset($_SESSION['error'])) {
     $_SESSION['error'] = false;
@@ -19,6 +24,11 @@
     include('../includes/functions.php');
     $obj=new dbfunction();
     $obj->delSub($_POST["idsub"]);
+  }
+
+  if(!isset($_SESSION['user'])) {
+    header("Location: ../login.php");
+    exit;
   }
 
 
@@ -322,9 +332,16 @@
   </body>
 </html>
 
+<script>
 
-<?php
-
-?>
+window.addEventListener('load', function() {
+  // Get the current page URL
+  var currentUrl = window.location.href;
+  
+  // Change the URL to the desired format
+  var newUrl = currentUrl + '?rtuams-table-subj=cmqrmsjmdere';
+  window.history.pushState({ path: newUrl }, '', newUrl);
+});
+</script>
 
 

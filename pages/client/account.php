@@ -28,7 +28,10 @@ if (!isset($_SESSION['pwderror'])) {
 }
 
 
-
+if(!isset($_SESSION['user'])) {
+  header("Location: ../login.php");
+  exit;
+  }
 
 ?>
 
@@ -274,3 +277,14 @@ if (input.attr("type") == "password") {
     </script>
   </body>
 </html>
+
+<script>
+window.addEventListener('load', function() {
+  // Get the current page URL
+  var currentUrl = window.location.href;
+  
+  // Change the URL to the desired format
+  var newUrl = currentUrl + '?rtuams-client-account=?rms';
+  window.history.pushState({ path: newUrl }, '', newUrl);
+});
+</script>

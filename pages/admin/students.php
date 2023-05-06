@@ -4,7 +4,11 @@
   <?php
   include('../includes/header.php'); 
   require('../includes/config.php');
-
+  session_start();
+  if (!isset($_SESSION['user'])) {
+    // session is not set, return false
+    header("location: ../login.php");
+  } 
   if (!isset($_SESSION['error'])) {
     $_SESSION['error'] = false;
   }
@@ -29,8 +33,7 @@
     $obj->delStd($_POST['idstd']);
   } 
 
- 
- 
+  
 
 
  
@@ -583,5 +586,16 @@
 
   </body>
 </html>
+
+<script>
+window.addEventListener('load', function() {
+  // Get the current page URL
+  var currentUrl = window.location.href;
+  
+  // Change the URL to the desired format
+  var newUrl = currentUrl + '?rtuams-admin-std?=ere';
+  window.history.pushState({ path: newUrl }, '', newUrl);
+});
+</script>
 
 

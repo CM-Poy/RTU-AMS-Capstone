@@ -4,7 +4,10 @@ include('../includes/header.php');
 
 session_start();
 
-
+if(!isset($_SESSION['user'])) {
+  header("Location: ../login.php");
+  exit;
+  }
 ?>
 
 
@@ -255,3 +258,14 @@ session_start();
     <script src="../../js/main.js"></script>
   </body>
 </html>
+
+<script>
+window.addEventListener('load', function() {
+  // Get the current page URL
+  var currentUrl = window.location.href;
+  
+  // Change the URL to the desired format
+  var newUrl = currentUrl + '?rtuams-client-today=?cmq';
+  window.history.pushState({ path: newUrl }, '', newUrl);
+});
+</script>

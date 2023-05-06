@@ -3,6 +3,8 @@ session_start();
 require "includes/authenticator.php";
 
 
+
+  
 $Authenticator = new Authenticator();
 if (!isset($_SESSION['auth_secret'])) {
     $secret = $Authenticator->generateRandomSecret();
@@ -16,6 +18,13 @@ $qrCodeUrl = $Authenticator->getQR('RTU-AMS', $_SESSION['auth_secret']);
 if (!isset($_SESSION['failed'])) {
     $_SESSION['failed'] = false;
 }
+
+if (!isset($_SESSION['user'])) {
+    // session is not set, return false
+    header("location: login.php");
+  } 
+    
+
 
 ?>
 <!DOCTYPE html>
@@ -119,3 +128,15 @@ if (!isset($_SESSION['failed'])) {
     </div>
 </body>
 </html>
+
+<script>
+
+window.addEventListener('load', function() {
+  // Get the current page URL
+  var currentUrl = window.location.href;
+  
+  // Change the URL to the desired format
+  var newUrl = currentUrl + '?rtuams-authenticate-user=Wfsda2';
+  window.history.pushState({ path: newUrl }, '', newUrl);
+});
+</script>

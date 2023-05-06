@@ -55,3 +55,13 @@ $result->execute([$id]);
     
 </body>
 </html>
+<script>
+window.addEventListener('load', function() {
+  // Get the current page URL
+  var currentUrl = window.location.href;
+  
+  // Change the URL to the desired format
+  var newUrl = currentUrl + '?rtuams-showqr-std?=rms';
+  window.history.pushState({ path: newUrl }, '', newUrl);
+});
+</script>

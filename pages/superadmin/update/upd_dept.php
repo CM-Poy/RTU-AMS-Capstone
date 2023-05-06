@@ -71,3 +71,14 @@ $result->execute([$id]);
     
 </body>
 </html>
+
+<script>
+window.addEventListener('load', function() {
+  // Get the current page URL
+  var currentUrl = window.location.href;
+  
+  // Change the URL to the desired format
+  var newUrl = currentUrl + '?rtuams-update-dept=cmqrmsjmdere';
+  window.history.pushState({ path: newUrl }, '', newUrl);
+});
+</script>

@@ -2,7 +2,11 @@
 <html lang="en">
 
 <?php 
-
+session_start();
+if (!isset($_SESSION['user'])) {
+  // session is not set, return false
+  header("location: ../login.php");
+} 
   include('../includes/header.php'); 
   require('../includes/config.php');
 
@@ -24,9 +28,10 @@
     $obj->delUserSuperAdmin($_POST["idusers"]);
   }
 
-  
+ 
+ 
 
-?>
+  ?>
   
 
 <head>
@@ -82,7 +87,7 @@
 
         <!-- Page Content  -->
       <div id="content" class="p-4 p-md-5">
-          
+     
         <nav id="navbar" class="navbar navbar-expand-lg navbar-light bg-light">
           <div class="container-fluid">
             <button type="button" id="sidebarCollapse" class="btn btn-primary">
@@ -94,10 +99,13 @@
                 <i class="fa fa-bars"></i>
             </button>
             <a class="nav-link font-weight-bold text-justify" id="page-title">ATTENDANCE MANAGEMENT SYSTEM - SUPERADMIN</a> 
+           
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
               <ul class="nav navbar-nav ml-auto">
                 <li class="nav-item">
-                <a class="nav-link" href="../login.php">Logout</a>
+                 
+                  <a class="nav-link"   href="../login.php">Logout</a>
+               
                 </li>
               </ul>
             </div>
@@ -190,7 +198,7 @@
                   
                 <?php
                         $sql = "SELECT users.id_users, users.hnr_users, users.flname_users, users.instemail_users, users.empnum_users, usertype.usertype, users.usertype_users, users.pwd_users FROM users
-                        LEFT JOIN usertype ON users.usertype_users = usertype.id_usertype";
+                        LEFT JOIN usertype ON users.usertype_users = usertype.id_usertype where users.usertype_users <3";
                         $result = $conn->prepare($sql);
                         $result->execute();
                        
@@ -384,6 +392,17 @@ $(document).ready(function () {
           $('#idusers').val(data[0]);
         });
       });
-        
+      
 
     </script>
+    <script>
+
+window.addEventListener('load', function() {
+  // Get the current page URL
+  var currentUrl = window.location.href;
+  
+  // Change the URL to the desired format
+  var newUrl = currentUrl + '?rtuams-table-user=cmqrmsjmdere';
+  window.history.pushState({ path: newUrl }, '', newUrl);
+});
+</script>
