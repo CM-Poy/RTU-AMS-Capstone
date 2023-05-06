@@ -82,6 +82,29 @@ class dbfunction{
         $pwd_users="1234";
         $pwdhashed=md5($pwd_users,false);
 
+        $stmt = $conn->prepare("SELECT * FROM users WHERE instemail_users=?");
+        $stmt2 = $conn->prepare("SELECT * FROM users WHERE empnum_users=?");
+
+         
+      //execute the statement
+      $stmt->execute([$instemail_users]); 
+      $stmt2->execute([$empnum_users]);
+         
+      //fetch result
+      $user = $stmt->fetch();
+      $user2 = $stmt2->fetch();
+      
+      
+      if($user) 
+        $_SESSION['error']="Email Already Exist.";
+        else if($user2)
+          $_SESSION['error']="Employee Number Already Exist.";
+          
+        
+        
+       
+        else{
+
         
         $sql = "INSERT INTO  users (flname_users,hnr_users,instemail_users,empnum_users,pwd_users,usertype_users) VALUES (?,?,?,?,?,?)";
         $query = $conn->prepare($sql);
@@ -90,6 +113,7 @@ class dbfunction{
       } 
     }
   }
+}
 
 
   function addUserAdmin($hnr_users,$flname_users,$instemail_users,$empnum_users,$pwd_users,$usertype_users){
@@ -106,12 +130,37 @@ class dbfunction{
         $pwd_users="1234";
         $pwdhashed=md5($pwd_users,false);
 
+      $stmt = $conn->prepare("SELECT * FROM users WHERE instemail_users=?");
+      $stmt2 = $conn->prepare("SELECT * FROM users WHERE empnum_users=?");
+      
+    
+     
+      //execute the statement
+      $stmt->execute([$instemail_users]); 
+      $stmt2->execute([$empnum_users]);
+         
+      //fetch result
+      $user = $stmt->fetch();
+      $user2 = $stmt2->fetch();
+      
+      
+      if($user) 
+        $_SESSION['error']="Email Already Exist.";
+        else if($user2)
+          $_SESSION['error']="Employee Number Already Exist.";
+          
+        
+        
+       
+        else{
+
         $sql = "INSERT INTO  users (flname_users,hnr_users,instemail_users,empnum_users,pwd_users,usertype_users) VALUES (?,?,?,?,?,?)";
         $query = $conn->prepare($sql);
         $query->execute([$flname_users, $hnr_users, $instemail_users, $empnum_users, $pwdhashed, $usertype_users]);
       
       } 
     }
+  }
   }
 
 
@@ -292,7 +341,8 @@ class dbfunction{
         $fetch = $query->fetch();
 
         if($row>0){
-          phpAlert( "ERROR\\n\\nSchedule overlapped" ); 
+          $_SESSION['error']="ERROR: Schedules Overlapping.";
+            
         }else{
        
        
@@ -458,7 +508,7 @@ class dbfunction{
         $code=$_POST["code"];
         $bldg=$_POST["bldg"];
 
-        $stmt = $conn->prepare("SELECT * FROM building WHERE code_room=?");
+        $stmt = $conn->prepare("SELECT * FROM room WHERE code_room=?");
        
         //execute the statement
      
@@ -469,8 +519,8 @@ class dbfunction{
         $coderoom = $stmt->fetch();
         
         
-        if($namebldg) 
-          $_SESSION['error']="Building Name Already Exist.";
+        if($coderoom) 
+          $_SESSION['error']="Room Already Exist.";
             
           
          
@@ -598,62 +648,97 @@ class dbfunction{
         }
 
         if($flname != $check['flname_std']){
-          $sql="UPDATE students set  flname_std=?  where id_std=?";
-          $query = $conn->prepare($sql);
-          $query->execute([$flname,$id]);
-  
-          header("location: ../students.php");
+          
+            $sql="UPDATE students set id_std=?, flname_std=?, instemail_std = ?, studnum_std=?, gflname_std=?, gemail_std=?, crs_id=?, yrlvl_id=?, sec_id=? where id_std=?";
+            $query = $conn->prepare($sql);
+            $query->execute([$id,$flname,$email,$studnum,$gflname,$gemail,$crs,$yr,$sec,$id]);
+            header("location: ../students.php");  
         }
         if($crs!= $check['crs_id']){
-          $sql="UPDATE students set  crs_id=?  where id_std=?";
-          $query = $conn->prepare($sql);
-          $query->execute([$flname,$id]);
-  
-          header("location: ../students.php");
+          
+            $sql="UPDATE students set id_std=?, flname_std=?, instemail_std = ?, studnum_std=?, gflname_std=?, gemail_std=?, crs_id=?, yrlvl_id=?, sec_id=? where id_std=?";
+            $query = $conn->prepare($sql);
+            $query->execute([$id,$flname,$email,$studnum,$gflname,$gemail,$crs,$yr,$sec,$id]);
+            header("location: ../students.php");  
         }
         if($yr != $check['yrlvl_id']){
-          $sql="UPDATE students set  yrlvl_id=?  where id_std=?";
-          $query = $conn->prepare($sql);
-          $query->execute([$flname,$id]);
-  
-          header("location: ../students.php");
+          
+            $sql="UPDATE students set id_std=?, flname_std=?, instemail_std = ?, studnum_std=?, gflname_std=?, gemail_std=?, crs_id=?, yrlvl_id=?, sec_id=? where id_std=?";
+            $query = $conn->prepare($sql);
+            $query->execute([$id,$flname,$email,$studnum,$gflname,$gemail,$crs,$yr,$sec,$id]);
+            header("location: ../students.php");  
         }
          if($yr != $check['yrlvl_id']){
-          $sql="UPDATE students set  yrlvl_id=?  where id_std=?";
-          $query = $conn->prepare($sql);
-          $query->execute([$flname,$id]);
+          
+            $sql="UPDATE students set id_std=?, flname_std=?, instemail_std = ?, studnum_std=?, gflname_std=?, gemail_std=?, crs_id=?, yrlvl_id=?, sec_id=? where id_std=?";
+            $query = $conn->prepare($sql);
+            $query->execute([$id,$flname,$email,$studnum,$gflname,$gemail,$crs,$yr,$sec,$id]);
+            header("location: ../students.php");  
+  
+         
+        }
+        if($studnum != $check['studnum_std']){
+          $stmt ="SELECT * FROM students WHERE  studnum_std = ? ";
+          $query = $conn->prepare($stmt);
+          $query->execute([ $studnum]);
+          $row = $query->rowCount();
+          $fetch = $query->fetch();
+    
+            if($row>0){
+            phpAlert( "ERROR\\n\\nStudent Number Already Exist" ); 
+          }
+          else{
+            $sql="UPDATE students set id_std=?, flname_std=?, instemail_std = ?, studnum_std=?, gflname_std=?, gemail_std=?, crs_id=?, yrlvl_id=?, sec_id=? where id_std=?";
+            $query = $conn->prepare($sql);
+            $query->execute([$id,$flname,$email,$studnum,$gflname,$gemail,$crs,$yr,$sec,$id]);
+            
   
           header("location: ../students.php");
-        }
-        
-
+            }
+          }
+          if($email != $check['instemail_std']){
+            $stmt ="SELECT * FROM students WHERE  instemail_std = ? ";
+            $query = $conn->prepare($stmt);
+            $query->execute([ $email]);
+            $rows = $query->rowCount();
+            $fetch = $query->fetch();
       
-      $stmt ="SELECT * FROM students WHERE instemail_std =? OR studnum_std = ? OR gemail_std = ?";
-      $query = $conn->prepare($stmt);
-      $query->execute([$email, $studnum,$gemail]);
-      $row = $query->rowCount();
-      $fetch = $query->fetch();
-
-        if($row>0){
-        phpAlert( "ERROR\\n\\nEmail Already Exist" ); 
+              if($rows>0){
+              phpAlert( "ERROR\\n\\nEmail Already Exist" ); 
+            }
+            else{
+              $sql="UPDATE students set id_std=?, flname_std=?, instemail_std = ?, studnum_std=?, gflname_std=?, gemail_std=?, crs_id=?, yrlvl_id=?, sec_id=? where id_std=?";
+              $query = $conn->prepare($sql);
+              $query->execute([$id,$flname,$email,$studnum,$gflname,$gemail,$crs,$yr,$sec,$id]);
+              header("location: ../students.php");  
+    
+            
+              }
+            }
+            if($gemail != $check['gemail_std']){
+              $stmt ="SELECT * FROM students WHERE  gemail_std = ? ";
+              $query = $conn->prepare($stmt);
+              $query->execute([ $gemail]);
+              $rows = $query->rowCount();
+              $fetch = $query->fetch();
         
-        
-         }
-        
-        
-       
+                if($rows>0){
+                phpAlert( "ERROR\\n\\nGuardian Email Already Exist" ); 
+              }
+              else{
+                $sql="UPDATE students set id_std=?, flname_std=?, instemail_std = ?, studnum_std=?, gflname_std=?, gemail_std=?, crs_id=?, yrlvl_id=?, sec_id=? where id_std=?";
+                $query = $conn->prepare($sql);
+                $query->execute([$id,$flname,$email,$studnum,$gflname,$gemail,$crs,$yr,$sec,$id]);
+                header("location: ../students.php");  
+      
+              
+                }
+              }
           
-        
-      
-        else{
-          $sql="UPDATE students set id_std=?, flname_std=?, instemail_std = ?, studnum_std=?, gflname_std=?, gemail_std=?, crs_id=?, yrlvl_id=?, sec_id=? where id_std=?";
-          $query = $conn->prepare($sql);
-          $query->execute([$id,$flname,$email,$studnum,$gflname,$gemail,$crs,$yr,$sec,$id]);
-          header("location: ../students.php");  
         }
       }
     } 
-  }
+  
     
 
   
@@ -667,48 +752,98 @@ class dbfunction{
     global $conn;
     if(ISSET($_POST['updBtn'])){
       if($_REQUEST['updid'] !="" || $_POST['hnr'] != "" || $_POST['flname'] != "" || $_POST['email'] != "" || $_POST['empnum'] != "" || $_POST['pwd'] != ""){
+        function phpAlert($msg) { echo '<script type="text/javascript">alert("' . $msg . '")</script>'; }
+
         $id=$_REQUEST['updid'];
+        $sql="SELECT * FROM users WHERE id_users=?";
+        $query = $conn->prepare($sql);
+        $query->execute([$id]);
+         $check = $query->fetch();
+
+         
         $hnr=$_POST['hnr'];
         $flname=$_POST['flname'];
         $email=$_POST['email'];
         $empnum=$_POST['empnum'];
         $pwd=$_POST['pwd'];
 
-        $stmt = $conn->prepare("SELECT * FROM users WHERE instemail_users=?");
-        $stmt2 = $conn->prepare("SELECT * FROM users WHERE empnum_users=?");
-        
-      
-       
-        //execute the statement
-        $stmt->execute([$email]); 
-        $stmt2->execute([$empnum]);
-          
-        //fetch result
-        $user = $stmt->fetch();
-        $user2 = $stmt2->fetch();
-        
+        if ($hnr == $check['hnr_users'] && $flname == $check['flname_users'] && $email == $check['instemail_users'] &&  $empnum == $check['empnum_users'] &&  $pwd ==  $check['pwd_users']) {
+          header("location: ../teachers.php");
+          exit();
+        }
+        if($hnr != $check['hnr_users']){  
+        $sql="UPDATE users set id_users=?, hnr_users=?, flname_users=?, instemail_users= ?, empnum_users=?, pwd_users=? where id_users=?";
+        $query = $conn->prepare($sql);
+        $query->execute([$id,$hnr,$flname,$email,$empnum,$pwd,$id]);
 
-        if(!empty($user)){
-          $sql="UPDATE users set id_users=?, hnr_users=?, flname_users=?, pwd_users=? where id_users=?";
-          $query = $conn->prepare($sql);
-          $query->execute([$id,$hnr,$flname,$pwd,$id]);
-          header("location: ../teachers.php"); 
-        }else{  
-        
-         
+        header("location: ../teachers.php"); 
+      }
+      if($flname != $check['flname_users']){
+          
             
         $sql="UPDATE users set id_users=?, hnr_users=?, flname_users=?, instemail_users= ?, empnum_users=?, pwd_users=? where id_users=?";
         $query = $conn->prepare($sql);
         $query->execute([$id,$hnr,$flname,$email,$empnum,$pwd,$id]);
 
-        header("location: ../teachers.php");
+        header("location: ../teachers.php");  
+    }
+    if($email != $check['instemail_users']){
+      $stmt ="SELECT * FROM users WHERE  instemail_users = ? ";
+      $query = $conn->prepare($stmt);
+      $query->execute([ $email]);
+      $rows = $query->rowCount();
+      $fetch = $query->fetch();
 
+        if($rows>0){
+        phpAlert( "ERROR\\n\\n Email Already Exist" ); 
+      }
+      else{
+        $sql="UPDATE users set id_users=?, hnr_users=?, flname_users=?, instemail_users= ?, empnum_users=?, pwd_users=? where id_users=?";
+        $query = $conn->prepare($sql);
+        $query->execute([$id,$hnr,$flname,$email,$empnum,$pwd,$id]);
+
+        header("location: ../teachers.php");   
+
+      
+        }
+      }
+      if($empnum != $check['empnum_users']){
+        $stmt ="SELECT * FROM users WHERE  empnum_users = ? ";
+        $query = $conn->prepare($stmt);
+        $query->execute([ $empnum]);
+        $rows = $query->rowCount();
+        $fetch = $query->fetch();
+  
+          if($rows>0){
+          phpAlert( "ERROR\\n\\nEmployee Number Already Exist" ); 
+        }
+        else{
+          $sql="UPDATE users set id_users=?, hnr_users=?, flname_users=?, instemail_users= ?, empnum_users=?, pwd_users=? where id_users=?";
+          $query = $conn->prepare($sql);
+          $query->execute([$id,$hnr,$flname,$email,$empnum,$pwd,$id]);
+  
+          header("location: ../teachers.php");  
+
+        
+          }
+        }
+        if($pwd != $check['pwd_users']){
+          
+               
+          $sql="UPDATE users set id_users=?, hnr_users=?, flname_users=?, instemail_users= ?, empnum_users=?, pwd_users=? where id_users=?";
+          $query = $conn->prepare($sql);
+          $query->execute([$id,$hnr,$flname,$email,$empnum,$pwd,$id]);
+  
+          header("location: ../teachers.php"); 
+        }
+
+        
 
         
       }
     }
   }
-} 
+
   
 
 
@@ -716,25 +851,107 @@ class dbfunction{
     global $conn;
     if(ISSET($_POST['updBtn'])){
       if($_REQUEST['updid'] !="" || $_POST['hnr'] != "" || $_POST['flname'] != "" || $_POST['email'] != "" || $_POST['empnum'] != "" || $_POST['pwd'] != "" || $_POST['usertype'] != ""){
+
+       function phpAlert($msg) { echo '<script type="text/javascript">alert("' . $msg . '")</script>'; }
+
         $id=$_REQUEST['updid'];
+        $sql="SELECT * FROM users WHERE id_users=?";
+        $query = $conn->prepare($sql);
+        $query->execute([$id]);
+         $check = $query->fetch();
+
+         
         $hnr=$_POST['hnr'];
         $flname=$_POST['flname'];
         $email=$_POST['email'];
         $empnum=$_POST['empnum'];
         $pwd=$_POST['pwd'];
         $usertype=$_POST['usertype'];
-       
+
+        if ($hnr == $check['hnr_users'] && $flname == $check['flname_users'] && $email == $check['instemail_users'] &&  $empnum == $check['empnum_users'] &&  $pwd ==  $check['pwd_users'] &&  $usertype ==  $check['usertype_users']) {
+          header("location: ../users.php");
+          exit();
+        }
+        if($hnr != $check['hnr_users']){  
         $sql="UPDATE users set id_users=?, hnr_users=?, flname_users=?, instemail_users=?, empnum_users=?, pwd_users=?, usertype_users=? where id_users=?";
         $query = $conn->prepare($sql);
         $query->execute([$id,$hnr,$flname,$email,$empnum,$pwd,$usertype,$id]);
 
         header("location: ../users.php");
+      }
+      if($flname != $check['flname_users']){
+          
+            
+        $sql="UPDATE users set id_users=?, hnr_users=?, flname_users=?, instemail_users=?, empnum_users=?, pwd_users=?, usertype_users=? where id_users=?";
+        $query = $conn->prepare($sql);
+        $query->execute([$id,$hnr,$flname,$email,$empnum,$pwd,$usertype,$id]);
+
+        header("location: ../users.php"); 
+    }
+    if($email != $check['instemail_users']){
+      $stmt ="SELECT * FROM users WHERE  instemail_users = ? ";
+      $query = $conn->prepare($stmt);
+      $query->execute([$email]);
+      $rows = $query->rowCount();
+      $fetch = $query->fetch();
+
+        if($rows>0){
+        phpAlert( "ERROR\\n\\n Email Already Exist" ); 
+      }
+      else{
+        $sql="UPDATE users set id_users=?, hnr_users=?, flname_users=?, instemail_users=?, empnum_users=?, pwd_users=?, usertype_users=? where id_users=?";
+        $query = $conn->prepare($sql);
+        $query->execute([$id,$hnr,$flname,$email,$empnum,$pwd,$usertype,$id]);
+
+        header("location: ../users.php");  
+
+      
+        }
+      }
+      if($empnum != $check['empnum_users']){
+        $stmt ="SELECT * FROM users WHERE empnum_users = ? ";
+        $query = $conn->prepare($stmt);
+        $query->execute([$empnum]);
+        $rows = $query->rowCount();
+        $fetch = $query->fetch();
+  
+          if($rows>0){
+          phpAlert( "ERROR\\n\\nEmployee Number Already Exist" ); 
+        }
+        else{
+          $sql="UPDATE users set id_users=?, hnr_users=?, flname_users=?, instemail_users=?, empnum_users=?, pwd_users=?, usertype_users=? where id_users=?";
+        $query = $conn->prepare($sql);
+        $query->execute([$id,$hnr,$flname,$email,$empnum,$pwd,$usertype,$id]);
+
+        header("location: ../users.php");
+        }
+      }
+        if($pwd != $check['pwd_users']){
+          
+               
+          $sql="UPDATE users set id_users=?, hnr_users=?, flname_users=?, instemail_users=?, empnum_users=?, pwd_users=?, usertype_users=? where id_users=?";
+        $query = $conn->prepare($sql);
+        $query->execute([$id,$hnr,$flname,$email,$empnum,$pwd,$usertype,$id]);
+
+        header("location: ../users.php");
+        }
+        if($usertype != $check['usertype_users']){  
+          $sql="UPDATE users set id_users=?, hnr_users=?, flname_users=?, instemail_users=?, empnum_users=?, pwd_users=?, usertype_users=? where id_users=?";
+          $query = $conn->prepare($sql);
+          $query->execute([$id,$hnr,$flname,$email,$empnum,$pwd,$usertype,$id]);
+  
+          header("location: ../users.php");
+        
+
+       
+        
 
 
         
       }
     }
   }
+}
 
 
   function updBldg($name,$code){
@@ -765,16 +982,60 @@ class dbfunction{
     if(ISSET($_POST['updBtn'])){
       if($_REQUEST['updid'] !="" || $_POST['name'] != "" || $_POST['code'] != "" || $_POST['dept']){
         
+        function phpAlert($msg) { echo '<script type="text/javascript">alert("' . $msg . '")</script>'; }
+
         $id=$_REQUEST['updid'];
+        $sql="SELECT * FROM courses WHERE id_crs=?";
+        $query = $conn->prepare($sql);
+        $query->execute([$id]);
+         $check = $query->fetch();
+
         $name=$_POST['name'];
         $code=$_POST['code'];
         $dept=$_POST['dept'];
-            
-        $sql="UPDATE courses set name_crs=?, code_crs=?, dept_id=? where id_crs  =?";
+
+        if ($name == $check['name_crs'] && $code == $check['code_crs'] && $dept == $check['dept_id']) {
+          header("location: ../courses.php");
+          exit();
+        }
+        if($name != $check['name_crs']){
+          $stmt ="SELECT * FROM courses WHERE name_crs = ? ";
+          $query = $conn->prepare($stmt);
+          $query->execute([$name]);
+          $rows = $query->rowCount();
+          $fetch = $query->fetch();
+    
+            if($rows>0){
+            phpAlert( "ERROR\\n\\nCourse Name Already Exist" ); 
+          }
+          else{
+            $sql="UPDATE courses set name_crs=?, code_crs=?, dept_id=? where id_crs  =?";
         $query = $conn->prepare($sql);
         $query->execute([$name,$code,$dept,$id]);
 
         header("location: ../courses.php");
+          }
+        }
+        if($code != $check['code_crs']){
+          $stmt ="SELECT * FROM courses WHERE code_crs = ? ";
+          $query = $conn->prepare($stmt);
+          $query->execute([$code]);
+          $rows = $query->rowCount();
+          $fetch = $query->fetch();
+    
+            if($rows>0){
+            phpAlert( "ERROR\\n\\nCourse Code Already Exist" ); 
+          }
+          else{
+            $sql="UPDATE courses set name_crs=?, code_crs=?, dept_id=? where id_crs  =?";
+        $query = $conn->prepare($sql);
+        $query->execute([$name,$code,$dept,$id]);
+
+        header("location: ../courses.php");
+          }
+        }
+            
+        
         
       }
     }
@@ -810,6 +1071,7 @@ class dbfunction{
         $id=$_REQUEST['updid'];
         $bldg=$_POST['bldg'];
         $code=$_POST['code'];
+        
        
         $sql="UPDATE room set code_room=?, bldg_id=? where id_room  =?";
         $query = $conn->prepare($sql);
@@ -886,6 +1148,18 @@ class dbfunction{
 
 
   function delUserAdmin($iduser){
+    global $conn;
+    if(ISSET($_POST['btnDel'])){
+      if($_POST['idusers'] != ""){
+        $iduser=$_POST['idusers'];
+
+        $sql="DELETE from users where id_users=?";
+        $query = $conn->prepare($sql);
+        $query->execute([$iduser]);
+      }
+    }
+  }
+  function delUserSuperAdmin($iduser){
     global $conn;
     if(ISSET($_POST['btnDel'])){
       if($_POST['idusers'] != ""){
@@ -1000,4 +1274,3 @@ class dbfunction{
 
 
 
-  

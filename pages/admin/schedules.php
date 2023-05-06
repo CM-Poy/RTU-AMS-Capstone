@@ -6,6 +6,11 @@
   include('../includes/header.php');  
   require('../includes/config.php');
 
+  if (!isset($_SESSION['error'])) {
+    $_SESSION['error'] = false;
+  }
+
+
 
   if(isset($_POST['addbtn'])){
     include('../includes/functions.php');
@@ -95,6 +100,14 @@
                   </div>
                 </div>
               </div>
+              <?php if ($_SESSION['error']): ?>
+                <div class="alert alert-danger" role="alert" >
+                    <center><strong><?php echo $_SESSION['error'];?></strong><center>
+                </div>
+                <?php   
+                    $_SESSION['error'] = false;
+                ?>
+              <?php endif ?>
               <table id= "tabler" class="table table-striped table-hover">
                 <thead>
                   <tr>

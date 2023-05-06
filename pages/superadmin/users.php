@@ -6,16 +6,23 @@
   include('../includes/header.php'); 
   require('../includes/config.php');
 
+  if (!isset($_SESSION['error'])) {
+    $_SESSION['error'] = false;
+  }
+
   
 
-
- 
-
+  
   if(isset($_POST['addbtnSA'])){
     include('../includes/functions.php');
     $obj=new dbfunction();
     $obj->addUserSupAdmin($_POST["hnr"],$_POST["name"],$_POST["email"],$_POST["empnum"],$_POST["pwd"],$_POST["usertype"]);
   }
+  if(isset($_POST['btnDel'])){
+    include('../includes/functions.php');
+    $obj=new dbfunction();
+    $obj->delUserSuperAdmin($_POST['idusers']);
+  } 
 
   
 
@@ -113,6 +120,14 @@
                   </div>
                 </div>
               </div>
+              <?php if ($_SESSION['error']): ?>
+                <div class="alert alert-danger" role="alert" >
+                    <center><strong><?php echo $_SESSION['error'];?></strong><center>
+                </div>
+                <?php   
+                    $_SESSION['error'] = false;
+                ?>
+              <?php endif ?>
               <table id="tabler" class="table table-striped table-hover">
                 <thead>
                   <tr>
@@ -157,7 +172,7 @@
                                     <td>
                                       
                                     <a href="update/upd_users.php?updid='.$id_users.'"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                                      <a href="#delModal" value = '.$id_users.' class="delBtn" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                                    <a href="#delModal" value = '.$id_users.' class="delBtn" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
                                      
                                     </td>
                             </tr>
@@ -249,18 +264,19 @@
         <div id="delModal" class="modal fade">
           <div class="modal-dialog ">
             <div class="modal-content">
-              <form>
+              <form method="post">
                 <div class="modal-header">						
                   <h4 class="modal-title">Delete Teacher</h4>
                   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 </div>
                 <div class="modal-body">					
                   <p>Are you sure you want to delete these Records?</p>
+                  <input type="hidden" name="idusers" id="idusers">
                   <p class="text-warning"><small>This action cannot be undone.</small></p>
                 </div>
                 <div class="modal-footer">
                   <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                  <input type="submit" class="btn btn-danger" value="Delete">
+                  <input type="submit" class="btn btn-danger" name="btnDel" value="Delete">
                 </div>
               </form>
             </div>
@@ -298,5 +314,17 @@
       
     });
 });
+$(document).ready(function () {
+        $('.delBtn').on('click', function () {
+        $('#delModal').modal('show');
+        $tr = $(this).closest('tr');
+          var data = $tr.children("td").map(function () {
+              return $(this).text();
+          }).get();
+          console.log(data);
+          $('#idusers').val(data[0]);
+        });
+      });
+        
 
     </script>

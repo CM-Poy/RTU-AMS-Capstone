@@ -140,49 +140,48 @@
                 <tbody>
                  
                 <?php
-                        $sql = "SELECT schedules.id_schd, users.flname_users, subjects.code_subj, sections.code_sec, schedules.day_schd, schedules.strtime_schd, schedules.endtime_schd, room.code_room from schedules left join users on schedules.user_id = users.id_users LEFT JOIN subjects on schedules.sub_id = subjects.id_subj LEFT JOIN sections on schedules.sec_id = sections.id_sec LEFT JOIN room on schedules.room_id = room.id_room";
-                        $result = $conn->prepare($sql);
-                        $result->execute();
-                        
-                        if($result->rowCount() > 0){
-                          while ($row = $result->fetch(PDO::FETCH_ASSOC)){
-                            $id_schd=$row["id_schd"];
-                            $user_id=$row["flname_users"];
-                            $sub_id=$row["code_subj"];
-                            $sec_id=$row["code_sec"];
-                            $day=$row["day_schd"];
-                            $strtime=$row["strtime_schd"];
-                            $endtime=$row["endtime_schd"];
-                            $room_id=$row["code_room"];
-  
-                            echo '
-                            <form action="subjects.php" method="post">
-                              <tr>
-                                  <td hidden>'.$id_schd.'</td>
-                                  <td name="flnameuser_schd">'.$user_id.'</td>
-                                  <td name="sub_schd">'.$sub_id.'</td>
-                                  <td name="sec_schd">'.$sec_id.'</td>
-                                  <td name="day_schd">'.$day.'</td>
-                                  <td name="strtime_schd">'.$strtime.'</td>
-                                  <td name="endtime_schd">'.$endtime.'</td>
-                                  <td name="room_schd">'.$room_id.'</td>
+                      
+                      $sql = "SELECT schedules.id_schd, users.flname_users, subjects.name_subj, sections.code_sec, schedules.day_schd, schedules.strtime_schd, schedules.endtime_schd, room.code_room from schedules left join users on schedules.user_id = users.id_users LEFT JOIN subjects on schedules.sub_id = subjects.id_subj LEFT JOIN sections on schedules.sec_id = sections.id_sec LEFT JOIN room on schedules.room_id = room.id_room";
+                      $result = $conn->prepare($sql);
+                      $result->execute();
+                      
+                      if($result->rowCount() > 0){
+                        while ($row = $result->fetch(PDO::FETCH_ASSOC)){
+                          $id_schd=$row["id_schd"];
+                          $user_id=$row["flname_users"];
+                          $sub_id=$row["name_subj"];
+                          $sec_id=$row["code_sec"];
+                          $day=$row["day_schd"];
+                          $strtime=$row["strtime_schd"];
+                          $endtime=$row["endtime_schd"];
+                          $room_id=$row["code_room"];
+                           echo '
+                           <forM method="post">
+                             <tr>
+                                   <td hidden>'.$id_schd.'</td>
+                                   <td style="width: 170px;height: 40px">'.$user_id.'</td>
+                                   <td>'.$sub_id.'</td>
+                                   <td>'.$sec_id.'</td>
+                                   <td>'.$day.'</td>
+                                   <td>'.$strtime.'</td>
+                                   <td>'.$endtime.'</td>
+                                   <td>'.$room_id.'</td>
 
-                                  
-                                  <td>
+                                   
+                                   <td>
+                                   
+                                     <a href="update/upd_schd.php?updid='.$id_schd.'"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                                     <a href="#delModal" class="delBtn" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
                                     
-                                    <a href="update/upd_schd.php?updid='.$id_schd.'"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                                    <a href="#delModal" class="delBtn" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
-                                    
-                                  </td>
-                            </tr>
-                            </form>';
-                          }
-                        }else{
-                          echo "No Record Found";
-                        }
+                                   </td>
+                           </tr>
+                           </form>';
+                         }
+                       }else{
+                         echo "No Record Found";
+                       }
 
-                    ?>
-
+                   ?>
                 </tbody>
               </table>
               
