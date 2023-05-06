@@ -3439,7 +3439,8 @@ input[type="button"].btn-block {
   -webkit-box-pack: justify;
   -ms-flex-pack: justify;
   justify-content: space-between;
-  padding: 0.5rem 1rem; }
+  padding: 0.5rem 1rem; 
+}
   .navbar > .container,
   .navbar > .container-fluid {
     display: -webkit-box;
@@ -8302,7 +8303,7 @@ a[data-toggle="collapse"] {
   --primary-clr: #DAA520;
 }
 ::-webkit-scrollbar {
-  width: 5px;
+  width: 2px;
 }
 ::-webkit-scrollbar-track {
   background: #f5f5f5;

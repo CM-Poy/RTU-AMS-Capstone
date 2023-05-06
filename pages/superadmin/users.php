@@ -92,7 +92,7 @@
         <!-- Page Content  -->
       <div id="content" class="p-4 p-md-5">
           
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <nav id="navbar" class="navbar navbar-expand-lg navbar-light bg-light">
           <div class="container-fluid">
             <button type="button" id="sidebarCollapse" class="btn btn-primary">
               <i class="fa fa-bars"></i>
@@ -111,7 +111,52 @@
               </ul>
             </div>
           </div>
-            
+                     <!-- StickyNavBAR-->
+          <script>
+                // When the user scrolls the page, execute myFunction
+                    window.onscroll = function() {myFunction()};
+
+                    // Get the navbar
+                    var navbar = document.getElementById("navbar");
+
+                    // Get the offset position of the navbar
+                    var sticky = navbar.offsetTop;
+
+                    // Add the sticky class to the navbar when you reach its scroll position. Remove "sticky" when you leave the scroll position
+                    function myFunction() {
+                      if (window.pageYOffset >= sticky) {
+                        navbar.classList.add("sticky")
+                      } else {
+                        navbar.classList.remove("sticky");
+                      }
+                    }
+            </script>
+              <!-- ENDStickyNavBAR-->
+                  <style>
+                      /*StickyNAVBAR*/
+                        /* The sticky class is added to the navbar with JS when it reaches its scroll position */
+                        .sticky {
+                          position: fixed;
+                          top: 0px;
+                          width:79.2%;
+                        }
+
+                        /* Add some top padding to the page content to prevent sudden quick movement (as the navigation bar gets a new position at the top of the page (position:fixed and top:0) */
+                        .sticky + #content {
+                          padding-top: 60px;
+                        }
+                        #navbar{
+                          z-index: 900;
+                        }
+                        @media (max-width: 425px) {
+                          #navbar  {
+                            min-width:90%;
+                          } 
+
+                        }
+                        /*END StickyNAVBAR*/
+                  </style>
+
         </nav>
   
 
