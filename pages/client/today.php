@@ -65,28 +65,7 @@ if(!isset($_SESSION['user'])) {
      transform: scale(1.05);
   box-shadow: 0 10px 20px rgba(0,0,0,.12), 0 4px 8px rgba(0,0,0,.06);
 }
-/*StickyNAVBAR*/
-/* The sticky class is added to the navbar with JS when it reaches its scroll position */
-.sticky {
-  position: fixed;
-  top: 0px;
-  width:79.2%;
-}
 
-/* Add some top padding to the page content to prevent sudden quick movement (as the navigation bar gets a new position at the top of the page (position:fixed and top:0) */
-.sticky + #content {
-  padding-top: 60px;
-}
-#navbar{
-  z-index: 9999;
-}
-@media (max-width: 425px) {
-  #navbar  {
-    min-width:90%;
-  } 
-
-}
-/*END StickyNAVBAR*/
       </style>
        <link rel='icon' href='../../images/rtu-logo.png'/>
   </head>
@@ -94,7 +73,7 @@ if(!isset($_SESSION['user'])) {
 	<!--sidebar-->
 		<div class="wrapper d-flex align-items-stretch">
             <nav id="sidebar">
-                <div class="p-4 pt-5">
+                <div class="link p-4 pt-5">
                   <a href="#" class="img logo rounded-circle mb-5" style="background-image: url(../../images/rtu-logo.png);"></a>
                     <ul class="list-unstyled components mb-5">
                       <li class="">
@@ -106,8 +85,6 @@ if(!isset($_SESSION['user'])) {
                     </ul>
                  </div>
                </nav>
-
-
 
 
         <!-- Page Content  -->
@@ -137,7 +114,7 @@ if(!isset($_SESSION['user'])) {
 
           </div>
                <!-- StickyNavBAR-->
-            <script>
+          <script>
                 // When the user scrolls the page, execute myFunction
                     window.onscroll = function() {myFunction()};
 
@@ -157,8 +134,40 @@ if(!isset($_SESSION['user'])) {
                     }
             </script>
               <!-- ENDStickyNavBAR-->
+                  <style>
+                      /*StickyNAVBAR*/
+                        /* The sticky class is added to the navbar with JS when it reaches its scroll position */
+                        .sticky {
+                          position: fixed;
+                          top: 0px;
+                          width:79.2%;
+                        }
+
+                        /* Add some top padding to the page content to prevent sudden quick movement (as the navigation bar gets a new position at the top of the page (position:fixed and top:0) */
+                        .sticky + #content {
+                          padding-top: 60px;
+                        }
+                        #navbar{
+                          z-index: 900;
+                        }
+                        @media (max-width: 425px) {
+                          #navbar  {
+                            min-width:90%;
+                          } 
+
+                        }
+                        /*END StickyNAVBAR*/
+                        /*StickySIDEBAR*/
+                        .link{
+                          position: -webkit-sticky;
+                          position: sticky;
+                          top: 0;}
+                        /*EndStickySIDEBAR*/
+                  </style>
+
+              
         </nav>
- 
+                            
 
         <?php
                     $userid=$_SESSION['user'];

@@ -64,7 +64,7 @@
 
   <div class="wrapper d-flex align-items-stretch">
             <nav id="sidebar">
-                <div class="p-4 pt-5">
+                <div class="link p-4 pt-5">
                 <a href="#" class="img logo rounded-circle mb-5" style="background-image: url(../../images/rtu-logo.png);"></a>
                 <ul class="list-unstyled components mb-5">
               <li class="">
@@ -138,7 +138,7 @@
                           padding-top: 60px;
                         }
                         #navbar{
-                          z-index: 9999;
+                          z-index: 900;
                         }
                         @media (max-width: 425px) {
                           #navbar  {
@@ -147,6 +147,12 @@
 
                         }
                         /*END StickyNAVBAR*/
+                        /*StickySIDEBAR*/
+                        .link{
+                          position: -webkit-sticky;
+                          position: sticky;
+                          top: 0;}
+                        /*EndStickySIDEBAR*/
                   </style>
         </nav>    
         <div class="container-xl">

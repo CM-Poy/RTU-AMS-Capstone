@@ -23,28 +23,6 @@
     background-repeat: no-repeat;
     background-position: center;
 }
-/*StickyNAVBAR*/
-/* The sticky class is added to the navbar with JS when it reaches its scroll position */
-.sticky {
-  position: fixed;
-  top: 0px;
-  width:79.2%;
-}
-
-/* Add some top padding to the page content to prevent sudden quick movement (as the navigation bar gets a new position at the top of the page (position:fixed and top:0) */
-.sticky + #content {
-  padding-top: 60px;
-}
-#navbar{
-  z-index: 9999;
-}
-@media (max-width: 425px) {
-  #navbar  {
-    min-width:90%;
-  } 
-
-}
-/*END StickyNAVBAR*/
 
 </style>
   
@@ -54,7 +32,7 @@
 
   <div class="wrapper d-flex align-items-stretch  fixed-side">
             <nav id="sidebar">
-                <div class="p-4 pt-5">
+                <div class="link p-4 pt-5">
                     <a href="#" class="img logo rounded-circle mb-5" style="background-image: url(../../images/rtu-logo.png);"></a>
                     <ul class="list-unstyled components mb-5">
                       <li class="">
@@ -71,7 +49,7 @@
               </nav>
 
         <!-- Page Content  -->
-      <div id="content" class="p-4 p-md-5">
+      <div id="content" class=" p-4 p-md-5">
           
         <nav id="navbar" class="navbar navbar-expand-lg navbar-light bg-light">
           <div class="container-fluid">
@@ -87,7 +65,7 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
               <ul class="nav navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="#" id="logout">Logout</a>
+                  <a class="nav-link" href="../login.php">Logout</a>
                 </li>
               </ul>
             </div>
@@ -112,7 +90,40 @@
                       }
                     }
             </script>
-              <!-- ENDStickyNavBAR-->
+             <!-- ENDStickyNavBAR-->
+            <style>
+              /*StickyNAVBAR*/
+                /* The sticky class is added to the navbar with JS when it reaches its scroll position */
+                .sticky {
+                  position: fixed;
+                  top: 0px;
+                  width:79.2%;
+                }
+
+                /* Add some top padding to the page content to prevent sudden quick movement (as the navigation bar gets a new position at the top of the page (position:fixed and top:0) */
+                .sticky + #content {
+                  padding-top: 60px;
+                }
+                #navbar{
+                  z-index: 9999;
+                }
+                @media (max-width: 425px) {
+                  #navbar  {
+                    min-width:90%;
+                  } 
+
+                }
+                /*END StickyNAVBAR*/
+                /*StickySIDEBAR*/
+                .link{
+                          position: -webkit-sticky;
+                          background-color:goldenrod;
+                          position: sticky;
+                          top: 0;}
+                        /*EndStickySIDEBAR*/
+                                  
+              </style>
+             
         </nav>
         <!-- Calendar -->
         <div class="container-wrapper">
@@ -183,7 +194,6 @@
             </button>
           </div>
         </div>
-        
           
       </div>
     
