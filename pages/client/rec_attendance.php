@@ -289,32 +289,7 @@ if (isset($_POST['qr'])){
                     $_SESSION['error'] = false;
                 ?>
             <?php endif ?>
-            <p class="welcome-message">Registered Credentials</p>
             
-            <form class="login-form">
-                <table class="table table-striped w-auto">
-                    <!--Table head-->
-                    <thead>
-                        <tr>
-                            <th>Full Name</th>
-                            
-                        </tr>
-                    </thead>
-                    <!--Table head-->
-
-                    <!--Table body-->
-                    <tbody>
-
-
-
-                        
-                    </tbody>
-                     
-                    <!--Table body-->
-                </table>
-                <!--Table-->
-               
-            </form>
          </div>
     </section>
 </body>
