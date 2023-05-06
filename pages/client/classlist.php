@@ -37,10 +37,7 @@ if($query->rowCount() > 0){
 
  
 
-if(!isset($_SESSION['user'])) {
-  header("Location: ../login.php");
-  exit;
-  }
+
 
 
 
@@ -420,16 +417,5 @@ if(!isset($_SESSION['user'])) {
 
   </body>
 </html>
-
-<script>
-window.addEventListener('load', function() {
-  // Get the current page URL
-  var currentUrl = window.location.href;
-  
-  // Change the URL to the desired format
-  var newUrl = currentUrl + '?rtuams-client-list=?jmd';
-  window.history.pushState({ path: newUrl }, '', newUrl);
-});
-</script>
 
 

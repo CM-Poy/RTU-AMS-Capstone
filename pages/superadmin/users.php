@@ -2,11 +2,7 @@
 <html lang="en">
 
 <?php 
-session_start();
-if (!isset($_SESSION['user'])) {
-  // session is not set, return false
-  header("location: ../login.php");
-} 
+
   include('../includes/header.php'); 
   require('../includes/config.php');
 
@@ -28,10 +24,9 @@ if (!isset($_SESSION['user'])) {
     $obj->delUserSuperAdmin($_POST["idusers"]);
   }
 
- 
- 
+  
 
-  ?>
+?>
   
 
 <head>
@@ -50,7 +45,7 @@ if (!isset($_SESSION['user'])) {
 
   <div class="wrapper d-flex align-items-stretch">
             <nav id="sidebar">
-                <div class="link p-4 pt-5">
+                <div class="p-4 pt-5">
                 <a href="#" class="img logo rounded-circle mb-5" style="background-image: url(../../images/rtu-logo.png);"></a>
                 <ul class="list-unstyled components mb-5">
               <li class="">
@@ -59,19 +54,19 @@ if (!isset($_SESSION['user'])) {
                 <a href="schedules.php" >&nbsp;&nbsp;&nbsp;<i class="fa fa-file-text fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>SCHEDULES</a>
               </li>
               <li>
-              <a href="students.php" >&nbsp;&nbsp;<i class="fa fa-users fa-2x">&nbsp;&nbsp;&nbsp;</i>STUDENTS</a>
+              <a href="students.php" >&nbsp;&nbsp;<i class="fa fa-users fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;</i>STUDENTS</a>
               </li>
               <li>
-              <a href="sections.php" >&nbsp;&nbsp;&nbsp;<i class="fa-solid fa-th-large fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;</i>SECTIONS</a>
+              <a href="sections.php" >&nbsp;&nbsp;&nbsp;<i class="fa-solid fa-th-large fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>SECTIONS</a>
               </li>
               <li>
-              <a href="subjects.php" >&nbsp;&nbsp;&nbsp;<i class="fa fa-book fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;</i>SUBJECTS</a>
+              <a href="subjects.php" >&nbsp;&nbsp;&nbsp;<i class="fa fa-book fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>SUBJECTS</a>
               </li>
               <li>
                <a href="departments.php">&nbsp;&nbsp;&nbsp;<i class="fa fa-building fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>DEPARTMENTS</a>  
               </li>
               <li>
-               <a href="courses.php">&nbsp;&nbsp;&nbsp;<i class="fa fa-folder-open fa-2x">&nbsp;&nbsp;&nbsp;</i>COURSES</a>
+               <a href="courses.php">&nbsp;&nbsp;&nbsp;<i class="fa fa-folder-open fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>COURSES</a>
               </li>
               <li>
                <a href="buildings.php">&nbsp;&nbsp;&nbsp;<i class="fa fa-building fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>BUILDINGS</a>  
@@ -87,8 +82,8 @@ if (!isset($_SESSION['user'])) {
 
         <!-- Page Content  -->
       <div id="content" class="p-4 p-md-5">
-     
-        <nav id="navbar" class="navbar navbar-expand-lg navbar-light bg-light">
+          
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
           <div class="container-fluid">
             <button type="button" id="sidebarCollapse" class="btn btn-primary">
               <i class="fa fa-bars"></i>
@@ -99,69 +94,15 @@ if (!isset($_SESSION['user'])) {
                 <i class="fa fa-bars"></i>
             </button>
             <a class="nav-link font-weight-bold text-justify" id="page-title">ATTENDANCE MANAGEMENT SYSTEM - SUPERADMIN</a> 
-           
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
               <ul class="nav navbar-nav ml-auto">
                 <li class="nav-item">
-                 
-                  <a class="nav-link"   href="../login.php">Logout</a>
-               
+                <a class="nav-link" href="../login.php">Logout</a>
                 </li>
               </ul>
             </div>
           </div>
-                     <!-- StickyNavBAR-->
-          <script>
-                // When the user scrolls the page, execute myFunction
-                    window.onscroll = function() {myFunction()};
-
-                    // Get the navbar
-                    var navbar = document.getElementById("navbar");
-
-                    // Get the offset position of the navbar
-                    var sticky = navbar.offsetTop;
-
-                    // Add the sticky class to the navbar when you reach its scroll position. Remove "sticky" when you leave the scroll position
-                    function myFunction() {
-                      if (window.pageYOffset >= sticky) {
-                        navbar.classList.add("sticky")
-                      } else {
-                        navbar.classList.remove("sticky");
-                      }
-                    }
-            </script>
-              <!-- ENDStickyNavBAR-->
-                  <style>
-                      /*StickyNAVBAR*/
-                        /* The sticky class is added to the navbar with JS when it reaches its scroll position */
-                        .sticky {
-                          position: fixed;
-                          top: 0px;
-                          width:79.2%;
-                        }
-
-                        /* Add some top padding to the page content to prevent sudden quick movement (as the navigation bar gets a new position at the top of the page (position:fixed and top:0) */
-                        .sticky + #content {
-                          padding-top: 60px;
-                        }
-                        #navbar{
-                          z-index: 900;
-                        }
-                        @media (max-width: 425px) {
-                          #navbar  {
-                            min-width:90%;
-                          } 
-                        }
-                        /*END StickyNAVBAR*/
-                         /*StickySIDEBAR*/
-                         .link{
-                          position: -webkit-sticky;
-                          position: sticky;
-                          top: 0;
-                        }
-                        /*EndStickySIDEBAR*/
-                  </style>
-
+            
         </nav>
   
 
@@ -204,7 +145,7 @@ if (!isset($_SESSION['user'])) {
                   
                 <?php
                         $sql = "SELECT users.id_users, users.hnr_users, users.flname_users, users.instemail_users, users.empnum_users, usertype.usertype, users.usertype_users, users.pwd_users FROM users
-                        LEFT JOIN usertype ON users.usertype_users = usertype.id_usertype where users.usertype_users <3";
+                        LEFT JOIN usertype ON users.usertype_users = usertype.id_usertype";
                         $result = $conn->prepare($sql);
                         $result->execute();
                        
@@ -398,17 +339,6 @@ $(document).ready(function () {
           $('#idusers').val(data[0]);
         });
       });
-      
+        
 
     </script>
-    <script>
-
-window.addEventListener('load', function() {
-  // Get the current page URL
-  var currentUrl = window.location.href;
-  
-  // Change the URL to the desired format
-  var newUrl = currentUrl + '?rtuams-table-user=cmqrmsjmdere';
-  window.history.pushState({ path: newUrl }, '', newUrl);
-});
-</script>

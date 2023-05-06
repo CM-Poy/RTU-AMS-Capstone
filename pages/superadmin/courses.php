@@ -4,11 +4,6 @@
   <?php include('../includes/header.php'); 
   require('../includes/config.php');
   
-  session_start();
-  if (!isset($_SESSION['user'])) {
-    // session is not set, return false
-    header("location: ../login.php");
-  } 
   if (!isset($_SESSION['error'])) {
     $_SESSION['error'] = false;
   }
@@ -32,7 +27,6 @@
     $obj->delCrs($_POST["idcrs"]);
   }
 
-  
   ?>
   
 <head>
@@ -49,7 +43,7 @@
 	<!--sidebar-->
 		<div class="wrapper d-flex align-items-stretch">
             <nav id="sidebar">
-                <div class="link p-4 pt-5">
+                <div class="p-4 pt-5">
                 <a href="#" class="img logo rounded-circle mb-5" style="background-image: url(../../images/rtu-logo.png);"></a>
                 <ul class="list-unstyled components mb-5">
               <li class="">
@@ -87,7 +81,7 @@
         <!-- Page Content  -->
       <div id="content" class="p-4 p-md-5">
           
-        <nav id="navbar" class="navbar navbar-expand-lg navbar-light bg-light">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
           <div class="container-fluid">
             <button type="button" id="sidebarCollapse" class="btn btn-primary">
               <i class="fa fa-bars"></i>
@@ -106,56 +100,7 @@
               </ul>
             </div>
           </div>
-          <script>
-                // When the user scrolls the page, execute myFunction
-                    window.onscroll = function() {myFunction()};
-
-                    // Get the navbar
-                    var navbar = document.getElementById("navbar");
-
-                    // Get the offset position of the navbar
-                    var sticky = navbar.offsetTop;
-
-                    // Add the sticky class to the navbar when you reach its scroll position. Remove "sticky" when you leave the scroll position
-                    function myFunction() {
-                      if (window.pageYOffset >= sticky) {
-                        navbar.classList.add("sticky")
-                      } else {
-                        navbar.classList.remove("sticky");
-                      }
-                    }
-            </script>
-              <!-- ENDStickyNavBAR-->
-                  <style>
-                      /*StickyNAVBAR*/
-                        /* The sticky class is added to the navbar with JS when it reaches its scroll position */
-                        .sticky {
-                          position: fixed;
-                          top: 0px;
-                          width:79.2%;
-                        }
-
-                        /* Add some top padding to the page content to prevent sudden quick movement (as the navigation bar gets a new position at the top of the page (position:fixed and top:0) */
-                        .sticky + #content {
-                          padding-top: 60px;
-                        }
-                        #navbar{
-                          z-index: 900;
-                        }
-                        @media (max-width: 425px) {
-                          #navbar  {
-                            min-width:90%;
-                          } 
-
-                        }
-                        /*END StickyNAVBAR*/
-                         /*StickySIDEBAR*/
-                         .link{
-                          position: -webkit-sticky;
-                          position: sticky;
-                          top: 0;}
-                        /*EndStickySIDEBAR*/
-                  </style>
+            
         </nav>
         <div class="container-xl">
           <div class="table-responsive">
@@ -351,19 +296,6 @@
     });
 });
     </script>   
-
-
-<script>
-
-window.addEventListener('load', function() {
-  // Get the current page URL
-  var currentUrl = window.location.href;
-  
-  // Change the URL to the desired format
-  var newUrl = currentUrl + '?rtuams-table-courses=cmqrmsjmdere';
-  window.history.pushState({ path: newUrl }, '', newUrl);
-});
-</script>
 
   </body>
 </html>

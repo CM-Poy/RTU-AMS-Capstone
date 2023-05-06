@@ -7,11 +7,6 @@
 
 include('../../includes/header.php'); 
 require('../../includes/config.php');
-session_start();
-  if (!isset($_SESSION['user'])) {
-    // session is not set, return false
-    header("location: ../../login.php");
-  } 
 
 $id=$_REQUEST['updid'];
 
@@ -37,7 +32,6 @@ $result->execute([$id]);
         $obj=new dbfunction();
         $obj->updSub($_REQUEST['updid'],$_POST["name"],$_POST["code"],$_POST["units"]);
       }
-
 
 
 ?>
@@ -82,14 +76,3 @@ $result->execute([$id]);
     
 </body>
 </html>
-
-<script>
-window.addEventListener('load', function() {
-  // Get the current page URL
-  var currentUrl = window.location.href;
-  
-  // Change the URL to the desired format
-  var newUrl = currentUrl + '?rtuams-update-sub=cmqrmsjmdere';
-  window.history.pushState({ path: newUrl }, '', newUrl);
-});
-</script>

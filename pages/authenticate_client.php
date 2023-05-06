@@ -119,15 +119,3 @@ if (!isset($_SESSION['failed'])) {
     </div>
 </body>
 </html>
-
-<script>
-
-window.addEventListener('load', function() {
-  // Get the current page URL
-  var currentUrl = window.location.href;
-  
-  // Change the URL to the desired format
-  var newUrl = currentUrl + '?rtuams-authenticate-user=Wfsda2';
-  window.history.pushState({ path: newUrl }, '', newUrl);
-});
-</script>
