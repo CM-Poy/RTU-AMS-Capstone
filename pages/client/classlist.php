@@ -356,7 +356,7 @@ if($query->rowCount() > 0){
 
     let randomName = getRandomName()
     document.getElementById('random-name').innerText = randomName;
-    fnames.splice(fnames.findIndex((name) => name.FullName === randomName), 1);
+    fnames.splice(fnames.findIndex((name) => name.flname_std === randomName), 1);
     createClassList();
   }
 

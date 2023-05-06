@@ -190,7 +190,6 @@ if (!isset($_SESSION['pwderror'])) {
                     </div>
                     <div class="col-sm-9 text-secondary">
                       <input type=password value =<?php echo $pwd;?> disabled/>
-                      <a href="update/upd_pwd.php?updid=<?php echo $id; ?>"  class="btn btn-info">Change</a>
                     </div>
                   </div>
 

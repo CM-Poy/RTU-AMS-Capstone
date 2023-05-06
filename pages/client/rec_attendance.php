@@ -289,7 +289,7 @@ if (isset($_POST['qr'])){
                     $_SESSION['error'] = false;
                 ?>
             <?php endif ?>
-            
+            <button type="submit" name="done" >DONE</button>
          </div>
     </section>
 </body>
