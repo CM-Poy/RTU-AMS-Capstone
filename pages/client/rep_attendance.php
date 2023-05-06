@@ -50,8 +50,8 @@ table, th, td {
 
 
 
-<p>SUBJECT:  <?php echo $subname;?> </p>
-<p>SECTION:  <?php echo $codesec;?> </p>
+<h5><p>SUBJECT:  <?php echo $subname;?> </p>
+<h5><p>SECTION:  <?php echo $codesec;?> </p>
 
 
 

@@ -145,7 +145,7 @@
                   
                 <?php
                         $sql = "SELECT users.id_users, users.hnr_users, users.flname_users, users.instemail_users, users.empnum_users, usertype.usertype, users.usertype_users, users.pwd_users FROM users
-                        LEFT JOIN usertype ON users.usertype_users = usertype.id_usertype LIMIT $offset, $total_records_perpage";
+                        LEFT JOIN usertype ON users.usertype_users = usertype.id_usertype where users.usertype_users <3 LIMIT $offset, $total_records_perpage";
                         $result = $conn->prepare($sql);
                         $result->execute();
                        

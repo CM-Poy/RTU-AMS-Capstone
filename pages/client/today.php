@@ -146,7 +146,7 @@ $(".close,.buttons").click(function() {
                 <?php
                     $userid=$_SESSION['user'];
 
-                    $sql = "SELECT schedules.id_schd, users.flname_users, subjects.code_subj, schedules.sec_id, sections.code_sec, schedules.day_schd, schedules.strtime_schd, schedules.endtime_schd, room.code_room from schedules
+                    $sql = "SELECT subjects.name_subj,schedules.id_schd, users.flname_users, subjects.code_subj, schedules.sec_id, sections.code_sec, schedules.day_schd, schedules.strtime_schd, schedules.endtime_schd, room.code_room from schedules
                     left join users on schedules.user_id = users.id_users
                     left JOIN subjects on schedules.sub_id = subjects.id_subj
                     LEFT JOIN sections on schedules.sec_id = sections.id_sec
@@ -167,7 +167,7 @@ $(".close,.buttons").click(function() {
                         <a href="classlist.php?id=<?php echo $_SESSION['idschd']; ?>">
                             <div class="card-body">
 
-                              <h5 class="card-title"><?php echo $row["code_subj"]; ?></h5>
+                              <h5 class="card-title"><?php echo $row["name_subj"]; ?></h5>
                               <h6 class="card-subtitle mb-2 text-muted"><?php echo $row["code_sec"];?>  |  <?php echo $row["day_schd"];?>  |  <?php echo $row["strtime_schd"];?>  -  <?php echo $row["endtime_schd"];?>  |  <?php echo $row["code_room"];?></h6>
                             </div>
                           </a>

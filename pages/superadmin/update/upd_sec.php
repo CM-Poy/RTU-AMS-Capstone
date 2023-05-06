@@ -57,7 +57,7 @@ $result->execute([$id]);
    
 <div class="edit-wrapper">
         <div class="edit-container">
-            <p class="title">EDIT Section</p>
+            <p class="title">EDIT SECTION</p>
             <div class="separator"></div>
             <form class="login-form" method="post">
 

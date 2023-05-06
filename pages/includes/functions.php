@@ -178,9 +178,7 @@ class dbfunction{
 
           if($result){
             
-              echo '<script type="text/javascript">';
-              echo 'alert("Added Successfully")';  //not showing an alert box.
-              echo '</script>';
+              
 
 
 
@@ -425,10 +423,11 @@ class dbfunction{
         $email=$_POST['email'];
         $empnum=$_POST['empnum'];
         $pwd=$_POST['pwd'];
+        $pwdhashed=password_hash($pwd,PASSWORD_DEFAULT);
 
         $sql="UPDATE users set id_users=?, hnr_users=?, flname_users=?, instemail_users=?, empnum_users=?, pwd_users=? where id_users=?";
         $query = $conn->prepare($sql);
-        $query->execute([$id,$hnr,$flname,$email,$empnum,$pwd,$id]);
+        $query->execute([$id,$hnr,$flname,$email,$empnum,$pwdhashed,$id]);
 
         header("location: ../teachers.php");
 
@@ -452,10 +451,11 @@ class dbfunction{
         $empnum=$_POST['empnum'];
         $pwd=$_POST['pwd'];
         $usertype=$_POST['usertype'];
+        $pwdhashed=password_hash($pwd,PASSWORD_DEFAULT);
        
         $sql="UPDATE users set id_users=?, hnr_users=?, flname_users=?, instemail_users=?, empnum_users=?, pwd_users=?, usertype_users=? where id_users=?";
         $query = $conn->prepare($sql);
-        $query->execute([$id,$hnr,$flname,$email,$empnum,$pwd,$usertype,$id]);
+        $query->execute([$id,$hnr,$flname,$email,$empnum,$pwdhashed,$usertype,$id]);
 
         header("location: ../users.php");
 

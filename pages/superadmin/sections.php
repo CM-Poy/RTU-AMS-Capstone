@@ -297,7 +297,7 @@
             <div class="modal-content">
               <form method="post">
                 <div class="modal-header">						
-                  <h4 class="modal-title">Delete Schedule</h4>
+                  <h4 class="modal-title">Delete Section</h4>
                   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 </div>
                 <div class="modal-body">					

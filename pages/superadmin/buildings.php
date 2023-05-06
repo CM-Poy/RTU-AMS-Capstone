@@ -218,7 +218,7 @@
             <div class="modal-content">
               <form method="post">
                 <div class="modal-header">						
-                  <h4 class="modal-title">Add Department</h4>
+                  <h4 class="modal-title">Add Building</h4>
                   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 </div>
                 <div class="modal-body">					
