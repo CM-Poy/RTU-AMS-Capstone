@@ -64,7 +64,7 @@ $result->execute([$id]);
                 <label>Department</label>
                     <div class="form-control">
                         <?php
-                        echo '<select id="dept" name="dept" style="width: 100%">
+                        echo '<select id="dept" name="dept" style="width: 340px">
                         <option value='.$dept.'>'.$name_dept.'</option>';
                 
                         $sql = "SELECT * from departments";

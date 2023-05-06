@@ -51,6 +51,10 @@ if($query->rowCount() > 0){
     
     text-align: center;
     }
+    #myTable th{
+    
+    text-align: center;
+    }
 
     #myTable{
       height: 2rem;
@@ -78,6 +82,7 @@ if($query->rowCount() > 0){
     margin-bottom: 25px;
     border-radius: 15px;
     box-shadow: 0px 0px 6px 0px;
+    
   }
   #random-name {
     margin: 2rem 0;
@@ -151,6 +156,7 @@ if($query->rowCount() > 0){
 
   </style>
     <link rel='icon' href='../../images/rtu-logo.png'/>
+    <link rel = "stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css">
     <title>Student List</title>
 </head>
   <body onload="createClassList()">
@@ -260,10 +266,10 @@ if($query->rowCount() > 0){
                   </div>
                 </div>
               </div>
-              <table class="table table-striped table-hover">
+              <table id="tabler" class="table table-striped table-hover">
                 <thead>
                   <tr>
-                    <th>Full Name</th>
+                    <th style="width: 25rem;">Full Name</th>
                     <th>Student Number</th>
                     <th>Guardian Email</th>
                     <th>Section</th>
@@ -302,18 +308,7 @@ if($query->rowCount() > 0){
                 </tbody>
               </table>
 
-              <div class="clearfix">
-                <div class="hint-text">Showing <b>5</b> out of <b>25</b> entries</div>
-                <ul class="pagination">
-                  <li class="page-item disabled"><a href="#">Previous</a></li>
-                  <li class="page-item"><a href="#" class="page-link">1</a></li>
-                  <li class="page-item"><a href="#" class="page-link">2</a></li>
-                  <li class="page-item active"><a href="#" class="page-link">3</a></li>
-                  <li class="page-item"><a href="#" class="page-link">4</a></li>
-                  <li class="page-item"><a href="#" class="page-link">5</a></li>
-                  <li class="page-item"><a href="#" class="page-link">Next</a></li>
-                </ul>
-              </div>
+              
               
             </div>
           </div>        
@@ -334,6 +329,8 @@ if($query->rowCount() > 0){
     <script src="../../js/popper.js"></script>
     <script src="../../js/bootstrap.min.js"></script>
     <script src="../../js/main.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
 
     <script>const fnames = (<?php echo json_encode($result); ?>);
   const getRandomName = () => {
@@ -359,7 +356,7 @@ if($query->rowCount() > 0){
 
     let randomName = getRandomName()
     document.getElementById('random-name').innerText = randomName;
-    fnames.splice(fnames.findIndex((name) => name.FullName === randomName), 1);
+    fnames.splice(fnames.findIndex((name) => name.flname_std === randomName), 1);
     createClassList();
   }
 
@@ -409,6 +406,12 @@ if($query->rowCount() > 0){
       theader.appendChild(x);
     }
   }
+  $(document).ready(function () {
+    $('#tabler').DataTable({
+      
+      
+    });
+});
   
 
 
