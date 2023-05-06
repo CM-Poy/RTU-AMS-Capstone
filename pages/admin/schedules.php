@@ -5,6 +5,14 @@
 
   include('../includes/header.php');  
   require('../includes/config.php');
+  session_start();
+
+  // Check if the user is logged in
+  if (!isset($_SESSION['user'])) {
+    // Redirect the user to the login page
+    header('Location: ../login.php');
+    exit;
+  }
 
 
   if(isset($_POST['addbtn'])){

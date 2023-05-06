@@ -3,7 +3,9 @@
 
 <?php
 
-session_start();
+
+
+
 include('../includes/header.php'); 
 require('../includes/config.php');
 date_default_timezone_set('Asia/Shanghai');

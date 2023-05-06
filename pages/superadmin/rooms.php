@@ -239,7 +239,7 @@
                   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 </div>
                 <div class="modal-body">
-                <input type="text" name="idroom" id="idroom">							
+                <input type="text" name="idroom" id="idroom"hidden>							
                   <p>Are you sure you want to delete this record?</p>
                   <p class="text-warning"><small>This action cannot be undone.</small></p>
                 </div>

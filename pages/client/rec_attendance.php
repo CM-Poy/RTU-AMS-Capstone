@@ -3,7 +3,7 @@ require('../includes/config.php');
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 
-session_start();
+
 
 $secid=$_SESSION['secid'];
 
