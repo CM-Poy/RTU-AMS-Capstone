@@ -45,36 +45,36 @@
 
     <div class="wrapper d-flex align-items-stretch">
             <nav id="sidebar">
-                <div class="p-4 pt-5">
-                <a href="#" class="img logo rounded-circle mb-5" style="background-image: url(../../images/rtu-logo.png);"></a>
-                <ul class="list-unstyled components mb-5">
-              <li class="">
-                <a href="users.php" >&nbsp;&nbsp;&nbsp;<i class="fa-solid fa-user fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>USERS</a>
-              <li class="">
-                <a href="schedules.php" >&nbsp;&nbsp;&nbsp;<i class="fa fa-file-text fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>SCHEDULES</a>
-              </li>
-              <li>
-              <a href="students.php" >&nbsp;&nbsp;<i class="fa fa-users fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;</i>STUDENTS</a>
-              </li>
-              <li>
-              <a href="sections.php" >&nbsp;&nbsp;&nbsp;<i class="fa-solid fa-th-large fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>SECTIONS</a>
-              </li>
-              <li>
-              <a href="subjects.php" >&nbsp;&nbsp;&nbsp;<i class="fa fa-book fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>SUBJECTS</a>
-              </li>
-              <li>
-               <a href="departments.php">&nbsp;&nbsp;&nbsp;<i class="fa fa-building fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>DEPARTMENTS</a>  
-              </li>
-              <li>
-               <a href="courses.php">&nbsp;&nbsp;&nbsp;<i class="fa fa-folder-open fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>COURSES</a>
-              </li>
-              <li>
-               <a href="buildings.php">&nbsp;&nbsp;&nbsp;<i class="fa fa-building fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>BUILDINGS</a>  
-              </li>
-              <li>
-               <a href="rooms.php">&nbsp;&nbsp;&nbsp;<i class="fa fa-building fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>ROOMS</a>  
-              </li>
-            </ul>
+                <div class="link p-4 pt-5">
+                  <a href="#" class="img logo rounded-circle mb-5" style="background-image: url(../../images/rtu-logo.png);"></a>
+                  <ul class="list-unstyled components mb-5">
+                      <li class="">
+                        <a href="users.php" >&nbsp;&nbsp;&nbsp;<i class="fa-solid fa-user fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>USERS</a>
+                      <li class="">
+                        <a href="schedules.php" >&nbsp;&nbsp;&nbsp;<i class="fa fa-file-text fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>SCHEDULES</a>
+                      </li>
+                      <li>
+                      <a href="students.php" >&nbsp;&nbsp;<i class="fa fa-users fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;</i>STUDENTS</a>
+                      </li>
+                      <li>
+                      <a href="sections.php" >&nbsp;&nbsp;&nbsp;<i class="fa-solid fa-th-large fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>SECTIONS</a>
+                      </li>
+                      <li>
+                      <a href="subjects.php" >&nbsp;&nbsp;&nbsp;<i class="fa fa-book fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>SUBJECTS</a>
+                      </li>
+                      <li>
+                      <a href="departments.php">&nbsp;&nbsp;&nbsp;<i class="fa fa-building fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>DEPARTMENTS</a>  
+                      </li>
+                      <li>
+                      <a href="courses.php">&nbsp;&nbsp;&nbsp;<i class="fa fa-folder-open fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>COURSES</a>
+                      </li>
+                      <li>
+                      <a href="buildings.php">&nbsp;&nbsp;&nbsp;<i class="fa fa-building fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>BUILDINGS</a>  
+                      </li>
+                      <li>
+                      <a href="rooms.php">&nbsp;&nbsp;&nbsp;<i class="fa fa-building fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>ROOMS</a>  
+                      </li>
+                    </ul>
 
 
           </div>
@@ -83,7 +83,7 @@
         <!-- Page Content  -->
       <div id="content" class="p-4 p-md-5">
           
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <nav id="navbar" class="navbar navbar-expand-lg navbar-light bg-light">
           <div class="container-fluid">
             <button type="button" id="sidebarCollapse" class="btn btn-primary">
               <i class="fa fa-bars"></i>
@@ -102,7 +102,60 @@
               </ul>
             </div>
           </div>
-            
+                  <!-- StickyNavBAR-->
+          <script>
+                // When the user scrolls the page, execute myFunction
+                    window.onscroll = function() {myFunction()};
+
+                    // Get the navbar
+                    var navbar = document.getElementById("navbar");
+
+                    // Get the offset position of the navbar
+                    var sticky = navbar.offsetTop;
+
+                    // Add the sticky class to the navbar when you reach its scroll position. Remove "sticky" when you leave the scroll position
+                    function myFunction() {
+                      if (window.pageYOffset >= sticky) {
+                        navbar.classList.add("sticky")
+                      } else {
+                        navbar.classList.remove("sticky");
+                      }
+                    }
+            </script>
+              <!-- ENDStickyNavBAR-->
+                  <style>
+                      /*StickyNAVBAR*/
+                        /* The sticky class is added to the navbar with JS when it reaches its scroll position */
+                        .sticky {
+                          position: fixed;
+                          top: 0px;
+                          width:79.2%;
+                        }
+
+                        /* Add some top padding to the page content to prevent sudden quick movement (as the navigation bar gets a new position at the top of the page (position:fixed and top:0) */
+                        .sticky + #content {
+                          padding-top: 60px;
+                        }
+                        #navbar{
+                          z-index: 900;
+                        }
+                        @media (max-width: 425px) {
+                          #navbar  {
+                            min-width:90%;
+                          } 
+
+                        }
+                        /*END StickyNAVBAR*/
+                        /*StickySIDEBAR*/
+                        .link{
+                          position: -webkit-sticky;
+                          position: sticky;
+                          top: 0;}
+                        /*EndStickySIDEBAR*/
+                  </style>
+
+
+
         </nav>
         <div class="container-xl">
           <div class="table-responsive">

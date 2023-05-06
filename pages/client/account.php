@@ -79,13 +79,15 @@ if (!isset($_SESSION['pwderror'])) {
     margin: 20px;
   }
 }
+
+
       </style>
   </head>
   <body>
 	<!--sidebar-->
 		<div class="wrapper d-flex align-items-stretch">
            <nav id="sidebar">
-                <div class="p-4 pt-5">
+                <div class="link p-4 pt-5">
                 <a href="#" class="img logo rounded-circle mb-5" style="background-image: url(../../images/rtu-logo.png);"></a>
             <ul class="list-unstyled components mb-5">
               <li class="">
@@ -99,13 +101,14 @@ if (!isset($_SESSION['pwderror'])) {
               </li>
             </ul>
           </div>
+          
         </nav>
 
 
         <!-- Page Content  -->
-      <div id="content" class="p-4 p-md-5">
+      <div id="content" class=" p-4 p-md-5">
           
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <nav id="navbar"class="navbar navbar-expand-lg navbar-light bg-light">
           <div class="container-fluid">
             <button type="button" id="sidebarCollapse" class="btn btn-primary">
               <i class="fa fa-bars"></i>
@@ -136,7 +139,58 @@ if (!isset($_SESSION['pwderror'])) {
             </div>
 
           </div>
-            
+            <!-- StickyNavBAR-->
+            <script>
+                // When the user scrolls the page, execute myFunction
+                    window.onscroll = function() {myFunction()};
+
+                    // Get the navbar
+                    var navbar = document.getElementById("navbar");
+
+                    // Get the offset position of the navbar
+                    var sticky = navbar.offsetTop;
+
+                    // Add the sticky class to the navbar when you reach its scroll position. Remove "sticky" when you leave the scroll position
+                    function myFunction() {
+                      if (window.pageYOffset >= sticky) {
+                        navbar.classList.add("sticky")
+                      } else {
+                        navbar.classList.remove("sticky");
+                      }
+                    }
+            </script>
+              <!-- ENDStickyNavBAR-->
+              <!-- ENDStickyNavBAR-->
+              <style>
+                      /*StickyNAVBAR*/
+                        /* The sticky class is added to the navbar with JS when it reaches its scroll position */
+                        .sticky {
+                          position: fixed;
+                          top: 0px;
+                          width:79.2%;
+                        }
+
+                        /* Add some top padding to the page content to prevent sudden quick movement (as the navigation bar gets a new position at the top of the page (position:fixed and top:0) */
+                        .sticky + #content {
+                          padding-top: 60px;
+                        }
+                        #navbar{
+                          z-index: 900;
+                        }
+                        @media (max-width: 425px) {
+                          #navbar  {
+                            min-width:90%;
+                          } 
+                        }
+                        /*END StickyNAVBAR*/
+                         /*StickySIDEBAR*/
+                         .link{
+                          position: -webkit-sticky;
+                          position: sticky;
+                          top: 0;}
+                        /*EndStickySIDEBAR*/
+                  </style>
+
         </nav>
 
           <div class="main-body">

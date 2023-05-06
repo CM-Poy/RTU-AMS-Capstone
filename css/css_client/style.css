@@ -3439,7 +3439,8 @@ input[type="button"].btn-block {
   -webkit-box-pack: justify;
   -ms-flex-pack: justify;
   justify-content: space-between;
-  padding: 0.5rem 1rem; }
+  padding: 0.5rem 1rem; 
+}
   .navbar > .container,
   .navbar > .container-fluid {
     display: -webkit-box;
@@ -8221,11 +8222,13 @@ h1, h2, h3, h4, h5,
   max-width: 300px;
   background-color: goldenrod;
   color: #fff;
-  -webkit-transition: all 0.3s;
-  -o-transition: all 0.3s;
-  transition: all 0.3s; }
+  
+ 
+}
+
   #sidebar.active {
-    margin-left: -300px; }
+    margin-left: -300px; 
+   }
   #sidebar .logo {
     display: block;
     width: 120px;
@@ -8272,7 +8275,7 @@ a[data-toggle="collapse"] {
 @media (max-width: 991.98px) {
   #sidebarCollapse span {
     display: none; } }
-
+    
 #content {
   width: 100%;
   padding: 0;
@@ -8296,7 +8299,7 @@ a[data-toggle="collapse"] {
   --primary-clr: #DAA520;
 }
 ::-webkit-scrollbar {
-  width: 5px;
+  width: 2px;
 }
 ::-webkit-scrollbar-track {
   background: #f5f5f5;

@@ -11,7 +11,6 @@ session_start();
 <!doctype html>
 <html lang="en">
   <head>
-  <link rel='icon' href='../../images/rtu-logo.png'/>
   	<title>Today</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -20,72 +19,50 @@ session_start();
     <link rel="stylesheet" href="../../css/css_client/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script>
-        $(document).ready(function(){
-            $(".notifications .icon_wrap").click(function(){
-              $(this).parent().toggleClass("active");
-               $(".profile").removeClass("active");
-            });
-
-            $(".show_all .link").click(function(){
-              $(".notifications").removeClass("active");
-              $(".popup").show();
-            });
-
-            $(".close").click(function(){
-              $(".popup").hide();
-            });
-        });
-        $('subj1').click(function() {
-  $(".modalcontainer,.modal").fadeIn("slow");
-});
-
-$(".close,.buttons").click(function() {
-  $(".modalcontainer,.modal").fadeOut("slow");
-});
-    </script>
+    
    <style>
-
-.card{
-    margin: 25px;
-          }
-.container{
-    margin-top: 150px;
-        }
-.card{
-    border-radius: 4px;
-    background: #fff;
-    box-shadow: 0 6px 10px rgba(0,0,0,.08), 0 0 6px rgba(0,0,0,.05);
-    transition: .3s transform cubic-bezier(.155,1.105,.295,1.12),.3s box-shadow,.3s -webkit-transform cubic-bezier(.155,1.105,.295,1.12);
-  cursor: pointer;
+* {
+  box-sizing: border-box;
+}
+/* Float four columns side by side */
+.column {
+  float: center;
+  width: 100%;
+  padding: 0 10px;
 }
 
+/* Remove extra left and right margins, due to padding */
+.row {margin: 0 -5px;}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Responsive columns */
+@media screen and (max-width: 600px) {
+  .column {
+    width: 100%;
+    display: block;
+    margin-bottom: 20px;
+  }
+}
+
+/* Style the counter cards */
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  padding: 16px;
+  text-align: center;
+  background-color: #f1f1f1;
+  margin:15px;
+}
 .card:hover{
      transform: scale(1.05);
   box-shadow: 0 10px 20px rgba(0,0,0,.12), 0 4px 8px rgba(0,0,0,.06);
 }
 
-.card h3{
-  font-weight: 600;
-}
-#content{
-    margin: 0;
-    padding: 0;
-    background-image: url('../../images/blurbg.png');
-    height: 100%;
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
-}
-
-
-
-
-@media(max-width: 990px){
-  .card{
-    margin: 20px;
-  }
-}
       </style>
        <link rel='icon' href='../../images/rtu-logo.png'/>
   </head>
@@ -93,41 +70,37 @@ $(".close,.buttons").click(function() {
 	<!--sidebar-->
 		<div class="wrapper d-flex align-items-stretch">
             <nav id="sidebar">
-                <div class="p-4 pt-5">
-                <a href="#" class="img logo rounded-circle mb-5" style="background-image: url(../../images/rtu-logo.png);"></a>
-            <ul class="list-unstyled components mb-5">
-              <li class="">
-                <a href="today.php">&nbsp;&nbsp;&nbsp;<i class="fa-sharp fa-solid fa-calendar-day fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>TODAY</a>
-              </li>
-              <li class="">
-               <a href="calendar.php">&nbsp;&nbsp;&nbsp;<i class="fa-sharp fa-solid fa-calendar-days fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>CALENDAR</a>
-              </li>
-              <li>
-              <a href="account.php" >&nbsp;&nbsp;&nbsp;<i class="fa-solid fa-user fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>ACCOUNT</a>
-              </li>
-            </ul>
-
-
-          </div>
-        </nav>
-
-
+                <div class="link p-4 pt-5">
+                  <a href="#" class="img logo rounded-circle mb-5" style="background-image: url(../../images/rtu-logo.png);"></a>
+                    <ul class="list-unstyled components mb-5">
+                      <li class="">
+                        <a href="today.php">&nbsp;&nbsp;&nbsp;<i class="fa-sharp fa-solid fa-calendar-day fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>TODAY</a>
+                      </li>
+                      <li class="">
+                      <a href="calendar.php">&nbsp;&nbsp;&nbsp;<i class="fa-sharp fa-solid fa-calendar-days fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>CALENDAR</a>
+                      </li>
+                      <li>
+                      <a href="account.php" >&nbsp;&nbsp;&nbsp;<i class="fa-solid fa-user fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>ACCOUNT</a>
+                      </li>
+                    </ul>
+                 </div>
+               </nav>
 
 
         <!-- Page Content  -->
         <div id="content" class="p-4 p-md-5">
           
-          <nav class="navbar navbar-expand-lg navbar-light bg-light">
+          <nav id="navbar"class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container-fluid">
               <button type="button" id="sidebarCollapse" class="btn btn-primary">
                 <i class="fa fa-bars"></i>
                 <span class="sr-only">Toggle Menu</span>
               </button>
-  
+              <a class="nav-link font-weight-bold text-justify" id="page-title">ATTENDANCE MANAGEMENT SYSTEM</a> 
               <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                   <i class="fa fa-bars"></i>
               </button>
-              <a class="nav-link font-weight-bold text-justify" id="page-title">ATTENDANCE MANAGEMENT SYSTEM</a> 
+              
               <div class="collapse navbar-collapse" id="navbarSupportedContent">
               <ul class="nav navbar-nav ml-auto">
                      
@@ -140,11 +113,63 @@ $(".close,.buttons").click(function() {
             </div>
 
           </div>
-            
-        </nav>
- 
+               <!-- StickyNavBAR-->
+          <script>
+                // When the user scrolls the page, execute myFunction
+                    window.onscroll = function() {myFunction()};
 
-                <?php
+                    // Get the navbar
+                    var navbar = document.getElementById("navbar");
+
+                    // Get the offset position of the navbar
+                    var sticky = navbar.offsetTop;
+
+                    // Add the sticky class to the navbar when you reach its scroll position. Remove "sticky" when you leave the scroll position
+                    function myFunction() {
+                      if (window.pageYOffset >= sticky) {
+                        navbar.classList.add("sticky")
+                      } else {
+                        navbar.classList.remove("sticky");
+                      }
+                    }
+            </script>
+              <!-- ENDStickyNavBAR-->
+                  <style>
+                      /*StickyNAVBAR*/
+                        /* The sticky class is added to the navbar with JS when it reaches its scroll position */
+                        .sticky {
+                          position: fixed;
+                          top: 0px;
+                          width:79.2%;
+                        }
+
+                        /* Add some top padding to the page content to prevent sudden quick movement (as the navigation bar gets a new position at the top of the page (position:fixed and top:0) */
+                        .sticky + #content {
+                          padding-top: 60px;
+                        }
+                        #navbar{
+                          z-index: 900;
+                        }
+                        @media (max-width: 425px) {
+                          #navbar  {
+                            min-width:90%;
+                          } 
+
+                        }
+                        /*END StickyNAVBAR*/
+                        /*StickySIDEBAR*/
+                        .link{
+                          position: -webkit-sticky;
+                          position: sticky;
+                          top: 0;}
+                        /*EndStickySIDEBAR*/
+                  </style>
+
+              
+        </nav>
+                            
+
+        <?php
                     $userid=$_SESSION['user'];
 
                     $sql = "SELECT subjects.name_subj,schedules.id_schd, users.flname_users, subjects.code_subj, schedules.sec_id, sections.code_sec, schedules.day_schd, schedules.strtime_schd, schedules.endtime_schd, room.code_room from schedules
@@ -160,21 +185,31 @@ $(".close,.buttons").click(function() {
                           
                             
                 ?>
-                       
-                    <div class="col-md-4">
-                      <div class="card text-center card-1" style="width: 18rem;" id="subj1">
-                      <form method="POST">
-                       
-                        <a href="classlist.php?id=<?php echo $_SESSION['idschd']; ?>">
-                            <div class="card-body">
 
-                              <h5 class="card-title"><?php echo $row["name_subj"]; ?></h5>
-                              <h6 class="card-subtitle mb-2 text-muted"><?php echo $row["code_sec"];?>  |  <?php echo $row["day_schd"];?>  |  <?php echo $row["strtime_schd"];?>  -  <?php echo $row["endtime_schd"];?>  |  <?php echo $row["code_room"];?></h6>
-                            </div>
-                          </a>
-                        </form>
+                
+                    <div class="row">
+                      <div class="column">
+                        <div class="card">
+                            <form method="POST">
+                          
+                              <a href="classlist.php?id=<?php echo $_SESSION['idschd']; ?>">
+                              <div class="card-body">
+
+
+                                <h5 class="card-title"><?php echo $row["code_subj"]; ?></h5>
+                                <h6 class="card-subtitle mb-2 text-muted"><?php echo $row["code_sec"];?>  |  <?php echo $row["day_schd"];?>  |  <?php echo $row["strtime_schd"];?>  -  <?php echo $row["endtime_schd"];?>  |  <?php echo $row["code_room"];?></h6>
+                              </div>
+                            </a>
+                          </form>
+                        </div>
                       </div>
+
+                    
                     </div>
+
+                  
+                       
+
                    
                 <?php
                            
@@ -183,6 +218,24 @@ $(".close,.buttons").click(function() {
                    
                 ?>
               
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
           
         <!--/show all notification-->
 
