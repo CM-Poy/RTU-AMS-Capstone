@@ -54,7 +54,7 @@ $result->execute([$id]);
                 
                 <label>Name</label>
                     <div class="form-control">
-                        <textarea type="text" name="name" class="textarea" required><?php echo $name;?></textarea> 
+                        <textarea type="text" name="name" class="textarea"  required><?php echo $name;?></textarea> 
                     </div>
                     
                 <label>Code</label>
