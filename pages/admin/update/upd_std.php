@@ -180,6 +180,4 @@ $result->execute([$id]);
 
     
 </body>
-<script>
-</script>
 </html>

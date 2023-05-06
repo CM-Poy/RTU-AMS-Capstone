@@ -4,10 +4,6 @@
   <?php 
    include('../includes/header.php'); 
    require('../includes/config.php');
-  
-   if (!isset($_SESSION['error'])) {
-    $_SESSION['error'] = false;
-  }
 
   if(isset($_POST['addbtn'])){
     include('../includes/functions.php');
@@ -21,6 +17,30 @@
     $obj->delSub($_POST["idsub"]);
   }
 
+  
+  if(isset($_GET['page_no']) && $_GET['page_no'] !== ""){
+    $page_no = $_GET['page_no'];
+  }else{
+    $page_no = 1;
+  }
+
+  //total num rows to display
+  $total_records_perpage = 10;
+  //getting offset for for limit query
+  $offset = ($page_no - 1) * $total_records_perpage;
+  //previous page
+  $previous_page = $page_no - 1;
+  //next page
+  $next_page = $page_no + 1;
+
+  //getting the total number of records
+  $sql = "SELECT * from subjects";
+  $totalnumrecords = $conn->prepare($sql); 
+  $totalnumrecords->execute();
+  //total records
+  $result_totalnumrecords=$totalnumrecords->rowCount();
+  //total pages
+  $total_numpages = ceil($result_totalnumrecords/$total_records_perpage);
 
   
   ?>
@@ -28,14 +48,8 @@
 
 <head>
     <link rel='icon' href='../../images/rtu-logo.png'/>
-    <link rel = "stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css">
     <title>SUPERADMIN: Manage Subjects</title>
 </head>
-<script>
-  if (window.history.replaceState){
-    window.history.replaceState(null, null, window.location.href);
-  }
-</script>
   <body>
 
   <!--sidebar-->
@@ -114,18 +128,9 @@
                   </div>
                 </div>
               </div>
-              <?php if ($_SESSION['error']): ?>
-                <div class="alert alert-danger" role="alert" >
-                    <center><strong><?php echo $_SESSION['error'];?></strong><center>
-                </div>
-                <?php   
-                    $_SESSION['error'] = false;
-                ?>
-              <?php endif ?>
-              <table id="tabler" class="table table-striped table-hover">
+              <table class="table table-striped table-hover">
                 <thead>
                   <tr>
-                    <th hidden></th>
                     <th>Name</th>
                     <th>Code</th>
                     <th>Units</th>
@@ -134,15 +139,15 @@
                 </thead>
                 <tbody>
                  	  <?php 
-                        $sql = "SELECT * from subjects ";
+                        $sql = "SELECT * from subjects LIMIT $offset, $total_records_perpage";
                         $result = $conn->prepare($sql);
                         $result->execute();
                        
                         if($result->rowCount() > 0){
                           while ($row = $result->fetch(PDO::FETCH_ASSOC)){
                             $id_subj=$row["id_subj"];
-                            $name_subj=$row["name_subj"];
                             $code_subj=$row["code_subj"];
+                            $name_subj=$row["name_subj"];
                             $units_subj=$row["units_subj"];
   
                             echo '
@@ -168,7 +173,31 @@
                   
                 </tbody>
               </table>
-            
+              <div class="clearfix">
+                <div class="hint-text">
+                  Showing <b><?php echo $page_no; ?></b> of <b><?php echo $total_numpages; ?></b> pages.
+                </div>
+                <ul class="pagination">
+
+                  <li class="page-item"><a  class="page-link <?= ($page_no <=1) ? 'disabled' : ''; ?> " <?= ($page_no > 1) ? 'href=? page_no=' .$previous_page : ''; ?>>Previous</a></li>
+
+
+                  
+                  <?php for($counter = 1; $counter <= $total_numpages; $counter ++){ ?>
+                    
+                    <?php if ($page_no != $counter){?>
+                      <li class="page-item"><a class="page-link" href="?page_no=<?=$counter; ?>"><?=$counter; ?></a></li>
+                    <?php }else{ ?> 
+                      <li class="page-item"><a class="page-link active"><?=$counter; ?></a></li>
+                    <?php } ?>
+                   <?php } ?>
+
+
+          
+
+                  <li class="page-item"><a  class="page-link <?= ($page_no >= $total_numpages) ? 'disabled' : '' ; ?>" <?= ($page_no < $total_numpages) ? 'href=?page_no=' . $next_page : ''; ?>>Next</a></li>
+
+                </ul>
               </div>
             </div>
           </div>        
@@ -245,8 +274,6 @@
     <script src="../../js/popper.js"></script>
     <script src="../../js/bootstrap.min.js"></script>
     <script src="../../js/main.js"></script>
-    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
    
    
 
@@ -264,12 +291,7 @@
           $('#idsub').val(data[0]);
         });
       });
-      $(document).ready(function () {
-    $('#tabler').DataTable({
-      
-      
-    });
-});
+
     </script>
 
 

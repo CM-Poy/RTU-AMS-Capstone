@@ -6,11 +6,6 @@
   include('../includes/header.php');  
   require('../includes/config.php');
 
-  if (!isset($_SESSION['error'])) {
-    $_SESSION['error'] = false;
-  }
-
-
 
   if(isset($_POST['addbtn'])){
     include('../includes/functions.php');
@@ -25,8 +20,32 @@
   }
 
   
+  
+  
 
+  if(isset($_GET['page_no']) && $_GET['page_no'] !== ""){
+    $page_no = $_GET['page_no'];
+  }else{
+    $page_no = 1;
+  }
 
+  //total num rows to display
+  $total_records_perpage = 10;
+  //getting offset for for limit query
+  $offset = ($page_no - 1) * $total_records_perpage;
+  //previous page
+  $previous_page = $page_no - 1;
+  //next page
+  $next_page = $page_no + 1;
+
+  //getting the total number of records
+  $sql = "SELECT * from schedules";
+  $totalnumrecords = $conn->prepare($sql); 
+  $totalnumrecords->execute();
+  //total records
+  $result_totalnumrecords=$totalnumrecords->rowCount();
+  //total pages
+  $total_numpages = ceil($result_totalnumrecords/$total_records_perpage);
   ?>
   
 
@@ -35,11 +54,7 @@
     <link rel = "stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css">
     <title>ADMIN: Manage Schedules</title>
 </head>
-<script>
-  if (window.history.replaceState){
-    window.history.replaceState(null, null, window.location.href);
-  }
-</script>
+
   <body>
 
   <!--sidebar-->
@@ -100,14 +115,6 @@
                   </div>
                 </div>
               </div>
-              <?php if ($_SESSION['error']): ?>
-                <div class="alert alert-danger" role="alert" >
-                    <center><strong><?php echo $_SESSION['error'];?></strong><center>
-                </div>
-                <?php   
-                    $_SESSION['error'] = false;
-                ?>
-              <?php endif ?>
               <table id= "tabler" class="table table-striped table-hover">
                 <thead>
                   <tr>
@@ -126,7 +133,7 @@
                  
                 <?php
                       
-                       $sql = "SELECT schedules.id_schd, users.flname_users, subjects.name_subj, sections.code_sec, schedules.day_schd, schedules.strtime_schd, schedules.endtime_schd, room.code_room from schedules left join users on schedules.user_id = users.id_users LEFT JOIN subjects on schedules.sub_id = subjects.id_subj LEFT JOIN sections on schedules.sec_id = sections.id_sec LEFT JOIN room on schedules.room_id = room.id_room";
+                       $sql = "SELECT schedules.id_schd, users.flname_users, subjects.code_subj, sections.code_sec, schedules.day_schd, schedules.strtime_schd, schedules.endtime_schd, room.code_room from schedules left join users on schedules.user_id = users.id_users LEFT JOIN subjects on schedules.sub_id = subjects.id_subj LEFT JOIN sections on schedules.sec_id = sections.id_sec LEFT JOIN room on schedules.room_id = room.id_room LIMIT $offset, $total_records_perpage";
                        $result = $conn->prepare($sql);
                        $result->execute();
                        
@@ -134,7 +141,7 @@
                          while ($row = $result->fetch(PDO::FETCH_ASSOC)){
                            $id_schd=$row["id_schd"];
                            $user_id=$row["flname_users"];
-                           $sub_id=$row["name_subj"];
+                           $sub_id=$row["code_subj"];
                            $sec_id=$row["code_sec"];
                            $day=$row["day_schd"];
                            $strtime=$row["strtime_schd"];
@@ -144,7 +151,7 @@
                             <forM method="post">
                               <tr>
                                     <td hidden>'.$id_schd.'</td>
-                                    <td style="width: 170px;height: 40px">'.$user_id.'</td>
+                                    <td>'.$user_id.'</td>
                                     <td>'.$sub_id.'</td>
                                     <td>'.$sec_id.'</td>
                                     <td>'.$day.'</td>
