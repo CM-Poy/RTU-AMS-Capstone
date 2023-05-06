@@ -42,6 +42,111 @@ if($query->rowCount() > 0){
 
 
 ?>
+<style>
+  
+  #myTable td{
+    
+    text-align: center;
+    }
+
+    #myTable{
+      height: 2rem;
+      
+    }
+#rando {
+    padding-top: 80px;
+  }
+
+  #random-name {
+    font-size: 30px;
+  }
+    
+
+  #fulln {
+    font-size: 15px;
+    padding-left: 5px;
+  }
+
+  #rem {
+    margin-left: 15px;
+  }
+  .card{
+    color: black;
+    margin-bottom: 25px;
+    border-radius: 15px;
+    box-shadow: 0px 0px 6px 0px;
+  }
+  #random-name {
+    margin: 2rem 0;
+    color: black;
+    }
+  .btn1{
+    position: relative;
+    border-radius: 4em;
+    font-size: 16px;
+    padding: 0.8em 1.8em;
+    cursor:pointer;
+    user-select:none;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition-duration: 0.4s;
+    -webkit-transition-duration: 0.4s; /* Safari */
+   
+    
+  }
+  
+  .btn1:hover {
+    transition-duration: 0.1s;
+    background-color: green;
+    color: white;
+  }
+  
+  
+  
+  .btn1:after {
+    content: "";
+    display: block;
+    position: absolute;
+    border-radius: 4em;
+    left: 0;
+    top:0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: all 0.5s;
+    box-shadow: 0 0 10px 40px white;
+  }
+  
+  .btn1:active:after {
+    box-shadow: 0 0 0 0 white;
+    position: absolute;
+    border-radius: 4em;
+    left: 0;
+    top:0;
+    opacity: 1;
+    transition: 0s;
+  }
+  
+  .btn1:active {
+    top: 1px;
+    color: white;
+  }
+ 
+    #jstable{
+      margin-top: 20px;
+    }
+    #randomizer {
+  position: absolute;
+  float: left;
+  left: 50%;
+  top: 65%;
+  transform: translate(-50%, -50%);
+}
+
+
+
+  </style>
   
 
 <head>
@@ -151,6 +256,8 @@ if($query->rowCount() > 0){
 
   </style>
     <link rel='icon' href='../../images/rtu-logo.png'/>
+    <link rel = "stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <title>Student List</title>
 </head>
   <body onload="createClassList()">
@@ -260,9 +367,10 @@ if($query->rowCount() > 0){
                   </div>
                 </div>
               </div>
-              <table class="table table-striped table-hover">
+              <table id="tabler"class="table table-striped table-hover">
                 <thead>
                   <tr>
+                    <th hidden></th>
                     <th>Full Name</th>
                     <th>Student Number</th>
                     <th>Guardian Email</th>
@@ -334,6 +442,8 @@ if($query->rowCount() > 0){
     <script src="../../js/popper.js"></script>
     <script src="../../js/bootstrap.min.js"></script>
     <script src="../../js/main.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
 
     <script>const fnames = (<?php echo json_encode($result); ?>);
   const getRandomName = () => {
