@@ -332,9 +332,9 @@ class dbfunction{
         $room = $_POST['room'];
 
         
-        $stmt ="SELECT * FROM schedules WHERE  day_schd=? AND room_id=? AND ((strtime_schd <= ? AND endtime_schd >= ?) OR (strtime_schd <=? AND endtime_schd >= ?))";
+        $stmt ="SELECT * FROM schedules WHERE  day_schd=? AND room_id=? AND ((strtime_schd <= ? AND endtime_schd > ?) OR (strtime_schd < ? AND endtime_schd >= ?) OR (strtime_schd >= ? AND endtime_schd <= ?) OR (strtime_schd <= ? AND endtime_schd >= ?))";
         $query = $conn->prepare($stmt);
-        $query->execute([$day,$room,$strtime,$strtime,$endtime,$endtime]);
+        $query->execute([$day,$room,$strtime,$strtime,$endtime,$endtime,$strtime,$endtime,$strtime,$endtime]);
         $row = $query->rowCount();
         $fetch = $query->fetch();
 
@@ -587,9 +587,9 @@ class dbfunction{
           header("location: ../schedules.php");
         }
 
-        $stmt ="SELECT * FROM schedules WHERE  day_schd=? AND room_id=? AND ((strtime_schd <= ? AND endtime_schd >= ?) OR (strtime_schd <=? AND endtime_schd >= ?))";
+        $stmt ="SELECT * FROM schedules WHERE  day_schd=? AND room_id=? AND ((strtime_schd <= ? AND endtime_schd > ?) OR (strtime_schd < ? AND endtime_schd >= ?) OR (strtime_schd >= ? AND endtime_schd <= ?) OR (strtime_schd <= ? AND endtime_schd >= ?))";
         $query = $conn->prepare($stmt);
-        $query->execute([$day,$room,$strtime,$strtime,$endtime,$endtime]);
+        $query->execute([$day,$room,$strtime,$strtime,$endtime,$endtime,$strtime,$endtime,$strtime,$endtime]);
         $row = $query->rowCount();
         $fetch = $query->fetch();
 

@@ -156,6 +156,9 @@ if (isset($_POST['qr'])){
                     
                     
                 }
+
+                
+
             }
 
             
@@ -173,14 +176,6 @@ if (isset($_POST['qr'])){
         $_SESSION['error'] =  "You are not enrolled to this subject.";
     }
 }
-
-
-
-
-
-
-
-
             
 
 
@@ -278,6 +273,7 @@ if (isset($_POST['qr'])){
     </section>
 
     <section class="main">
+        <form method="post">
         <div class="login-container">
             <p class="title"> <?php echo $sec; ?> Attendance</p>
             <div class="separator"></div>
@@ -289,8 +285,9 @@ if (isset($_POST['qr'])){
                     $_SESSION['error'] = false;
                 ?>
             <?php endif ?>
-            <button type="submit" name="done" >DONE</button>
+           
          </div>
+        </form>
     </section>
 </body>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>

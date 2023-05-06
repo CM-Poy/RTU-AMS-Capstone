@@ -139,7 +139,6 @@ if($query->rowCount() > 0){
                         }
                     }
                 }
-
             }
         } 
     }
@@ -149,7 +148,7 @@ if($query->rowCount() > 0){
 ?>
 </table>
 
-</BR></BR></BR></BR><button onclick="window.print();" class="btn btn-primary" id="print-btn">Print</button>
+</BR><center><button onclick="window.print();" class="btn btn-primary" id="print-btn">Print</button>
 
 
 
