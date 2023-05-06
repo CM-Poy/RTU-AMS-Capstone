@@ -47,7 +47,7 @@ $result->execute([$id]);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../../../css/css_update/updatestyle.css">
+    <link rel="stylesheet" href="../../../css/css_update/updstyle.css">
     
     <title>Edit Section</title>
 </head>
@@ -120,8 +120,8 @@ $result->execute([$id]);
 
                     </div>			
            
-                <a href="../sections.php"><input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel" ></a>
-                <button class="submit" name="updBtn">Save</button>
+                    <button class="submit" name="updBtn">Save </button>
+                    <button class="cancel" name="cancel" type="cancel" onclick="window.location='../sections.php';return false;" >Cancel</button>
             </form>
         </div>
 

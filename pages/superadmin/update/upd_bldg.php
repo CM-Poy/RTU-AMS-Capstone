@@ -36,7 +36,7 @@ $result->execute([$id]);
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../../../css/css_update/updatestyle.css">
+    <link rel="stylesheet" href="../../../css/css_update/updstyle.css">
     
     <title>Edit Building</title>
 </head>
@@ -52,7 +52,7 @@ $result->execute([$id]);
                 
                 <label>Name</label>
                     <div class="form-control">
-                        <input type="text" name="name"  value="<?php echo $name;?>" required/>
+                    <textarea type="text" name="name" class="textarea" required><?php echo $name;?></textarea>
                     </div>
                     <div>
                         
@@ -61,8 +61,9 @@ $result->execute([$id]);
                         <input type="text" name="code" value="<?php echo $code;?>" required>
                     </div>
             
-                    <a href="../buildings.php"><input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel" ></a>
-                    <button class="submit" name="updBtn">Save</button> 
+                    
+                    <button class="cancel" name="cancel" type="cancel" onclick="window.location='../buildings.php';return false;" >Cancel</button>
+                    <button class="submit" name="updBtn">Save </button>
             </form>
         </div>
 

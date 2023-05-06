@@ -8223,9 +8223,15 @@ h1, h2, h3, h4, h5,
   color: #fff;
   -webkit-transition: all 0.3s;
   -o-transition: all 0.3s;
-  transition: all 0.3s; }
+  transition: all 0.3s; 
+ 
+}
+
   #sidebar.active {
-    margin-left: -300px; }
+    margin-left: -300px; 
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;}
   #sidebar .logo {
     display: block;
     width: 120px;
