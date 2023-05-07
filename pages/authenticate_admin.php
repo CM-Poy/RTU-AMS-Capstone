@@ -1,6 +1,7 @@
 <?php
-session_start();
+
 require "includes/authenticator.php";
+session_start();
 
 
 $Authenticator = new Authenticator();
@@ -131,3 +132,4 @@ if (!isset($_SESSION['failed'])) {
     </div>
 </body>
 </html>
+

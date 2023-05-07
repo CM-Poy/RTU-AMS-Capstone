@@ -4,14 +4,7 @@
   <?php
   include('../includes/header.php'); 
   require('../includes/config.php');
-  session_start();
 
-   // Check if the user is logged in
-   if (!isset($_SESSION['user'])) {
-     // Redirect the user to the login page
-     header('Location: ../login.php');
-     exit;
-   }
   if (!isset($_SESSION['error'])) {
     $_SESSION['error'] = false;
   }
@@ -44,6 +37,9 @@
 <head>
     <link rel='icon' href='../../images/rtu-logo.png'/>
     <link rel = "stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css">
+    <link rel = "stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
+    <link rel = "stylesheet" href="https://cdn.datatables.net/rowreorder/1.3.3/css/rowReorder.dataTables.min.css">
+    <link rel = "stylesheet" href="https://cdn.datatables.net/responsive/2.4.1/css/responsive.dataTables.min.css">
     <title>SUPERADMIN: Manage Students</title>
 </head>
 <script>
@@ -57,7 +53,7 @@
 
   <div class="wrapper d-flex align-items-stretch">
             <nav id="sidebar">
-                <div class="p-4 pt-5">
+                <div class="link p-4 pt-5">
                 <a href="#" class="img logo rounded-circle mb-5" style="background-image: url(../../images/rtu-logo.png);"></a>
                 <ul class="list-unstyled components mb-5">
               <li class="">
@@ -94,7 +90,7 @@
         <!-- Page Content  -->
       <div id="content" class="p-4 p-md-5">
           
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <nav id="navbar" class="navbar navbar-expand-lg navbar-light bg-light">
           <div class="container-fluid">
             <button type="button" id="sidebarCollapse" class="btn btn-primary">
               <i class="fa fa-bars"></i>
@@ -113,7 +109,58 @@
               </ul>
             </div>
           </div>
-            
+                     <!-- StickyNavBAR-->
+          <script>
+                // When the user scrolls the page, execute myFunction
+                    window.onscroll = function() {myFunction()};
+
+                    // Get the navbar
+                    var navbar = document.getElementById("navbar");
+
+                    // Get the offset position of the navbar
+                    var sticky = navbar.offsetTop;
+
+                    // Add the sticky class to the navbar when you reach its scroll position. Remove "sticky" when you leave the scroll position
+                    function myFunction() {
+                      if (window.pageYOffset >= sticky) {
+                        navbar.classList.add("sticky")
+                      } else {
+                        navbar.classList.remove("sticky");
+                      }
+                    }
+            </script>
+              <!-- ENDStickyNavBAR-->
+                  <style>
+                      /*StickyNAVBAR*/
+                        /* The sticky class is added to the navbar with JS when it reaches its scroll position */
+                        .sticky {
+                          position: fixed;
+                          top: 0px;
+                          width:79.2%;
+                        }
+
+                        /* Add some top padding to the page content to prevent sudden quick movement (as the navigation bar gets a new position at the top of the page (position:fixed and top:0) */
+                        .sticky + #content {
+                          padding-top: 60px;
+                        }
+                        #navbar{
+                          z-index: 900;
+                        }
+                        @media (max-width: 425px) {
+                          #navbar  {
+                            min-width:90%;
+                          } 
+
+                        }
+                        /*END StickyNAVBAR*/
+                         /*StickySIDEBAR*/
+                         .link{
+                          position: -webkit-sticky;
+                          position: sticky;
+                          top: 0;}
+                        /*EndStickySIDEBAR*/
+                  </style>
+
         </nav>
         <div class="container-xl">
           <div class="table-responsive">
@@ -138,7 +185,8 @@
                     $_SESSION['error'] = false;
                 ?>
               <?php endif ?>
-              <table id="tabler" class="table table-striped table-hover">
+              <div style="overflow-x:auto;">
+              <table id="tabler" class="table table-striped table-hover" style="width:100%">
                 <thead>
                   <tr>
                     <th hidden></th>
@@ -180,7 +228,7 @@
                            
                               <tr>
                                 <td hidden>'.$id_std.'</td>
-                                <td tyle="width: 155px;height: 40px">'.$flname_std.'</td>
+                                <td style="width: 155px;height: 40px">'.$flname_std.'</td>
                                 <td>'.$instemail_std.'</td>
                                 <td>'.$studnum_std.'</td>
                                 <td style="width: px;height: 40px">'.$gflname_std.'</td>
@@ -189,7 +237,8 @@
                                 <td>'.$sect_id.'</td>
                                 <td>'.$yrlvl_id.'</td>
                                 <td>
-                                  
+                                
+                                <a href="qrcode/showqr.php?qrid='.$id_std.'"><i class="material-icons " data-toggle="tooltip" title="QR-Code">&#xe3f4;</i></a>
                                   <a href="update/upd_std.php?updid='.$id_std.'"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
                                   <a href="#delModal" class="delBtn" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
                                   
@@ -203,6 +252,7 @@
                     ?>
                 </tbody>
               </table>
+                      </div>
              
               </div>
             </div>
@@ -494,6 +544,10 @@
     <script src="../../js/main.js"></script>
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
+                      
+   <script src=" https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+   <script src=" https://cdn.datatables.net/rowreorder/1.3.3/js/dataTables.rowReorder.min.js"></script>
+   <script src=" https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
 
 
 
@@ -502,36 +556,6 @@
 
       //EDIT MODAL 
         $(document).ready(function () {
-
-            $('.editBtn').on('click', function () {
-
-                $('#editModal').modal('show');
-
-                $tr = $(this).closest('tr');
-
-                var data = $tr.children("td").map(function () {
-                    return $(this).text();
-                }).get();
-
-                
-               
-
-                console.log(data);
-
-                $('#id').val(data[0]);
-                $('#flname').val(data[1]);
-                $('#email').val(data[2]);
-                $('#studnum').val(data[3]);
-                $('#gflname').val(data[4]);
-                $('#gemail').val(data[5]);
-                $('#crs').val(data[6]);
-                $('#yrlvl').val(data[7]);
-                $('#sect').val(data[8]);
-          
-            });
-
-
-            
             $('.delBtn').on('click', function () {
               $('#delModal').modal('show');
               $tr = $(this).closest('tr');
@@ -544,12 +568,15 @@
                 $('#idstd').val(data[0]);
             });
         });
-        $(document).ready(function () {
-    $('#tabler').DataTable({
-      
-      
-    });
-});
+
+        $(document).ready(function() {
+    var table = $('#tabler').DataTable( {
+        rowReorder: {
+            selector: 'td:nth-child(2)'
+        },
+        responsive: true
+    } );
+} );
 </script>
 
   </body>

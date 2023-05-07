@@ -18,7 +18,7 @@ $checkResult = $Authenticator->verifyCode($_SESSION['auth_secret'], $_POST['code
 if (!$checkResult) {
     $_SESSION['failed'] = true;
     header("location: ../authenticate_superadmin.php");
-    die();
+    
 } 
 
 

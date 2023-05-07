@@ -1,4 +1,9 @@
 <?php
+declare(strict_types=1);
+
+use chillerlan\QRCode\QRCode;
+use chillerlan\QRCode\QROptions;
+
 require_once('config.php');
 session_start();
 
@@ -199,34 +204,29 @@ class dbfunction{
         
         
        
-        else{
-      
+        else{   
+
+          require_once ('../../vendor/autoload.php');
+          require_once ('../../vendor/phpqrcode/qrlib.php');
+          $qrimage = $fullname.$studnum.".svg";
+          
+          $path='../../images/qrcodes/'.$qrimage;
+          $options = new QROptions(
+            [
+              'eccLevel' => QRCode::ECC_L,
+              'outputType' => QRCode::OUTPUT_MARKUP_SVG,
+              'version' => 5,
+            ]
+          );
+          
+          $qrcode = (new QRCode($options))->render($qrimage, $path);
        
-
+        
       
       
-        $sql = "INSERT INTO students (	
-        flname_std,
-        instemail_std,	
-        studnum_std,	
-        gflname_std,	
-        gemail_std,	
-        crs_id,	
-        yrlvl_id,	
-        sec_id) VALUES (:flname, :email, :studnum, :gflname, :gemail, :crsNameStd, :yrLvlStd, :sectNameStd)";
+        $sql = "INSERT INTO students (flname_std,instemail_std,studnum_std,gflname_std,gemail_std,crs_id,yrlvl_id,sec_id,qrcode_std) VALUES (?,?,?,?,?,?,?,?,?)";
         $result = $conn->prepare($sql);
-
-      $data = [
-          ':flname' => $fullname,
-          ':email' => $email,
-          ':studnum' => $studnum,
-          ':gflname' => $gflname,
-          ':gemail' => $gemail,
-          ':crsNameStd' => $crsname,
-          ':yrLvlStd' => $yrlvl,
-          ':sectNameStd' => $sectname,
-      ];
-      $result->execute($data);
+        $result->execute([$fullname,$email,$studnum,$gflname,$gemail,$crsname,$yrlvl,$sectname,$qrimage]);
     
     }
   }
@@ -392,7 +392,7 @@ class dbfunction{
         if($namecrs) 
           $_SESSION['error']="Course Name Already Exist.";
           else if($codecrs)
-            $_SESSION['error']="Course code Already Exist.";
+            $_SESSION['error']="Course Code Already Exist.";
             
           
         else{

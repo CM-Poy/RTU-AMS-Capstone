@@ -1,8 +1,10 @@
 <?php 
+
 require('../includes/config.php');
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
-
+use PHPMailer\PHPMailer\Exception;
+session_start();
 
 
 $secid=$_SESSION['secid'];
@@ -59,123 +61,121 @@ $result->execute([$secid]);
 
 
 
-if (isset($_POST['qr'])){
+    if (isset($_POST['qr'])){
 		
-    $qrdata = $_POST['qr'];
-    $sql="SELECT * from students WHERE studnum_std=? and sec_id=?";
-    $result = $conn->prepare($sql);
-    $result->execute([$qrdata,$secid]);
-
-    if($result->rowCount() > 0){
-        
-        while ($row = $result->fetch(PDO::FETCH_ASSOC)){
-            $id=$row["id_std"];
-        }
-
-        $sql="SELECT * from attendance_record WHERE stud_id=?";
-        $result2 = $conn->prepare($sql);
-        $result2->execute([$id]);
-
-        if($result2->rowCount() > 0){
-            $_SESSION['error'] =  "Already Recorded.";
-           
-        }else{
+        $qrdata = $_POST['qr'];
+        $sql="SELECT * from students WHERE studnum_std=? and sec_id=?";
+        $result = $conn->prepare($sql);
+        $result->execute([$qrdata,$secid]);
+    
+        if($result->rowCount() > 0){
             
+            while ($row = $result->fetch(PDO::FETCH_ASSOC)){
+                $id=$row["id_std"];
+            }
+    
+            $sql="SELECT * from attendance_record WHERE stud_id=?";
+            $result2 = $conn->prepare($sql);
+            $result2->execute([$id]);
+    
+            if($result2->rowCount() > 0){
+                $_SESSION['error'] =  "Already Recorded.";
+               
+            }else{
 
-
-            $idsched=$_SESSION['schdid'];
-            $date=date('Y-m-d');
-            $sql2= "SELECT * FROM attendance_list WHERE schd_id=? AND doc=?";
-            $query2 = $conn->prepare($sql2);
-            $query2->execute([$idsched,$date]);
+                $idsched=$_SESSION['schdid'];
+                $date=date('Y-m-d');
+                $sql2= "SELECT * FROM attendance_list WHERE schd_id=? AND doc=?";
+                $query2 = $conn->prepare($sql2);
+                $query2->execute([$idsched,$date]);
+                
+                if($query2->rowCount() > 0){
             
-            if($query2->rowCount() > 0){
-        
-                while ($row = $query2->fetch(PDO::FETCH_ASSOC)){
-                    $present="1";
-                    $idatt=$row["id_attendance"];
-                    $_SESSION['idatt']=$row["id_attendance"];
-                    $sql = "INSERT INTO  attendance_record (`attendance_id`,`stud_id`, `type`) VALUES ($idatt,$id,$present)  ";
-                    $query = $conn->prepare($sql);
-                    $query->execute();
-
-                    $sql3= "SELECT * FROM students WHERE id_std=?";
-                    $query3 = $conn->prepare($sql3);
-                    $query3->execute([$id]);
-                    if($query3->rowCount() > 0){
-        
-                        while ($row = $query3->fetch(PDO::FETCH_ASSOC)){
-                            $stdname=$row['flname_std'];
-                            $name=$row['gflname_std'];
-                            $email=$row['gemail_std'];
-
-                            $subj=$_SESSION['subid'];
-                            $sql4= "SELECT * FROM subjects WHERE id_subj=?";
-                            $query4 = $conn->prepare($sql4);
-                            $query4->execute([$subj]);
-
-                            if($query4->rowCount() > 0){
-        
-                                while ($row2 = $query4->fetch(PDO::FETCH_ASSOC)){
-                                    $subj=$row2["name_subj"];
+                    while ($row = $query2->fetch(PDO::FETCH_ASSOC)){
+                        $present="1";
+                        $idatt=$row["id_attendance"];
+                        $_SESSION['idatt']=$row["id_attendance"];
+                        $sql = "INSERT INTO  attendance_record (`attendance_id`,`stud_id`, `type`) VALUES ($idatt,$id,$present)  ";
+                        $query = $conn->prepare($sql);
+                        $query->execute();
+    
+                        $sql3= "SELECT * FROM students WHERE id_std=?";
+                        $query3 = $conn->prepare($sql3);
+                        $query3->execute([$id]);
+                        if($query3->rowCount() > 0){
+            
+                            while ($row = $query3->fetch(PDO::FETCH_ASSOC)){
+                                $stdname=$row['flname_std'];
+                                $name=$row['gflname_std'];
+                                $email=$row['gemail_std'];
+    
+                                $subj=$_SESSION['subid'];
+                                $sql4= "SELECT * FROM subjects WHERE id_subj=?";
+                                $query4 = $conn->prepare($sql4);
+                                $query4->execute([$subj]);
+    
+                                if($query4->rowCount() > 0){
+            
+                                    while ($row2 = $query4->fetch(PDO::FETCH_ASSOC)){
+                                        $subj=$row2["name_subj"];
+                                    }
                                 }
+
+                                
                             }
+                                $datetime2=date('Y-m-d H:i:s');
+                                $subject = "ATTENDANCE RESULT";
+                                $message = $stdname." was present in his class ".$subj.". Recorded .".$datetime2;
+    
+                                require "../../vendor/autoload.php";
+                                $mail = new PHPMailer(true);
 
+                                //$mail->SMTPDebug = SMTP::DEBUG_SERVER;
+                                
+                                $mail->isSMTP();
+                                $mail->SMTPAuth = true;
+                                
+                                $mail->Host = "smtp.gmail.com";
+                                $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+                                $mail->Port = 587;
+                                
+                                $mail->Username = "rtuboni.ams@gmail.com";
+                                $mail->Password = "twaeftlsfuwcxhwo";
+                                
+                                $mail->setFrom("rtuboni.ams@gmail.com","RTU Boni-Attendance Management System");
+                                $mail->addAddress($email, $name);
+                                
+                                $mail->Subject = $subject;
+                                $mail->Body = $message;
+                                
+                                $mail->send();
+                        }else{
                             
-                           
-                            $subject = "ATTENDANCE RESULT";
-                            $message = "Student ".$stdname." was present in his class ".$subj;
-
-                            require "../../vendor/autoload.php";
-                            $mail = new PHPMailer(true);
-
-                            // $mail->SMTPDebug = SMTP::DEBUG_SERVER;
-
-                            $mail->isSMTP();
-                            $mail->SMTPAuth = true;
-
-                            $mail->Host = "smtp.gmail.com";
-                            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-                            $mail->Port = 587;
-
-                            $mail->Username = "rtuboni.ams@gmail.com";
-                            $mail->Password = "eidwfqkytlhuzjdl";
-
-                            $mail->setFrom("rtuboni.ams@gmail.com","RTU Boni-Attendance Management System");
-                            $mail->addAddress($email, $name);
-
-                            $mail->Subject = $subject;
-                            $mail->Body = $message;
-
-                            $mail->send();
                         }
-                    }else{
+    
+                        
                         
                     }
-
+    
                     
-                    
+    
                 }
-
+    
                 
-
+               
+    
+                
             }
-
-            
-           
-
-            
+        
+        
+                
+    
+                
+                
+        }else{
+            $_SESSION['error'] =  "You are not enrolled to this subject.";
         }
-    
-    
-            
-
-            
-            
-    }else{
-        $_SESSION['error'] =  "You are not enrolled to this subject.";
     }
-}
             
 
 
@@ -302,4 +302,5 @@ if ( window.history.replaceState ) {
   window.history.replaceState( null, null, window.location.href );
 }
 </script>
+
 

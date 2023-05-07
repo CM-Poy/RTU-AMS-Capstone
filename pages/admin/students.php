@@ -4,14 +4,9 @@
   <?php
   include('../includes/header.php'); 
   require('../includes/config.php');
-  session_start();
+  
 
-  // Check if the user is logged in
-  if (!isset($_SESSION['user'])) {
-    // Redirect the user to the login page
-    header('Location: ../login.php');
-    exit;
-  }
+
 
   if (!isset($_SESSION['error'])) {
     $_SESSION['error'] = false;
@@ -57,6 +52,9 @@
 <head>
     <link rel='icon' href='../../images/rtu-logo.png'/>
     <link rel = "stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css">
+    <link rel = "stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
+    <link rel = "stylesheet" href="https://cdn.datatables.net/rowreorder/1.3.3/css/rowReorder.dataTables.min.css">
+    <link rel = "stylesheet" href="https://cdn.datatables.net/responsive/2.4.1/css/responsive.dataTables.min.css">
     <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
     <title>ADMIN: Manage Students</title>
 </head>
@@ -141,7 +139,7 @@
                 ?>
               <?php endif ?>
               
-              <table id="tabler" class="table table-striped table-hover">
+              <table id="tabler" class="table table-striped table-hover" style="width:100%">
                 <thead>
                   <tr>
                     <th hidden>ID</th>
@@ -202,7 +200,7 @@
 
                           <a href="qrcode/showqr.php?qrid='.$id_std.'"><i class="material-icons " data-toggle="tooltip" title="QR-Code">&#xe3f4;</i></a>
                           <a href="update/upd_std.php?updid='.$id_std.'"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                            <a href="#delModal" class="delBtn"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                            <a href="#delModal" value = '.$id_std.' class="delBtn" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
 
                           </td>
                       </tr>
@@ -350,124 +348,7 @@
 
 
 
-        <!-- Edit Modal HTML -->
-        <div id="editModal" class="modal fade">
-          <div class="modal-dialog ">
-            <div class="modal-content">
-              <form method="post">
-              <input type="text" class="form-control" id = "id" hidden>
-                <div class="modal-header">						
-                  <h4 class="modal-title">Edit Student</h4>
-                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                </div>
-                <div class="modal-body">					
-                  <div>
-                 
-                    <label>Full Name</label>
-                    <input type="text" name="flname" id = "flname" class="form-control" required>
-                  </div>
-                  <div>
-                    <label>Institutional Email</label>
-                    <input type="email" name="email" id = "email" class="form-control" required>
-                  </div>
-                  <div>
-                    <label>Student Number</label>
-                    <input name="studnum" name = "studnum" id = "studnum" class="form-control" required></textarea>
-                  </div>
-                  <div>
-                    <label>Guardian Full Name</label>
-                    <input type="text" name="gflname" id = "gflname" class="form-control" required>
-                  </div>			
-                  <div>
-                    <label>Guardian Email</label>
-                    <input type="email" name="gemail" id = "gemail" class="form-control" required>
-                    
-                  </div>	  
-                  <div class="form-group">
-                    <label>Course</label>
-                    <?php
-                      echo '<select name="crs" id="crs" style="width: 340px" class="form-control" required>
-                      <option></option>';
-                      
-                      $sql = "SELECT id_crs, name_crs, code_crs from courses";
-                      $result = $conn->prepare($sql);
-                      $result->execute();
-                  
-                      if($result->rowCount() > 0){
-                      while ($row = $result->fetch(PDO::FETCH_ASSOC)){
-                          $id_crs=$row["id_crs"];
-                          $name_crs=$row["name_crs"];
-                      
-                          echo '<option value= '.$id_crs.'>'.$name_crs.'</option>';
-                          }
-                      }
-
-                      echo '</select>';
-                    ?>
-
-                  </div>			
-                  <div class="form-group">
-                    <label>Year Level</label>
-
-                    <?php
-
-                      echo '<select name="yrlvl" id="yrlvl" style="width: 340px" class="form-control" required>
-                      <option></option>';
-
-                      $sql = "SELECT id_yr, yearlvl_yr from year";
-                      $result = $conn->prepare($sql);
-                      $result->execute();
-
-                      if($result->rowCount() > 0){
-                      while ($row = $result->fetch(PDO::FETCH_ASSOC)){
-                          $id_yr=$row["id_yr"];
-                          $yearlvl_yr=$row["yearlvl_yr"];
-
-                          
-                          echo'<option value= '.$id_yr.' >'.$yearlvl_yr.'</option>';
-                          }
-                      }
-
-                      echo '</select>';
-                    ?>
-
-                  </div>			
-                  <div class="form-group">
-                    <label>Section</label>
-                    <?php
-                      echo '<select name="sect" id="sect" style="width: 340px" class="form-control" required>
-                      <option></option>';
-
-                      $sql = "SELECT * from sections";
-                      $result = $conn->prepare($sql);
-                      $result->execute();
-
-                      if($result->rowCount() > 0){
-                      while ($row = $result->fetch(PDO::FETCH_ASSOC)){
-                          $id_sec=$row["id_sec"];
-                          $code_sec=$row["code_sec"];
-
-                          
-                          echo'<option value= '.$id_sec.' >'.$code_sec.'</option>';
-                          }
-                      }
-
-                      echo '</select>';
-                    ?>
-
-                  </div>						
-                </div>
-                <div class="modal-footer">
-                  <input type="hidden" name="id" value="<?php echo $id_std; ?>">  
-                  <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                  <input type="submit" class="btn btn-info" name="updbtn" value="Save">
-                  
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-
+        
 
 
 
@@ -502,8 +383,11 @@
     <script src="../../js/popper.js"></script>
     <script src="../../js/bootstrap.min.js"></script>
     <script src="../../js/main.js"></script>
-    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
+    
+   <script src=" https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+   <script src=" https://cdn.datatables.net/rowreorder/1.3.3/js/dataTables.rowReorder.min.js"></script>
+   <script src=" https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
+
 
 
 
@@ -511,7 +395,6 @@
 
       //EDIT MODAL 
         $(document).ready(function () {
-          
             $('.delBtn').on('click', function () {
               $('#delModal').modal('show');
               $tr = $(this).closest('tr');
@@ -527,12 +410,14 @@
       
     
    
-        $(document).ready(function () {
-    $('#tabler').DataTable({
-      
-      
-    });
-});
+        $(document).ready(function() {
+    var table = $('#tabler').DataTable( {
+        rowReorder: {
+            selector: 'td:nth-child(2)'
+        },
+        responsive: true
+    } );
+} );
       
       
    

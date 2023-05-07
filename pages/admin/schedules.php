@@ -5,15 +5,11 @@
 
   include('../includes/header.php');  
   require('../includes/config.php');
-  session_start();
 
-  // Check if the user is logged in
-  if (!isset($_SESSION['user'])) {
-    // Redirect the user to the login page
-    header('Location: ../login.php');
-    exit;
+  if (!isset($_SESSION['error'])) {
+    $_SESSION['error'] = false;
   }
-
+  
 
   if(isset($_POST['addbtn'])){
     include('../includes/functions.php');
@@ -31,35 +27,17 @@
   
   
 
-  if(isset($_GET['page_no']) && $_GET['page_no'] !== ""){
-    $page_no = $_GET['page_no'];
-  }else{
-    $page_no = 1;
-  }
-
-  //total num rows to display
-  $total_records_perpage = 10;
-  //getting offset for for limit query
-  $offset = ($page_no - 1) * $total_records_perpage;
-  //previous page
-  $previous_page = $page_no - 1;
-  //next page
-  $next_page = $page_no + 1;
-
-  //getting the total number of records
-  $sql = "SELECT * from schedules";
-  $totalnumrecords = $conn->prepare($sql); 
-  $totalnumrecords->execute();
-  //total records
-  $result_totalnumrecords=$totalnumrecords->rowCount();
-  //total pages
-  $total_numpages = ceil($result_totalnumrecords/$total_records_perpage);
+ 
   ?>
   
 
 <head>
     <link rel='icon' href='../../images/rtu-logo.png'/>
     <link rel = "stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css">
+    <link rel = "stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
+    <link rel = "stylesheet" href="https://cdn.datatables.net/rowreorder/1.3.3/css/rowReorder.dataTables.min.css">
+    <link rel = "stylesheet" href="https://cdn.datatables.net/responsive/2.4.1/css/responsive.dataTables.min.css">
+    <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
     <title>ADMIN: Manage Schedules</title>
 </head>
 
@@ -123,7 +101,15 @@
                   </div>
                 </div>
               </div>
-              <table id= "tabler" class="table table-striped table-hover">
+              <?php if ($_SESSION['error']): ?>
+                <div class="alert alert-danger" role="alert" >
+                    <center><strong><?php echo $_SESSION['error'];?></strong><center>
+                </div>
+                <?php   
+                    $_SESSION['error'] = false;
+                ?>
+              <?php endif ?>
+              <table id= "tabler" class="table table-striped table-hover" style="width:100%">
                 <thead>
                   <tr>
                     <th hidden></th>
@@ -141,7 +127,7 @@
                  
                 <?php
                       
-                       $sql = "SELECT schedules.id_schd, users.flname_users, subjects.code_subj, sections.code_sec, schedules.day_schd, schedules.strtime_schd, schedules.endtime_schd, room.code_room from schedules left join users on schedules.user_id = users.id_users LEFT JOIN subjects on schedules.sub_id = subjects.id_subj LEFT JOIN sections on schedules.sec_id = sections.id_sec LEFT JOIN room on schedules.room_id = room.id_room LIMIT $offset, $total_records_perpage";
+                       $sql = "SELECT schedules.id_schd, users.flname_users, subjects.code_subj, sections.code_sec, schedules.day_schd, schedules.strtime_schd, schedules.endtime_schd, room.code_room from schedules left join users on schedules.user_id = users.id_users LEFT JOIN subjects on schedules.sub_id = subjects.id_subj LEFT JOIN sections on schedules.sec_id = sections.id_sec LEFT JOIN room on schedules.room_id = room.id_room ";
                        $result = $conn->prepare($sql);
                        $result->execute();
                        
@@ -456,8 +442,9 @@
     <script src="../../js/popper.js"></script>
     <script src="../../js/bootstrap.min.js"></script>
     <script src="../../js/main.js"></script>
-    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
+    <script src=" https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+   <script src=" https://cdn.datatables.net/rowreorder/1.3.3/js/dataTables.rowReorder.min.js"></script>
+   <script src=" https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
 
 
     <script>
@@ -478,12 +465,14 @@
     });
     
       
-      $(document).ready(function () {
-    $('#tabler').DataTable({
-      
-      
-    });
-});
+    $(document).ready(function() {
+    var table = $('#tabler').DataTable( {
+        rowReorder: {
+            selector: 'td:nth-child(2)'
+        },
+        responsive: true
+    } );
+} );
 
 
   
@@ -494,4 +483,5 @@
 
   </body>
 </html>
+
 

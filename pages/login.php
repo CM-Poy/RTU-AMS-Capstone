@@ -15,6 +15,7 @@ if(isset($_POST['btnLogin'])){
 if (!isset($_SESSION['error'])) {
     $_SESSION['error'] = false;
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -27,7 +28,7 @@ if (!isset($_SESSION['error'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <title>Log in page</title>
+    <title>RTU-AMS: Login</title>
 </head>
 <body>
 
@@ -67,3 +68,5 @@ if (!isset($_SESSION['error'])) {
     
 </body>
 </html>
+
+

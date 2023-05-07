@@ -3,7 +3,7 @@
 
 <?php
 
-
+session_start();
 
 
 include('../includes/header.php'); 
@@ -159,6 +159,10 @@ if($query->rowCount() > 0){
   </style>
     <link rel='icon' href='../../images/rtu-logo.png'/>
     <link rel = "stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css">
+    <link rel = "stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
+    <link rel = "stylesheet" href="https://cdn.datatables.net/rowreorder/1.3.3/css/rowReorder.dataTables.min.css">
+    <link rel = "stylesheet" href="https://cdn.datatables.net/responsive/2.4.1/css/responsive.dataTables.min.css">
+
     <title>Student List</title>
 </head>
   <body onload="createClassList()">
@@ -171,7 +175,7 @@ if($query->rowCount() > 0){
                 <a href="#" class="img logo rounded-circle mb-5" style="background-image: url(../../images/rtu-logo.png);"></a>
                 <ul class="list-unstyled components mb-5">
               <li class="">
-                <a href="today.php">&nbsp;&nbsp;&nbsp;<i class="fa-sharp fa-solid fa-calendar-day fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>DASHBOARD</a>
+                <a href="today.php">&nbsp;&nbsp;&nbsp;<i class="fa-sharp fa-solid fa-calendar-day fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>TODAY</a>
               
               <li>
               <a href="account.php" >&nbsp;&nbsp;&nbsp;<i class="fa-solid fa-user fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>ACCOUNT</a>
@@ -265,10 +269,10 @@ if($query->rowCount() > 0){
                   </div>
                 </div>
               </div>
-              <table id="tabler" class="table table-striped table-hover">
+              <table id="tabler" class="table table-striped table-hover" style="width:100%">
                 <thead>
                   <tr>
-                    <th style="width: 25rem;">Full Name</th>
+                    <th>Full Name</th>
                     <th>Student Number</th>
                     <th>Guardian Email</th>
                     <th>Section</th>
@@ -287,7 +291,7 @@ if($query->rowCount() > 0){
                   while ($row = $query->fetch(PDO::FETCH_ASSOC)){
                     $id_std=$row['id_std'];
                     
-                   ?><tr><td><?php echo $row['flname_std']; ?></td>
+                   ?><tr><td style="width: 25rem;"><?php echo $row['flname_std']; ?></td>
                     <td><?php echo $row['studnum_std']; ?></td>
                     <td><?php echo $row['gemail_std']; ?></td>
                     <td><?php echo $row['code_sec']; ?></td></tr>
@@ -328,8 +332,11 @@ if($query->rowCount() > 0){
     <script src="../../js/popper.js"></script>
     <script src="../../js/bootstrap.min.js"></script>
     <script src="../../js/main.js"></script>
-    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+   <script src=" https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+   <script src=" https://cdn.datatables.net/rowreorder/1.3.3/js/dataTables.rowReorder.min.js"></script>
+   <script src=" https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
+
 
     <script>const fnames = (<?php echo json_encode($result); ?>);
   const getRandomName = () => {
@@ -405,12 +412,14 @@ if($query->rowCount() > 0){
       theader.appendChild(x);
     }
   }
-  $(document).ready(function () {
-    $('#tabler').DataTable({
-      
-      
-    });
-});
+  $(document).ready(function() {
+    var table = $('#tabler').DataTable( {
+        rowReorder: {
+            selector: 'td:nth-child(2)'
+        },
+        responsive: true
+    } );
+} );
   
 
 

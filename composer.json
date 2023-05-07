@@ -4,4 +4,10 @@
         "khanamiryan/qrcode-detector-decoder": "^2.0",
         "phpmailer/phpmailer": "^6.8"
     }
+    
+    "config": {
+
+        "platform-check": false
+    }
+    
 }

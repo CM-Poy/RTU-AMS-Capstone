@@ -33,6 +33,9 @@
 <head>
     <link rel='icon' href='../../images/rtu-logo.png'/>
     <link rel = "stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css">
+    <link rel = "stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
+    <link rel = "stylesheet" href="https://cdn.datatables.net/rowreorder/1.3.3/css/rowReorder.dataTables.min.css">
+    <link rel = "stylesheet" href="https://cdn.datatables.net/responsive/2.4.1/css/responsive.dataTables.min.css">
     <title>SUPERADMIN: Manage Courses</title>
 </head>
 <script>
@@ -125,7 +128,7 @@
                     $_SESSION['error'] = false;
                 ?>
               <?php endif ?>
-              <table id= "tabler" class="table table-striped table-hover">
+              <table id= "tabler" class="table table-striped table-hover" style="width:100%">
                 <thead>
                   <tr>
                     <th hidden></th>
@@ -269,8 +272,10 @@
     <script src="../../js/popper.js"></script>
     <script src="../../js/bootstrap.min.js"></script>
     <script src="../../js/main.js"></script>
-    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
+   <script src=" https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+   <script src=" https://cdn.datatables.net/rowreorder/1.3.3/js/dataTables.rowReorder.min.js"></script>
+   <script src=" https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
+
 
 
     <script>
@@ -290,15 +295,19 @@
                 $('#idcrs').val(data[0]);
             });
       });
-      $(document).ready(function () {
-    $('#tabler').DataTable({
-      
-      
-    });
-});
+      $(document).ready(function() {
+    var table = $('#tabler').DataTable( {
+        rowReorder: {
+            selector: 'td:nth-child(2)'
+        },
+        responsive: true
+    } );
+} );
     </script>   
 
   </body>
 </html>
+
+
 
 

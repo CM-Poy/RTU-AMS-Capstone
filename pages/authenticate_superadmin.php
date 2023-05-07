@@ -22,7 +22,7 @@ if (!isset($_SESSION['failed'])) {
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>RTU AMS AUTHENTICATION</title>
+    <title>RTU:AMS Auth</title>
     <link rel='icon' href='../images/rtu-logo.png'/>
     <meta name="description" content="Implement Google like Time-Based Authentication into your existing PHP application. And learn How to Build it? How it Works? and Why is it Necessary these days."/>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">

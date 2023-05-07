@@ -4,18 +4,14 @@
 <?php 
   include('../includes/header.php'); 
   require('../includes/config.php');
-  session_start();
+  
 
-  // Check if the user is logged in
-  if (!isset($_SESSION['user'])) {
-    // Redirect the user to the login page
-    header('Location: ../login.php');
-    exit;
+
+
+
+  if (!isset($_SESSION['error'])) {
+    $_SESSION['error'] = false;
   }
-
-
-
-
  
 
   if(isset($_POST['addbtnA'])){
@@ -33,29 +29,8 @@
 
   
 
-  if(isset($_GET['page_no']) && $_GET['page_no'] !== ""){
-    $page_no = $_GET['page_no'];
-  }else{
-    $page_no = 1;
-  }
 
-  //total num rows to display
-  $total_records_perpage = 10;
-  //getting offset for for limit query
-  $offset = ($page_no - 1) * $total_records_perpage;
-  //previous page
-  $previous_page = $page_no - 1;
-  //next page
-  $next_page = $page_no + 1;
-
-  //getting the total number of records
-  $sql = "SELECT * from users where usertype_users < 3";
-  $totalnumrecords = $conn->prepare($sql); 
-  $totalnumrecords->execute();
-  //total records
-  $result_totalnumrecords=$totalnumrecords->rowCount();
-  //total pages
-  $total_numpages = ceil($result_totalnumrecords/$total_records_perpage);
+ 
 
 ?>
   
@@ -63,6 +38,9 @@
 <head>
     <link rel='icon' href='../../images/rtu-logo.png'/>
     <link rel = "stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css">
+    <link rel = "stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
+    <link rel = "stylesheet" href="https://cdn.datatables.net/rowreorder/1.3.3/css/rowReorder.dataTables.min.css">
+    <link rel = "stylesheet" href="https://cdn.datatables.net/responsive/2.4.1/css/responsive.dataTables.min.css">
     <title>ADMIN: Manage Teachers</title>
 </head>
   <body>
@@ -128,7 +106,15 @@
                   </div>
                 </div>
               </div>
-              <table id="tabler" class="table table-striped table-hover">
+              <?php if ($_SESSION['error']): ?>
+                <div class="alert alert-danger" role="alert" >
+                    <center><strong><?php echo $_SESSION['error'];?></strong><center>
+                </div>
+                <?php   
+                    $_SESSION['error'] = false;
+                ?>
+              <?php endif ?>
+              <table id="tabler" class="table table-striped table-hover" style="width:100%">
                 <thead>
                   <tr>
                     <th hidden></th>
@@ -144,7 +130,7 @@
                   
                 <?php
                         $sql = "SELECT users.id_users, users.hnr_users, users.flname_users, users.instemail_users, users.empnum_users, usertype.usertype, users.usertype_users, users.pwd_users FROM users
-                        LEFT JOIN usertype ON users.usertype_users = usertype.id_usertype where users.usertype_users < 3 LIMIT $offset, $total_records_perpage";
+                        LEFT JOIN usertype ON users.usertype_users = usertype.id_usertype where users.usertype_users < 3";
                         $result = $conn->prepare($sql);
                         $result->execute();
                        
@@ -267,8 +253,10 @@
     <script src="../../js/popper.js"></script>
     <script src="../../js/bootstrap.min.js"></script>
     <script src="../../js/main.js"></script>
-    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
+    <script src=" https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+   <script src=" https://cdn.datatables.net/rowreorder/1.3.3/js/dataTables.rowReorder.min.js"></script>
+   <script src=" https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
+
 </html>
 <script>
 
@@ -290,15 +278,15 @@
 
           
         });
-        
-      
-      $(document).ready(function () {
-    $('#tabler').DataTable({
-      
-      
-    });
-});
-
+       
+        $(document).ready(function() {
+    var table = $('#tabler').DataTable( {
+        rowReorder: {
+            selector: 'td:nth-child(2)'
+        },
+        responsive: true
+    } );
+} );
 
 
         
