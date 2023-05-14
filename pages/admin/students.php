@@ -80,6 +80,9 @@
               <li>
               <a href="students.php" >&nbsp;&nbsp;<i class="fa fa-users fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;</i>STUDENTS</a>
               </li>
+              <li>
+              <a href="enroll.php" >&nbsp;&nbsp;<i class="fa fa-add fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;</i>ENROLL</a>
+              </li>
             </ul>
 
 

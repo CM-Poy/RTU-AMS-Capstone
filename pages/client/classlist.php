@@ -16,6 +16,8 @@ $idschd=$_GET['id'];
 
 
 
+
+
 $sql="SELECT * from schedules  where id_schd=?";
 $query = $conn->prepare($sql);
 $query->execute([$idschd]);
@@ -284,24 +286,40 @@ if($query->rowCount() > 0){
                 <?php
                 
                 global $conn;
-                $sql = "SELECT students.id_std,students.flname_std, students.studnum_std, students.gemail_std, students.sec_id, sections.code_sec from students left join sections on students.sec_id = sections.id_sec where sec_id=?";
+
+                $sql="SELECT * from std_enrolled where schd_id=?";
                 $query = $conn->prepare($sql);
-                $query->execute([$sec]);
+                $query->execute([$idschd]);
                 if($query->rowCount() > 0){
                   while ($row = $query->fetch(PDO::FETCH_ASSOC)){
-                    $id_std=$row['id_std'];
-                    
-                   ?><tr><td style="width: 25rem;"><?php echo $row['flname_std']; ?></td>
-                    <td><?php echo $row['studnum_std']; ?></td>
-                    <td><?php echo $row['gemail_std']; ?></td>
-                    <td><?php echo $row['code_sec']; ?></td></tr>
-                   
-                   
-                   <?php
+                    $idstd=$row['std_id'];
+
+
+                    $sql2 = "SELECT students.qrcode_std,students.id_std,students.flname_std, students.studnum_std, students.gemail_std, students.sec_id, sections.code_sec from students left join sections on students.sec_id = sections.id_sec where students.id_std=?";
+                    $query2 = $conn->prepare($sql2);
+                    $query2->execute([$idstd]);
+                    if($query2->rowCount() > 0){
+                      while ($row = $query2->fetch(PDO::FETCH_ASSOC)){
+                        $id_std=$row['id_std'];
+                        
+                       ?><tr><td style="width: 25rem;"><?php echo $row['flname_std']; ?></td>
+                        <td><?php echo $row['studnum_std']; ?></td>
+                        <td><?php echo $row['gemail_std']; ?></td>
+                        <td><?php echo $row['code_sec']; ?></td></tr>
+                       
+                        
+    
+                       <?php
+                      }
+                    }else{
+                      echo "No Records Found.";
+                    }
+
                   }
-                }else{
-                  echo "No Records Found.";
                 }
+
+
+               
 
 
                 ?>

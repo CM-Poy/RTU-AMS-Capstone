@@ -14,7 +14,7 @@
   if(isset($_POST['addbtn'])){
     include('../includes/functions.php');
     $obj=new dbfunction();
-    $obj->addSchd($_POST['usrName'], $_POST['subName'],  $_POST['day'], $_POST['strTime'], $_POST['endTime'], $_POST['room']);
+    $obj->addSchd($_POST['usrName'], $_POST['subName'], $_POST['secName'],  $_POST['day'], $_POST['strTime'], $_POST['endTime'], $_POST['room']);
   }
 
   if(isset($_POST['btnDel'])){
@@ -97,11 +97,9 @@
               <div class="table-title">
                 <div class="row">
                   <div class="col-sm-6">
-                    <h2>Manage <b>Schedules</b></h2>
+                    <h2>Enroll <b>Students</b> or <b>Section</b></h2>
                   </div>
-                  <div class="col-sm-6">
-                    <a href="#addModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add New</span></a>			
-                  </div>
+                  
                 </div>
               </div>
               <?php if ($_SESSION['error']): ?>
@@ -118,18 +116,20 @@
                     <th hidden></th>
                     <th>Full Name</th>
                     <th>Subject</th>
+                    <th>Section</th>
                     <th>Day</th>
                     <th>Start</th>
                     <th>End</th>
                     <th>Room</th>
-                    <th>Actions</th>
+                    <th>View Students</th>
+                    <th>Enroll</th>
                   </tr>
                 </thead>
                 <tbody>
                  
                 <?php
                       
-                       $sql = "SELECT schedules.id_schd, users.flname_users, subjects.code_subj, sections.code_sec, schedules.day_schd, schedules.strtime_schd, schedules.endtime_schd, room.code_room from schedules left join users on schedules.user_id = users.id_users LEFT JOIN subjects on schedules.sub_id = subjects.id_subj LEFT JOIN sections on schedules.sec_id = sections.id_sec LEFT JOIN room on schedules.room_id = room.id_room " ;
+                       $sql = "SELECT schedules.id_schd, users.flname_users, subjects.code_subj, sections.code_sec, schedules.day_schd, schedules.strtime_schd, schedules.endtime_schd, room.code_room from schedules left join users on schedules.user_id = users.id_users LEFT JOIN subjects on schedules.sub_id = subjects.id_subj LEFT JOIN sections on schedules.sec_id = sections.id_sec LEFT JOIN room on schedules.room_id = room.id_room ";
                        $result = $conn->prepare($sql);
                        $result->execute();
                        
@@ -138,6 +138,7 @@
                            $id_schd=$row["id_schd"];
                            $user_id=$row["flname_users"];
                            $sub_id=$row["code_subj"];
+                           $sec_id=$row["code_sec"];
                            $day=$row["day_schd"];
                            $strtime=$row["strtime_schd"];
                            $endtime=$row["endtime_schd"];
@@ -148,6 +149,7 @@
                                     <td hidden>'.$id_schd.'</td>
                                     <td>'.$user_id.'</td>
                                     <td>'.$sub_id.'</td>
+                                    <td>'.$sec_id.'</td>
                                     <td>'.$day.'</td>
                                     <td>'.$strtime.'</td>
                                     <td>'.$endtime.'</td>
@@ -155,11 +157,14 @@
 
                                     
                                     <td>
-                                    
-                                      <a href="update/upd_schd.php?updid='.$id_schd.'"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                                      <a href="#delModal" class="delBtn" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
-                                     
+                                    <a href="list_std.php?enid='.$id_schd.'"><i class="material-icons" data-toggle="tooltip" title="Student List">&#xe5d2;</i></a>
                                     </td>
+                                    <td>
+                                    <a href="en_std.php?enid='.$id_schd.'" data-toggle="tooltip" title="Enroll Students"><i class="material-icons" ></i>Students</a>
+                                    <a href="en_sec.php?enid='.$id_schd.'" data-toggle="tooltip" title="Enroll Section"><i class="material-icons" ></i>Section</a>
+                                   
+                                   
+                                  </td>
                             </tr>
                             </form>';
                           }
@@ -241,6 +246,31 @@
                         echo '</select>';
                     ?>
 
+
+                  </div>
+                  <div class="form-group">
+                    <label>Section</label>
+                    
+                    <?php
+                        echo '<select name="secName" id="sec" style="width: 340px">
+                        <option></option>';
+                        
+                        $sql = "SELECT * from sections";
+                        $result = $conn->prepare($sql);
+                        $result->execute();
+                    
+                        if($result->rowCount() > 0){
+                        while ($row = $result->fetch(PDO::FETCH_ASSOC)){
+                            $id_sec=$row["id_sec"];
+                        
+                            $code_sec=$row["code_sec"];
+                        
+                            echo '<option value= '.$id_sec.'>'.$code_sec.'</option>';
+                            }
+                        }
+
+                        echo '</select>';
+                    ?>
 
                   </div>
                   

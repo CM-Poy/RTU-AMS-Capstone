@@ -36,7 +36,7 @@ $result->execute([$id]);
     if(isset($_POST['updBtn'])){
         include('../../includes/functions.php');
         $obj=new dbfunction();
-        $obj->updSchd($_REQUEST['updid'], $_POST['user'], $_POST['sub'], $_POST['sec'], $_POST['day'], $_POST['strtime'], $_POST['endtime'], $_POST['room']);
+        $obj->updSchd($_REQUEST['updid'], $_POST['user'], $_POST['sub'], $_POST['day'], $_POST['strtime'], $_POST['endtime'], $_POST['room']);
         }
 
 
@@ -110,32 +110,7 @@ $result->execute([$id]);
 
 
                     </div>
-                
-                <label>Section</label>
-                    <div class="form-control">
-                        <?php
-                            echo '<select name="sec" id="sec" style="width: 100%">
-                            <option value='.$idsec.'>'.$sec.'</option>';
-                            
-                            $sql = "SELECT * from sections";
-                            $result = $conn->prepare($sql);
-                            $result->execute();
-                        
-                            if($result->rowCount() > 0){
-                            while ($row = $result->fetch(PDO::FETCH_ASSOC)){
-                                $id_sec=$row["id_sec"];
-                            
-                                $code_sec=$row["code_sec"];
-                            
-                                echo '<option value= '.$id_sec.'>'.$code_sec.'</option>';
-                                }
-                            }
-
-                            echo '</select>';
-                        ?>
-
-                    </div>
-                  
+            
                 
                 <label>Day</label>
                     <div class="form-control">

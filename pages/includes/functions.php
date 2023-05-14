@@ -317,15 +317,14 @@ class dbfunction{
 
  
 
-  function addSchd($user,$sub,$sec,$day,$strtime,$endtime,$room){
+  function addSchd($user,$sub,$day,$strtime,$endtime,$room){
     global $conn;
     if(ISSET($_POST['addbtn'])){
-      if($_POST['usrName'] != "" || $_POST['subName'] != "" || $_POST['secName'] != "" || $_POST['day'] != "" || $_POST['strTime'] != "" || $_POST['endtime_schd'] != "" || $_POST['room_id'] != ""){  
+      if($_POST['usrName'] != "" || $_POST['subName'] != "" || $_POST['day'] != "" || $_POST['strTime'] != "" || $_POST['endtime_schd'] != "" || $_POST['room_id'] != ""){  
 
         function phpAlert($msg) { echo '<script type="text/javascript">alert("' . $msg . '")</script>'; }
         $user = $_POST['usrName'];
         $sub = $_POST['subName'];
-        $sec = $_POST['secName'];
         $day = $_POST['day'];
         $strtime = $_POST['strTime'];
         $endtime = $_POST['endTime'];
@@ -345,9 +344,13 @@ class dbfunction{
        
        
 
-        $sql = "INSERT INTO  schedules (`user_id`, `sub_id`, `sec_id`, `day_schd`, `strtime_schd`, `endtime_schd`, `room_id`) VALUES (?,?,?,?,?,?,?)  ";
+        $sql = "INSERT INTO  schedules (`user_id`, `sub_id`, `day_schd`, `strtime_schd`, `endtime_schd`, `room_id`) VALUES (?,?,?,?,?,?)  ";
         $query = $conn->prepare($sql);
-        $query->execute([$user,$sub,$sec,$day,$strtime,$endtime,$room]);
+        $query->execute([$user,$sub,$day,$strtime,$endtime,$room]);
+
+
+        
+
 
 
       //  $sql2="SELECT * schedules WHERE user_id=?, sub_id=?, sec_id=?, day_schd=?, strtime_schd=?, endtime_schd=?, room_id=?";
@@ -553,14 +556,13 @@ class dbfunction{
         
         $user=$_POST['user'];
         $sub=$_POST['sub'];
-        $sec=$_POST['sec'];
         $day=$_POST['day'];
         $strtime=$_POST['strtime'];
         $endtime=$_POST['endtime'];
         $room=$_POST['room'];
         
 
-        if ($user == $check['user_id'] && $sub == $check['sub_id'] && $sec == $check['sec_id'] && $day == $check['day_schd'] &&  
+        if ($user == $check['user_id'] && $sub == $check['sub_id'] && $day == $check['day_schd'] &&  
         $strtime ==  $check['strtime_schd'] && $endtime ==  $check['endtime_schd']  && $room ==  $check['room_id']) {
           header("location: ../schedules.php");
           exit();
@@ -576,13 +578,6 @@ class dbfunction{
           $sql="UPDATE schedules set  sub_id=?  where id_schd=?";
           $query = $conn->prepare($sql);
           $query->execute([$sub,$id]);
-  
-          header("location: ../schedules.php");
-        }
-        if($sec != $check['sec_id']){
-          $sql="UPDATE schedules set  sec_id=?  where id_schd=?";
-          $query = $conn->prepare($sql);
-          $query->execute([$sec,$id]);
   
           header("location: ../schedules.php");
         }
@@ -605,9 +600,9 @@ class dbfunction{
 
 
 
-        $sql="UPDATE schedules set id_schd=?, user_id=?, sub_id=?, sec_id=?, day_schd=?, strtime_schd=?, endtime_schd=?, room_id=? where id_schd=?";
+        $sql="UPDATE schedules set id_schd=?, user_id=?, sub_id=?, sec_id=?, day_schd=?, day_schd=?, strtime_schd=?, endtime_schd=?, room_id=? where id_schd=?";
         $query = $conn->prepare($sql);
-        $query->execute([$id,$user,$sub,$sec,$day,$strtime,$endtime,$room,$id]);
+        $query->execute([$id,$user,$sub,$day,$strtime,$endtime,$room,$id]);
 
         header("location: ../schedules.php");
 
@@ -1312,6 +1307,70 @@ class dbfunction{
       }
     }
   }
+
+
+
+
+  function enrStd($idstd){
+    global $conn;
+    if(ISSET($_POST['btnEnstd'])){
+      if($_POST['idstd'] != ""){
+
+        $idstd=$_POST['idstd'];
+        $id=$_REQUEST['enid'];
+
+        $sql="INSERT INTO std_enrolled (`schd_id`,`std_id`) VALUES (?,?)";
+        $query = $conn->prepare($sql);
+        $query->execute([$id,$idstd]);
+      }
+    }
+  }
+
+
+  function enrSec($idsec){
+    global $conn;
+    if(ISSET($_POST['btnEnsec'])){
+      if($_POST['idsec'] != ""){
+
+        $idsec=$_POST['idsec'];
+        
+
+        $sql="SELECT * from students where sec_id=?";
+        $query = $conn->prepare($sql);
+        $query->execute([$idsec]);
+
+        if($query->rowCount() > 0){
+          while ($row = $query->fetch(PDO::FETCH_ASSOC)){
+
+            $idstd=$row["id_std"];
+            $id=$_REQUEST['enid'];
+
+            $sql2="INSERT INTO std_enrolled (`schd_id`,`std_id`) VALUES (?,?)";
+            $query2 = $conn->prepare($sql2);
+            $query2->execute([$id,$idstd]);
+
+
+            $sql3="SELECT * FROM schedules WHERE id_schd=?";
+            $query3 = $conn->prepare($sql3);
+            $query3->execute([$id]);
+            if($query3->rowCount() > 0){
+              while ($row = $query3->fetch(PDO::FETCH_ASSOC)){
+                $sql4="UPDATE schedules set id_schd=?, sec_id=? where id_schd=?";
+                $query4 = $conn->prepare($sql4);
+                $query4->execute([$id,$idsec,$id]);
+              }
+            }
+            
+          }
+        }  
+      }
+    }
+  }
+
+
+
+
+
 }
 
 
