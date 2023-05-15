@@ -1331,16 +1331,50 @@ class dbfunction{
     global $conn;
     if(ISSET($_POST['btnEnstd'])){
       if($_POST['idstd'] != ""){
+        
+        
 
-        $idstd=$_POST['idstd'];
+        $idstd=$_POST['idstd']; 
         $id=$_REQUEST['enid'];
 
-        $sql="INSERT INTO std_enrolled (`schd_id`,`std_id`) VALUES (?,?)";
+        $stmt = $conn->prepare("SELECT * FROM std_enrolled WHERE std_id=? AND schd_id=?");
+       
+  
+        //execute the statement
+        $stmt->execute([$idstd,$id]); 
+       
+        
+        //fetch result
+        $std_id = $stmt->fetch();
+       
+        
+        
+        if($std_id) 
+          $_SESSION['error']="Student Already Enrolled.";
+       
+            
+          
+        else{
+
+        $sql="SELECT * FROM students where id_std=?";
         $query = $conn->prepare($sql);
-        $query->execute([$id,$idstd]);
+        $query->execute([$idstd]);
+        if($query->rowCount() > 0){
+          while ($row = $query->fetch(PDO::FETCH_ASSOC)){
+            $sec=$row['sec_id'];
+
+            $sql2="INSERT INTO std_enrolled (`schd_id`,`std_id`,`sec_id`) VALUES (?,?,?)";
+            $query2 = $conn->prepare($sql2);
+            $query2->execute([$id,$idstd,$sec]);
+            
+          }
+        }
+
+       
       }
     }
   }
+}
 
 
   function enrSec($idsec){
@@ -1357,13 +1391,14 @@ class dbfunction{
 
         if($query->rowCount() > 0){
           while ($row = $query->fetch(PDO::FETCH_ASSOC)){
-
+            
             $idstd=$row["id_std"];
+            $sec=$row['sec_id'];
             $id=$_REQUEST['enid'];
 
-            $sql2="INSERT INTO std_enrolled (`schd_id`,`std_id`) VALUES (?,?)";
+            $sql2="INSERT INTO std_enrolled (`schd_id`,`std_id`,`sec_id`) VALUES (?,?,?)";
             $query2 = $conn->prepare($sql2);
-            $query2->execute([$id,$idstd]);
+            $query2->execute([$id,$idstd,$sec]);
 
 
             $sql3="SELECT * FROM schedules WHERE id_schd=?";
