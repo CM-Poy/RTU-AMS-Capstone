@@ -8,6 +8,7 @@
 
 
 
+
   if (!isset($_SESSION['error'])) {
     $_SESSION['error'] = false;
   }
@@ -138,7 +139,7 @@
                           echo '
                           <form method="post" action="students.php">
                             <tr>
-                              <td hidden>'.$id_std.'</td>
+                            <td hidden>'.$id_std.'</td>
                               <td>'.$flname_std.'</td>
                               <td>'.$studnum_std.'</td>
                               <td>'.$crs_id.'</td>
@@ -146,8 +147,8 @@
                               <td>'.$yrlvl_id.'</td>
 
                               <td>
-                                <a href="#delModal" value = '.$id_std.' class="delBtn" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Remove Student">&#xE872;</i></a>
-                              </td>
+                              <a href="#delModal" value = '.$id_std.' class="delBtn" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Remove Student">&#xE872;</i></a>
+                            </td>
                           </tr>
                           </form>';
                         }
@@ -166,8 +167,9 @@
           </div>        
         </div>
 
-         <!-- Delete Modal HTML -->
-         <div id="delModal" class="modal fade">
+
+          <!-- Delete Modal HTML -->
+          <div id="delModal" class="modal fade">
           <div class="modal-dialog">
             <div class="modal-content">
               <form method="post">
@@ -209,8 +211,7 @@
 
     <script>
 
-
-//DELETE MODAL 
+      //DELETE MODAL 
 $(document).ready(function () {
       $('.delBtn').on('click', function () {
         $('#delModal').modal('show');

@@ -1309,6 +1309,22 @@ class dbfunction{
   }
 
 
+  function remStd($idstd){
+    global $conn;
+    if(ISSET($_POST['btnRem'])){
+      if($_POST['idstd'] != ""){
+
+        $idstd=$_POST['idstd'];
+        $id=$_REQUEST['enid'];
+
+        $sql="DELETE from std_enrolled where std_id=? and schd_id=?";
+        $query = $conn->prepare($sql);
+        $query->execute([$idstd,$id]);
+      }
+    }
+  }
+
+
 
 
   function enrStd($idstd){

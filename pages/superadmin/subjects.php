@@ -45,7 +45,7 @@
   <!--sidebar-->
 
   <div class="wrapper d-flex align-items-stretch">
-            <nav id="sidebar">
+  <nav id="sidebar">
                 <div class="p-4 pt-5">
                 <a href="#" class="img logo rounded-circle mb-5" style="background-image: url(../../images/rtu-logo.png);"></a>
                 <ul class="list-unstyled components mb-5">
@@ -53,6 +53,9 @@
                 <a href="users.php" >&nbsp;&nbsp;&nbsp;<i class="fa-solid fa-user fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>USERS</a>
               <li class="">
                 <a href="schedules.php" >&nbsp;&nbsp;&nbsp;<i class="fa fa-file-text fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>SCHEDULES</a>
+              </li>
+              <li>
+              <a href="enroll.php" >&nbsp;&nbsp;<i class="fa fa-add fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;</i>ENROLL</a>
               </li>
               <li>
               <a href="students.php" >&nbsp;&nbsp;<i class="fa fa-users fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;</i>STUDENTS</a>
