@@ -13,16 +13,17 @@
   }
 
 
-  $id=$_REQUEST['enid'];
+  $id=$_GET['enid'];
 
-  if(isset($_POST['btnRem'])){
+
+  if(isset($_POST['btnEnstd'])){
     include('../includes/functions.php');
     $obj=new dbfunction();
-    $obj->RemStd($_POST['idstd']);
-  } 
+    $obj->enrStd($_POST['idstd']);
+  }
 
  
- 
+
 
 
  
@@ -73,7 +74,7 @@
               <div class="table-title">
                 <div class="row">
                   <div class="col-sm-6">
-                    <h2>List of <b>Students</b> in this Class.</h2>
+                    <h2>Enroll <b>Students</b></h2>
                   </div>
                   
                   <div class="col-sm-6">
@@ -106,56 +107,47 @@
                 <tbody>
                   				
                 <?php
+                
+                         $sql = "SELECT students.id_std, students.flname_std, students.instemail_std, students.studnum_std, students.gflname_std, students.gemail_std, students.qrcode_std, sections.code_sec, courses.code_crs, year.yearlvl_yr FROM students
+                         LEFT JOIN courses on students.crs_id = courses.id_crs
+                         left join year on students.yrlvl_id = year.id_yr
+                         left join sections on students.sec_id = sections.id_sec";
+                        $result = $conn->prepare($sql);
+                        $result->execute();
 
-                  $sql="SELECT * from std_enrolled where schd_id=?";
-                  $result = $conn->prepare($sql);
-                  $result->execute([$id]);
-                  if($result->rowCount() > 0){
-                    while ($row = $result->fetch(PDO::FETCH_ASSOC)){
-                    $idstd = $row['std_id'];
-
-                    $sql2 = "SELECT students.id_std, students.flname_std, students.instemail_std, students.studnum_std, students.gflname_std, students.gemail_std, students.qrcode_std, sections.code_sec, courses.code_crs, year.yearlvl_yr FROM students
-                    LEFT JOIN courses on students.crs_id = courses.id_crs
-                    left join year on students.yrlvl_id = year.id_yr
-                    left join sections on students.sec_id = sections.id_sec where students.id_std=?";
-                    $result2 = $conn->prepare($sql2);
-                    $result2->execute([$idstd]);
-
-                      if($result2->rowCount() > 0)
-                      {
-                        while ($row = $result2->fetch(PDO::FETCH_ASSOC)){
-                          $id_std=$row["id_std"];
-                          $flname_std=$row["flname_std"];
-                          $studnum_std=$row["studnum_std"];
-                          
-                          $crs_id=$row["code_crs"];
-                          $yrlvl_id=$row["yearlvl_yr"];
-                          $sect_id=$row["code_sec"];
-                          $qrcode=$row['qrcode_std'];
+                        if($result->rowCount() > 0)
+                        {
+                          while ($row = $result->fetch(PDO::FETCH_ASSOC)){
+                            $id_std=$row["id_std"];
+                            $flname_std=$row["flname_std"];
+                            $studnum_std=$row["studnum_std"];
+                            
+                            $crs_id=$row["code_crs"];
+                            $yrlvl_id=$row["yearlvl_yr"];
+                            $sect_id=$row["code_sec"];
+                            $qrcode=$row['qrcode_std'];
 
                 
-                          
-                          echo '
-                          <form method="post" action="students.php">
-                            <tr>
+                            
+                            echo '
+                            <form method="post">
+                              <tr>
                               <td hidden>'.$id_std.'</td>
-                              <td>'.$flname_std.'</td>
-                              <td>'.$studnum_std.'</td>
-                              <td>'.$crs_id.'</td>
-                              <td>'.$sect_id.'</td>
-                              <td>'.$yrlvl_id.'</td>
+                                <td>'.$flname_std.'</td>
+                                <td>'.$studnum_std.'</td>
+                                <td>'.$crs_id.'</td>
+                                <td>'.$sect_id.'</td>
+                                <td>'.$yrlvl_id.'</td>
+                                
+                                
+                                <td>
 
-                              <td>
-                                <a href="#delModal" value = '.$id_std.' class="delBtn" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Remove Student">&#xE872;</i></a>
-                              </td>
-                          </tr>
-                          </form>';
+                                <a href="#EnrollModal" value = '.$id_std.' class="enBtn" data-toggle="modal">Enroll</a>
+                                </td>
+                            </tr>
+                            </form>';
+                          }
                         }
-                      }
-                    }
-                  }
-                
-                         
   
                     ?>
                 </tbody>
@@ -166,30 +158,28 @@
           </div>        
         </div>
 
-         <!-- Delete Modal HTML -->
-         <div id="delModal" class="modal fade">
+
+         <!-- Enroll Modal HTML -->
+        <div id="EnrollModal" class="modal fade">
           <div class="modal-dialog">
             <div class="modal-content">
               <form method="post">
                 <div class="modal-header">						
-                  <h4 class="modal-title">Remove Student</h4>
+                  <h4 class="modal-title">Enroll Student</h4>
                   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 </div>
                 <div class="modal-body">
-                <input type="hidden" name="idstd" id="idstd">
-                  <p>Are you sure you want to remove <input id="name" disabled> from this class?</p>
-                  <p class="text-warning"><small>This action cannot be undone.</small></p>
+                <input type="hidden" name="idstd" id="idstd">							
+                  <p>Are you sure you want to enroll this Student?</p>
                 </div>
                 <div class="modal-footer">
                   <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                  <button type="submit" class="btn btn-danger" name="btnRem">Remove</button>
+                  <button type="submit" class="btn btn-success" name="btnEnstd">ENROLL</button>
                 </div>
               </form>
             </div>
           </div>
         </div>
-
-
 
       
       
@@ -209,24 +199,20 @@
 
     <script>
 
+        $(document).ready(function () {
+            $('.enBtn').on('click', function () {
+              $('#EnrollModal').modal('show');
+              $tr = $(this).closest('tr');
 
-//DELETE MODAL 
-$(document).ready(function () {
-      $('.delBtn').on('click', function () {
-        $('#delModal').modal('show');
-        $tr = $(this).closest('tr');
-         var data = $tr.children("td").map(function () {
-              return $(this).text();
-          }).get();
-          console.log(data);
-          $('#idstd').val(data[0]);
-          $('#name').val(data[1]);
-      });
-  
-  
-    });
+              var data = $tr.children("td").map(function () {
+                    return $(this).text();
+                }).get();
 
-    
+                console.log(data);
+                $('#idstd').val(data[0]);
+            });
+        });
+        
    
         $(document).ready(function() {
     var table = $('#tabler').DataTable( {

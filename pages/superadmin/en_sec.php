@@ -15,12 +15,12 @@
 
   $id=$_REQUEST['enid'];
 
-  if(isset($_POST['btnRem'])){
+
+  if(isset($_POST['btnEnsec'])){
     include('../includes/functions.php');
     $obj=new dbfunction();
-    $obj->RemStd($_POST['idstd']);
-  } 
-
+    $obj->enrSec($_POST['idsec']);
+  }
  
  
 
@@ -45,7 +45,7 @@
     <link rel = "stylesheet" href="https://cdn.datatables.net/rowreorder/1.3.3/css/rowReorder.dataTables.min.css">
     <link rel = "stylesheet" href="https://cdn.datatables.net/responsive/2.4.1/css/responsive.dataTables.min.css">
     <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
-    <title>ADMIN: Enroll Students</title>
+    <title>ADMIN: Enroll Section</title>
 </head>
 <script>
   if (window.history.replaceState){
@@ -73,7 +73,7 @@
               <div class="table-title">
                 <div class="row">
                   <div class="col-sm-6">
-                    <h2>List of <b>Students</b> in this Class.</h2>
+                    <h2>Enroll <b>Section</b></h2>
                   </div>
                   
                   <div class="col-sm-6">
@@ -94,11 +94,9 @@
               <table id="tabler" class="table table-striped table-hover" style="width:100%">
                 <thead>
                   <tr>
-                    <th hidden>ID</th>
-                    <th>Full Name</th>
-                    <th>Student Number</th>
+                  <th hidden></th>
+                    <th>Code</th>
                     <th>Course</th>
-                    <th>Section</th>
                     <th>Year Level</th>
                     <th>Actions</th>
                   </tr>
@@ -106,58 +104,43 @@
                 <tbody>
                   				
                 <?php
-
-                  $sql="SELECT * from std_enrolled where schd_id=?";
-                  $result = $conn->prepare($sql);
-                  $result->execute([$id]);
-                  if($result->rowCount() > 0){
-                    while ($row = $result->fetch(PDO::FETCH_ASSOC)){
-                    $idstd = $row['std_id'];
-
-                    $sql2 = "SELECT students.id_std, students.flname_std, students.instemail_std, students.studnum_std, students.gflname_std, students.gemail_std, students.qrcode_std, sections.code_sec, courses.code_crs, year.yearlvl_yr FROM students
-                    LEFT JOIN courses on students.crs_id = courses.id_crs
-                    left join year on students.yrlvl_id = year.id_yr
-                    left join sections on students.sec_id = sections.id_sec where students.id_std=?";
-                    $result2 = $conn->prepare($sql2);
-                    $result2->execute([$idstd]);
-
-                      if($result2->rowCount() > 0)
-                      {
-                        while ($row = $result2->fetch(PDO::FETCH_ASSOC)){
-                          $id_std=$row["id_std"];
-                          $flname_std=$row["flname_std"];
-                          $studnum_std=$row["studnum_std"];
-                          
-                          $crs_id=$row["code_crs"];
-                          $yrlvl_id=$row["yearlvl_yr"];
-                          $sect_id=$row["code_sec"];
-                          $qrcode=$row['qrcode_std'];
-
                 
-                          
-                          echo '
-                          <form method="post" action="students.php">
-                            <tr>
-                              <td hidden>'.$id_std.'</td>
-                              <td>'.$flname_std.'</td>
-                              <td>'.$studnum_std.'</td>
-                              <td>'.$crs_id.'</td>
-                              <td>'.$sect_id.'</td>
-                              <td>'.$yrlvl_id.'</td>
+                $sql = "SELECT sections.id_sec, sections.code_sec, courses.code_crs, year.yearlvl_yr FROM sections 
+                left JOIN courses on sections.crs_id = courses.id_crs 
+                LEFT JOIN year on sections.yrlvl_id = year.id_yr ";
+                $result = $conn->prepare($sql);
+                $result->execute();
+                
+                if($result->rowCount() > 0){
+                  while ($row = $result->fetch(PDO::FETCH_ASSOC)){
+                    $id_sec=$row["id_sec"];
+                    $code_sec=$row["code_sec"];
+                    $crs_id=$row["code_crs"];
+                    $yrlvl_id=$row["yearlvl_yr"];
 
-                              <td>
-                                <a href="#delModal" value = '.$id_std.' class="delBtn" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Remove Student">&#xE872;</i></a>
-                              </td>
-                          </tr>
-                          </form>';
-                        }
-                      }
-                    }
+                    echo '
+                    <form method="post">
+                      <tr>
+                            <td hidden>'.$id_sec.'</td>
+                            <td name="code_sec">'.$code_sec.'</td>
+                            <td name="id_crs_fk">'.$crs_id.'</td>
+                            <td name="id_yr_fk">'.$yrlvl_id.'</td>
+                            
+                            <td>
+                              
+                            <a href="#EnrollModal" value = '.$id_sec.' class="enBtn" data-toggle="modal">Enroll</a>
+                             
+                            </td>
+                    </tr>
+                    </form>';
                   }
-                
-                         
+                }else{
+                  echo "No Record Found";
+                }
+
+            ?>
   
-                    ?>
+                    
                 </tbody>
               </table>
              
@@ -166,30 +149,27 @@
           </div>        
         </div>
 
-         <!-- Delete Modal HTML -->
-         <div id="delModal" class="modal fade">
+  <!-- Enroll Modal HTML -->
+  <div id="EnrollModal" class="modal fade">
           <div class="modal-dialog">
             <div class="modal-content">
               <form method="post">
                 <div class="modal-header">						
-                  <h4 class="modal-title">Remove Student</h4>
+                  <h4 class="modal-title">Enroll Section</h4>
                   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 </div>
                 <div class="modal-body">
-                <input type="hidden" name="idstd" id="idstd">
-                  <p>Are you sure you want to remove <input id="name" disabled> from this class?</p>
-                  <p class="text-warning"><small>This action cannot be undone.</small></p>
+                <input type="hidden" name="idsec" id="idsec">							
+                  <p>Are you sure you want to enroll this Section?</p>
                 </div>
                 <div class="modal-footer">
                   <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                  <button type="submit" class="btn btn-danger" name="btnRem">Remove</button>
+                  <button type="submit" class="btn btn-success" name="btnEnsec">ENROLL</button>
                 </div>
               </form>
             </div>
           </div>
         </div>
-
-
 
       
       
@@ -210,22 +190,19 @@
     <script>
 
 
-//DELETE MODAL 
-$(document).ready(function () {
-      $('.delBtn').on('click', function () {
-        $('#delModal').modal('show');
-        $tr = $(this).closest('tr');
-         var data = $tr.children("td").map(function () {
-              return $(this).text();
-          }).get();
-          console.log(data);
-          $('#idstd').val(data[0]);
-          $('#name').val(data[1]);
-      });
-  
-  
-    });
+  $(document).ready(function () {
+            $('.enBtn').on('click', function () {
+              $('#EnrollModal').modal('show');
+              $tr = $(this).closest('tr');
 
+              var data = $tr.children("td").map(function () {
+                    return $(this).text();
+                }).get();
+
+                console.log(data);
+                $('#idsec').val(data[0]);
+            });
+        });
     
    
         $(document).ready(function() {
