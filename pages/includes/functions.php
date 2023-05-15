@@ -1315,9 +1315,30 @@ class dbfunction{
     global $conn;
     if(ISSET($_POST['btnEnstd'])){
       if($_POST['idstd'] != ""){
+        
+        
 
-        $idstd=$_POST['idstd'];
+        $idstd=$_POST['idstd']; 
         $id=$_REQUEST['enid'];
+
+        $stmt = $conn->prepare("SELECT * FROM std_enrolled WHERE std_id=? AND schd_id=?");
+       
+  
+        //execute the statement
+        $stmt->execute([$idstd,$id]); 
+       
+        
+        //fetch result
+        $std_id = $stmt->fetch();
+       
+        
+        
+        if($std_id) 
+          $_SESSION['error']="Student Already Enrolled.";
+       
+            
+          
+        else{
 
         $sql="INSERT INTO std_enrolled (`schd_id`,`std_id`) VALUES (?,?)";
         $query = $conn->prepare($sql);
@@ -1325,6 +1346,7 @@ class dbfunction{
       }
     }
   }
+}
 
 
   function enrSec($idsec){
@@ -1332,9 +1354,10 @@ class dbfunction{
     if(ISSET($_POST['btnEnsec'])){
       if($_POST['idsec'] != ""){
 
+
         $idsec=$_POST['idsec'];
         
-
+        
         $sql="SELECT * from students where sec_id=?";
         $query = $conn->prepare($sql);
         $query->execute([$idsec]);
@@ -1349,29 +1372,42 @@ class dbfunction{
             $query2 = $conn->prepare($sql2);
             $query2->execute([$id,$idstd]);
 
+        
 
+           
             $sql3="SELECT * FROM schedules WHERE id_schd=?";
             $query3 = $conn->prepare($sql3);
             $query3->execute([$id]);
-            if($query3->rowCount() > 0){
+
+          
+          if(!empty($query3->rowCount())){
+            echo '<script language="javascript">confirm("This schedule already have an exisiting Section\\nDo you want to Overwrite the existing section?")</script>;';
+            $sql4="UPDATE schedules set id_schd=?, sec_id=? where id_schd=?";
+            $query4 = $conn->prepare($sql4);
+            $query4->execute([$id,$idsec,$id]);
+          
+        }
+            else if($query3->rowCount() > 0){
               while ($row = $query3->fetch(PDO::FETCH_ASSOC)){
-                $sql4="UPDATE schedules set id_schd=?, sec_id=? where id_schd=?";
-                $query4 = $conn->prepare($sql4);
-                $query4->execute([$id,$idsec,$id]);
+                $sql5="UPDATE schedules set id_schd=?, sec_id=? where id_schd=?";
+                $query5 = $conn->prepare($sql5);
+                $query5->execute([$id,$idsec,$id]);
+                $sql6="DELETE * FROM std_enrolled where schd_id=? AND sec_id=?";
               }
-            }
             
-          }
         }  
       }
     }
   }
-
-
-
-
-
+    }
+  }
 }
+
+
+
+
+
+
 
 
 
