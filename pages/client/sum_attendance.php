@@ -94,8 +94,6 @@ if($query->rowCount() > 0){
       <form method="post">
         <div class="container-xl">
         <a href="today.php" type="button" class="btn btn-warning"><span>GO BACK</span></a>
-        
-        
 
           <div class="table-responsive">
             <div class="table-wrapper">
@@ -121,7 +119,7 @@ if($query->rowCount() > 0){
                     
                     <div class="col-sm-4">
                     
-                        <h2>PAST ATTENDANCE:</h2>
+                        <h2>ATTENDANCE SUMMARY</h2>
                     
                     </div>
                     
@@ -134,28 +132,7 @@ if($query->rowCount() > 0){
                     
                     
                     
-                    <?php
-                            $idschd=$_SESSION['schdid'];
-                            $sql = "SELECT schd_id, date FROM attendance_record WHERE schd_id=?  GROUP by `date`";
-                            $query = $conn->prepare($sql);
-                            $query->execute([$idschd]);
-                            if($query->rowCount() > 0){
-                                            
-                                while ($row = $query->fetch(PDO::FETCH_ASSOC)){
-
-                                    $datetext=date('F j, Y', strtotime($row['date']));
-
-                                    
-
-                                    ?><button type="submit" class="btn btn-info" name="btnDate" value="<?php echo $datetext;?>"><?php echo $datetext;?></button>
-                                    
-
-                                    <?php
-                                    
-                                }
-                            }
-
-                    ?>
+                  
                     
                     
                 </div>
@@ -167,111 +144,125 @@ if($query->rowCount() > 0){
                     
                   
             </div>
-              <table id="tabler" class="table table-striped table-hover" style="width:100%">
+              
+            <button onclick="printTable();" class="btn btn-success" id="print-btn">Print Attendance Summary</button>
 
-                <?php
 
-                    if(isset($_POST['btnDate'])){
-                        $datestring = $_POST['btnDate'];
-                        
-                        ?> <button onclick="printTabler();" class="btn btn-success" id="print-btn">Print Attendance</button>
-                        <h2><B><?php echo $datestring; ?></B></h2>
-                        
+
+              <table id="tabler"class="table table-striped table-hover" style="width:100%">      
                
                 <thead>
                     
                   <tr>
                     <th hidden>ID</th>
-                    <th>Full Name</th>
-                    <th>Attendance</th>
-
+                    <th >Full Name</th>
+                    <th >Present</th>
+                    <th >Absent</th>
+                    <th style="width:300px">Late</th>
                     
                   </tr>
                 </thead>
+
                 <tbody>
                     
                 <?php
-                
-                    
-                    
-                    $datestamp = strtotime($datestring);
+                    $schd=$_SESSION['schdid'];
 
-                    $date=date('Y-m-d',$datestamp);
-
-
-                    $idschd=$_SESSION['schdid'];
-                    $sql = "SELECT id_att, std_id, `type` FROM attendance_record WHERE schd_id=? AND date=? ";
+                    $sql= "SELECT attendance_record.date, attendance_record.schd_id, attendance_record.type, attendance_record.std_id, attendance_record.id_att, students.flname_std from attendance_record left join students on attendance_record.std_id=students.id_std where attendance_record.schd_id=? GROUP BY attendance_record.std_id";
                     $query = $conn->prepare($sql);
-                    $query->execute([$idschd,$date]);
+                    $query->execute([$schd]);
+
                     if($query->rowCount() > 0){
                         while ($row = $query->fetch(PDO::FETCH_ASSOC)){
-                            $idatt=['id_att'];
-                            $idstd=$row['std_id'];
-
-                            $sql2= "SELECT attendance_record.date, attendance_record.std_id, attendance_record.id_att, students.flname_std from attendance_record left join students on attendance_record.std_id=students.id_std WHERE students.id_std=? and `date`=?";
-                            $query2 = $conn->prepare($sql2);
-                            $query2->execute([$idstd,$date]);
-
-                            if($query2->rowCount() > 0){
-                                while ($row = $query2->fetch(PDO::FETCH_ASSOC)){
                                    
-                                    $student=$row['std_id'];
-                                    $namestd=$row['flname_std'];
+                            $student=$row['std_id'];
+                            $namestd=$row['flname_std'];
 
-                                    ?>
-                                    <tr>
-                                        <td hidden>
-                                            <?php echo $student;?>
-                                        </td>
-                                        <td>
-                                            <?php echo $namestd;?>
-                                        </td>
-                                            
-                                    <?php
+                            ?>
+                            <tr>
+                                <td hidden>
+                                    <?php echo $student;?>
+                                </td>
+                                <td>
+                                    <?php echo $namestd;?>
+                                </td>
+                            <?php
 
-                                    $sql3="SELECT attendance_record.std_id, attendance_record.type, students.flname_std, type.typename FROM attendance_record  left join `type` on attendance_record.type=type.id_type left join students on attendance_record.std_id=students.id_std where std_id=? and `date`=?";
-                
-                                    $query3 = $conn->prepare($sql3);
-                                    $query3->execute([$student,$date]);
-                                    if($query3->rowCount() > 0){
-                                        while ($row = $query3->fetch(PDO::FETCH_ASSOC)){
+                                $sql2="SELECT COALESCE(COUNT(attendance_record.std_id), 0) as count
+                                FROM students LEFT JOIN attendance_record ON students.id_std = attendance_record.std_id where students.id_std=? and attendance_record.type=1 AND attendance_record.schd_id=? ";
+                                                
+                                $query2 = $conn->prepare($sql2);
+                                $query2->execute([$student,$schd]);
+                                if($query2->rowCount() > 0){
 
-                                            $type=$row['typename'];
+                                    while ($row = $query2->fetch(PDO::FETCH_ASSOC)){
+                                        $present=$row['count'];
+
+                                        
+                                            ?>
+                                            <td><?php echo $present;?></td>
+                                            <?php
+                                        
+                                    }
+                                }
+
+                                $sql2="SELECT COALESCE(COUNT(attendance_record.std_id), 0) as count
+                                FROM students LEFT JOIN attendance_record ON students.id_std = attendance_record.std_id where students.id_std=? and attendance_record.type=2 AND attendance_record.schd_id=? ";
+                                                
+                                $query2 = $conn->prepare($sql2);
+                                $query2->execute([$student,$schd]);
+                                if($query2->rowCount() > 0){
+
+                                    while ($row = $query2->fetch(PDO::FETCH_ASSOC)){
+                                        $absent=$row['count'];
 
                                             ?>
-                                                <td>
-                                                    <?php echo $type;?>
-                                                </td>
-                                            
-                                            <?php  
-                                        }
+                                            <td><?php echo $absent;?></td>
+                                            <?php
+                                        
+                                    }
+                                }
+
+                                $sql2="SELECT COALESCE(COUNT(attendance_record.std_id), 0) as count
+                                FROM students LEFT JOIN attendance_record ON students.id_std = attendance_record.std_id where students.id_std=? and attendance_record.type=3 AND attendance_record.schd_id=? ";
+                                                
+                                $query2 = $conn->prepare($sql2);
+                                $query2->execute([$student,$schd]);
+                                if($query2->rowCount() > 0){
+
+                                    while ($row = $query2->fetch(PDO::FETCH_ASSOC)){
+                                        $late=$row['count'];
+
+                                            ?>
+                                            <td><?php echo $late;?></td>
+                                            <?php
+                                        
                                     }
                                 }
                             }
                         }
-                    }
-                }
+
+                        
+                    
+                    
+                    
+                
                 ?>
               
                 </tbody>
+                  
                 
+                        
+                  
+               
               </table>
-              
-
-
-
-              
               
              
               </div>
             </div>
-            <a href="sum_attendance.php" type="button" class="btn btn-danger"><span>View Attendance Summary</span></a>  
-          </div>   
-             
+          </div>        
         </div>
-        
         </form>
-        
 
         
 
@@ -295,40 +286,13 @@ if($query->rowCount() > 0){
 
     <script>
 
-function printTabler() {
-   
-        var printWindow = window.open('', '', 'height=1000,width=1000');
-        printWindow.document.write('<html><head><title>ATTENDANCE</title>');
- 
-        //Print the Table CSS.
-        var table_style = document.getElementById("table_style").innerHTML;
-        printWindow.document.write('<style type = "text/css">');
-        printWindow.document.write(table_style);
-        printWindow.document.write('</style>');
-        printWindow.document.write('</head>');
- 
-        //Print the DIV contents i.e. the HTML Table.
-        printWindow.document.write('<body>');
-        printWindow.document.write('<h3><?php echo $subname; ?></h3>');
-        printWindow.document.write('<h3><?php echo $codesec; ?></h3>');
-        printWindow.document.write('<p><?php echo $datestring; ?></p>');
-        printWindow.document.write('<table>');
-        var divContents = document.getElementById("tabler").innerHTML;
-        printWindow.document.write(divContents);
-        printWindow.document.write('</table>');
-        printWindow.document.write('</body>');
- 
-        printWindow.document.write('</html>');
-        printWindow.document.close();
-        printWindow.print();
-    
-}
+
 
 
 function printTable() {
    
    var printWindow = window.open('', '', 'height=1000,width=1000');
-   printWindow.document.write('<html><head><title>ATTENDANCE</title>');
+   printWindow.document.write('<html><head><title>ATTENDANCE SUMMARY FOR THIS SEMESTER</title>');
 
    //Print the Table CSS.
    var table_style = document.getElementById("table_style").innerHTML;
@@ -342,7 +306,7 @@ function printTable() {
    printWindow.document.write('<h3><?php echo $subname; ?></h3>');
    printWindow.document.write('<h3><?php echo $codesec; ?></h3>');
    printWindow.document.write('<table>');
-   var divContents = document.getElementById("table").innerHTML;
+   var divContents = document.getElementById("tabler").innerHTML;
    printWindow.document.write(divContents);
    printWindow.document.write('</table>');
    printWindow.document.write('</body>');

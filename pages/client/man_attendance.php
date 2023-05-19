@@ -376,20 +376,19 @@ if(isset($_POST['saveAtt'])){
 
       <form method="post">
         <div class="container-xl">
+        <div class="col-sm-6">
+                  <button type="submit" class="btn btn-danger" name="done">Go Back</button>
+                    
+                    
+                  </div>
           <div class="table-responsive">
             <div class="table-wrapper">
               <div class="table-title">
                 <div class="row">
-                  <div class="col-sm-6">
-                  <button type="submit" class="btn btn-danger" name="done">Done</button>
-                    <h2>Record <b>Attendance</b> Manually</h2>
-                    
-                  </div>
-                    
-                    <div class="col-sm-6">
+                   
                       <button type="submit" class="btn btn-success" name="saveAtt">Save</button>
                       
-                    </div>
+                    
                   
                 </div>
               </div>
