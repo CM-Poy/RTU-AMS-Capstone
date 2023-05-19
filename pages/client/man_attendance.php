@@ -36,9 +36,9 @@ if(isset($_POST['saveAtt'])){
             while ($row = $result->fetch(PDO::FETCH_ASSOC)){
               $idstd = $row['std_id'];
 
-              $sql="SELECT * from attendance_record WHERE schd_id=? and std_id=?";
+              $sql="SELECT * from attendance_record WHERE schd_id=? and std_id=? and date=?";
               $result2 = $conn->prepare($sql);
-              $result2->execute([$idschd,$std]);
+              $result2->execute([$idschd,$std,$date]);
 
               if($result2->rowCount() > 0){
                 while ($row = $result2->fetch(PDO::FETCH_ASSOC)){
@@ -139,9 +139,9 @@ if(isset($_POST['saveAtt'])){
             while ($row = $result->fetch(PDO::FETCH_ASSOC)){
               $idstd = $row['std_id'];
 
-              $sql="SELECT * from attendance_record WHERE schd_id=? and std_id=?";
+              $sql="SELECT * from attendance_record WHERE schd_id=? and std_id=? and date=?";
               $result2 = $conn->prepare($sql);
-              $result2->execute([$idschd,$std]);
+              $result2->execute([$idschd,$std,$date]);
 
               if($result2->rowCount() > 0){
                 while ($row = $result2->fetch(PDO::FETCH_ASSOC)){
@@ -237,9 +237,9 @@ if(isset($_POST['saveAtt'])){
             while ($row = $result->fetch(PDO::FETCH_ASSOC)){
               $idstd = $row['std_id'];
 
-              $sql="SELECT * from attendance_record WHERE schd_id=? and std_id=?";
+              $sql="SELECT * from attendance_record WHERE schd_id=? and std_id=? and date=?";
               $result2 = $conn->prepare($sql);
-              $result2->execute([$idschd,$std]);
+              $result2->execute([$idschd,$std,$date]);
 
               if($result2->rowCount() > 0){
                 while ($row = $result2->fetch(PDO::FETCH_ASSOC)){
