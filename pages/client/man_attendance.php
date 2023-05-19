@@ -20,42 +20,13 @@ $idschd=$_SESSION['schdid'];
   
 if(isset($_POST['saveAtt'])){
 
-  $sql="SELECT schd_id, doc, COUNT(*) AS count FROM attendance_list GROUP BY schd_id, doc HAVING count > 1";
-  $query = $conn->prepare($sql);
-  $query->execute();
-
-  if($query->rowCount() > 0){
-      while ($row = $query->fetch(PDO::FETCH_ASSOC)){
-          $idschd = $row['schd_id'];
-          $doc = $row['doc'];
-
-          $sql2="DELETE FROM attendance_list WHERE schd_id = ? AND doc = ? ORDER BY id_att DESC LIMIT 1";
-          $query2 = $conn->prepare($sql2);
-          $query2->execute([$idschd,$doc]);
-
-          //$_SESSION['error']="ATTENDANCE ALREADY DONE FOR THIS SUBJECT.";
-      }
-  }else{
-      $idsched=$_SESSION['schdid'];
-      $date=date('Y-m-d');
-      $datetime=date('Y-m-d H:i:s');
-      $sql="INSERT INTO attendance_list (`schd_id`,`doc`,`datetimecreated`) values (?,?,?)";
-      $query = $conn->prepare($sql);
-      $query->execute([$idsched,$date,$datetime]);
-
-  }
 
   if(isset($_POST['present'])){
     
     foreach($_POST['present'] as $std){
       $date=date('Y-m-d');
-      $sql="SELECT * from attendance_list where schd_id=? AND doc=?";
-      $result = $conn->prepare($sql);
-      $result->execute([$idschd,$date]);
-      if($result->rowCount() > 0){
-        while ($row = $result->fetch(PDO::FETCH_ASSOC)){
-          $idatt = $row['id_att'];
-          $idschd = $row['schd_id'];
+      
+        
 
           $sql="SELECT * from std_enrolled where schd_id=?";
           $result = $conn->prepare($sql);
@@ -65,9 +36,9 @@ if(isset($_POST['saveAtt'])){
             while ($row = $result->fetch(PDO::FETCH_ASSOC)){
               $idstd = $row['std_id'];
 
-              $sql="SELECT * from attendance_record WHERE att_id=? and std_id=?";
+              $sql="SELECT * from attendance_record WHERE schd_id=? and std_id=?";
               $result2 = $conn->prepare($sql);
-              $result2->execute([$idatt,$std]);
+              $result2->execute([$idschd,$std]);
 
               if($result2->rowCount() > 0){
                 while ($row = $result2->fetch(PDO::FETCH_ASSOC)){
@@ -86,9 +57,9 @@ if(isset($_POST['saveAtt'])){
                 $date= date('Y-m-d');
                 $idschd=$_SESSION['schdid'];
         
-                $sql = "INSERT into attendance_record (att_id, std_id, `type`, `date`) VALUES (?,?,?,?)";
+                $sql = "INSERT into attendance_record (schd_id, std_id, `type`, `date`) VALUES (?,?,?,?)";
                 $result = $conn->prepare($sql);
-                $result->execute([$idatt,$std,$type,$date]);
+                $result->execute([$idschd,$std,$type,$date]);
 
 
 
@@ -151,19 +122,14 @@ if(isset($_POST['saveAtt'])){
           }
         }
       }
-    }
-  }
+    
+  
 
   if(isset($_POST['absent'])){
     foreach($_POST['absent'] as $std){
       $date=date('Y-m-d');
-      $sql="SELECT * from attendance_list where schd_id=? AND doc=?";
-      $result = $conn->prepare($sql);
-      $result->execute([$idschd,$date]);
-      if($result->rowCount() > 0){
-        while ($row = $result->fetch(PDO::FETCH_ASSOC)){
-          $idatt = $row['id_att'];
-          $idschd = $row['schd_id'];
+      
+         
 
           $sql="SELECT * from std_enrolled where schd_id=?";
           $result = $conn->prepare($sql);
@@ -173,9 +139,9 @@ if(isset($_POST['saveAtt'])){
             while ($row = $result->fetch(PDO::FETCH_ASSOC)){
               $idstd = $row['std_id'];
 
-              $sql="SELECT * from attendance_record WHERE att_id=? and std_id=?";
+              $sql="SELECT * from attendance_record WHERE schd_id=? and std_id=?";
               $result2 = $conn->prepare($sql);
-              $result2->execute([$idatt,$std]);
+              $result2->execute([$idschd,$std]);
 
               if($result2->rowCount() > 0){
                 while ($row = $result2->fetch(PDO::FETCH_ASSOC)){
@@ -194,9 +160,9 @@ if(isset($_POST['saveAtt'])){
                 $date= date('Y-m-d');
                 $idschd=$_SESSION['schdid'];
 
-                $sql = "INSERT into attendance_record (att_id, std_id, `type`, `date`) VALUES (?,?,?,?)";
+                $sql = "INSERT into attendance_record (schd_id, std_id, `type`, `date`) VALUES (?,?,?,?)";
                 $result = $conn->prepare($sql);
-                $result->execute([$idatt,$std,$type,$date]);
+                $result->execute([$idschd,$std,$type,$date]);
 
                 $sql3= "SELECT * FROM students WHERE id_std=?";
                 $query3 = $conn->prepare($sql3);
@@ -254,19 +220,14 @@ if(isset($_POST['saveAtt'])){
           }
         }
       }
-    }
-  }
+    
+  
   
   if(isset($_POST['late'])){
     foreach($_POST['late'] as $std){
       $date=date('Y-m-d');
-      $sql="SELECT * from attendance_list where schd_id=? AND doc=?";
-      $result = $conn->prepare($sql);
-      $result->execute([$idschd,$date]);
-      if($result->rowCount() > 0){
-        while ($row = $result->fetch(PDO::FETCH_ASSOC)){
-          $idatt = $row['id_att'];
-          $idschd = $row['schd_id'];
+      
+        
 
           $sql="SELECT * from std_enrolled where schd_id=?";
           $result = $conn->prepare($sql);
@@ -276,9 +237,9 @@ if(isset($_POST['saveAtt'])){
             while ($row = $result->fetch(PDO::FETCH_ASSOC)){
               $idstd = $row['std_id'];
 
-              $sql="SELECT * from attendance_record WHERE att_id=? and std_id=?";
+              $sql="SELECT * from attendance_record WHERE schd_id=? and std_id=?";
               $result2 = $conn->prepare($sql);
-              $result2->execute([$idatt,$std]);
+              $result2->execute([$idschd,$std]);
 
               if($result2->rowCount() > 0){
                 while ($row = $result2->fetch(PDO::FETCH_ASSOC)){
@@ -297,9 +258,9 @@ if(isset($_POST['saveAtt'])){
                 $date= date('Y-m-d');
                 $idschd=$_SESSION['schdid'];
 
-                $sql = "INSERT into attendance_record (att_id, std_id, `type`, `date`) VALUES (?,?,?,?)";
+                $sql = "INSERT into attendance_record (schd_id, std_id, `type`, `date`) VALUES (?,?,?,?)";
                 $result = $conn->prepare($sql);
-                $result->execute([$idatt,$std,$type,$date]);
+                $result->execute([$idschd,$std,$type,$date]);
 
 
                 $sql3= "SELECT * FROM students WHERE id_std=?";
@@ -359,10 +320,14 @@ if(isset($_POST['saveAtt'])){
         }
       }
     } 
-  }
-}
+
+    if(isset($_POST['done'])){
+      header("location: today.php");
+    }
+  
 
 
+  
 
   
 
@@ -416,11 +381,14 @@ if(isset($_POST['saveAtt'])){
               <div class="table-title">
                 <div class="row">
                   <div class="col-sm-6">
+                  <button type="submit" class="btn btn-danger" name="done">Done</button>
                     <h2>Record <b>Attendance</b> Manually</h2>
+                    
                   </div>
-                  
+                    
                     <div class="col-sm-6">
-                    <button type="submit" class="btn btn-danger" name="saveAtt">Save</button>
+                      <button type="submit" class="btn btn-success" name="saveAtt">Save</button>
+                      
                     </div>
                   
                 </div>
@@ -564,28 +532,7 @@ if(isset($_POST['saveAtt'])){
         </div>
         </form>
 
-         <!-- Delete Modal HTML -->
-         <div id="delModal" class="modal fade">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <form method="post">
-                <div class="modal-header">						
-                  <h4 class="modal-title">Remove Student</h4>
-                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                </div>
-                <div class="modal-body">
-                <input type="hidden" name="idstd" id="idstd">
-                  <p>Are you sure you want to remove <input id="name" disabled> from this class?</p>
-                  <p class="text-warning"><small>This action cannot be undone.</small></p>
-                </div>
-                <div class="modal-footer">
-                  <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                  <button type="submit" class="btn btn-danger" name="btnRem">Remove</button>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
+        
 
 
 
@@ -608,21 +555,7 @@ if(isset($_POST['saveAtt'])){
     <script>
 
 
-//DELETE MODAL 
-$(document).ready(function () {
-      $('.delBtn').on('click', function () {
-        $('#delModal').modal('show');
-        $tr = $(this).closest('tr');
-         var data = $tr.children("td").map(function () {
-              return $(this).text();
-          }).get();
-          console.log(data);
-          $('#idstd').val(data[0]);
-          $('#name').val(data[1]);
-      });
-  
-  
-    });
+
 
     
    
