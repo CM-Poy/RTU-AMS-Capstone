@@ -8,6 +8,7 @@ session_start();
 
 
 $secid=$_SESSION['secid'];
+$idschd=$_SESSION['schdid'];
 
 global $conn;
 
@@ -22,31 +23,6 @@ $result->execute([$secid]);
             
             $sec=$row['code_sec'];
         }
-    }
-
-    $sql="SELECT schd_id, doc, COUNT(*) AS count FROM attendance_list GROUP BY schd_id, doc HAVING count > 1";
-    $query = $conn->prepare($sql);
-    $query->execute();
-
-    if($query->rowCount() > 0){
-        while ($row = $query->fetch(PDO::FETCH_ASSOC)){
-            $idschd = $row['schd_id'];
-            $doc = $row['doc'];
-
-            $sql2="DELETE FROM attendance_list WHERE schd_id = ? AND doc = ? ORDER BY id_attendance DESC LIMIT 1";
-            $query2 = $conn->prepare($sql2);
-            $query2->execute([$idschd,$doc]);
-
-            //$_SESSION['error']="ATTENDANCE ALREADY DONE FOR THIS SUBJECT.";
-        }
-    }else{
-        $idsched=$_SESSION['schdid'];
-        $date=date('Y-m-d');
-        $datetime=date('Y-m-d H:i:s');
-        $sql="INSERT INTO attendance_list (`schd_id`,`doc`,`datetimecreated`) values (?,?,?)";
-        $query = $conn->prepare($sql);
-        $query->execute([$idsched,$date,$datetime]);
-
     }
   
 
@@ -63,61 +39,60 @@ $result->execute([$secid]);
 
     if (isset($_POST['qr'])){
 		
-        $qrdata = $_POST['qr'];
-        $sql="SELECT * from students WHERE studnum_std=? and sec_id=?";
-        $result = $conn->prepare($sql);
-        $result->execute([$qrdata,$secid]);
-    
-        if($result->rowCount() > 0){
-            
-            while ($row = $result->fetch(PDO::FETCH_ASSOC)){
-                $id=$row["id_std"];
-            }
-    
-            $sql="SELECT * from attendance_record WHERE stud_id=?";
-            $result2 = $conn->prepare($sql);
-            $result2->execute([$id]);
-    
-            if($result2->rowCount() > 0){
-                $_SESSION['error'] =  "Already Recorded.";
-               
-            }else{
+        
 
-                $idsched=$_SESSION['schdid'];
-                $date=date('Y-m-d');
-                $sql2= "SELECT * FROM attendance_list WHERE schd_id=? AND doc=?";
-                $query2 = $conn->prepare($sql2);
-                $query2->execute([$idsched,$date]);
-                
-                if($query2->rowCount() > 0){
+        $sql="SELECT * from std_enrolled where schd_id=?";
+        $result = $conn->prepare($sql);
+        $result->execute([$idschd]);
+        
+        if($result->rowCount() > 0){
+            while ($row = $result->fetch(PDO::FETCH_ASSOC)){
+                $idstd = $row['std_id'];
+                $qrdata = $_POST['qr'];
+                $sql2="SELECT * from students WHERE studnum_std=? and id_std=?";
+                $result2 = $conn->prepare($sql2);
+                $result2->execute([$qrdata,$idstd]);
             
-                    while ($row = $query2->fetch(PDO::FETCH_ASSOC)){
+                if($result2->rowCount() > 0){
+                    
+                    while ($row = $result2->fetch(PDO::FETCH_ASSOC)){
+                        $id=$row["id_std"];
+                    }
+            
+                    $sql3="SELECT * from attendance_record WHERE std_id=?";
+                    $result3 = $conn->prepare($sql3);
+                    $result3->execute([$id]);
+            
+                    if($result3->rowCount() > 0){
+                        $_SESSION['error'] =  "Already Recorded.";
+                    
+                    }else{
+
                         $present="1";
-                        $idatt=$row["id_attendance"];
-                        $_SESSION['idatt']=$row["id_attendance"];
-                        $sql = "INSERT INTO  attendance_record (`attendance_id`,`stud_id`, `type`) VALUES ($idatt,$id,$present)  ";
-                        $query = $conn->prepare($sql);
-                        $query->execute();
-    
-                        $sql3= "SELECT * FROM students WHERE id_std=?";
-                        $query3 = $conn->prepare($sql3);
-                        $query3->execute([$id]);
-                        if($query3->rowCount() > 0){
+                        $date= date('Y-m-d');
+                        $sql5 = "INSERT INTO  attendance_record (`schd_id`,`std_id`, `type`,`date`) VALUES (?,?,?,?)  ";
+                        $query5 = $conn->prepare($sql5);
+                        $query5->execute([$idschd,$id,$present,$date]);
+
+                        $sql6= "SELECT * FROM students WHERE id_std=?";
+                        $query6 = $conn->prepare($sql6);
+                        $query6->execute([$id]);
+                        if($query6->rowCount() > 0){
             
-                            while ($row = $query3->fetch(PDO::FETCH_ASSOC)){
+                            while ($row = $query6->fetch(PDO::FETCH_ASSOC)){
                                 $stdname=$row['flname_std'];
                                 $name=$row['gflname_std'];
                                 $email=$row['gemail_std'];
-    
+
                                 $subj=$_SESSION['subid'];
-                                $sql4= "SELECT * FROM subjects WHERE id_subj=?";
-                                $query4 = $conn->prepare($sql4);
-                                $query4->execute([$subj]);
-    
-                                if($query4->rowCount() > 0){
+                                $sql7= "SELECT * FROM subjects WHERE id_subj=?";
+                                $query7 = $conn->prepare($sql7);
+                                $query7->execute([$subj]);
+
+                                if($query7->rowCount() > 0){
             
-                                    while ($row2 = $query4->fetch(PDO::FETCH_ASSOC)){
-                                        $subj=$row2["name_subj"];
+                                    while ($row = $query7->fetch(PDO::FETCH_ASSOC)){
+                                        $subj=$row["name_subj"];
                                     }
                                 }
 
@@ -125,8 +100,8 @@ $result->execute([$secid]);
                             }
                                 $datetime2=date('Y-m-d H:i:s');
                                 $subject = "ATTENDANCE RESULT";
-                                $message = $stdname." was present in his class ".$subj.". Recorded .".$datetime2;
-    
+                                $message = $stdname." was PRESENT in his class ".$subj.". Recorded ".$datetime2;
+
                                 require "../../vendor/autoload.php";
                                 $mail = new PHPMailer(true);
 
@@ -149,33 +124,22 @@ $result->execute([$secid]);
                                 $mail->Body = $message;
                                 
                                 $mail->send();
-                        }else{
+                                
                             
-                        }
-    
-                        
-                        
-                    }
-    
-                    
-    
+                        } 
+                    }       
                 }
-    
-                
-               
-    
-                
             }
-        
-        
-                
-    
-                
-                
         }else{
             $_SESSION['error'] =  "You are not enrolled to this subject.";
         }
+
+
+    }elseif(isset($_POST['done'])){
+        header("location: today.php");
     }
+    
+
             
 
 
@@ -285,8 +249,11 @@ $result->execute([$secid]);
                     $_SESSION['error'] = false;
                 ?>
             <?php endif ?>
-           
+            
+                <button type="submit" name="done">DONE</button>
+            
          </div>
+         
         </form>
     </section>
 </body>

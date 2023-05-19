@@ -1396,6 +1396,7 @@ class dbfunction{
             $sec=$row['sec_id'];
             $id=$_REQUEST['enid'];
 
+
             $sql2="INSERT INTO std_enrolled (`schd_id`,`std_id`,`sec_id`) VALUES (?,?,?)";
             $query2 = $conn->prepare($sql2);
             $query2->execute([$id,$idstd,$sec]);
@@ -1411,7 +1412,6 @@ class dbfunction{
                 $query4->execute([$id,$idsec,$id]);
               }
             }
-            
           }
         }  
       }
@@ -1420,10 +1420,10 @@ class dbfunction{
 
 
 
+    
+  
+
 
 
 }
-
-
-
 

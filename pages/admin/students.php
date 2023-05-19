@@ -165,7 +165,8 @@
                          $sql = "SELECT students.id_std, students.flname_std, students.instemail_std, students.studnum_std, students.gflname_std, students.gemail_std, students.qrcode_std, sections.code_sec, courses.code_crs, year.yearlvl_yr FROM students
                          LEFT JOIN courses on students.crs_id = courses.id_crs
                          left join year on students.yrlvl_id = year.id_yr
-                         left join sections on students.sec_id = sections.id_sec";
+                         left join sections on students.sec_id = sections.id_sec
+                         order by students.flname_std";
                         $result = $conn->prepare($sql);
                         $result->execute();
 
@@ -415,13 +416,10 @@
    
         $(document).ready(function() {
     var table = $('#tabler').DataTable( {
-        rowReorder: {
-            selector: 'td:nth-child(2)'
-        },
+        order: [[1, 'asc']],
         responsive: true
     } );
 } );
-      
       
    
     $(document).ready(function(){
