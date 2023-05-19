@@ -1333,9 +1333,12 @@ class dbfunction{
       if($_POST['idstd'] != ""){
         
         
+        
+        
 
         $idstd=$_POST['idstd']; 
         $id=$_REQUEST['enid'];
+       
 
         $stmt = $conn->prepare("SELECT * FROM std_enrolled WHERE std_id=? AND schd_id=?");
        
@@ -1345,16 +1348,17 @@ class dbfunction{
        
         
         //fetch result
-        $std_id = $stmt->fetch();
+        
        
         
         
-        if($std_id) 
+        if($stmt->rowCount() > 0){
+          while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
           $_SESSION['error']="Student Already Enrolled.";
        
             
           
-        else{
+          }}else{
 
         $sql="SELECT * FROM students where id_std=?";
         $query = $conn->prepare($sql);
@@ -1377,53 +1381,83 @@ class dbfunction{
 }
 
 
-  function enrSec($idsec){
-    global $conn;
-    if(ISSET($_POST['btnEnsec'])){
-      if($_POST['idsec'] != ""){
+function enrSec($idsec){
+  global $conn;
+  if(ISSET($_POST['btnEnsec'])){
+    if($_POST['idsec'] != ""){
 
-        $idsec=$_POST['idsec'];
-        
+      $idsec=$_POST['idsec'];
+      
+      $id=$_REQUEST['enid'];
 
-        $sql="SELECT * from students where sec_id=?";
-        $query = $conn->prepare($sql);
-        $query->execute([$idsec]);
+      $stmt = $conn->prepare("SELECT * FROM std_enrolled WHERE sec_id=? AND schd_id=?");
+      
+       
+  
+      //execute the statement
+      $stmt->execute([$idsec,$id]); 
+     
+      
+      //fetch result
+      
+     
+      
+      
+      if($stmt->rowCount() > 0){
 
-        if($query->rowCount() > 0){
-          while ($row = $query->fetch(PDO::FETCH_ASSOC)){
-            
-            $idstd=$row["id_std"];
-            $sec=$row['sec_id'];
-            $id=$_REQUEST['enid'];
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+
+        $_SESSION['error']="Section Already Enrolled.";
+        }
+      
+      }else{
+
+      $sql="SELECT * from students where sec_id=?";
+      $query = $conn->prepare($sql);
+      $query->execute([$idsec]);
+
+      if($query->rowCount() > 0){
+        while ($row = $query->fetch(PDO::FETCH_ASSOC)){
+          
+          $idstd=$row["id_std"];
+          $sec=$row['sec_id'];
+          $id=$_REQUEST['enid'];
 
 
-            $sql2="INSERT INTO std_enrolled (`schd_id`,`std_id`,`sec_id`) VALUES (?,?,?)";
-            $query2 = $conn->prepare($sql2);
-            $query2->execute([$id,$idstd,$sec]);
+          $sql2="INSERT INTO std_enrolled (schd_id,`std_id`,`sec_id`) VALUES (?,?,?)";
+          $query2 = $conn->prepare($sql2);
+          $query2->execute([$id,$idstd,$sec]);
+
+          $sql4="DELETE FROM std_enrolled where schd_id = ? AND sec_id != ?";
+          $query4 = $conn->prepare($sql4);
+          $query4->execute([$id,$sec]);
 
 
-            $sql3="SELECT * FROM schedules WHERE id_schd=?";
-            $query3 = $conn->prepare($sql3);
-            $query3->execute([$id]);
-            if($query3->rowCount() > 0){
-              while ($row = $query3->fetch(PDO::FETCH_ASSOC)){
-                $sql4="UPDATE schedules set id_schd=?, sec_id=? where id_schd=?";
-                $query4 = $conn->prepare($sql4);
-                $query4->execute([$id,$idsec,$id]);
-              }
+          $sql3="SELECT * FROM schedules WHERE id_schd=?";
+          $query3 = $conn->prepare($sql3);
+          $query3->execute([$id]);
+          if($query3->rowCount() > 0){
+            while ($row = $query3->fetch(PDO::FETCH_ASSOC)){
+              $sql4="UPDATE schedules set id_schd=?, sec_id=? where id_schd=?";
+              $query4 = $conn->prepare($sql4);
+              $query4->execute([$id,$idsec,$id]);
             }
           }
-        }  
-      }
+        }
+      }  
     }
   }
-
-
-
-    
-  
-
-
-
 }
+}
+}
+
+
+
+
+
+
+
+
+
+
 

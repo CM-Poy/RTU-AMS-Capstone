@@ -153,7 +153,7 @@
   <div id="EnrollModal" class="modal fade">
           <div class="modal-dialog">
             <div class="modal-content">
-              <form method="post">
+              <form method="post"  onsubmit="return confirm('Are you sure you want to enroll this section?\n\nNote: If this schedule has existing section, all the students enrolled will be replaced.');">
                 <div class="modal-header">						
                   <h4 class="modal-title">Enroll Section</h4>
                   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
