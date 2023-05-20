@@ -264,7 +264,7 @@ if($query->rowCount() > 0){
                   <form method="post">
                   
 
-                    <a type="button" class="btn btn-success" name="recAtt" href="rec_attendance.php?secid=<?php echo $_SESSION['secid']; ?>schdid=<?php echo $_SESSION['schdid']; ?>"><i class="material-icons custom">class</i> <span>RECORD ATTENDANCE</span></a>
+                  <a href="#optModal" type="button" class="btn btn-success" data-toggle="modal"><i class="material-icons custom">class</i> <span>RECORD ATTENDANCE</span></a>
                     <a href="#randomizer" type="button" class="btn btn-danger" data-toggle="modal"><i class="material-icons custom">autorenew</i> <span>RANDOMIZER</span></a>
                     <a type="button" class="btn btn-warning" href="rep_attendance.php"><i class="material-icons custom">&#xebbe;</i> <span>ATTENDANCE REPORT</span></a>
                   </form>				  
@@ -295,7 +295,7 @@ if($query->rowCount() > 0){
                     $idstd=$row['std_id'];
 
 
-                    $sql2 = "SELECT students.qrcode_std,students.id_std,students.flname_std, students.studnum_std, students.gemail_std, students.sec_id, sections.code_sec from students left join sections on students.sec_id = sections.id_sec where students.id_std=?";
+                    $sql2 = "SELECT students.qrcode_std,students.id_std,students.flname_std, students.studnum_std, students.gemail_std, students.sec_id, sections.code_sec from students left join sections on students.sec_id = sections.id_sec where students.id_std=? order by students.flname_std";
                     $query2 = $conn->prepare($sql2);
                     $query2->execute([$idstd]);
                     if($query2->rowCount() > 0){
@@ -335,6 +335,28 @@ if($query->rowCount() > 0){
           </div>        
         </div>
 
+         <!-- Delete Modal HTML -->
+         <div id="optModal" class="modal fade">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <form method="post">
+                <div class="modal-header">						
+                  
+                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+                <div class="modal-body">
+                  <h4 class="modal-title">Do you have a Camera?</h4>
+                </div>
+                <div class="modal-footer">
+
+                <a type="button" class="btn btn-success" href="rec_attendance.php?secid=<?php echo $_SESSION['secid']; ?>schdid=<?php echo $_SESSION['schdid']; ?>"><i class="material-icons custom">&#xe876;</i> <span>YES</span></a>
+
+                <a type="button" onclick="openNewTab()" class="btn btn-warning"  data-dismiss="modal"><i class="material-icons custom">&#xe5cd;</i> <span>NO</span></a>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
 
 
         
@@ -439,6 +461,12 @@ if($query->rowCount() > 0){
     } );
 } );
   
+
+
+        function openNewTab() {
+            window.open("man_attendance.php?secid=<?php echo $_SESSION['secid']; ?>schdid=<?php echo $_SESSION['schdid']; ?>", "_blank");
+        }
+
 
 
   </script>
