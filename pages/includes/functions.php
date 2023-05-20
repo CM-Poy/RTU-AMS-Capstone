@@ -1404,12 +1404,13 @@ function enrSec($idsec){
       
       
       if($stmt->rowCount() > 0){
-        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
-        $_SESSION['error']="Section Already Enrolled.";
-        }}
 
-        else{
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+
+        $_SESSION['error']="Section Already Enrolled.";
+        }
       
+      }else{
 
       $sql="SELECT * from students where sec_id=?";
       $query = $conn->prepare($sql);
@@ -1432,30 +1433,31 @@ function enrSec($idsec){
           $query4->execute([$id,$sec]);
 
 
-            $sql3="SELECT * FROM schedules WHERE id_schd=?";
-            $query3 = $conn->prepare($sql3);
-            $query3->execute([$id]);
-            if($query3->rowCount() > 0){
-              while ($row = $query3->fetch(PDO::FETCH_ASSOC)){
-                $sql4="UPDATE schedules set id_schd=?, sec_id=? where id_schd=?";
-                $query4 = $conn->prepare($sql4);
-                $query4->execute([$id,$idsec,$id]);
-              }
+          $sql3="SELECT * FROM schedules WHERE id_schd=?";
+          $query3 = $conn->prepare($sql3);
+          $query3->execute([$id]);
+          if($query3->rowCount() > 0){
+            while ($row = $query3->fetch(PDO::FETCH_ASSOC)){
+              $sql4="UPDATE schedules set id_schd=?, sec_id=? where id_schd=?";
+              $query4 = $conn->prepare($sql4);
+              $query4->execute([$id,$idsec,$id]);
             }
-            
           }
-        }  
-      }
+        }
+      }  
     }
   }
-
-
-
-
-
+}
+}
 }
 
 
 
-}
+
+
+
+
+
+
+
 
