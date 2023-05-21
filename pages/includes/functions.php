@@ -1424,9 +1424,9 @@ function enrSec($idsec){
           $id=$_REQUEST['enid'];
 
 
-          $sql2="INSERT INTO std_enrolled (schd_id,`std_id`,`sec_id`) VALUES (?,?,?)";
-          $query2 = $conn->prepare($sql2);
-          $query2->execute([$id,$idstd,$sec]);
+            $sql2="INSERT INTO std_enrolled (`schd_id`,`std_id`,`sec_id`) VALUES (?,?,?)";
+            $query2 = $conn->prepare($sql2);
+            $query2->execute([$id,$idstd,$sec]);
 
           $sql4="DELETE FROM std_enrolled where schd_id = ? AND sec_id != ?";
           $query4 = $conn->prepare($sql4);
@@ -1445,6 +1445,19 @@ function enrSec($idsec){
           }
         }
       }  
+    }
+
+    function rwrdbtn1($idstd){
+      global $conn;
+      if(ISSET($_POST['rwrdbtn1'])){
+        if($_GET['id_std'] != ""){
+
+          $idstd=$_POST['id_std'];
+          $id=$_REQUEST['enid'];
+          function phpAlert($msg) { echo '<script type="text/javascript">alert("' . $msg . '")</script>'; }
+          phpAlert( "Rewarded Successfully" ); 
+        }
+      }
     }
   }
 }

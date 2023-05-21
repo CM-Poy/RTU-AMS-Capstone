@@ -155,6 +155,17 @@ if($query->rowCount() > 0){
   top: 65%;
   transform: translate(-50%, -50%);
 }
+#btnr1{
+  margin-right: 5px;
+  padding: 2px
+}
+#btnr2{
+  margin-right: 5px;
+  padding: 2px
+}
+#btnr3{
+  padding: 2px
+}
 
 
 
@@ -177,7 +188,7 @@ if($query->rowCount() > 0){
                 <a href="#" class="img logo rounded-circle mb-5" style="background-image: url(../../images/rtu-logo.png);"></a>
                 <ul class="list-unstyled components mb-5">
               <li class="">
-                <a href="today.php">&nbsp;&nbsp;&nbsp;<i class="fa-sharp fa-solid fa-calendar-day fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>TODAY</a>
+                <a href="today.php">&nbsp;&nbsp;&nbsp;<i class="fa-sharp fa-solid fa-calendar-day fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>TODAY</a>  
               
               <li>
               <a href="account.php" >&nbsp;&nbsp;&nbsp;<i class="fa-solid fa-user fa-2x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>ACCOUNT</a>
@@ -269,13 +280,14 @@ if($query->rowCount() > 0){
                   </div>
                   
                   
-                  <div class="col-sm-6">
+                  <div class="col-sm-12">
                   <form method="post">
                   
-
+                  
                   <a href="#optModal" type="button" class="btn btn-success" data-toggle="modal"><i class="material-icons custom">class</i> <span>RECORD ATTENDANCE</span></a>
                     <a href="#randomizer" type="button" class="btn btn-danger" data-toggle="modal"><i class="material-icons custom">autorenew</i> <span>RANDOMIZER</span></a>
                     <a type="button" class="btn btn-warning" href="rep_attendance.php"><i class="material-icons custom">&#xebbe;</i> <span>ATTENDANCE REPORT</span></a>
+                    <a href="reward.php" type="button" class="btn btn-info"><i class="material-icons custom">class</i> <span>REWARD</span></a>
                   </form>				  
                   </div>
                 </div>
@@ -283,16 +295,20 @@ if($query->rowCount() > 0){
               <table id="tabler" class="table table-striped table-hover" style="width:100%">
                 <thead>
                   <tr>
+
+                    <th hidden></th>
                     <th>Full Name</th>
                     <th>Student Number</th>
                     <th>Guardian Email</th>
                     <th>Section</th>
+                    
                   </tr>
                 </thead>
                 <tbody>
 
 
                 <?php
+                
                 
                 global $conn;
 
@@ -311,10 +327,17 @@ if($query->rowCount() > 0){
                       while ($row = $query2->fetch(PDO::FETCH_ASSOC)){
                         $id_std=$row['id_std'];
                         
-                       ?><tr><td style="width: 25rem;"><?php echo $row['flname_std']; ?></td>
+                       ?>
+                       <form method ="POST" action="classlist.php">
+                       <tr>
+                        <td hidden><?php echo $row['id_std']; ?></td>
+                        <td style="width: 25rem;"><?php echo $row['flname_std']; ?></td>
                         <td><?php echo $row['studnum_std']; ?></td>
                         <td><?php echo $row['gemail_std']; ?></td>
-                        <td><?php echo $row['code_sec']; ?></td></tr>
+                        <td><?php echo $row['code_sec']; ?></td>
+                       
+                      </form>
+                        
                        
                         
     
