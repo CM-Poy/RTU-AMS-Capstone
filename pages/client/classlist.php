@@ -214,14 +214,23 @@ if($query->rowCount() > 0){
         </nav>
 
         <?php
-              
-
-              $stmt = $conn->prepare('SELECT flname_std from students where sec_id=?');
-  $stmt->execute([$sec]);
-  $result = $stmt->fetchAll(\PDO::FETCH_ASSOC);
-  foreach ($result as $value) {
-    $data = $value;
-  }
+              global $conn;
+              $sql2="SELECT * from std_enrolled where schd_id=?";
+              $query2 = $conn->prepare($sql2);
+              $query2->execute([$idschd]);
+              if($query->rowCount() > 0){
+                while ($row = $query2->fetch(PDO::FETCH_ASSOC)){
+                  $std=$row['std_id'];
+                   
+                  $stmt = $conn->prepare("SELECT flname_std from students where id_std=?");
+                  $stmt->execute([$std]);
+                  $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                  foreach ($result as $value) {
+                    $data = $value;
+                  }
+                } 
+              }
+                  
               
         ?>
 
@@ -240,7 +249,7 @@ if($query->rowCount() > 0){
                   <div class="card">					
                     <center><div id="random-name">Generate Randomly</div></center>
                   </div>
-
+               
                   <center> <a class="btn1 btn-success" id="generate" name="generate" value="generate"
                   onclick="setRandomName()" style="color: white;">GENERATE</a>
 
