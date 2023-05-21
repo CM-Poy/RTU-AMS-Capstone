@@ -1446,6 +1446,19 @@ function enrSec($idsec){
         }
       }  
     }
+
+    function rwrdbtn1($idstd){
+      global $conn;
+      if(ISSET($_POST['rwrdbtn1'])){
+        if($_GET['id_std'] != ""){
+
+          $idstd=$_POST['id_std'];
+          $id=$_REQUEST['enid'];
+          function phpAlert($msg) { echo '<script type="text/javascript">alert("' . $msg . '")</script>'; }
+          phpAlert( "Rewarded Successfully" ); 
+        }
+      }
+    }
   }
 }
 }
