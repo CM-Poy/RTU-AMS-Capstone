@@ -5,7 +5,8 @@ include('../includes/header.php');
 require('../includes/config.php');
 session_start();
 
-$sub =$_SESSION['subid'];
+$sub = $_SESSION['subid'];
+
 
 $sql = "SELECT * from subjects where id_subj = $sub";
 $query = $conn->prepare($sql);
@@ -13,18 +14,18 @@ $query->execute();
 if($query->rowCount() > 0){
                 
     while ($row = $query->fetch(PDO::FETCH_ASSOC)){
-        $subname=$row['name_subj'];
+        $codesec=$row['name_subj'];
 
     }
 }
 
 $sec=$_SESSION['secid'];
-$sql = "SELECT * from sections where id_sec = $sub";
-$query = $conn->prepare($sql);
-$query->execute();
-if($query->rowCount() > 0){
+$sql2 = "SELECT * from sections where id_sec = $sub";
+$query2 = $conn->prepare($sql2);
+$query2->execute();
+if($query2->rowCount() > 0){
                 
-    while ($row = $query->fetch(PDO::FETCH_ASSOC)){
+    while ($row = $query2->fetch(PDO::FETCH_ASSOC)){
         $codesec=$row['code_sec'];
 
     }
@@ -121,7 +122,8 @@ if($query->rowCount() > 0){
                     
                     <div class="col-sm-4">
                     
-                        <h2>PAST ATTENDANCE:</h2>
+                        <h2><b>REWARD HISTORY FOR THIS WEEK:</b></h2>
+                        <h4><span>Please select date</span><h4>
                     
                     </div>
                     
@@ -136,14 +138,14 @@ if($query->rowCount() > 0){
                     
                     <?php
                             $idschd=$_SESSION['schdid'];
-                            $sql = "SELECT schd_id, date FROM rewards WHERE schd_id=?  GROUP by `date`";
+                            $sql = "SELECT schd_id, reward_date FROM rewards WHERE schd_id=?  GROUP by `reward_date`";
                             $query = $conn->prepare($sql);
                             $query->execute([$idschd]);
                             if($query->rowCount() > 0){
                                             
                                 while ($row = $query->fetch(PDO::FETCH_ASSOC)){
 
-                                    $datetext=date('F j, Y', strtotime($row['date']));
+                                    $datetext=date('F j, Y', strtotime($row['reward_date']));
 
                                     
 
@@ -174,8 +176,7 @@ if($query->rowCount() > 0){
                     if(isset($_POST['btnDate'])){
                         $datestring = $_POST['btnDate'];
                         
-                        ?> <button onclick="printTabler();" class="btn btn-success" id="print-btn">Print Attendance</button>
-                        <h2><B><?php echo $datestring; ?></B></h2>
+                        ?> 
                         
                
                 <thead>
@@ -183,7 +184,7 @@ if($query->rowCount() > 0){
                   <tr>
                     <th hidden>ID</th>
                     <th>Full Name</th>
-                    <th>Attendance</th>
+                    <th>Total reward</th>
 
                     
                   </tr>
@@ -201,7 +202,7 @@ if($query->rowCount() > 0){
 
                     
 
-                            $sql2= "SELECT rewards.schd_id, rewards.id_rwd, rewards.date, rewards.std_id, students.flname_std, SUM(rewards.reward) as total from rewards left join students on rewards.std_id=students.id_std WHERE schd_id=? and `date`=? GROUP BY rewards.std_id";
+                            $sql2= "SELECT rewards.schd_id, rewards.id_reward, rewards.reward_date, rewards.std_id, students.flname_std, SUM(rewards.reward_val) as total from rewards left join students on rewards.std_id=students.id_std WHERE schd_id=? and `reward_date`=? GROUP BY rewards.std_id";
                             $query2 = $conn->prepare($sql2);
                             $query2->execute([$idschd,$date]);
 
@@ -243,7 +244,7 @@ if($query->rowCount() > 0){
              
               </div>
             </div>
-            <a href="sum_attendance.php" type="button" class="btn btn-danger"><span>View Attendance Summary</span></a>  
+           
           </div>   
              
         </div>
