@@ -5,7 +5,6 @@
   include('../includes/header.php'); 
   require('../includes/config.php');
   session_start();
-
   
 
 
