@@ -10,7 +10,7 @@ $idschd=$_SESSION['schdid'];
           $std=$_GET['id'];
           $date= date('Y-m-d');
           
-          $sql = "INSERT into rewards (schd_id, std_id, reward, `date`) VALUES (?,?,5,?)";
+          $sql = "INSERT into rewards (schd_id, std_id, reward, `date`) VALUES (?,?,15,?)";
           $result = $conn->prepare($sql);
           $result->execute([$idschd,$std,$date]);
 

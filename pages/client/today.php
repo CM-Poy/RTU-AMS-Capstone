@@ -4,6 +4,14 @@ include('../includes/header.php');
 
 session_start();
 
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+  // The form is submitted
+  // Perform the necessary actions here
+} else {
+  // The form is not submitted
+  // Display the form or take appropriate action
+  header("location: ../login.php");
+}
 
 ?>
 
