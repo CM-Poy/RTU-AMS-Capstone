@@ -203,13 +203,14 @@ $result->execute([$secid]);
                             if(cameras[0]!=""){
                                 scanner.start(cameras[0]);
                             }else{
-                                alert('No Front camera found!');
+                                
+                                window.location.href = "man_attendance.php";
                             }
                         }
                     });
                 }else{
                     console.error('No cameras found.');
-                    alert('No cameras found.');
+                    window.location.href = "man_attendance.php";
                 }
             }).catch(function(e){
                 console.error(e);
