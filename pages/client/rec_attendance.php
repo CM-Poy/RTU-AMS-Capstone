@@ -135,8 +135,6 @@ $result->execute([$secid]);
         }
 
 
-    }elseif(isset($_POST['done'])){
-        header("location: today.php");
     }
     
 
@@ -250,7 +248,7 @@ $result->execute([$secid]);
                 ?>
             <?php endif ?>
             
-                <button type="submit" name="done">DONE</button>
+                <a href="javascript:void(0);" onclick="goBack()"  type="button" ><h2>DONE</h2></a>
             
          </div>
          
@@ -265,6 +263,12 @@ $result->execute([$secid]);
 
 
 <script>
+
+function goBack() {
+    window.history.back();
+  }
+
+
 if ( window.history.replaceState ) {
   window.history.replaceState( null, null, window.location.href );
 }

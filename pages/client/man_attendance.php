@@ -321,9 +321,7 @@ if(isset($_POST['saveAtt'])){
       }
     } 
 
-    if(isset($_POST['done'])){
-      header("location: today.php");
-    }
+    
   
 
 
@@ -377,7 +375,7 @@ if(isset($_POST['saveAtt'])){
       <form method="post">
         <div class="container-xl">
         <div class="col-sm-6">
-                  <button type="submit" class="btn btn-danger" name="done">Go Back</button>
+                
                     
                     
                   </div>

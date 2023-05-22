@@ -93,7 +93,7 @@ if($query->rowCount() > 0){
 
       <form method="post">
         <div class="container-xl">
-        <a href="today.php" type="button" class="btn btn-warning"><span>GO BACK</span></a>
+      
         
         
 
@@ -121,12 +121,13 @@ if($query->rowCount() > 0){
                     
                     <div class="col-sm-4">
                     
-                        <h2>PAST ATTENDANCE:</h2>
+                        <h2>REWARD HISTORY:</h2>
                     
                     </div>
                     
                     
                 </div>
+                
 
                 <div class="row">
                     
@@ -174,7 +175,7 @@ if($query->rowCount() > 0){
                     if(isset($_POST['btnDate'])){
                         $datestring = $_POST['btnDate'];
                         
-                        ?> <button onclick="printTabler();" class="btn btn-success" id="print-btn">Print Attendance</button>
+                        ?> <button onclick="printTabler();" class="btn btn-success" id="print-btn">Print</button>
                         <h2><B><?php echo $datestring; ?></B></h2>
                         
                
@@ -183,7 +184,7 @@ if($query->rowCount() > 0){
                   <tr>
                     <th hidden>ID</th>
                     <th>Full Name</th>
-                    <th>Attendance</th>
+                    <th>Points</th>
 
                     
                   </tr>
@@ -212,7 +213,7 @@ if($query->rowCount() > 0){
                                     $namestd=$row['flname_std'];
                                     $total=$row['total'];
                                     ?>
-                                    <tr>
+                                        <tr>
                                         <td hidden>
                                             
                                         </td>
@@ -222,11 +223,19 @@ if($query->rowCount() > 0){
                                         <td>
                                             <?php echo $total;?>
                                         </td>
+                                        </tr>
                                             
                                     <?php
                                 }
                             }
                         }
+
+                    
+                        
+                            
+                        
+
+                        
                     
                 
                 ?>
@@ -234,16 +243,15 @@ if($query->rowCount() > 0){
                 </tbody>
                 
               </table>
-              
 
-
+           
 
               
               
              
               </div>
             </div>
-            <a href="sum_attendance.php" type="button" class="btn btn-danger"><span>View Attendance Summary</span></a>  
+            <a href="rwd_summary.php" class="btn btn-danger"><span>View Rewards Summary</span></a>  
           </div>   
              
         </div>
@@ -276,7 +284,7 @@ if($query->rowCount() > 0){
 function printTabler() {
    
         var printWindow = window.open('', '', 'height=1000,width=1000');
-        printWindow.document.write('<html><head><title>ATTENDANCE</title>');
+        printWindow.document.write('<html><head><title>REWARDS</title>');
  
         //Print the Table CSS.
         var table_style = document.getElementById("table_style").innerHTML;
@@ -303,34 +311,9 @@ function printTabler() {
 }
 
 
-function printTable() {
-   
-   var printWindow = window.open('', '', 'height=1000,width=1000');
-   printWindow.document.write('<html><head><title>ATTENDANCE</title>');
-
-   //Print the Table CSS.
-   var table_style = document.getElementById("table_style").innerHTML;
-   printWindow.document.write('<style type = "text/css">');
-   printWindow.document.write(table_style);
-   printWindow.document.write('</style>');
-   printWindow.document.write('</head>');
-
-   //Print the DIV contents i.e. the HTML Table.
-   printWindow.document.write('<body>');
-   printWindow.document.write('<h3><?php echo $subname; ?></h3>');
-   printWindow.document.write('<h3><?php echo $codesec; ?></h3>');
-   printWindow.document.write('<table>');
-   var divContents = document.getElementById("table").innerHTML;
-   printWindow.document.write(divContents);
-   printWindow.document.write('</table>');
-   printWindow.document.write('</body>');
-
-   printWindow.document.write('</html>');
-   printWindow.document.close();
-   printWindow.print();
-
-}
-
+function goBack() {
+    window.history.back();
+  }
 
 
 

@@ -93,7 +93,7 @@ if($query->rowCount() > 0){
 
       <form method="post">
         <div class="container-xl">
-        <a href="today.php" type="button" class="btn btn-warning"><span>GO BACK</span></a>
+      
         
         
 
@@ -115,6 +115,8 @@ if($query->rowCount() > 0){
                         <h2><B><?php echo $codesec; ?></B></h2>
                 
                     </div>
+
+                    
                     
                 </div>
                 <div class="row">

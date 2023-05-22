@@ -93,7 +93,7 @@
                   </div>
                   
                   <div class="col-sm-6">
-                    <a href="today.php" class="btn btn-danger"><i class="material-icons">&#xe5c4;</i> <span>Back</span></a>
+                   
                     <a href="rwd_total.php" type="button" class="btn btn-info"><i class="material-icons custom">class</i> <span>REWARD HISTORY</span></a>
                   </div>
                 </div>
@@ -244,6 +244,9 @@ $(document).ready(function () {
   
   
     });
+
+
+    
 
     
    

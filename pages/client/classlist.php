@@ -383,7 +383,7 @@ if($query->rowCount() > 0){
 
                 <a type="button" class="btn btn-success" href="rec_attendance.php?secid=<?php echo $_SESSION['secid']; ?>schdid=<?php echo $_SESSION['schdid']; ?>"><i class="material-icons custom">&#xe876;</i> <span>YES</span></a>
 
-                <a type="button" onclick="openNewTab()" class="btn btn-warning"  data-dismiss="modal"><i class="material-icons custom">&#xe5cd;</i> <span>NO</span></a>
+                <a href="man_attendance.php?secid=<?php echo $_SESSION['secid']; ?>schdid=<?php echo $_SESSION['schdid']; ?>" type="button"  class="btn btn-warning"  ><i class="material-icons custom">&#xe5cd;</i> <span>NO</span></a>
                 </div>
               </form>
             </div>
@@ -495,9 +495,6 @@ if($query->rowCount() > 0){
   
 
 
-        function openNewTab() {
-            window.open("man_attendance.php?secid=<?php echo $_SESSION['secid']; ?>schdid=<?php echo $_SESSION['schdid']; ?>", "_blank");
-        }
 
 
 

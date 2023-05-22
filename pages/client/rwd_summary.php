@@ -93,7 +93,10 @@ if($query->rowCount() > 0){
 
       <form method="post">
         <div class="container-xl">
-       
+        
+        
+        
+        
 
           <div class="table-responsive">
             <div class="table-wrapper">
@@ -119,23 +122,29 @@ if($query->rowCount() > 0){
                     
                     <div class="col-sm-4">
                     
-                        <h2>ATTENDANCE SUMMARY</h2>
+                        <h2>REWARDS SUMMARY:</h2>
                     
+                    
+
+                        <?php
+                            $datetext=date('F j, Y');
+                        ?>
+
+                        <h5>As of <B><?php echo $datetext; ?></B></h5>
+                       
                     </div>
-                    
-                    
                 </div>
 
-                <div class="row">
-                    
-                    
-                    
-                    
-                    
-                  
-                    
+                <div class="row">  
+                        <button onclick="printTabler();" class="btn btn-success" id="print-btn">Print</button>
                     
                 </div>
+                    
+                
+
+
+               
+          
                  
                     
                    
@@ -145,129 +154,71 @@ if($query->rowCount() > 0){
                   
             </div>
               
-            <button onclick="printTable();" class="btn btn-success" id="print-btn">Print Attendance Summary</button>
 
+                <table id="tabler" class="table table-striped table-hover" style="width:100%">
 
+                
 
-              <table id="tabler"class="table table-striped table-hover" style="width:100%">      
-               
                 <thead>
                     
-                  <tr>
-                    <th hidden>ID</th>
-                    <th >Full Name</th>
-                    <th >Present</th>
-                    <th >Absent</th>
-                    <th style="width:300px">Late</th>
-                    
-                  </tr>
-                </thead>
+                    <tr>
+                        <th hidden>ID</th>
+                        <th>Full Name</th>
+                        <th>Points</th>
 
+                       
+                    </tr>
+                </thead>
                 <tbody>
                     
                 <?php
-                    $schd=$_SESSION['schdid'];
+                        $idschd=$_SESSION['schdid'];
+                        $sql2= "SELECT rewards.schd_id, rewards.id_rwd, rewards.date, rewards.std_id, students.flname_std, SUM(rewards.reward) as total from rewards left join students on rewards.std_id=students.id_std WHERE schd_id=? GROUP BY rewards.std_id";
+                        $query2 = $conn->prepare($sql2);
+                        $query2->execute([$idschd]);
 
-                    $sql= "SELECT attendance_record.date, attendance_record.schd_id, attendance_record.type, attendance_record.std_id, attendance_record.id_att, students.flname_std from attendance_record left join students on attendance_record.std_id=students.id_std where attendance_record.schd_id=? GROUP BY attendance_record.std_id";
-                    $query = $conn->prepare($sql);
-                    $query->execute([$schd]);
+                        if($query2->rowCount() > 0){
+                            while ($row = $query2->fetch(PDO::FETCH_ASSOC)){
+                                
+                                
+                                $namestd=$row['flname_std'];
+                                $total=$row['total'];
+                                ?>
 
-                    if($query->rowCount() > 0){
-                        while ($row = $query->fetch(PDO::FETCH_ASSOC)){
-                                   
-                            $student=$row['std_id'];
-                            $namestd=$row['flname_std'];
-
-                            ?>
-                            <tr>
-                                <td hidden>
-                                    <?php echo $student;?>
-                                </td>
-                                <td>
-                                    <?php echo $namestd;?>
-                                </td>
-                            <?php
-
-                                $sql2="SELECT COALESCE(COUNT(attendance_record.std_id), 0) as count
-                                FROM students LEFT JOIN attendance_record ON students.id_std = attendance_record.std_id where students.id_std=? and attendance_record.type=1 AND attendance_record.schd_id=? ";
-                                                
-                                $query2 = $conn->prepare($sql2);
-                                $query2->execute([$student,$schd]);
-                                if($query2->rowCount() > 0){
-
-                                    while ($row = $query2->fetch(PDO::FETCH_ASSOC)){
-                                        $present=$row['count'];
-
+                                <tr>
+                                    <td hidden>
                                         
-                                            ?>
-                                            <td><?php echo $present;?></td>
-                                            <?php
+                                    </td>
+                                    <td>
+                                        <?php echo $namestd;?>
+                                    </td>
+                                    <td>
+                                        <?php echo $total;?>
+                                    </td>
+                                </tr>
                                         
-                                    }
-                                }
-
-                                $sql2="SELECT COALESCE(COUNT(attendance_record.std_id), 0) as count
-                                FROM students LEFT JOIN attendance_record ON students.id_std = attendance_record.std_id where students.id_std=? and attendance_record.type=2 AND attendance_record.schd_id=? ";
-                                                
-                                $query2 = $conn->prepare($sql2);
-                                $query2->execute([$student,$schd]);
-                                if($query2->rowCount() > 0){
-
-                                    while ($row = $query2->fetch(PDO::FETCH_ASSOC)){
-                                        $absent=$row['count'];
-
-                                            ?>
-                                            <td><?php echo $absent;?></td>
-                                            <?php
-                                        
-                                    }
-                                }
-
-                                $sql2="SELECT COALESCE(COUNT(attendance_record.std_id), 0) as count
-                                FROM students LEFT JOIN attendance_record ON students.id_std = attendance_record.std_id where students.id_std=? and attendance_record.type=3 AND attendance_record.schd_id=? ";
-                                                
-                                $query2 = $conn->prepare($sql2);
-                                $query2->execute([$student,$schd]);
-                                if($query2->rowCount() > 0){
-
-                                    while ($row = $query2->fetch(PDO::FETCH_ASSOC)){
-                                        $late=$row['count'];
-
-                                            ?>
-                                            <td><?php echo $late;?></td>
-                                            <?php
-                                        
-                                    }
-                                }
+                                <?php
                             }
                         }
+        
+                    ?>
 
-                        
-                    
-                    
-                    
-                
-                ?>
-              
                 </tbody>
-                  
-                
-                        
-                  
-               
-              </table>
-              
-             
+
+                </table>
               </div>
             </div>
-          </div>        
+          </div>   
+             
         </div>
+        
         </form>
+        
 
         
 
 
-
+       
       
       
       </div>
@@ -286,13 +237,10 @@ if($query->rowCount() > 0){
 
     <script>
 
-
-
-
-function printTable() {
+function printTabler() {
    
    var printWindow = window.open('', '', 'height=1000,width=1000');
-   printWindow.document.write('<html><head><title>ATTENDANCE SUMMARY FOR THIS SEMESTER</title>');
+   printWindow.document.write('<html><head><title>REWARDS SUMMARY</title>');
 
    //Print the Table CSS.
    var table_style = document.getElementById("table_style").innerHTML;
@@ -318,6 +266,13 @@ function printTable() {
 }
 
 
+
+   function goBack() {
+    window.history.back();
+  }
+
+
+  
 
 
     
